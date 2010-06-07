@@ -1,0 +1,14 @@
+changes in 0.2:
+
+fullCrud: 
+ - Ajax Validation is enabled for all forms 
+ - Disabled the comparison Operator hint in the admin view 
+ - moved the "Create" and "Update" Button out of the _form view
+ - Relation Widget now generates correct 'fields' attributes
+ - Updated CAdvancedArBehavior to latest version 0.3
+ - Added MANY_MANY listing of related objects to view.php view
+
+Controller Generation:
+- the Controller now saves MANY_MANY Relations automatically by passing
+  the relation over to the CAdvancedArBehavior
+

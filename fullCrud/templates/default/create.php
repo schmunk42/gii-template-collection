@@ -19,6 +19,26 @@ $this->menu=array(
 );
 ?>
 
-<h1>Create <?php echo $this->modelClass; ?></h1>
+<?php printf('<h1> %s %s </h1>',
+		Yii::t('app', 'Create'),
+		$this->modelClass); ?>
 
-<?php echo "<?php echo \$this->renderPartial('_form', array('model'=>\$model)); ?>"; ?>
+<div class="form">
+
+<?php echo "<?php \$form=\$this->beginWidget('CActiveForm', array(
+	'id'=>'".$this->class2id($this->modelClass)."-form',
+	'enableAjaxValidation'=>true,
+)); \n"; 
+
+echo "echo \$this->renderPartial('_form', array(
+	'model'=>\$model,
+	'form' =>\$form
+	)); ?>\n"; ?>
+
+<div class="row buttons">
+	<?php echo "<?php echo CHtml::submitButton(Yii::t('app', 'Create')); ?>\n"; ?>
+</div>
+
+<?php echo "<?php \$this->endWidget(); ?>\n"; ?>
+
+</div><!-- form -->

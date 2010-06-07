@@ -21,6 +21,9 @@
  *         }                                  
  *
  *
+ * Automatically sync your Database Schema when setting new fields by
+ * activating $syncdb
+ *
  * Better support of MANY_TO_MANY relations:
  *
  * When we have defined a MANY_MANY relation in our relations() function, we
@@ -74,87 +77,244 @@
 
 class CAdvancedArbehavior extends CActiveRecordBehavior
 {
-	public function afterSave($on) 
+	// if $syncdb is set, this behavior will automatically insert new added
+	// database fields to the Database
+	public $syncdb = false;
+	public $freeze = false;
+
+	// Trace syncing 
+	public $trace = true;
+
+	// After the save process of the model this behavior is attached to 
+	// is finished, we begin saving our MANY_MANY related data 
+	public function afterSave($event) 
 	{
+		parent::afterSave($event);
 		$this->writeManyManyTables();
-		return TRUE;
+		return true;
 	}
 
-	/**
-	 * At first, this function cycles through each MANY_MANY Relation. Then
-	 * it checks if the attribute of the Object instance is an integer, an
-	 * array or another ActiveRecord instance. It then builds up the SQL-Query
-	 * to add up the needed Data to the MANY_MANY-Table given in the relation
-	 * settings.
-	 */
-	public function writeManyManyTables() 
+	protected function writeManyManyTables() 
 	{
-		Yii::trace('writing MANY_MANY data for '.get_class($this->owner),'system.db.ar.CActiveRecord');
+		if($this->trace)
+			Yii::trace('writing MANY_MANY data for '.get_class($this->owner),
+					'system.db.ar.CActiveRecord');
 
-		foreach($this->owner->relations() as $key => $relation)
+		foreach($this->getRelations() as $relation) 
 		{
-			if($relation[0] == CActiveRecord::MANY_MANY) // [0] equals relationType
+			$this->cleanRelation($relation);
+			$this->writeRelation($relation);
+		}
+	}
+
+	protected function getRelations()
+	{
+		$relations = array();
+
+		foreach ($this->owner->relations() as $key => $relation) 
+		{
+			if ($relation[0] == CActiveRecord::MANY_MANY && 
+					$this->owner->hasRelated($key) && 
+					$this->owner->$key != -1)
 			{
-				if(isset($this->owner->$key) && !is_numeric($this->owner->$key))
-				{
-					if(is_object($this->owner->$key) || is_numeric($this->owner->$key))
+				$info = array();
+				$info['key'] = $key;
+				$info['foreignTable'] = $relation[1];
+
+					if (preg_match('/^(.+)\((.+)\s*,\s*(.+)\)$/s', $relation[2], $pocks)) 
 					{
-						$this->executeManyManyEntry($this->makeManyManyDeleteCommand(
-							$relation[2],
-							$this->owner->{$this->owner->tableSchema->primaryKey}));
-						$this->executeManyManyEntry($this->owner->makeManyManyInsertCommand(
-							$relation[2],
-							(is_object($this->owner->$key))
-							? $this->owner->$key->{$this->owner->$key->tableSchema->primaryKey}
-							: $this->owner->{$key}));
+						$info['m2mTable'] = $pocks[1];
+						$info['m2mThisField'] = $pocks[2];
+						$info['m2mForeignField'] = $pocks[3];
 					}
-					else if (is_array($this->owner->$key) && $this->owner->$key != array())
+					else 
 					{
-						$this->executeManyManyEntry($this->makeManyManyDeleteCommand(
-							$relation[2],
-							$this->owner->{$this->owner->tableSchema->primaryKey}));
-						foreach($this->owner->$key as $foreignobject)
-						{
-							$this->executeManyManyEntry ($this->makeManyManyInsertCommand(
-								$relation[2],
-								(is_object($foreignobject))
-								? $foreignobject->{$foreignobject->tableSchema->primaryKey}
-								: $foreignobject));
-						}
+						$info['m2mTable'] = $relation[2];
+						$info['m2mThisField'] = $this->owner->tableSchema->PrimaryKey;
+						$info['m2mForeignField'] = CActiveRecord::model($relation[1])->tableSchema->primaryKey;
+					}
+				$relations[$key] = $info;
+			}
+		}
+		return $relations;
+	}
+
+	/** writeRelation's job is to check if the user has given an array or an 
+	 * single Object, and executes the needed query */
+	protected function writeRelation($relation) 
+	{
+		$key = $relation['key'];
+
+		// Only an object or primary key id is given
+		if(is_object($this->owner->$key)) 		
+		{
+			$this->owner->$key = array($this->owner->$key);
+		}
+
+		// An array of objects is given
+		foreach($this->owner->$key as $foreignobject)
+		{
+			if(!is_numeric($foreignobject))
+			{
+				$foreignobject = $foreignobject->{$foreignobject->$relation['m2mForeignField']};
+			}
+			$this->execute($this->makeManyManyInsertCommand($relation, $foreignobject));
+		}
+	}
+
+	/* before saving our relation data, we need to clean up exsting relations so
+	 * they are synchronized */
+	protected function cleanRelation($relation)
+	{
+		$this->execute($this->makeManyManyDeleteCommand($relation));	
+	}
+
+	public function execute($query) {
+		Yii::app()->db->createCommand($query)->execute();
+	}
+
+	public function makeManyManyInsertCommand($relation, $value) {
+		return sprintf("insert into %s (%s, %s) values ('%s', '%s')",
+				$relation['m2mTable'],
+				$relation['m2mThisField'],
+				$relation['m2mForeignField'],
+				$this->owner->{$this->owner->tableSchema->primaryKey},
+				$value);
+	}
+
+	public function makeManyManyDeleteCommand($relation) {
+		return sprintf("delete ignore from %s where %s = '%s'",
+				$relation['m2mTable'],
+				$relation['m2mThisField'],
+				$this->owner->{$this->owner->tableSchema->primaryKey}
+				);
+	}
+
+	public function __set($name,$value)
+	{
+		if($this->syncdb === true) {
+			if($this->setAttribute($name,$value)===false)
+			{
+				if(isset($this->getMetaData()->relations[$name]))
+					$this->_related[$name]=$value;
+				else
+				{
+					if ($this->freeze===false)
+					{
+						$command=$this->getDbConnection()->createCommand('ALTER TABLE `'.$this->tableName().'` ADD `'.$name.'` '.self::getDbType($value).' NOT NULL');
+						$command->execute();
+						$this->getDbConnection()->getSchema()->refresh();
+						$this->refreshMetaData();
+					}
+					$this->__set($name, $value);
+				}
+			}
+			elseif ($this->freeze === false)
+			{
+				$cols = $this->getDbConnection()->getSchema()->getTable($this->tableName())->columns;
+				if ($name != 'id' && strcasecmp($cols[$name]->dbType, self::getDbType($value)) != 0)
+				{
+					//prevent TEXT from being downgraded to VARCHAR
+					if (!(strcasecmp($cols[$name]->dbType,'TEXT')==0 && strcasecmp(self::getDbType($value),'VARCHAR(255)')==0))
+					{
+						$command=$this->getDbConnection()->createCommand('ALTER TABLE  `'.$this->tableName().'` CHANGE  `'.$name.'`  `'.$name.'` '.self::getDbType($value));
+						$command->execute();
+						$this->getDbConnection()->getSchema()->refresh();
+						$this->refreshMetaData();
+						$this->setAttribute($name,$value);
 					}
 				}
 			}
 		}
 	}
 
-	// We can't throw an Exception when this query fails, because it is possible
-	// that there is not row available in the MANY_MANY table, thus execute()
-	// returns 0 and the error gets thrown falsely.
-	public function executeManyManyEntry($query) {
-		Yii::app()->db->createCommand($query)->execute();
+	/**
+	 * Returns a columns datatype based on the value passed.
+	 * @param mixed property value
+	 */
+	public static function getDbType($value)
+	{
+		if (is_numeric($value) && floor($value)==$value)
+			return 'INT(11)';
+
+			if (is_numeric($value))
+				return 'DOUBLE';
+
+			if (strlen($value) <= 255)
+				return 'VARCHAR(255)';
+
+			return 'TEXT';
 	}
 
-	// It is important to use insert IGNORE so SQL doesn't throw an foreign key
-	// integrity violation
-	public function makeManyManyInsertCommand($model, $rel) {
-		return sprintf("insert ignore into %s values ('%s', '%s')", $model,	$this->owner->{$this->owner->tableSchema->primaryKey}, $rel);
-	}
-
-	public function makeManyManyDeleteCommand($model, $rel) {
-		return sprintf("delete ignore from %s where %s = '%s'", $this->getManyManyTable($model), $this->getRelationNameForDeletion($model), $rel);
-	}
-
-	public function getManyManyTable($model) {
-		if (($ps=strpos($model, '('))!==FALSE)
-		{
-			return substr($model, 0, $ps);
-		}
+		/**
+		 * Returns the static model of the specified AR class.
+		 * The model returned is a static instance of the AR class.
+		 * It is provided for invoking class-level methods (something similar to 
+     * static class methods.)
+		 *
+		 * EVERY derived AR class must override this method as follows,
+		 * <pre>
+		 * public static function model($className=__CLASS__)
+		 * {
+		 *     return parent::model($className);
+		 * }
+		 * </pre>
+		 *
+		 * @param string active record class name.
+		 * @return CActiveRecord active record model instance.
+		 */
+	public static function model($className=__CLASS__)
+	{
+		if(isset(self::$_models[$className]))
+			return self::$_models[$className];
 		else
+		{
+			$model=self::$_models[$className]=new $className(null);
+			$model->attachbehaviors($model->behaviors());
+			$model->_md=new ExtendedActiveRecordMetaData($model);
 			return $model;
+		}
 	}
 
-	public function getRelationNameForDeletion($model) {
-		preg_match('/\((.*),/',$model, $matches) ;
-		return substr($matches[0], 1, strlen($matches[0]) - 2);
+	/**
+	 * @return CActiveRecordMetaData the meta for this AR class.
+	 */
+	public function getMetaData()
+	{
+		if($this->_md!==null)
+			return $this->_md;
+		else
+			return $this->_md=self::model(get_class($this))->_md;
+	}
+}
+
+/**
+	 * ExtendedActiveRecordMetaData is extended from CActiveRecordMetaData.  
+	 * It's modified to create tables that don't exist.
+	 */
+class ExtendedActiveRecordMetaData Extends CActiveRecordMetaData {
+	/**
+	 * Constructor.
+	 * @param CActiveRecord the model instance
+	 */
+	public function __construct($model)
+	{
+		$tableName=$model->tableName();
+		if(($table=$model->getDbConnection()->getSchema()->getTable($tableName))===null) {
+			if ($model->freeze===false)
+			{
+				$command=$model->getDbConnection()->createCommand('CREATE TABLE  `'.$tableName.'` (`id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY) ENGINE = MYISAM ;');
+				$command->execute();
+
+				$model->getDbConnection()->getSchema()->refresh();
+				$table=$model->getDbConnection()->getSchema()->getTable($tableName);
+			}
+			else
+			{
+				throw new CDbException(Yii::t('yii','The table "{table}" for active record class "{class}" cannot be found in the database.',
+							array('{class}'=>get_class($model),'{table}'=>$tableName)));
+			}
+		}
+		return parent::__construct($model);
 	}
 }

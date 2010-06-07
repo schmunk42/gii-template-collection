@@ -1,15 +1,3 @@
-<?php
-/**
- * The following variables are available in this template:
- * - $this: the CrudCode object
- */
-?>
-<div class="form">
-
-<?php echo "<?php \$form=\$this->beginWidget('CActiveForm', array(
-	'id'=>'".$this->class2id($this->modelClass)."-form',
-	'enableAjaxValidation'=>true,
-)); ?>\n"; ?>
 
 	<p class="note">Fields with <span class="required">*</span> are required.</p>
 
@@ -39,16 +27,10 @@ foreach($this->getRelations() as $key => $relation)
 			or $relation[0] == 'CManyManyRelation')
 	{
 		?>
-			<?php echo "<?php ". $this->generateRelation($this->modelClass, $key)."; ?>\n"; ?>
+			<?php echo "<?php ". $this->generateRelation($this->modelClass, $key, $relation)."; ?>\n"; ?>
 			<?php
 	}
 }
 ?>
 
-	<div class="row buttons">
-		<?php echo "<?php echo CHtml::submitButton(\$model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Save')); ?>\n"; ?>
-	</div>
 
-<?php echo "<?php \$this->endWidget(); ?>\n"; ?>
-
-</div><!-- form -->

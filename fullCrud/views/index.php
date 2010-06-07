@@ -23,6 +23,8 @@ $('#CrudCode_model').bind('keyup change', function(){
 	<li> Add the Relation Widget when generating a foreign Key so that a DropDownList/CheckBox/ComboBox gets displayed </li>
 	<li> Add Yii::t() for every string occuring so that your Application is easily being able to be translated to other languages </li>
 	<li> Add a Jui Datepicker Widget for date Fields </li>
+	<li> Ajax Validation is enabled for all forms </li>
+	<li> Disabled the comparison Operator hint in the admin view </li>
 </ul>
 
 <?php $form=$this->beginWidget('CCodeForm', array('model'=>$model)); ?>

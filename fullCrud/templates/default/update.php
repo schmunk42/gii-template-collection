@@ -1,10 +1,4 @@
 <?php
-/**
- * The following variables are available in this template:
- * - $this: the CrudCode object
- */
-?>
-<?php
 echo "<?php\n";
 $nameColumn=$this->guessNameColumn($this->tableSchema->columns);
 $label=$this->pluralize($this->class2name($this->modelClass));
@@ -23,6 +17,29 @@ $this->menu=array(
 );
 ?>
 
-<h1>Update <?php echo $this->modelClass." <?php echo \$model->{$this->tableSchema->primaryKey}; ?>"; ?></h1>
+<?php 
+$pk = "\$model->" . $this->tableSchema->primaryKey;
+printf('<h1> %s %s #%s </h1>', 
+Yii::t('app', 'Update'),
+$this->modelClass,
+'<?php echo ' . $pk . '; ?>'); ?>
 
-<?php echo "<?php echo \$this->renderPartial('_form', array('model'=>\$model)); ?>"; ?>
+<div class="form">
+
+<?php echo "<?php \$form=\$this->beginWidget('CActiveForm', array(
+	'id'=>'".$this->class2id($this->modelClass)."-form',
+	'enableAjaxValidation'=>true,
+)); \n"; 
+
+echo "echo \$this->renderPartial('_form', array(
+	'model'=>\$model,
+	'form' =>\$form
+	)); ?>\n"; ?>
+
+<div class="row buttons">
+	<?php echo "<?php echo CHtml::submitButton(Yii::t('app', 'Update')); ?>\n"; ?>
+</div>
+
+<?php echo "<?php \$this->endWidget(); ?>\n"; ?>
+
+</div><!-- form -->

@@ -105,7 +105,7 @@ type is detected automatically from the Model 'relations()' section.
   
  
   @author Herbert Maschke <thyseus@gmail.com>
-  @version 1.0rc2
+  @version 1.0rc3
   @since 1.1
  */
 
@@ -516,8 +516,8 @@ $(\'#div\' + i).hide();
 		{
 			if(strpos($key, 'rel') !== false)
 			{
-				if($value[$field] != "")
-				$returnArray[] = $value[$field];
+				if(isset($value[$field]))
+					$returnArray[] = $value[$field];
 			}
 		}
 	

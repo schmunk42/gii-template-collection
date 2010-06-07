@@ -34,3 +34,24 @@ foreach($this->tableSchema->columns as $column)
 ?>
 	),
 )); ?>
+
+
+<?php
+	foreach(CActiveRecord::model($this->model)->relations() as $key => $relation)	
+{
+	if($relation[0] == 'CManyManyRelation') 
+	{
+		$columns = CActiveRecord::model($relation[1])->tableSchema->columns;
+		next($columns);
+
+		$suggestedtitle = current($columns); 
+
+		printf("<br /><h2> This %s belongs to this %s: </h2>\n", $relation[1], $this->modelClass);
+		echo CHtml::openTag('ul');
+		printf("<?php foreach(\$model->%s as \$foreignobj) { \n
+				printf('<li>%%s</li>', \$foreignobj->%s);\n
+				} ?>", $key, $suggestedtitle->name); 
+		echo CHtml::closeTag('ul');
+	}
+}
+?>

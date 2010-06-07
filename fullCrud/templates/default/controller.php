@@ -1,10 +1,3 @@
-<?php
-/**
- * This is the template for generating a controller class file for CRUD feature.
- * The following variables are available in this template:
- * - $this: the CrudCode object
- */
-?>
 <?php echo "<?php\n"; ?>
 
 class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseControllerClass."\n"; ?>
@@ -74,12 +67,23 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 	{
 		$model=new <?php echo $this->modelClass; ?>;
 
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+		$this->performAjaxValidation($model);
 
 		if(isset($_POST['<?php echo $this->modelClass; ?>']))
 		{
 			$model->attributes=$_POST['<?php echo $this->modelClass; ?>'];
+		<?php
+			// Add additional MANY_MANY Attributes to the model object
+			foreach(CActiveRecord::model($this->model)->relations() as $key => $relation)	
+			{
+				if($relation[0] == 'CManyManyRelation')
+				{
+					printf("\$model->%s = Relation::retrieveValues(\$_POST, '%s');\n", $key, $relation[1]);
+				}
+			}
+		?>
+
+
 			if($model->save())
 				$this->redirect(array('view','id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>));
 		}
@@ -97,12 +101,24 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 	{
 		$model=$this->loadModel();
 
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+		$this->performAjaxValidation($model);
 
 		if(isset($_POST['<?php echo $this->modelClass; ?>']))
 		{
 			$model->attributes=$_POST['<?php echo $this->modelClass; ?>'];
+		<?php
+			// Add additional MANY_MANY Attributes to the model object
+			foreach(CActiveRecord::model($this->model)->relations() as $key => $relation)	
+			{
+				if($relation[0] == 'CManyManyRelation')
+				{
+					printf("\$model->%s = Relation::retrieveValues(\$_POST, '%s');\n", $key, $relation[1]);
+				}
+			}
+		?>
+
+
+
 			if($model->save())
 				$this->redirect(array('view','id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>));
 		}

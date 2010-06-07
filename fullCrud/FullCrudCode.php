@@ -33,18 +33,18 @@ class FullCrudCode extends CrudCode
 		return CActiveRecord::model($this->model)->relations();
 	}
 
-	public function generateRelation($model, $relation)
+	public function generateRelation($model, $relationname, $relation)
 	{
 		// Use the second attribute of the model, since the first is the id in
 		// most cases
-		$columns = CActiveRecord::model($model)->tableSchema->columns;
+		$columns = CActiveRecord::model($relation[1])->tableSchema->columns;
 		next($columns);
 
 		$field = current($columns); 
 		return("
 				\$this->widget('application.components.Relation', array(
 						'model' => \$model,
-						'relation' => '".$relation."',
+						'relation' => '".$relationname."',
 						'fields' => '".$field->name."',
 						)
 					)");
