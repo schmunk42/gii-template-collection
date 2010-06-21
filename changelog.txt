@@ -1,3 +1,8 @@
+changes in 0.3:
+- Datepicker is now working
+- Relation Generation is much improved
+- Removed even more Comments
+
 changes in 0.2:
 
 fullCrud: 

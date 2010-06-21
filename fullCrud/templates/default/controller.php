@@ -55,7 +55,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 			{
 				if($relation[0] == 'CManyManyRelation')
 				{
-					printf("\$model->%s = Relation::retrieveValues(\$_POST, '%s');\n", $key, $relation[1]);
+					printf("\$model->%s = \$_POST['%s']['%s'];\n", $key, $this->modelClass, $relation[1]);
 				}
 			}
 		?>
@@ -85,7 +85,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 			{
 				if($relation[0] == 'CManyManyRelation')
 				{
-					printf("\$model->%s = Relation::retrieveValues(\$_POST, '%s');\n", $key, $relation[1]);
+					printf("\$model->%s = \$_POST['%s']['%s'];\n", $key, $this->modelClass, $relation[1]);
 				}
 			}
 		?>

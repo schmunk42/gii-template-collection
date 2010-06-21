@@ -36,15 +36,26 @@ foreach($this->tableSchema->columns as $column)
 	if($relation[0] == 'CManyManyRelation' || $relation[0] == 'CHasManyRelation') 
 	{
 		$columns = CActiveRecord::model($relation[1])->tableSchema->columns;
-		next($columns);
+		$j = 0;
+		foreach($columns as $column) 
+		{
+			if(!$column->isForeignKey && ! $column->isPrimaryKey) {
+				$num = $j;
+				break;
+			}
+			$j++;
+		}
 
-		$suggestedtitle = current($columns); 
+		for($i = 0; $i < $j; $i++)
+			next($columns);
+
+		$suggestedtitle = current($columns);
 
 		printf("<br /><h2> This %s belongs to this %s: </h2>\n", $relation[1], $this->modelClass);
 		echo CHtml::openTag('ul');
 		printf("<?php foreach(\$model->%s as \$foreignobj) { \n
-				printf('<li>%%s</li>', \$foreignobj->%s);\n
-				} ?>", $key, $suggestedtitle->name); 
+				printf('<li>%%s</li>', CHtml::link(\$foreignobj->%s, array('%s/view', 'id' => \$foreignobj->id)));\n
+				} ?>", $key, $suggestedtitle->name, strtolower($relation[1])); 
 		echo CHtml::closeTag('ul');
 	}
 }

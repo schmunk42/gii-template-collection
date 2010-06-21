@@ -9,9 +9,14 @@ foreach($this->tableSchema->columns as $column)
 		continue;
 ?>
 	<div class="row">
-		<?php echo "<?php echo ".$this->generateActiveLabel($this->modelClass,$column)."; ?>\n"; ?>
-		<?php echo "<?php ".$this->generateActiveField($this->modelClass,$column)."; ?>\n"; ?>
-		<?php echo "<?php echo \$form->error(\$model,'{$column->name}'); ?>\n"; ?>
+		<?php 
+		if(!$column->isForeignKey) 
+		{
+			echo "<?php echo ".$this->generateActiveLabel($this->modelClass,$column)."; ?>\n"; 
+			echo "<?php ".$this->generateActiveField($this->modelClass,$column)."; ?>\n"; 
+			echo "<?php echo \$form->error(\$model,'{$column->name}'); ?>\n"; 
+		}
+?>
 	</div>
 
 <?php
@@ -25,8 +30,8 @@ foreach($this->getRelations() as $key => $relation)
 			or $relation[0] == 'CHasOneRelation' 
 			or $relation[0] == 'CManyManyRelation')
 	{
-		?>
-			<?php echo "<?php ". $this->generateRelation($this->modelClass, $key, $relation)."; ?>\n"; ?>
+		printf('<label for="%s">Belonging %s</label>', $relation[1], $relation[1]);
+		echo "<?php ". $this->generateRelation($this->modelClass, $key, $relation)."; ?>\n"; ?>
 			<?php
 	}
 }

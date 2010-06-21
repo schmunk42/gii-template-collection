@@ -39,14 +39,28 @@ class FullCrudCode extends CrudCode
 		// most cases
 		if($columns = CActiveRecord::model($relation[1])->tableSchema->columns)
 		{
-			next($columns);
+			$j = 0;
+			foreach($columns as $column) 
+			{
+				if(!$column->isForeignKey && ! $column->isPrimaryKey) {
+					$num = $j;
+					break;
+				}
+				$j++;
+			}
 
-			$field = current($columns); 
+			for($i = 0; $i < $j; $i++)
+				next($columns);
+
+			$field = current($columns);
+			$style = $relation[0] == 'CManyManyRelation' ? 'checkbox' : 'dropdownlist';
+
 			return("
 					\$this->widget('application.components.Relation', array(
 							'model' => \$model,
-							'relation' => '".$relationname."',
-							'fields' => '".$field->name."',
+							'relation' => '{$relationname}',
+							'fields' => '{$field->name}',
+							'style' => '{$style}',
 							)
 						)");
 		}
@@ -62,7 +76,7 @@ class FullCrudCode extends CrudCode
 			$model = CActiveRecord::model($model);
 
 		if($column->isForeignKey) 
-			return true;
+			return false;
 
 		if(strtoupper($column->dbType) == 'TINYINT(1)' 
 				|| strtoupper($column->dbType) == 'BIT'
