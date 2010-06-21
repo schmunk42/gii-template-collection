@@ -1,5 +1,5 @@
 <?php
-$label=$this->pluralize($this->class2name($this->modelClass));
+$label = $this->pluralize($this->class2name($this->modelClass));
 
 echo "<?php\n";
 echo "\$this->breadcrumbs = array(

@@ -1,10 +1,4 @@
 <?php
-/**
- * The following variables are available in this template:
- * - $this: the CrudCode object
- */
-?>
-<?php
 echo "<?php\n";
 $label=$this->pluralize($this->class2name($this->modelClass));
 echo "\$this->breadcrumbs=array(
@@ -38,13 +32,13 @@ data: $(this).serialize()
 echo Yii::t('app', 'Manage') . '&nbsp;';
 echo $this->pluralize($this->class2name($this->modelClass)); ?></h1>
 
-<?php echo "<?php echo CHtml::link('Advanced Search','#',array('class'=>'search-button')); ?>"; ?>
+<?php echo "<?php echo CHtml::link(Yii::t('app', 'Advanced Search'),'#',array('class'=>'search-button')); ?>"; ?>
 
 <div class="search-form" style="display:none">
 <?php echo "<?php \$this->renderPartial('_search',array(
 	'model'=>\$model,
 )); ?>\n"; ?>
-</div><!-- search-form -->
+</div>
 
 <?php echo "<?php"; ?> $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'<?php echo $this->class2id($this->modelClass); ?>-grid',

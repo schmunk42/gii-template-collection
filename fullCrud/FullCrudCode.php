@@ -37,17 +37,19 @@ class FullCrudCode extends CrudCode
 	{
 		// Use the second attribute of the model, since the first is the id in
 		// most cases
-		$columns = CActiveRecord::model($relation[1])->tableSchema->columns;
-		next($columns);
+		if($columns = CActiveRecord::model($relation[1])->tableSchema->columns)
+		{
+			next($columns);
 
-		$field = current($columns); 
-		return("
-				\$this->widget('application.components.Relation', array(
-						'model' => \$model,
-						'relation' => '".$relationname."',
-						'fields' => '".$field->name."',
-						)
-					)");
+			$field = current($columns); 
+			return("
+					\$this->widget('application.components.Relation', array(
+							'model' => \$model,
+							'relation' => '".$relationname."',
+							'fields' => '".$field->name."',
+							)
+						)");
+		}
 	}
 
 	/**

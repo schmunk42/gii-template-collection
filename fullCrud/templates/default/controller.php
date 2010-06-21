@@ -2,56 +2,37 @@
 
 class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseControllerClass."\n"; ?>
 {
-	/**
-	 * @var string the default layout for the views. Defaults to 'column2', meaning
-	 * using two-column layout. See 'protected/views/layouts/column2.php'.
-	 */
-	public $layout='column2';
-
-	/**
-	 * @var CActiveRecord the currently loaded data model instance.
-	 */
+	public $layout='//layouts/column2';
 	private $_model;
 
-	/**
-	 * @return array action filters
-	 */
 	public function filters()
 	{
 		return array(
-			'accessControl', // perform access control for CRUD operations
+			'accessControl', 
 		);
 	}
 
-	/**
-	 * Specifies the access control rules.
-	 * This method is used by the 'accessControl' filter.
-	 * @return array access control rules
-	 */
 	public function accessRules()
 	{
 		return array(
-			array('allow',  // allow all users to perform 'index' and 'view' actions
+			array('allow',  
 				'actions'=>array('index','view'),
 				'users'=>array('*'),
 			),
-			array('allow', // allow authenticated user to perform 'create' and 'update' actions
+			array('allow', 
 				'actions'=>array('create','update'),
 				'users'=>array('@'),
 			),
-			array('allow', // allow admin user to perform 'admin' and 'delete' actions
+			array('allow', 
 				'actions'=>array('admin','delete'),
 				'users'=>array('admin'),
 			),
-			array('deny',  // deny all users
+			array('deny', 
 				'users'=>array('*'),
 			),
 		);
 	}
 
-	/**
-	 * Displays a particular model.
-	 */
 	public function actionView()
 	{
 		$this->render('view',array(
@@ -59,10 +40,6 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 		));
 	}
 
-	/**
-	 * Creates a new model.
-	 * If creation is successful, the browser will be redirected to the 'view' page.
-	 */
 	public function actionCreate()
 	{
 		$model=new <?php echo $this->modelClass; ?>;
@@ -93,10 +70,6 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 		));
 	}
 
-	/**
-	 * Updates a particular model.
-	 * If update is successful, the browser will be redirected to the 'view' page.
-	 */
 	public function actionUpdate()
 	{
 		$model=$this->loadModel();
@@ -117,8 +90,6 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 			}
 		?>
 
-
-
 			if($model->save())
 				$this->redirect(array('view','id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>));
 		}
@@ -128,28 +99,20 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 		));
 	}
 
-	/**
-	 * Deletes a particular model.
-	 * If deletion is successful, the browser will be redirected to the 'index' page.
-	 */
 	public function actionDelete()
 	{
 		if(Yii::app()->request->isPostRequest)
 		{
-			// we only allow deletion via POST request
 			$this->loadModel()->delete();
 
-			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 			if(!isset($_GET['ajax']))
 				$this->redirect(array('index'));
 		}
 		else
-			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
+			throw new CHttpException(400,
+					Yii::t('app', 'Invalid request. Please do not repeat this request again.'));
 	}
 
-	/**
-	 * Lists all models.
-	 */
 	public function actionIndex()
 	{
 		$dataProvider=new CActiveDataProvider('<?php echo $this->modelClass; ?>');
@@ -158,9 +121,6 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 		));
 	}
 
-	/**
-	 * Manages all models.
-	 */
 	public function actionAdmin()
 	{
 		$model=new <?php echo $this->modelClass; ?>('search');
@@ -172,10 +132,6 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 		));
 	}
 
-	/**
-	 * Returns the data model based on the primary key given in the GET variable.
-	 * If the data model is not found, an HTTP exception will be raised.
-	 */
 	public function loadModel()
 	{
 		if($this->_model===null)
@@ -183,15 +139,11 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 			if(isset($_GET['id']))
 				$this->_model=<?php echo $this->modelClass; ?>::model()->findbyPk($_GET['id']);
 			if($this->_model===null)
-				throw new CHttpException(404,'The requested page does not exist.');
+				throw new CHttpException(404, Yii::t('app', 'The requested page does not exist.'));
 		}
 		return $this->_model;
 	}
 
-	/**
-	 * Performs the AJAX validation.
-	 * @param CModel the model to be validated
-	 */
 	protected function performAjaxValidation($model)
 	{
 		if(isset($_POST['ajax']) && $_POST['ajax']==='<?php echo $this->class2id($this->modelClass); ?>-form')

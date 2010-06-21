@@ -1,9 +1,3 @@
-<?php
-/**
- * The following variables are available in this template:
- * - $this: the CrudCode object
- */
-?>
 <div class="wide form">
 
 <?php echo "<?php \$form=\$this->beginWidget('CActiveForm', array(

@@ -1,10 +1,4 @@
 <?php
-/**
- * The following variables are available in this template:
- * - $this: the CrudCode object
- */
-?>
-<?php
 echo "<?php\n";
 $nameColumn=$this->guessNameColumn($this->tableSchema->columns);
 $label=$this->pluralize($this->class2name($this->modelClass));
@@ -39,7 +33,7 @@ foreach($this->tableSchema->columns as $column)
 <?php
 	foreach(CActiveRecord::model($this->model)->relations() as $key => $relation)	
 {
-	if($relation[0] == 'CManyManyRelation') 
+	if($relation[0] == 'CManyManyRelation' || $relation[0] == 'CHasManyRelation') 
 	{
 		$columns = CActiveRecord::model($relation[1])->tableSchema->columns;
 		next($columns);

@@ -1,7 +1,6 @@
+<p class="note">Fields with <span class="required">*</span> are required.</p>
 
-	<p class="note">Fields with <span class="required">*</span> are required.</p>
-
-	<?php echo "<?php echo \$form->errorSummary(\$model); ?>\n"; ?>
+<?php echo "<?php echo \$form->errorSummary(\$model); ?>\n"; ?>
 
 <?php
 foreach($this->tableSchema->columns as $column)
@@ -19,7 +18,7 @@ foreach($this->tableSchema->columns as $column)
 }
 ?>
 
-	<?php
+<?php
 foreach($this->getRelations() as $key => $relation)
 {
 	if($relation[0] == 'CBelongsToRelation' 
@@ -32,5 +31,3 @@ foreach($this->getRelations() as $key => $relation)
 	}
 }
 ?>
-
-
