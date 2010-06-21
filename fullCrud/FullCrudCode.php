@@ -65,33 +65,34 @@ class FullCrudCode extends CrudCode
 			return true;
 
 		if(strtoupper($column->dbType) == 'TINYINT(1)' 
-				|| strtoupper($column->dbType) == 'BIT') 
+				|| strtoupper($column->dbType) == 'BIT'
+				|| strtoupper($column->dbType) == 'BOOL'
+				|| strtoupper($column->dbType) == 'BOOLEAN') 
 		{
-			return "\$form->checkBox(\$model,'{$column->name}')";
+			return "echo \$form->checkBox(\$model,'{$column->name}')";
 		}
 		else if(strtoupper($column->dbType) == 'DATE') 
 		{
+			$modelname = get_class($model);
 			return ("\$this->widget('zii.widgets.jui.CJuiDatePicker',
 						 array(
 								 'model'=>'\$model',
-								 'name'=>'{$model}[{$column->name}]',
-								 'language'=>'es',
-								 //'mode'=>'imagebutton',
-								 //'theme'=>'smoothness',
+								 'name'=>'{$modelname}[{$column->name}]',
+								 //'language'=>'de',
 								 'value'=>\$model->{$column->name},
-								 /*'htmlOptions'=>array('size'=>10, 'style'=>'width:80px !important'),
+								 'htmlOptions'=>array('size'=>10, 'style'=>'width:80px !important'),
 									 'options'=>array(
 									 'showButtonPanel'=>true,
 									 'changeYear'=>true,                                      
 									 'changeYear'=>true,
-									 ),*/
+									 ),
 								 )
 							 );
 					");
 		}
 		else 
 		{
-			return(parent::generateActiveField($model, $column));  
+			return('echo '.parent::generateActiveField($model, $column));  
 		}
 	}
 
