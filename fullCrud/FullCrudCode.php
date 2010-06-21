@@ -3,6 +3,7 @@ Yii::import('system.gii.generators.crud.CrudCode');
 
 class FullCrudCode extends CrudCode
 {
+
 	public function prepare()
 	{
 		parent::prepare();
@@ -26,6 +27,24 @@ class FullCrudCode extends CrudCode
 				throw new CException('Relation.php could not be copied over to your components directory');
 		}
 
+	}
+
+	public function suggestName($columns) 
+	{
+		$j = 0;
+		foreach($columns as $column) 
+		{
+			if(!$column->isForeignKey && ! $column->isPrimaryKey) {
+				$num = $j;
+				break;
+			}
+			$j++;
+		}
+
+		for($i = 0; $i < $j; $i++)
+			next($columns);
+
+		return current($columns);
 	}
 
 	public function getRelations()

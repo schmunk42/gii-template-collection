@@ -23,8 +23,21 @@ $this->menu=array(
 	'data'=>$model,
 	'attributes'=>array(
 <?php
-foreach($this->tableSchema->columns as $column)
-	echo "\t\t'".$column->name."',\n";
+foreach($this->tableSchema->columns as $column) 
+{
+	if($column->isForeignKey) {
+		foreach($this->relations as $relation) {
+			if($relation[2] == $column->name) {
+				$string = strtolower($relation[1]);
+				$columns = CActiveRecord::model($relation[1])->tableSchema->columns;
+				$suggestedfield = $this->suggestName($columns);
+				echo "\t\t'{$string}.{$suggestedfield->name}',\n";
+			}
+		}
+	}
+	else
+		echo "\t\t'".$column->name."',\n";
+	}
 ?>
 	),
 )); ?>
@@ -36,20 +49,8 @@ foreach($this->tableSchema->columns as $column)
 	if($relation[0] == 'CManyManyRelation' || $relation[0] == 'CHasManyRelation') 
 	{
 		$columns = CActiveRecord::model($relation[1])->tableSchema->columns;
-		$j = 0;
-		foreach($columns as $column) 
-		{
-			if(!$column->isForeignKey && ! $column->isPrimaryKey) {
-				$num = $j;
-				break;
-			}
-			$j++;
-		}
 
-		for($i = 0; $i < $j; $i++)
-			next($columns);
-
-		$suggestedtitle = current($columns);
+		$suggestedtitle = $this->suggestName($columns);
 
 		printf("<br /><h2> This %s belongs to this %s: </h2>\n", $relation[1], $this->modelClass);
 		echo CHtml::openTag('ul');
