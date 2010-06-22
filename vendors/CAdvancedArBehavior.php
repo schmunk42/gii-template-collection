@@ -152,14 +152,15 @@ class CAdvancedArbehavior extends CActiveRecordBehavior
 		}
 
 		// An array of objects is given
-		foreach($this->owner->$key as $foreignobject)
-		{
-			if(!is_numeric($foreignobject))
+		if(isset($this->owner->$key))
+			foreach($this->owner->$key as $foreignobject)
 			{
-				$foreignobject = $foreignobject->{$foreignobject->$relation['m2mForeignField']};
+				if(!is_numeric($foreignobject))
+				{
+					$foreignobject = $foreignobject->{$foreignobject->$relation['m2mForeignField']};
+				}
+				$this->execute($this->makeManyManyInsertCommand($relation, $foreignobject));
 			}
-			$this->execute($this->makeManyManyInsertCommand($relation, $foreignobject));
-		}
 	}
 
 	/* before saving our relation data, we need to clean up exsting relations so

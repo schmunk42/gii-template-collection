@@ -26,12 +26,11 @@ $this->menu=array(
 foreach($this->tableSchema->columns as $column) 
 {
 	if($column->isForeignKey) {
-		foreach($this->relations as $relation) {
+		foreach($this->relations as $key => $relation) {
 			if($relation[2] == $column->name) {
-				$string = strtolower($relation[1]);
 				$columns = CActiveRecord::model($relation[1])->tableSchema->columns;
 				$suggestedfield = $this->suggestName($columns);
-				echo "\t\t'{$string}.{$suggestedfield->name}',\n";
+				echo "\t\t'{$key}.{$suggestedfield->name}',\n";
 			}
 		}
 	}
