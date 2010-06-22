@@ -34,7 +34,11 @@ class FullCrudCode extends CrudCode
 		$j = 0;
 		foreach($columns as $column) 
 		{
-			if(!$column->isForeignKey && ! $column->isPrimaryKey) {
+			if(!$column->isForeignKey 
+					&& ! $column->isPrimaryKey 
+					&& $column->type != 'INT' 
+					&& $column->type != 'INTEGER' 
+					&& $column->type != 'BOOLEAN') {
 				$num = $j;
 				break;
 			}
@@ -44,7 +48,12 @@ class FullCrudCode extends CrudCode
 		for($i = 0; $i < $j; $i++)
 			next($columns);
 
-		return current($columns);
+		if(is_object(current($columns)))
+			return current($columns);
+		else {
+			$column = reset($columns);
+			return $column;
+		}
 	}
 
 	public function getRelations()
@@ -72,6 +81,7 @@ class FullCrudCode extends CrudCode
 				next($columns);
 
 			$field = current($columns);
+			$is_empty = $field->allowNull ? 'true' : 'false';
 			$style = $relation[0] == 'CManyManyRelation' ? 'checkbox' : 'dropdownlist';
 
 			return("
@@ -79,6 +89,7 @@ class FullCrudCode extends CrudCode
 							'model' => \$model,
 							'relation' => '{$relationname}',
 							'fields' => '{$field->name}',
+							'allowEmpty' => $is_empty,
 							'style' => '{$style}',
 							)
 						)");
