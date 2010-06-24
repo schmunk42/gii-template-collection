@@ -39,9 +39,10 @@ class <?php echo $modelClass; ?> extends <?php echo $this->baseClass."\n"; ?>
 	public function relations()
 	{
 		return array(
-<?php foreach($relations as $name=>$relation): ?>
-			<?php echo "'$name' => $relation,\n"; ?>
-<?php endforeach; ?>
+<?php foreach($relations as $name=>$relation) {
+			echo "\t\t\t'$name' => $relation,\n"; 
+}
+?>
 		);
 	}
 

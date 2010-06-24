@@ -10,10 +10,10 @@ echo "\$this->breadcrumbs=array(
 ?>
 
 $this->menu=array(
-	array('label'=>'List <?php echo $this->modelClass; ?>', 'url'=>array('index')),
-	array('label'=>'Create <?php echo $this->modelClass; ?>', 'url'=>array('create')),
-	array('label'=>'View <?php echo $this->modelClass; ?>', 'url'=>array('view', 'id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>)),
-	array('label'=>'Manage <?php echo $this->modelClass; ?>', 'url'=>array('admin')),
+	array('label'=>Yii::t('app', 'List') . ' <?php echo $this->modelClass; ?>', 'url'=>array('index')),
+	array('label'=>Yii::t('app', 'Create') . ' <?php echo $this->modelClass; ?>', 'url'=>array('create')),
+	array('label'=>Yii::t('app', 'View') . ' <?php echo $this->modelClass; ?>', 'url'=>array('view', 'id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>)),
+	array('label'=>Yii::t('app', 'Manage') . ' <?php echo $this->modelClass; ?>', 'url'=>array('admin')),
 );
 ?>
 

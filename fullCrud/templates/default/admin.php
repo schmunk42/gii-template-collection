@@ -8,11 +8,11 @@ echo "\$this->breadcrumbs=array(
 ?>
 
 $this->menu=array(
-		array('label'=>Yii::t('app',
-				'List <?php echo $this->modelClass; ?>'), 'url'=>array('index')),
-		array('label'=>Yii::t('app', 'Create <?php echo $this->modelClass; ?>'),
-				'url'=>array('create')),
-			);
+		array('label'=>Yii::t('app', 'List') . ' <?php echo $this->modelClass; ?>',
+			'url'=>array('index')),
+		array('label'=>Yii::t('app', 'Create') . ' <?php echo $this->modelClass; ?>',
+		'url'=>array('create')),
+	);
 
 		Yii::app()->clientScript->registerScript('search', "
 			$('.search-button').click(function(){
@@ -29,7 +29,7 @@ data: $(this).serialize()
 		?>
 
 <h1> <?php 
-echo Yii::t('app', 'Manage') . '&nbsp;';
+echo "<?php echo Yii::t('app', 'Manage'); ?> ";
 echo $this->pluralize($this->class2name($this->modelClass)); ?></h1>
 
 <?php echo "<?php echo CHtml::link(Yii::t('app', 'Advanced Search'),'#',array('class'=>'search-button')); ?>"; ?>

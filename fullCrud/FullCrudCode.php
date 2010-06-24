@@ -81,7 +81,6 @@ class FullCrudCode extends CrudCode
 				next($columns);
 
 			$field = current($columns);
-			$is_empty = $field->allowNull ? 'true' : 'false';
 			$style = $relation[0] == 'CManyManyRelation' ? 'checkbox' : 'dropdownlist';
 
 			return("
@@ -89,8 +88,13 @@ class FullCrudCode extends CrudCode
 							'model' => \$model,
 							'relation' => '{$relationname}',
 							'fields' => '{$field->name}',
-							'allowEmpty' => $is_empty,
+							'allowEmpty' => false,
 							'style' => '{$style}',
+							'htmlOptions' => array(
+								'checkAll' => Yii::t('app', 'Choose All'),
+								'template' => '<div style=\"float:left;margin-right:5px;\">{input}</div>{label}',
+								),
+
 							)
 						)");
 		}
