@@ -27,14 +27,14 @@ return array(
     'No'=>'No',
     'Fields with'=>'Los campos con',
     'are required'=>'son obligatorios',
-    'Are you sure to delete this item?'=>'Está seguro de eliminar este registro?',
+    'Are you sure to delete this item?'=>'¿Está seguro de eliminar este registro?',
     'Advanced Search'=>'Búsqueda Avanzada',
     'You may optionally enter a comparison operator'=>'Opcionalmente, puede ingresar un operador de comparación',
     'at the beginning of each of your search values to specify how the comparison should be done'=>
         'al comienzo de cada uno de los valores de búsqueda para especificar cómo debería ser hecha la comparación',
     'Invalid request. Please do not repeat this request again.'=>'Petición Inválida. Por favor, no realice esta petición nuevamente.',
     'name'=>'nombre',
-    'title'=>'titulo',
+    'title'=>'título',
     'Submit'=>'Enviar',
 )
 ?>
