@@ -138,7 +138,21 @@ class FullCrudCode extends CrudCode
 							 );
 					");
 		}
-		else 
+		else if(substr(strtoupper($column->dbType), 0, 4) == 'ENUM')
+		{
+			$string = sprintf("echo CHtml::activeDropDownList(\$model, '%s', array(\n", $column->name); 
+
+			$enum_values = explode(',', substr($column->dbType, 4, strlen($column->dbType) -1));
+
+			foreach($enum_values as $value) {
+				$value = trim($value, "()'");
+				$string .= "\t\t\t'$value' => Yii::t('app', '".$value."') ,\n";
+			}
+			$string .= '))';
+
+			return $string;
+		}
+		else
 		{
 			return('echo '.parent::generateActiveField($model, $column));  
 		}

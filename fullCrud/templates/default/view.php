@@ -43,18 +43,18 @@ foreach($this->tableSchema->columns as $column)
 
 
 <?php
-	foreach(CActiveRecord::model($this->model)->relations() as $key => $relation)	
+foreach(CActiveRecord::model($this->model)->relations() as $key => $relation)	
 {
 	if($relation[0] == 'CManyManyRelation' || $relation[0] == 'CHasManyRelation') 
 	{
-		$columns = CActiveRecord::model($relation[1])->tableSchema->columns;
+		$model = CActiveRecord::model($relation[1]);
 
-		$suggestedtitle = $this->suggestName($columns);
+		$suggestedtitle = $this->suggestName($model->tableSchema->columns);
 
 		printf("<br /><h2> This %s belongs to this %s: </h2>\n", $relation[1], $this->modelClass);
 		echo CHtml::openTag('ul');
 		printf("<?php foreach(\$model->%s as \$foreignobj) { \n
-				printf('<li>%%s</li>', CHtml::link(\$foreignobj->%s, array('%s/view', 'id' => \$foreignobj->id)));\n
+				printf('<li>%%s</li>', CHtml::link(\$foreignobj->%s, array('%s/view', 'id' => \$foreignobj->".$model->tableSchema->primaryKey.")));\n
 				} ?>", $key, $suggestedtitle->name, strtolower($relation[1])); 
 		echo CHtml::closeTag('ul');
 	}

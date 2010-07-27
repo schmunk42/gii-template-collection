@@ -27,6 +27,10 @@ Please enjoy this extension and give your feedback at the Google Code
 Repository, thank you. Of course, any templates are appreciated and just leave
 a comment or mail thyseus@gmail.com
 
+
+The following Note _should_ be fixed and _should_ be ignored, but remains until
+i am sure that it is fixed :)   :
+
 Please note: When you generate a MANY_MANY Relation inside the model, please make sure
 that the order the columns in the MANY_MANY table appear in the right Order. The
 left column has to be linked to the Model where the relation is set. This is actually

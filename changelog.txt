@@ -1,3 +1,6 @@
+changes in 0.4:
+- added support for generating activeDropDownList's for ENUM mysql column fields
+
 changes in 0.3:
 - Datepicker is now working
 - Relation Generation is much improved

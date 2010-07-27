@@ -8,22 +8,17 @@ foreach($this->tableSchema->columns as $column)
 	if($column->isPrimaryKey)
 		continue;
 ?>
-	<div class="row">
 		<?php 
 		if(!$column->isForeignKey) 
 		{
+			echo "<div class=\"row\">\n";
 			echo "<?php echo ".$this->generateActiveLabel($this->modelClass,$column)."; ?>\n"; 
 			echo "<?php ".$this->generateActiveField($this->modelClass,$column)."; ?>\n"; 
 			echo "<?php echo \$form->error(\$model,'{$column->name}'); ?>\n"; 
+			echo "</div>\n\n";
 		}
-?>
-	</div>
-
-<?php
 }
-?>
 
-<?php
 foreach($this->getRelations() as $key => $relation)
 {
 	if($relation[0] == 'CBelongsToRelation' 
