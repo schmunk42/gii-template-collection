@@ -26,3 +26,9 @@ messages directory of your Web Application.
 Please enjoy this extension and give your feedback at the Google Code 
 Repository, thank you. Of course, any templates are appreciated and just leave
 a comment or mail thyseus@gmail.com
+
+Please note: When you generate a MANY_MANY Relation inside the model, please make sure
+that the order the columns in the MANY_MANY table appear in the right Order. The
+left column has to be linked to the Model where the relation is set. This is actually
+a bug in yii and isn't easily fixed at the moment. I hope i can figure out a workaround
+that generates the columns in the right order in the future.
