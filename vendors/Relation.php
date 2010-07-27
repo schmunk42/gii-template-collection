@@ -105,7 +105,7 @@ type is detected automatically from the Model 'relations()' section.
   
  
   @author Herbert Maschke <thyseus@gmail.com>
-  @version 1.0rc3
+  @version 1.0rc5
   @since 1.1
  */
 
@@ -135,6 +135,9 @@ class Relation extends CWidget
 	// if this is set, the User is able to select no related model
   // if this is set to a string, this string will be presented
 	public $allowEmpty = 0;
+
+	// Preselect which items?
+	public $preselect;
 
 	// disable this to hide the Add Button
 	// set this to a string to set the String to be displayed
@@ -294,7 +297,7 @@ class Relation extends CWidget
 
 			$defaultrules = array(
 					'{fields}' => $fields,
-					'{id}' => $obj->id);
+					'{id}' => $obj->{$obj->tableSchema->primaryKey});
 
 			// Look for user-contributed functions and evaluate them
 			if($this->functions != array()) 
@@ -338,7 +341,7 @@ class Relation extends CWidget
 	 */
 	public function getAssignedObjects() 
 	{
-		if(!$this->_model->id)
+		if(!$this->_model->{$this->_model->tableSchema->primaryKey})
 			return array();
 
 		$sql = sprintf("select * from %s where %s = %s",
@@ -528,6 +531,9 @@ $(\'#div\' + i).hide();
 public function renderCheckBoxListSelection()
 {
 	$keys =	array_keys($this->getAssignedObjects());
+
+	if(isset($this->preselect))
+		$keys = $this->preselect;
 
 		echo CHtml::CheckBoxList($this->getListBoxName(),
 					$keys,
