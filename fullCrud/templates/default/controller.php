@@ -108,7 +108,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 			$this->loadModel()->delete();
 
 			if(!isset($_GET['ajax']))
-				$this->redirect(array('index'));
+				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
 		}
 		else
 			throw new CHttpException(400,
@@ -126,6 +126,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 	public function actionAdmin()
 	{
 		$model=new <?php echo $this->modelClass; ?>('search');
+		$model->unsetAttributes();
 		if(isset($_GET['<?php echo $this->modelClass; ?>']))
 			$model->attributes=$_GET['<?php echo $this->modelClass; ?>'];
 
