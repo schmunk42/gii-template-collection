@@ -57,9 +57,11 @@ class <?php echo $modelClass; ?> extends <?php echo $this->baseClass."\n"; ?>
 
 	public function behaviors()
 	{
-		return array('CAdvancedArBehavior',
-				array('class' => 'ext.CAdvancedArBehavior')
-				);
+		return array(
+			'CAdvancedArBehavior' => array(
+				'class' => 'ext.CAdvancedArBehavior'
+			)
+		);
 	}
 
 	public function attributeLabels()
