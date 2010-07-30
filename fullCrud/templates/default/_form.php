@@ -1,4 +1,4 @@
-<p class="note">Fields with <span class="required">*</span> are required.</p>
+<p class="note"><?php echo "<?php echo Yii::t('app','Fields with');?> <span class=\"required\">*</span> <?php echo Yii::t('app','are required');?>";?>.</p>
 
 <?php echo "<?php echo \$form->errorSummary(\$model); ?>\n"; ?>
 
