@@ -36,5 +36,6 @@ return array(
     'name'=>'nombre',
     'title'=>'título',
     'Submit'=>'Enviar',
+    '{relation} that belongs to this {model}'=>'{relation} que pertenecen a este {model}',
 )
 ?>
