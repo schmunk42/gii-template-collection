@@ -4,6 +4,7 @@
 
 Version 0.5
 -----------
+- Fix: Make the Relation widget not add a delimiter after the last field when concatenating multiple fields. (Leo R. Lundgren <leo@finalresort.org>)
 - Fix: A bug in the FullModel template made Gii/Yii look for the CAdvancedArBehavior directly (not via path alias). (Leo R. Lundgren <leo@finalresort.org>)  
 - New: Added support for generating activeDropDownList's for ENUM mysql column fields
 

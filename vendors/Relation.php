@@ -286,13 +286,15 @@ class Relation extends CWidget
 				$this->fields = array($this->fields);
 
 			$fields = '';
+			$i = 0;
 			foreach($this->fields as $field)
 			{
 				$rule = sprintf('{%s}',$field);
 				$rules[$rule] = $obj->$field;
-				$fields .= $this->getModelData($obj, $field);
-				if(count($this->fields) >1)  
+
+				if($i++ > 0)
 					$fields .= $this->delimiter;
+				$fields .= $this->getModelData($obj, $field);
 			}
 
 			$defaultrules = array(
