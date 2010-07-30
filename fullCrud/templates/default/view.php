@@ -17,7 +17,7 @@ $this->menu=array(
 );
 ?>
 
-<h1>View <?php echo $this->modelClass." #<?php echo \$model->{$this->tableSchema->primaryKey}; ?>"; ?></h1>
+<h1><?php echo Yii::t('app', 'View');?> <?php echo $this->modelClass." #<?php echo \$model->{$this->tableSchema->primaryKey}; ?>"; ?></h1>
 
 <?php echo "<?php"; ?> $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
@@ -50,8 +50,9 @@ foreach(CActiveRecord::model($this->model)->relations() as $key => $relation)
 		$model = CActiveRecord::model($relation[1]);
 
 		$suggestedtitle = $this->suggestName($model->tableSchema->columns);
-
-		printf("<br /><h2> This %s belongs to this %s: </h2>\n", $relation[1], $this->modelClass);
+                echo '<br /><h2>';
+                echo "<?php echo Yii::t('app','{relation} that belongs to this {model}',array('{relation}'=>'{$relation[1]}', '{model}'=>'{$this->modelClass}'));?>";
+                echo ": </h2>\n";
 		echo CHtml::openTag('ul');
 		printf("<?php foreach(\$model->%s as \$foreignobj) { \n
 				printf('<li>%%s</li>', CHtml::link(\$foreignobj->%s, array('%s/view', 'id' => \$foreignobj->".$model->tableSchema->primaryKey.")));\n
