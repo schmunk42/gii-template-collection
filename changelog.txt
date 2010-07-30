@@ -1,22 +1,25 @@
-changes in 0.4:
-- added support for generating activeDropDownList's for ENUM mysql column fields
 
-changes in 0.3:
-- Datepicker is now working
+  Gii Template Collection Change Log
+  ==================================
+
+Version 0.4
+-----------
+- New: Added support for generating activeDropDownList's for ENUM mysql column fields
+
+Version 0.3
+-----------
+- Fix: Datepicker is now working
 - Relation Generation is much improved
 - Removed even more Comments
 
-changes in 0.2:
-
-fullCrud: 
- - Ajax Validation is enabled for all forms 
- - Disabled the comparison Operator hint in the admin view 
- - moved the "Create" and "Update" Button out of the _form view
- - Relation Widget now generates correct 'fields' attributes
- - Updated CAdvancedArBehavior to latest version 0.3
- - Added MANY_MANY listing of related objects to view.php view
-
+Version 0.2
+-----------
+FullCrud: 
+- Ajax Validation is enabled for all forms 
+- Disabled the comparison Operator hint in the admin view 
+- Moved the "Create" and "Update" Button out of the _form view
+- Relation Widget now generates correct 'fields' attributes
+- Updated CAdvancedArBehavior to latest version 0.3
+- Added MANY_MANY listing of related objects to view.php view
 Controller Generation:
-- the Controller now saves MANY_MANY Relations automatically by passing
-  the relation over to the CAdvancedArBehavior
-
+- The Controller now saves MANY_MANY Relations automatically by passing the relation over to the CAdvancedArBehavior
