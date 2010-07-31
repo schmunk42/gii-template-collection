@@ -30,7 +30,12 @@ echo "echo \$this->renderPartial('_form', array(
 	)); ?>\n"; ?>
 
 <div class="row buttons">
-	<?php echo "<?php echo CHtml::submitButton(Yii::t('app', 'Create')); ?>\n"; ?>
+	<?php echo '<?php
+	$url = array(Yii::app()->request->getQuery(\'returnTo\'));
+	if(empty($url[0])) 
+		$url = array(\''.strtolower($this->modelClass).'/admin\');';
+	echo "\necho CHtml::Button(Yii::t('app', 'Cancel'), array('submit' => \$url)); ?>&nbsp;\n"; 
+	 echo "<?php echo CHtml::submitButton(Yii::t('app', 'Create')); ?>\n"; ?>
 </div>
 
 <?php echo "<?php \$this->endWidget(); ?>\n"; ?>

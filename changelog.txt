@@ -4,6 +4,7 @@
 
 Version 0.5
 -----------
+- New: Added cancel button to Create and Update form (thyseus)
 - New: Make Form entries persistant with $_SESSION (thyseus)
 - Chg: Move Relation Widget and CAdvancedArBehavior to extensions folder, not
 components/ anymore because ext.Relation looks better than application.components.Relation and there is no default Path alias for components (thyseus)

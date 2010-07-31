@@ -13,6 +13,7 @@ return array(
 'Welcome' => 'Willkommen',
 'Login' => 'Anmelden',
 'Logout' => 'Abmelden',
+'Cancel' => 'Abbrechen',
 'Manage' => 'Verwalte',
 'Search' => 'Suche',
 'List' => 'Übersicht von ',
