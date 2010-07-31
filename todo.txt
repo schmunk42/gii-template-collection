@@ -1,0 +1,6 @@
+
+  Gii Template Collection ToDo List
+  =================================
+
+- Investigate whether or not the usage of POST inside Crud Controller's actionDelete() is correct, or if it should be fetched from the GET parameters instead.
+  
