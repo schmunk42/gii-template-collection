@@ -44,6 +44,14 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 	{
 		$model=new <?php echo $this->modelClass; ?>;
 
+		foreach($_POST as $key => $value) {
+			if(is_array($value))
+				$_SESSION[$key] = $value;
+		}
+
+		if(isset($_SESSION['<?php echo $this->modelClass; ?>'])) 
+			$model->attributes = $_SESSION['<?php echo $this->modelClass; ?>'];
+
 		$this->performAjaxValidation($model);
 
 		$<?php echo $this->modelClass; ?>Data = Yii::app()->request->getPost('<?php echo $this->modelClass; ?>');
@@ -63,8 +71,14 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 			}
 ?>
 
-			if($model->save())
-				$this->redirect(array('view','id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>));
+	if($model->save()) {
+		unset($_SESSION['<?php echo $this->modelClass; ?>']);
+		$url = Yii::app()->request->getQuery('returnTo');
+		if(!empty($url))
+			$this->redirect(array($url)); 
+		else
+			$this->redirect(array('view','id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>));
+	}
 		}
 
 		$this->render('create',array(

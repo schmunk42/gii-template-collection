@@ -8,7 +8,7 @@ section of the gii Configuration inside your application configuration:
 				'class'=>'system.gii.GiiModule',
 				'password'=>'<your gii password>',
 				'generatorPaths'=>array(
-					'ext.gtc',   // Gii Template Collection
+					'ext.gtc',   // extensions/Gii Template Collection
 					),
 				),
 
@@ -16,23 +16,13 @@ After that, two new Generators 'FullCrud' and 'FullModel' should be available
 in your Gii index page.
 
 Please note that the provided CAdvancedArBehavior and the Relation widget will
-be inserted into your application Configuration automatically after the first
-use of the Generator.
+be inserted into your application extensions/ folder automatically after the 
+first use of the Generator.
 
-De, fr, lt, es and pt translations are provided in the vendors/messages 
+De, fr, lt, es and pt translations are provided in the messages/
 directory. To make your Application use them, simply copy them over to the
 messages directory of your Web Application.
 
 Please enjoy this extension and give your feedback at the Google Code 
 Repository, thank you. Of course, any templates are appreciated and just leave
 a comment or mail thyseus@gmail.com
-
-
-The following Note _should_ be fixed and _should_ be ignored, but remains until
-i am sure that it is fixed :)   :
-
-Please note: When you generate a MANY_MANY Relation inside the model, please make sure
-that the order the columns in the MANY_MANY table appear in the right Order. The
-left column has to be linked to the Model where the relation is set. This is actually
-a bug in yii and isn't easily fixed at the moment. I hope i can figure out a workaround
-that generates the columns in the right order in the future.

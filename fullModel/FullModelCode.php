@@ -10,12 +10,12 @@ class FullModelCode extends ModelCode
 		// Make sure that the CAdvancedArBehavior is in the application components
 		// Folder. if it is not, copy it over there
 
-		$path = Yii::getPathOfAlias('application.components');
+		$path = Yii::getPathOfAlias('application.extensions');
 		if($path===false)
 			mkdir($path);
 
  		if(!is_dir($path))
-			die("Fatal Error: Your application components/ is not an directory!");	
+			die("Fatal Error: Your application extensions/ is not an directory!");	
 
 		$names = scandir($path);
 
@@ -24,7 +24,7 @@ class FullModelCode extends ModelCode
 			$gtcpath = Yii::getPathOfAlias('ext.gtc.vendors');
 			if(!copy($gtcpath.'/CAdvancedArBehavior.php',
 						$path.'/CAdvancedArBehavior.php'))
-				die('CAdvancedArBehavior.php could not be copied over to your components directory');
+				die('CAdvancedArBehavior.php could not be copied over to your extensions directory');
 		}
 
 	}

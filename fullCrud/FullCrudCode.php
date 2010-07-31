@@ -11,12 +11,12 @@ class FullCrudCode extends CrudCode
 		// Make sure that the Relation Widget is in the application components
 		// Folder. if it is not, copy it over there
 
-		$path = Yii::getPathOfAlias('application.components');
+		$path = Yii::getPathOfAlias('application.extensions');
 		if($path===false)
 			mkdir($path);
 
 		if(!is_dir($path))
-			throw new CException('Fatal Error: Your application components/ is not an directory!');	
+			throw new CException('Fatal Error: Your application extensions/ is not an directory!');	
 
 		$names = scandir($path);
 
@@ -29,6 +29,8 @@ class FullCrudCode extends CrudCode
 
 	}
 
+	// suggest which database column is best suited for being display in
+	// a foreign Relation
 	public function suggestName($columns) 
 	{
 		$j = 0;
@@ -84,7 +86,7 @@ class FullCrudCode extends CrudCode
 			$style = $relation[0] == 'CManyManyRelation' ? 'checkbox' : 'dropdownlist';
 
 			return("
-					\$this->widget('application.components.Relation', array(
+					\$this->widget('ext.Relation', array(
 							'model' => \$model,
 							'relation' => '{$relationname}',
 							'fields' => '{$field->name}',
