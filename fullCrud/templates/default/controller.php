@@ -46,21 +46,22 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 
 		$this->performAjaxValidation($model);
 
-		if(isset($_POST['<?php echo $this->modelClass; ?>']))
+		$<?php echo $this->modelClass; ?>Data = Yii::app()->request->getPost('<?php echo $this->modelClass; ?>');
+		if($<?php echo $this->modelClass; ?>Data !== null)
 		{
-			$model->attributes=$_POST['<?php echo $this->modelClass; ?>'];
-		<?php
+			$model->attributes = $<?php echo $this->modelClass; ?>Data;
+
+<?php
 			// Add additional MANY_MANY Attributes to the model object
-			foreach(CActiveRecord::model($this->model)->relations() as $key => $relation)	
+			foreach(CActiveRecord::model($this->model)->relations() as $key => $relation)
 			{
 				if($relation[0] == 'CManyManyRelation')
 				{
-					printf("\tif(isset(\$_POST['%s']['%s']))\n", $this->modelClass, $relation[1] );
-					printf("\t\t\$model->%s = \$_POST['%s']['%s'];\n", $key, $this->modelClass, $relation[1]);
+					printf("\t\t\tif(isset(\$%sData['%s']))\n", $this->modelClass, $relation[1]);
+					printf("\t\t\t\t\$model->%s = \$%sData['%s'];\n", $key, $this->modelClass, $relation[1]);
 				}
 			}
-		?>
-
+?>
 
 			if($model->save())
 				$this->redirect(array('view','id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>));
@@ -77,20 +78,22 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 
 		$this->performAjaxValidation($model);
 
-		if(isset($_POST['<?php echo $this->modelClass; ?>']))
+		$<?php echo $this->modelClass; ?>Data = Yii::app()->request->getPost('<?php echo $this->modelClass; ?>');
+		if($<?php echo $this->modelClass; ?>Data !== null)
 		{
-			$model->attributes=$_POST['<?php echo $this->modelClass; ?>'];
-		<?php
+			$model->attributes = $<?php echo $this->modelClass; ?>Data;
+
+<?php
 			// Add additional MANY_MANY Attributes to the model object
-			foreach(CActiveRecord::model($this->model)->relations() as $key => $relation)	
+			foreach(CActiveRecord::model($this->model)->relations() as $key => $relation)
 			{
 				if($relation[0] == 'CManyManyRelation')
 				{
-					printf("\tif(isset(\$_POST['%s']['%s']))\n", $this->modelClass, $relation[1] );
-					printf("\t\t\$model->%s = \$_POST['%s']['%s'];\n", $key, $this->modelClass, $relation[1]);
+					printf("\t\t\tif(isset(\$%sData['%s']))\n", $this->modelClass, $relation[1]);
+					printf("\t\t\t\t\$model->%s = \$%sData['%s'];\n", $key, $this->modelClass, $relation[1]);
 				}
 			}
-		?>
+?>
 
 			if($model->save())
 				$this->redirect(array('view','id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>));
@@ -107,8 +110,11 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 		{
 			$this->loadModel()->delete();
 
-			if(!isset($_GET['ajax']))
-				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+			if(Yii::app()->request->getQuery('ajax') === null)
+			{
+				$returnUrl = Yii::app()->request->getPost('returnUrl');
+				$this->redirect(!empty($returnUrl) ? $returnUrl : array('admin'));
+			}
 		}
 		else
 			throw new CHttpException(400,
@@ -127,8 +133,10 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 	{
 		$model=new <?php echo $this->modelClass; ?>('search');
 		$model->unsetAttributes();
-		if(isset($_GET['<?php echo $this->modelClass; ?>']))
-			$model->attributes=$_GET['<?php echo $this->modelClass; ?>'];
+
+		$<?php echo $this->modelClass; ?>Data = Yii::app()->request->getQuery('<?php echo $this->modelClass; ?>');
+		if($<?php echo $this->modelClass; ?>Data !== null)
+			$model->attributes = $<?php echo $this->modelClass; ?>Data;
 
 		$this->render('admin',array(
 			'model'=>$model,
@@ -139,8 +147,10 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 	{
 		if($this->_model===null)
 		{
-			if(isset($_GET['id']))
-				$this->_model=<?php echo $this->modelClass; ?>::model()->findbyPk($_GET['id']);
+			$id = Yii::app()->request->getQuery('id');
+			if(!empty($id))
+				$this->_model = <?php echo $this->modelClass; ?>::model()->findbyPk($id);
+
 			if($this->_model===null)
 				throw new CHttpException(404, Yii::t('app', 'The requested page does not exist.'));
 		}
@@ -149,7 +159,8 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='<?php echo $this->class2id($this->modelClass); ?>-form')
+		$ajax = Yii::app()->request->getPost('ajax'); 
+		if($ajax == '<?php echo $this->class2id($this->modelClass); ?>-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
