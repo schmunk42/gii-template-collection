@@ -4,6 +4,7 @@
 
 Version 0.5
 -----------
+- New: Added Swedish translation. (Leo R. Lundgren <leo@finalresort.org>)  
 - New: Added cancel button to Create and Update form (thyseus)
 - New: Make Form entries persistant with $_SESSION (thyseus)
 - Chg: Move Relation Widget and CAdvancedArBehavior to extensions folder, not
