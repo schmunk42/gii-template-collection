@@ -19,7 +19,7 @@ Please note that the provided CAdvancedArBehavior and the Relation widget will
 be inserted into your application extensions/ folder automatically after the 
 first use of the Generator.
 
-De, fr, lt, es and pt translations are provided in the messages/
+De, fr, lt, es, pt and sv translations are provided in the messages/
 directory. To make your Application use them, simply copy them over to the
 messages directory of your Web Application.
 
