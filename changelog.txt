@@ -4,6 +4,7 @@
 
 Version 0.5
 -----------
+- Fix: Add missing translation call for "Add new". Neutralized from "Add a new" to lessen the effect of words' gender mismatch. Note: I only added Swedish translation, the other ones need to be added. (rawtaz)
 - New: Added Swedish translation. (rawtaz)
 - New: Added cancel button to Create and Update form (thyseus)
 - New: Make Form entries persistant with $_SESSION (thyseus)

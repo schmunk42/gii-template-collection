@@ -620,7 +620,7 @@ class Relation extends CWidget
 						'returnTo' => $this->returnLink); 
 
 
-			$string = '<br />Add a new ' . $this->_relatedModel->tableSchema->name;
+			$string = '<br />' . Yii::t('app', 'Add new') . ' ' . $this->_relatedModel->tableSchema->name;
 
 			if(!$this->useLinkButton) {
 				echo CHtml::Link(
