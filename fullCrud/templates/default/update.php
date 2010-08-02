@@ -19,8 +19,8 @@ $this->menu=array(
 
 <?php 
 $pk = "\$model->" . $this->tableSchema->primaryKey;
-printf('<h1> %s %s #%s </h1>', 
-Yii::t('app', 'Update'),
+printf('<h1> %s %s #%s </h1>',
+'<?php echo Yii::t(\'app\', \'Update\');?>',
 $this->modelClass,
 '<?php echo ' . $pk . '; ?>'); ?>
 
