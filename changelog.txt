@@ -4,6 +4,7 @@
 
 Version 0.5
 -----------
+- Fix: Add missing translation for "Update" in "update" view. (robregonm)
 - Fix: Add missing translation call for "Add new". Neutralized from "Add a new" to lessen the effect of words' gender mismatch. Note: I only added Swedish translation, the other ones need to be added. (rawtaz)
 - New: Added Swedish translation. (rawtaz)
 - New: Added cancel button to Create and Update form (thyseus)
@@ -13,6 +14,9 @@ Version 0.5
 - Fix: Relation: Make the widget not add a delimiter after the last field when concatenating multiple fields. (rawtaz)
 - Fix: FullModel: A bug in the model template made Gii/Yii look for the CAdvancedArBehavior directly (not via path alias). (rawtaz)  
 - New: Added support for generating activeDropDownList's for ENUM mysql column fields
+- Fix: Add missing translation for "Fields with * are required". (robregonm)
+- Fix: Fix translation when generating "view" file. (robregonm)
+- Fix: Added returnUrl verification to actionDelete. Added unsetAttributtes to actionAdmin.
 
 Version 0.4
 -----------
