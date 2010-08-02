@@ -16,7 +16,7 @@ return array(
     'Manage' => 'Administrar',
     'Search' => 'Buscar',
     'Create' => 'Crear',
-    'Update' => 'Editar',
+    'Update' => 'Modificar',
     'Delete' => 'Eliminar',
     'Save' => 'Guardar',
     'Cancel' => 'Cancelar',
