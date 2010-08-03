@@ -14,14 +14,6 @@
 ?>
 <?php echo "<?php\n"; ?>
 
-/**
- * This is the model class for table "<?php echo $tableName; ?>".
- *
- * The followings are the available columns in table '<?php echo $tableName; ?>':
-<?php foreach($columns as $column): ?>
- * @property <?php echo $column->type.' $'.$column->name."\n"; ?>
-<?php endforeach; ?>
- */
 class <?php echo $modelClass; ?> extends <?php echo $this->baseClass."\n"; ?>
 {
 	public static function model($className=__CLASS__)
@@ -46,8 +38,6 @@ class <?php echo $modelClass; ?> extends <?php echo $this->baseClass."\n"; ?>
 
 	public function relations()
 	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
 		return array(
 <?php foreach($relations as $name=>$relation): ?>
 			<?php echo "'$name' => $relation,\n"; ?>

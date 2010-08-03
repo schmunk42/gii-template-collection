@@ -14,8 +14,9 @@ class FullModelCode extends ModelCode
 		if($path===false)
 			mkdir($path);
 
- 		if(!is_dir($path))
-			die("Fatal Error: Your application extensions/ is not an directory!");	
+
+		if(!is_dir($path))
+			throw new CException ("Fatal Error: Your application components/ is not an directory!");	
 
 		$names = scandir($path);
 
@@ -24,7 +25,8 @@ class FullModelCode extends ModelCode
 			$gtcpath = Yii::getPathOfAlias('ext.gtc.vendors');
 			if(!copy($gtcpath.'/CAdvancedArBehavior.php',
 						$path.'/CAdvancedArBehavior.php'))
-				die('CAdvancedArBehavior.php could not be copied over to your extensions directory');
+				throw new CException('CAdvancedArBehavior.php could not be copied over to your components directory');
+
 		}
 
 	}

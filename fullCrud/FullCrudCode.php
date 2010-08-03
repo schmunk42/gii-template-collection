@@ -85,8 +85,9 @@ class FullCrudCode extends CrudCode
 			$field = current($columns);
 			$style = $relation[0] == 'CManyManyRelation' ? 'checkbox' : 'dropdownlist';
 
-			return("
-					\$this->widget('ext.Relation', array(
+			if(is_object($field))
+				return("
+						\$this->widget('ext.Relation', array(
 							'model' => \$model,
 							'relation' => '{$relationname}',
 							'fields' => '{$field->name}',
@@ -100,7 +101,7 @@ class FullCrudCode extends CrudCode
 							)
 						)");
 		}
-	}
+	} 
 
 	/**
 	 * @param CActiveRecord $modelClass

@@ -48,6 +48,8 @@ foreach(CActiveRecord::model($this->model)->relations() as $key => $relation)
 	if($relation[0] == 'CManyManyRelation' || $relation[0] == 'CHasManyRelation') 
 	{
 		$model = CActiveRecord::model($relation[1]);
+		if(!$pk = $model->tableSchema->primaryKey)
+			$pk = 'id';
 
 		$suggestedtitle = $this->suggestName($model->tableSchema->columns);
                 echo '<br /><h2>';
@@ -55,7 +57,7 @@ foreach(CActiveRecord::model($this->model)->relations() as $key => $relation)
                 echo ": </h2>\n";
 		echo CHtml::openTag('ul');
 		printf("<?php foreach(\$model->%s as \$foreignobj) { \n
-				printf('<li>%%s</li>', CHtml::link(\$foreignobj->%s, array('%s/view', 'id' => \$foreignobj->".$model->tableSchema->primaryKey.")));\n
+				printf('<li>%%s</li>', CHtml::link(\$foreignobj->%s, array('%s/view', 'id' => \$foreignobj->".$pk.")));\n
 				} ?>", $key, $suggestedtitle->name, strtolower($relation[1])); 
 		echo CHtml::closeTag('ul');
 	}

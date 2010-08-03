@@ -1,5 +1,8 @@
 <p class="note"><?php echo "<?php echo Yii::t('app','Fields with');?> <span class=\"required\">*</span> <?php echo Yii::t('app','are required');?>";?>.</p>
 
+
+<?php echo "<?php if(isset(\$_POST['returnUrl']))
+\n\t\techo CHtml::hiddenField('returnUrl', \$_POST['returnUrl']); ?>\n"; ?>
 <?php echo "<?php echo \$form->errorSummary(\$model); ?>\n"; ?>
 
 <?php

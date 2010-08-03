@@ -73,9 +73,8 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 
 	if($model->save()) {
 		unset($_SESSION['<?php echo $this->modelClass; ?>']);
-		$url = Yii::app()->request->getQuery('returnTo');
-		if(!empty($url))
-			$this->redirect(array($url)); 
+		if(isset($_POST['returnUrl']))
+			$this->redirect($_POST['returnUrl']); 
 		else
 			$this->redirect(array('view','id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>));
 	}

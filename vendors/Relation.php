@@ -105,7 +105,7 @@ $this->widget('application.components.Relation', array(
 
 
 @author Herbert Maschke <thyseus@gmail.com>
-@version 0.91 (after 1.0rc5)
+@version 0.93 (after 1.0rc5)
 @since 1.1
 */
 
@@ -137,7 +137,7 @@ class Relation extends CWidget
 	public $allowEmpty = 0;
 
 	// Preselect which items?
-	public $preselect;
+	public $preselect = false;
 
 	// disable this to hide the Add Button
 	// set this to a string to set the String to be displayed
@@ -278,7 +278,7 @@ class Relation extends CWidget
 				if(is_string($this->allowEmpty))
 					$dataArray[0] = $this->allowEmpty;
 				else
-					$dataArray[0] = Yii::t('app', 'None');
+					$dataArray[0] = Yii::t('user', 'None');
 
 			foreach($parentobjects as $obj)	
 			{
@@ -534,7 +534,7 @@ class Relation extends CWidget
 		{
 			$keys =	array_keys($this->getAssignedObjects());
 
-			if(isset($this->preselect))
+			if(isset($this->preselect) && $this->preselect != false)
 				$keys = $this->preselect;
 
 			echo CHtml::CheckBoxList($this->getListBoxName(),
@@ -612,15 +612,14 @@ class Relation extends CWidget
 			if(!isset($this->returnLink) or $this->returnLink == "")
 				$this->returnLink = $this->model->tableSchema->name . "/create";
 
+			echo CHtml::hiddenField('returnUrl', Yii::app()->request->getHostInfo() . Yii::app()->request->getRequestUri());
 			if($this->addButtonLink != '')
 				$link = $this->addButtonLink;
 			else
 				$link = array(
-						$this->_relatedModel->tableSchema->name . "/create", 
-						'returnTo' => $this->returnLink); 
+						$this->_relatedModel->tableSchema->name . "/create"); 
 
-
-			$string = '<br />' . Yii::t('app', 'Add new') . ' ' . $this->_relatedModel->tableSchema->name;
+			$string = '<br />' . Yii::t('user', 'Add new') . ' ' . $this->_relatedModel->tableSchema->name;
 
 			if(!$this->useLinkButton) {
 				echo CHtml::Link(
