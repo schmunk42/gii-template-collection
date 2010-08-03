@@ -51,7 +51,7 @@ foreach($this->tableSchema->columns as $column)
 {
 	if(++$count==7)
 		echo "\t\t/*\n";
-	echo "\t\t'".$column->name."',\n";
+	echo "\t\t".$this->generateValueField($this->modelClass, $column).",\n";
 }
 if($count>=7)
 	echo "\t\t*/\n";
