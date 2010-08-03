@@ -26,13 +26,16 @@ $this->menu=array(
 foreach($this->tableSchema->columns as $column) 
 {
 	if($column->isForeignKey) {
+                echo "\t\tarray(\n";
+                echo "\t\t\t'label'=>\$model->getAttributeLabel('{$column->name}'),\n";
 		foreach($this->relations as $key => $relation) {
 			if($relation[2] == $column->name) {
 				$columns = CActiveRecord::model($relation[1])->tableSchema->columns;
 				$suggestedfield = $this->suggestName($columns);
-				echo "\t\t'{$key}.{$suggestedfield->name}',\n";
+				echo "\t\t\t'value'=>CHtml::value(\$model,'{$key}.{$suggestedfield->name}'),\n";
 			}
 		}
+                echo "\t\t),\n";
 	}
 	else
 		echo "\t\t'".$column->name."',\n";
