@@ -27,7 +27,7 @@ foreach($this->tableSchema->columns as $column)
 {
 	if($column->isForeignKey) {
                 echo "\t\tarray(\n";
-                echo "\t\t\t'label'=>\$model->getAttributeLabel('{$column->name}'),\n";
+                echo "\t\t\t'name'=>'{$column->name}',\n";
 		foreach($this->relations as $key => $relation) {
 			if($relation[2] == $column->name) {
 				$columns = CActiveRecord::model($relation[1])->tableSchema->columns;
