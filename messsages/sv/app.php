@@ -1,8 +1,8 @@
 <?php
 /**
- * German translation of iCRUD.
+ * Swedish translation of iCRUD.
  *
- * @author Herbert Maschke <thyseus@gmail.com>
+ * @author Leo R. Lundgren <leo@finalresort.org>
  * @link http://code.google.com/p/icrud/
  * @package icrud.messages.de
  * @since 0.2
