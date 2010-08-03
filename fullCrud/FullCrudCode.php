@@ -102,8 +102,8 @@ class FullCrudCode extends CrudCode {
         if (!is_object($model))
             $model = CActiveRecord::model($model);
 
-        if ($column->isForeignKey)
-            return false;
+        /*if ($column->isForeignKey)
+            return false;*/
 
         if (strtoupper($column->dbType) == 'TINYINT(1)'
                 || strtoupper($column->dbType) == 'BIT'
