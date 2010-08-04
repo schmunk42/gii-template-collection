@@ -194,7 +194,7 @@ class FullCrudCode extends CrudCode {
                 return "
                         array(
                                     'name'=>'{$column->name}',
-                                    'value'=>'\$data->{$column->name}?Yii::t(\\'app\\',\\'Yes\\'):Yii::t(\\'app\\', \\'No\\')',
+                                    'value'=>\$data->{$column->name}?Yii::t('app','Yes'):Yii::t('app', 'No'),
                                     'filter'=>array('0'=>Yii::t('app','No'),'1'=>Yii::t('app','Yes')),
                         )";
         }
