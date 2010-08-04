@@ -165,13 +165,15 @@ class FullCrudCode extends CrudCode {
             //return("\$model->{$relname}->{$fcolumns[1]}");
             //return("CHtml::value(\$model,\"{$relname}.{$fcolumns[1]}\")");
             //return("{$relname}.{$fcolumns[1]}");
-            if ($view) {
+            if ($view===true) {
                 return "
                         array(
                                     'name'=>'{$column->name}',
                                     'value'=>CHtml::value(\$model,'{$relname}.{$fcolumns[1]}'),
                         )";
-            } else
+            } elseif($view=='search')
+                return "\$form->dropDownList(\$model,'{$column->name}',CHtml::listData({$modelTable}::model()->findAll(), '{$fmodel->getTableSchema()->primaryKey}', '{$fcolumns[1]}'),array('prompt'=>Yii::t('app', 'All')))";
+            else
                 return "
                         array(
                                     'name'=>'{$column->name}',
