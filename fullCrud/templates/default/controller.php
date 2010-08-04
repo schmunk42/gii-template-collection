@@ -48,7 +48,6 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 			if(is_array($value))
 				$_SESSION[$key] = $value;
 		}
-
 		if(isset($_SESSION['<?php echo $this->modelClass; ?>'])) 
 			$model->attributes = $_SESSION['<?php echo $this->modelClass; ?>'];
 
@@ -89,6 +88,13 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 	{
 		$model=$this->loadModel();
 
+		foreach($_POST as $key => $value) {
+			if(is_array($value))
+				$_SESSION[$key] = $value;
+		}
+		if(isset($_SESSION['<?php echo $this->modelClass; ?>'])) 
+			$model->attributes = $_SESSION['<?php echo $this->modelClass; ?>'];
+
 		$this->performAjaxValidation($model);
 
 		if(isset($_POST['<?php echo $this->modelClass; ?>']))
@@ -107,8 +113,14 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 			}
 ?>
 
-			if($model->save())
-				$this->redirect(array('view','id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>));
+			if($model->save()) {
+				unset($_SESSION['<?php echo $this->modelClass; ?>']);
+
+				if(isset($_POST['returnUrl']))
+					$this->redirect($_POST['returnUrl']); 
+				else
+					$this->redirect(array('view','id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>));
+			}
 		}
 
 		$this->render('update',array(
@@ -124,7 +136,10 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 
 			if(!isset($_GET['ajax']))
 			{
-				$this->redirect(!empty($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+				if(isset($_POST['returnUrl']))
+					$this->redirect($_POST['returnUrl']); 
+				else
+					$this->redirect(array('admin'));
 			}
 		}
 		else
