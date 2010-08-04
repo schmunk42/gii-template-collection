@@ -124,8 +124,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 
 			if(!isset($_GET['ajax']))
 			{
-				$returnUrl = $_POST['returnUrl'];
-				$this->redirect(!empty($returnUrl) ? $returnUrl : array('admin'));
+				$this->redirect(!empty($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
 			}
 		}
 		else
