@@ -33,7 +33,7 @@ $('.form .row.model-class').toggle($('#ModelCode_tableName').val().substring($('
 ?>
 <h1>Full Model Generator</h1>
 
-<p>This generator generates an even more enhanced model class for the specified database table. It will include the CAdvancedArBehavior to add additional functions for MANY_MANY relations </p>
+<p>This generator generates an even more enhanced model class for the specified database table. It will include the CSaveRelationsBehavior to add additional functions for MANY_MANY relations </p>
 
 <?php $form=$this->beginWidget('CCodeForm', array('model'=>$model)); ?>
 

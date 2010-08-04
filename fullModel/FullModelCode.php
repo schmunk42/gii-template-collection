@@ -7,33 +7,29 @@ class FullModelCode extends ModelCode
 	{
 		parent::prepare();
 
-		// Make sure that the CAdvancedArBehavior is in the application components
-		// Folder. if it is not, copy it over there
+		// Make sure that the CSaveRelationsBehavior is in the application
+		// components folder. Ff it is not, copy it over there.
 
-		$path = Yii::getPathOfAlias('application.extensions');
-		if($path===false)
-			mkdir($path);
+		$extPath = Yii::getPathOfAlias('ext');
+		if($extPath===false)
+			mkdir($extPath);
 
+		if(!is_dir($extPath) || !is_writable($extPath))
+			throw new CException ("Fatal Error: Your application extensions/ is not a writable directory!");	
 
-		if(!is_dir($path))
-			throw new CException ("Fatal Error: Your application components/ is not an directory!");	
-
-		$names = scandir($path);
-
-		if(!in_array('CAdvancedArBehavior.php', $names)) 
+		$fileNames = scandir($extPath);
+		if(!in_array('CSaveRelationsBehavior.php', $fileNames)) 
 		{
-			$gtcpath = Yii::getPathOfAlias('ext.gtc.vendors');
-			if(!copy($gtcpath.'/CAdvancedArBehavior.php',
-						$path.'/CAdvancedArBehavior.php'))
-				throw new CException('CAdvancedArBehavior.php could not be copied over to your components directory');
-
+			$gtcPath = Yii::getPathOfAlias('ext.gtc.vendors.CSaveRelationsBehavior');
+			if(!copy($gtcPath.'/CSaveRelationsBehavior.php', $extPath.'/CSaveRelationsBehavior.php'))
+				throw new CException('CSaveRelationsBehavior.php could not be copied over to your extensions/ directory.');
 		}
 
 	}
  protected function generateRelations()
   {
     $relations=array();
-$i = 0;
+	$i = 0;
     foreach(Yii::app()->db->schema->getTables() as $table)
     {
       if($this->tablePrefix!='' && strpos($table->name,$this->tablePrefix)!==0)

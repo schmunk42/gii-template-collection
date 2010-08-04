@@ -1,0 +1,24 @@
+CSaveRelationsBehavior Change Log
+=================================
+
+Version 1.0.3
+-------------
+- Correct the way in which the related records are found for HAS_MANY relations in the setRelationRecords method
+
+
+Version 1.0.2
+-------------
+- Enh: Added validation scenario support for HAS_MANY relations
+- Enh: Relation initialisation optimisation code
+- Enh: Added delete related records support
+
+
+Version 1.0.1
+-------------
+- Bug #1: 'save' attribut of the relations property may not be set correctly
+- Enh: Better validation handling; it is now performed in the beforeValidation event
+
+
+Version 1.0
+-----------
+Initial release

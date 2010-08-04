@@ -1,7 +1,7 @@
 <?php
 /**
  * This is the template for generating the model class of a specified table.
- * In addition to the default model Code, this adds the CAdvancedArBehavior
+ * In addition to the default model Code, this adds the CSaveRelationsBehavior
  * to the model class definition.
  * - $this: the ModelCode object
  * - $tableName: the table name for this class (prefix is already removed if necessary)
@@ -52,8 +52,8 @@ class <?php echo $modelClass; ?> extends <?php echo $this->baseClass."\n"; ?>
 	public function behaviors()
 	{
 		return array(
-			'CAdvancedArBehavior' => array(
-				'class' => 'ext.CAdvancedArBehavior'
+			'CSaveRelationsBehavior' => array(
+				'class' => 'ext.CSaveRelationsBehavior'
 			)
 		);
 	}
