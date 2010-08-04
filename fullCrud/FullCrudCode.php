@@ -177,7 +177,7 @@ class FullCrudCode extends CrudCode {
                 return "
                         array(
                                     'name'=>'{$column->name}',
-                                    'value'=>'CHtml::value(\$data,\'{$relname}.{$fcolumns[1]}\')',
+                                    'value'=>'CHtml::value(\$data,\\'{$relname}.{$fcolumns[1]}\\')',
                                     'filter'=>CHtml::listData({$modelTable}::model()->findAll(), '{$fcolumns[0]}', '{$fcolumns[1]}'),
                         )";
             //{$relname}.{$fcolumns[1]}
