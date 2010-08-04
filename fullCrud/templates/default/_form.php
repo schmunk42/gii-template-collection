@@ -1,17 +1,21 @@
-<p class="note"><?php echo "<?php echo Yii::t('app','Fields with');?> <span class=\"required\">*</span> <?php echo Yii::t('app','are required');?>";?>.</p>
-
-
-<?php echo "<?php if(isset(\$_POST['returnUrl']))
-\n\t\techo CHtml::hiddenField('returnUrl', \$_POST['returnUrl']); ?>\n"; ?>
-<?php echo "<?php echo \$form->errorSummary(\$model); ?>\n"; ?>
+<p class="note">
+	<?php echo "<?php echo Yii::t('app','Fields with');?> <span class=\"required\">*</span> <?php echo Yii::t('app','are required');?>";?>.
+</p>
 
 <?php
-foreach($this->tableSchema->columns as $column)
-{
-	if($column->isPrimaryKey)
-		continue;
+	echo "<?php\n";
+	echo "\tif(isset(\$_POST['returnUrl']))\n";
+	echo "\t\techo CHtml::hiddenField('returnUrl', \$_POST['returnUrl']);\n";
+	echo "\techo \$form->errorSummary(\$model);\n";
+	echo "?>";
 ?>
-		<?php 
+
+<?php
+	foreach($this->tableSchema->columns as $column)
+	{
+		if($column->isPrimaryKey)
+			continue;
+
 		if(!$column->isForeignKey) 
 		{
 			echo "<div class=\"row\">\n";
@@ -20,17 +24,16 @@ foreach($this->tableSchema->columns as $column)
 			echo "<?php echo \$form->error(\$model,'{$column->name}'); ?>\n"; 
 			echo "</div>\n\n";
 		}
-}
-
-foreach($this->getRelations() as $key => $relation)
-{
-	if($relation[0] == 'CBelongsToRelation' 
-			or $relation[0] == 'CHasOneRelation' 
-			or $relation[0] == 'CManyManyRelation')
-	{
-		printf('<label for="%s">Belonging %s</label>', $relation[1], $relation[1]);
-		echo "<?php ". $this->generateRelation($this->modelClass, $key, $relation)."; ?>\n"; ?>
-			<?php
 	}
-}
+	
+	foreach($this->getRelations() as $key => $relation)
+	{
+		if($relation[0] == 'CBelongsToRelation' 
+				|| $relation[0] == 'CHasOneRelation' 
+				|| $relation[0] == 'CManyManyRelation')
+		{
+			printf('<label for="%s">Belonging %s</label>', $relation[1], $relation[1]);
+			echo "<?php ". $this->generateRelation($this->modelClass, $key, $relation)."; ?>\n";
+		}
+	}
 ?>
