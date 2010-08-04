@@ -29,9 +29,11 @@ class <?php echo $modelClass; ?> extends <?php echo $this->baseClass."\n"; ?>
 	public function rules()
 	{
 		return array(
-<?php foreach($rules as $rule): ?>
-			<?php echo $rule.",\n"; ?>
-<?php endforeach; ?>
+<?php
+		foreach($rules as $rule) {
+			echo "\t\t\t$rule,\n";
+		}
+?>
 			array('<?php echo implode(', ', array_keys($columns)); ?>', 'safe', 'on'=>'search'),
 		);
 	}
@@ -39,9 +41,11 @@ class <?php echo $modelClass; ?> extends <?php echo $this->baseClass."\n"; ?>
 	public function relations()
 	{
 		return array(
-<?php foreach($relations as $name=>$relation): ?>
-			<?php echo "'$name' => $relation,\n"; ?>
-<?php endforeach; ?>
+<?php
+		foreach($relations as $name=>$relation) {
+			echo "\t\t\t'$name' => $relation,\n";
+		}
+?>
 		);
 	}
 
@@ -57,9 +61,11 @@ class <?php echo $modelClass; ?> extends <?php echo $this->baseClass."\n"; ?>
 	public function attributeLabels()
 	{
 		return array(
-<?php foreach($labels as $name=>$label): ?>
-			<?php echo "'$name' => Yii::t('app', '$label'),\n"; ?>
-<?php endforeach; ?>
+<?php
+		foreach($labels as $name=>$label) {
+			echo "\t\t\t'$name' => Yii::t('app', '$label'),\n";
+		}
+?>
 		);
 	}
 
@@ -68,17 +74,18 @@ class <?php echo $modelClass; ?> extends <?php echo $this->baseClass."\n"; ?>
 		$criteria=new CDbCriteria;
 
 <?php
-foreach($columns as $name=>$column)
-{
-	if($column->type==='string')
-	{
-		echo "\t\t\$criteria->compare('$name',\$this->$name,true);\n\n";
-	}
-	else
-	{
-		echo "\t\t\$criteria->compare('$name',\$this->$name);\n\n";
-	}
-}
+		foreach($columns as $name=>$column)
+		{
+			if($column->type==='string')
+			{
+				echo "\t\t\$criteria->compare('$name', \$this->$name, true);\n";
+			}
+			else
+			{
+				echo "\t\t\$criteria->compare('$name', \$this->$name);\n";
+			}
+		}
+		echo "\n";
 ?>
 		return new CActiveDataProvider(get_class($this), array(
 			'criteria'=>$criteria,
