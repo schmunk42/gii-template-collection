@@ -16,7 +16,7 @@ Version 0.5
 - New: Added support for generating activeDropDownList's for ENUM mysql column fields
 - Fix: Add missing translation for "Fields with * are required". (robregonm)
 - Fix: Fix translation when generating "view" file. (robregonm)
-- Fix: Added returnUrl verification to actionDelete. Added unsetAttributtes to actionAdmin.
+- Fix: Added returnUrl verification to actionDelete. Added unsetAttributtes to actionAdmin. (robregonm)
 
 Version 0.4
 -----------
