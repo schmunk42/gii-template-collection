@@ -76,7 +76,7 @@ class <?php echo $modelClass; ?> extends <?php echo $this->baseClass."\n"; ?>
 <?php
 		foreach($columns as $name=>$column)
 		{
-			if($column->type==='string')
+			if($column->type==='string' and !$column->isForeignKey)
 			{
 				echo "\t\t\$criteria->compare('$name', \$this->$name, true);\n";
 			}
