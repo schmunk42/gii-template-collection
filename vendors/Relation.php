@@ -278,7 +278,7 @@ class Relation extends CWidget
 				if(is_string($this->allowEmpty))
 					$dataArray[0] = $this->allowEmpty;
 				else
-					$dataArray[0] = Yii::t('user', 'None');
+					$dataArray[0] = Yii::t('app', 'None');
 
 			foreach($parentobjects as $obj)	
 			{
@@ -624,7 +624,7 @@ class Relation extends CWidget
 			else
 				$link = array(get_class($this->_relatedModel) . "/create"); 
 
-			$string = '<br />' . Yii::t('user', 'Add new') . ' ' . get_class($this->_relatedModel);
+			$string = '<br />' . Yii::t('app', 'Add new') . ' ' . get_class($this->_relatedModel);
 
 			if(!$this->useLinkButton) {
 				echo CHtml::Link(
