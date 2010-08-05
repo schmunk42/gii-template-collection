@@ -85,7 +85,7 @@ class FullCrudCode extends CrudCode {
                                             'allowEmpty' => false,
                                             'style' => '{$style}',
                                             'htmlOptions' => array(
-                                                    'checkAll' => Yii::t('app', 'Choose All'),
+                                                    'checkAll' => Yii::t('app', 'Choose all'),
                                                     'template' => '<div style=\"float:left;margin-right:5px;\">{input}</div>{label}',
                                                     ),
 

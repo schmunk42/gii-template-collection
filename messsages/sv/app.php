@@ -36,5 +36,6 @@ return array(
 'title' => 'titel',
 'Add new' => 'Lägg till',
 'Belonging' => 'Tillhörande',
+'Choose all' => 'Välj alla',
 );
 ?>
