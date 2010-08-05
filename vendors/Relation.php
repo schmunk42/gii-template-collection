@@ -624,7 +624,7 @@ class Relation extends CWidget
 			else
 				$link = array(get_class($this->_relatedModel) . "/create"); 
 
-			$string = '<br />' . Yii::t('app', 'Add new') . ' ' . get_class($this->_relatedModel);
+			$string = '<br />' . Yii::t('app', 'Add new') . ' ' . Yii::t('app', get_class($this->_relatedModel));
 
 			if(!$this->useLinkButton) {
 				echo CHtml::Link(

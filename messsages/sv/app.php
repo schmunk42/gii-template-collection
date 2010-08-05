@@ -35,5 +35,6 @@ return array(
 'name' => 'namn',
 'title' => 'titel',
 'Add new' => 'Lägg till ny',
+'Belonging' => 'Tillhörande',
 );
 ?>

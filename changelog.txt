@@ -4,6 +4,7 @@
 
 Version 0.5
 -----------
+- Chg: Add missing translation for "Belonging" in controllers' _form.php. Also add translation calls around the related model name in the same place as "Belonging" and in the relation widget after "Add new". The latter makes it easy for the user to get a nice translated link in the relation widget, without having to supply a showAddButton option to the relation widget call; All they need to do is att a translation for the model's class name. (rawtaz)
 - Chg: Switch from CAdvancedArBehavior to CSaveRelationsBehavior for the MANY_MANY relations support. The provided CSaveRelationsBehavior is the latest version from http://www.yiiframework.com/extension/save-relations-ar-behavior/ (currently 1.0.3). For backwards compatibility/convenience the old CAdvancedArBehavior.php is still provided in the vendors/ folder. However this file is no longer automatically placed in extensions/ and will probably be removed in the future. (rawtaz)
 - Fix: Add missing translation for "Update" in "update" view. (robregonm)
 - Fix: Add missing translation call for "Add new". Neutralized from "Add a new" to lessen the effect of words' gender mismatch. Note: I only added Swedish translation, the other ones need to be added. (rawtaz)
