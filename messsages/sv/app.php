@@ -34,7 +34,7 @@ return array(
 'Invalid request. Please do not repeat this request again.'=>'Ogiltig förfrågan. Vänligen upprepa inte detta.',
 'name' => 'namn',
 'title' => 'titel',
-'Add new' => 'Lägg till ny',
+'Add new' => 'Lägg till',
 'Belonging' => 'Tillhörande',
 );
 ?>
