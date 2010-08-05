@@ -612,7 +612,11 @@ class Relation extends CWidget
 			if(!isset($this->returnLink) or $this->returnLink == "")
 				$this->returnLink = $this->model->tableSchema->name . "/create";
 
-			echo CHtml::hiddenField('returnUrl', Yii::app()->request->getHostInfo() . Yii::app()->request->getRequestUri());
+			if(isset($_POST['returnUrl']))
+				echo CHtml::hiddenField('returnUrl', $_POST['returnUrl']);
+			else
+				echo CHtml::hiddenField('returnUrl', Yii::app()->request->hostInfo . Yii::app()->request->requestUri);
+
 			if($this->addButtonLink != '')
 				$link = $this->addButtonLink;
 			else
