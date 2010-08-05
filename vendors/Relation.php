@@ -609,21 +609,22 @@ class Relation extends CWidget
 		}
 		protected function renderAddButton() 
 		{
+		protected function renderAddButton() 
+		{
 			if(!isset($this->returnLink) or $this->returnLink == "")
-				$this->returnLink = $this->model->tableSchema->name . "/create";
+				$this->returnLink = get_class($this->model) . "/create";
 
 			if(isset($_POST['returnUrl']))
 				echo CHtml::hiddenField('returnUrl', $_POST['returnUrl']);
 			else
 				echo CHtml::hiddenField('returnUrl', Yii::app()->request->hostInfo . Yii::app()->request->requestUri);
-
+				
 			if($this->addButtonLink != '')
 				$link = $this->addButtonLink;
 			else
-				$link = array(
-						$this->_relatedModel->tableSchema->name . "/create"); 
+				$link = array(get_class($this->_relatedModel) . "/create"); 
 
-			$string = '<br />' . Yii::t('user', 'Add new') . ' ' . $this->_relatedModel->tableSchema->name;
+			$string = '<br />' . Yii::t('user', 'Add new') . ' ' . get_class($this->_relatedModel);
 
 			if(!$this->useLinkButton) {
 				echo CHtml::Link(
@@ -639,4 +640,3 @@ class Relation extends CWidget
 			}
 		}
 }
-
