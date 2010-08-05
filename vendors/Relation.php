@@ -609,8 +609,6 @@ class Relation extends CWidget
 		}
 		protected function renderAddButton() 
 		{
-		protected function renderAddButton() 
-		{
 			if(!isset($this->returnLink) or $this->returnLink == "")
 				$this->returnLink = get_class($this->model) . "/create";
 
