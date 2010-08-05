@@ -38,5 +38,6 @@ return array(
 'Invalid request. Please do not repeat this request again.'=>'Falscher Aufruf. Bitte wiederhole dies nicht.',
 'name' => 'name',
 'title' => 'titel',
+'Add new' => 'Hinzufügen von',
 );
 ?>

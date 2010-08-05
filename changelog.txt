@@ -4,6 +4,7 @@
 
 Version 0.5
 -----------
+- Added support for generating TWO models, model and modelBase (see issue #4)
 - Chg: Add missing translation for "Belonging" in controllers' _form.php. Also add translation calls around the related model name in the same place as "Belonging" and in the relation widget after "Add new". The latter makes it easy for the user to get a nice translated link in the relation widget, without having to supply a showAddButton option to the relation widget call; All they need to do is att a translation for the model's class name. (rawtaz)
 - Chg: Switch from CAdvancedArBehavior to CSaveRelationsBehavior for the MANY_MANY relations support. The provided CSaveRelationsBehavior is the latest version from http://www.yiiframework.com/extension/save-relations-ar-behavior/ (currently 1.0.3). For backwards compatibility/convenience the old CAdvancedArBehavior.php is still provided in the vendors/ folder. However this file is no longer automatically placed in extensions/ and will probably be removed in the future. (rawtaz)
 - Fix: Add missing translation for "Update" in "update" view. (robregonm)
@@ -13,6 +14,7 @@ Version 0.5
 - New: Make Form entries persistant with $_SESSION (thyseus)
 - Chg: Move Relation Widget and CAdvancedArBehavior to extensions folder, not components/ anymore because ext.Relation looks better than application.components.Relation and there is no default Path alias for components (thyseus)
 - Fix: Relation: Make the widget not add a delimiter after the last field when concatenating multiple fields. (rawtaz)
+- Fix: Relation: Dropdownlist support for MANY_MANY bugfixes
 - Fix: FullModel: A bug in the model template made Gii/Yii look for the CAdvancedArBehavior directly (not via path alias). (rawtaz)  
 - New: Added support for generating activeDropDownList's for ENUM mysql column fields
 - Fix: Add missing translation for "Fields with * are required". (robregonm)
