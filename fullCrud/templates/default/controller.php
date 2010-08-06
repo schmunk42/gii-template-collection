@@ -5,33 +5,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 	public $layout='//layouts/column2';
 	private $_model;
 
-	public function filters()
-	{
-		return array(
-			'accessControl', 
-		);
-	}
-
-	public function accessRules()
-	{
-		return array(
-			array('allow',  
-				'actions'=>array('index','view'),
-				'users'=>array('*'),
-			),
-			array('allow', 
-				'actions'=>array('create','update'),
-				'users'=>array('@'),
-			),
-			array('allow', 
-				'actions'=>array('admin','delete'),
-				'users'=>array('admin'),
-			),
-			array('deny', 
-				'users'=>array('*'),
-			),
-		);
-	}
+	<?php Yii::app()->controller->renderPartial('auth'.DIRECTORY_SEPARATOR.$this->authtype); ?>
 
 	public function actionView()
 	{
@@ -44,14 +18,18 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 	{
 		$model=new <?php echo $this->modelClass; ?>;
 
+		<?php if($this->persistent_sessions) { ?>
 		foreach($_POST as $key => $value) {
 			if(is_array($value))
 				$_SESSION[$key] = $value;
 		}
 		if(isset($_SESSION['<?php echo $this->modelClass; ?>'])) 
 			$model->attributes = $_SESSION['<?php echo $this->modelClass; ?>'];
+    <?php } ?>
 
+		<?php if($this->enable_ajax_validation) { ?>
 		$this->performAjaxValidation($model);
+    <?php } ?>
 
 		if(isset($_POST['<?php echo $this->modelClass; ?>']))
 		{
@@ -88,21 +66,24 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 	{
 		$model=$this->loadModel();
 
+		<?php if($this->persistent_sessions) { ?>
 		foreach($_POST as $key => $value) {
 			if(is_array($value))
 				$_SESSION[$key] = $value;
 		}
 		if(isset($_SESSION['<?php echo $this->modelClass; ?>'])) 
 			$model->attributes = $_SESSION['<?php echo $this->modelClass; ?>'];
+		<?php } ?>
 
+		<?php if($this->enable_ajax_validation) { ?>
 		$this->performAjaxValidation($model);
+		<?php } ?>
 
 		if(isset($_POST['<?php echo $this->modelClass; ?>']))
 		{
 			$model->attributes = $_POST['<?php echo $this->modelClass; ?>'];
 
 <?php
-			// Add additional MANY_MANY Attributes to the model object
 			foreach(CActiveRecord::model($this->model)->relations() as $key => $relation)
 			{
 				if($relation[0] == 'CManyManyRelation')
@@ -181,6 +162,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 		return $this->_model;
 	}
 
+		<?php if($this->enable_ajax_validation) { ?>
 	protected function performAjaxValidation($model)
 	{
 		if(isset($_POST['ajax']) && $_POST['ajax'] == '<?php echo $this->class2id($this->modelClass); ?>-form')
@@ -189,4 +171,5 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 			Yii::app()->end();
 		}
 	}
+  <?php } ?>
 }

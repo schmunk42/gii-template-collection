@@ -28,6 +28,7 @@ $('#CrudCode_model').bind('keyup change', function(){
 	<li> Adds Cancel Button to create and update form </li>
 	<li> Form persistency in $_SESSION in conjunction with Relation Widget </li>
 	<li> Disabled the comparison Operator hint in the admin view </li>
+	<li> Authtype can be choosen </li> 
 	<li> Remove all comments out of generated Code to avoid redundancy </li>
 	<li> Moved the submit button of Create and Update view to the corresponding views rather than to _form.php</li>
 </ul>
@@ -59,6 +60,52 @@ $('#CrudCode_model').bind('keyup change', function(){
 		</div>
 		<?php echo $form->error($model,'controller'); ?>
 	</div>
+
+	<div class="row">
+		<?php echo $form->labelEx($model, 'authtype'); ?>
+		<?php echo $form->dropDownList($model, 'authtype', array(
+					'auth_filter_default' => 'Yii access control(default ruleset)',
+					'auth_filter_strict' => 'Yii access control(more strict ruleset)',
+					'auth_yum' => 'Yii User Management access control',
+					'auth_none' => 'No access control')); ?>
+		<div class="tooltip">
+				The Authentication method to be used in the Controller. Yii access Control is the 
+				default accessControl of Yii using the Controller accessRules() method. No access 
+				Control provides no Access control. In the future we will provide srbac and
+    		possibly other authtypes.
+		</div>
+		<?php echo $form->error($model,'authtype'); ?>
+	</div>
+
+
+	<div class="row">
+		<?php echo $form->labelEx($model, 'persistent_sessions'); ?>
+		<?php echo $form->dropDownList($model, 'persistent_sessions', array(
+					1 => 'Enable persistent Sessions',
+					0 => 'Disable persistent Sessions'
+					)); ?>
+		<div class="tooltip">
+				Persistent Sessions allows the Controller to save already entered Session data
+				before calling the actionSave() method. This works in Conjunction with the Relation
+				Widget. 
+		</div>
+		<?php echo $form->error($model,'persistent_sessions'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->labelEx($model, 'enable_ajax_validation'); ?>
+		<?php echo $form->dropDownList($model, 'enable_ajax_validation', array(
+					1 => 'Enable ajax Validation',
+					0 => 'Disable ajax Validation'
+					)); ?>
+		<div class="tooltip">
+			Enables instant Validation of input fields via Yii's form Generator and ajax
+      requests after blur() on the field.
+		</div>
+		<?php echo $form->error($model,'persistent_sessions'); ?>
+	</div>
+
+
 
 	<div class="row sticky">
 		<?php echo $form->labelEx($model,'baseControllerClass'); ?>

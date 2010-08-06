@@ -19,9 +19,11 @@ $this->menu=array(
 
 <div class="form">
 
-<?php echo "<?php \$form=\$this->beginWidget('CActiveForm', array(
+<?php 
+$ajax = ($this->enable_ajax_validation) ? 'true' : 'false';
+echo "<?php \$form=\$this->beginWidget('CActiveForm', array(
 	'id'=>'".$this->class2id($this->modelClass)."-form',
-	'enableAjaxValidation'=>true,
+	'enableAjaxValidation'=>$ajax,
 )); \n"; 
 
 echo "echo \$this->renderPartial('_form', array(
