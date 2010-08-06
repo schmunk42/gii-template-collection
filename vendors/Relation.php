@@ -105,7 +105,7 @@ $this->widget('application.components.Relation', array(
 
 
 @author Herbert Maschke <thyseus@gmail.com>
-@version 0.93 (after 1.0rc5)
+@version 0.95 (after 1.0rc5)
 @since 1.1
 */
 
@@ -454,8 +454,14 @@ class Relation extends CWidget
 		 * with the - Button .
 		 */
 		public function renderManyManyDropDownListSelection() {
+			if($this->parentObjects != 0)
+				$relatedmodels = $this->parentObjects;
+			else
+				$relatedmodels = $this->_relatedModel->findAll();
 
-			$addbutton = sprintf('i = 1; maxi = %d;', count($relatedmodels = $this->_relatedModel->findAll()));
+			$addbutton = sprintf('i = %d; maxi = %d;',
+					count($this->getAssignedObjects()) + 1,
+					count($relatedmodels));
 			Yii::app()->clientScript->registerScript('addbutton', $addbutton); 
 
 			$i = 0;
@@ -468,18 +474,15 @@ class Relation extends CWidget
 							'id' => sprintf('div_%s_%d', $uniqueid, $i),
 							'style' => $isAssigned ? '' : 'display:none;',
 							));
-				echo CHtml::dropDownList(sprintf('rel_%s_%d_%s',
-							$uniqueid,
-							$obj->id,
-							$this->getListBoxName()),
+				echo CHtml::dropDownList(sprintf('%s[%d]',
+							$this->getListBoxName(),
+							$i),
 						$isAssigned ? $obj->id : 0,
 						CHtml::listData(
 							array_merge(
-								array('0' => $this->allowEmpty),
-								$this->_relatedModel->findAll()),
-							$this->relatedPk,
-							$this->fields
-							)
+								array('0' => $this->allowEmpty), $relatedmodels),
+								$this->relatedPk,
+								$this->fields)
 						);
 				echo CHtml::button('-', array('id' => sprintf('sub_%s_%d', $uniqueid, $i)));
 				echo CHtml::closeTag('div');
@@ -493,7 +496,7 @@ class Relation extends CWidget
 				$jssub = '
 					$(\'#sub_'.$uniqueid.'_'.$i.'\').click(function() {
 							$(\'#div_'.$uniqueid.'_'.$i.'\').hide();
-							$("select[name=\'rel_'.$uniqueid.'_'.$obj->id.'_'.$this->getListBoxName().'\']").val(\'\');
+							$("select[name=\''.$this->getListBoxName().'['.$i.']\']").val(\'\');
 							if(i >= 1) i--;
 							});
 				';
@@ -512,15 +515,15 @@ class Relation extends CWidget
 			return in_array($id, array_keys($this->getAssignedObjects()));
 		}
 
-		public static function retrieveValues($data, $field) 
+		public static function retrieveValues($data) 
 		{
 			$returnArray = array();
 
-			foreach($data as $key => $value) {
-				if(strpos($key, 'rel') !== false) {
-					if(isset($value[$field]))
-						$returnArray[] = $value[$field];
-				}
+			$i = 0;
+			foreach($data as $value) {
+				if($value != 0)
+					$returnArray[(int)$i] = (int)$value;
+			$i++;
 			}
 
 			return $returnArray;
