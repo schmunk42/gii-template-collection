@@ -175,6 +175,12 @@ class Relation extends CWidget
 	// User-contributed functions, see comment for $template.
 	public $functions = array();
 
+	// If true, all the user-contributed functions in $functions will be
+	//  substituted in $htmlOptions['template'] as well.
+	// If an array of function names, all the listed functions will be
+	//  substituted in $htmlOptions['template'] as well.
+	public $functionsInHtmlOptionsTemplate = false;
+
 	// how should multiple fields be delimited
 	public $delimiter = " | ";
 
@@ -340,6 +346,25 @@ class Relation extends CWidget
 
 				// Apply the rules to the template
 				$value = strtr($this->template, $rules);
+
+				// Apply the user contributed functions to $htmlOptions's template, if requested.
+				if(isset($this->htmlOptions['template']) && $this->functionsInHtmlOptionsTemplate !== false) {
+					if(is_array($this->functionsInHtmlOptionsTemplate))
+					{
+						$funcrulesToUse = array();
+						foreach($this->functionsInHtmlOptionsTemplate as $functionName) {
+							$functionName = sprintf('{%s}', $functionName);
+							if(isset($funcrules[$functionName])) {
+								$funcrulesToUse[$functionName] = $funcrules[$functionName];
+							}
+						}
+						$this->htmlOptions['template'] = strtr($this->htmlOptions['template'], $funcrulesToUse);
+					}
+					else
+					{
+						$this->htmlOptions['template'] = strtr($this->htmlOptions['template'], $funcrules);
+					}
+				}
 
 				if($this->groupParentsBy != '') 
 				{
