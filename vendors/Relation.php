@@ -151,19 +151,28 @@ class Relation extends CWidget
 	// clicking the add Button
 	public $returnLink;
 
-	// How should a data row be rendered. {id} will be replaced by the id of
-	// the model. You can also insert every field that is available in the
+	// How the label of a row should be rendered. {id} will be replaced by the
+	// id of the model. You can also insert every field that is available in the
 	// parent object.
 	// Use {fields} to display all fields delimited by $this->delimiter
-	// Use {func0} to {funcX} to evaluate user-contributed functions with the
-	// $functions array. Example:
+	// Use {myFuncName} to evaluate a user-contributed function specified in the
+	//  $functions array as 'myFuncName'=>'code to be evaluated'. The code for
+	//  these functions are evaluated under the context of the controller
+	//  rendering the current Relation widget ($this refers to the controller).
+	// Old way, not encouraged anymore: Use {func0} to {funcX} to evaluate user-
+	//  contributed functions specified in the $functions array as a keyless
+	//  string entry of 'code to be evaluated'.
+	// Example of code:
 	//
-	//  'functions' => array( "CHtml::checkBoxList('parent{id}', '',
-	//    CHtml::listData(Othermodel::model()->findAll(), 'id', 'title'));",),
-	// 'template' => '#{id} : {fields} ({title}) Allowed other Models: {func0}',
+	// 'template' => '#{id} : {fields} ({title}) Allowed other Models: {func0} {func1} {preferredWay}',
+	// 'functions' => array(
+	//		"CHtml::checkBoxList('parent{id}', '', CHtml::listData(Othermodel::model()->findAll(), 'id', 'title'));",
+	//      '$this->funcThatReturnsText();'
+	//      'preferredWay' => '$this->instructMe();'
+	// ),
 	public $template = '{fields}';
 
-	// User-Contributed functions to be evaluated in template
+	// User-contributed functions, see comment for $template.
 	public $functions = array();
 
 	// how should multiple fields be delimited
@@ -306,8 +315,19 @@ class Relation extends CWidget
 				{
 					foreach($this->functions as $key => $function) 
 					{
-						$funcrules[sprintf('{func%d}', $key)] = CComponent::evaluateExpression(
+						// If the key is of type string, it's assumed to be a named function,
+						//  used like {myFuncName}.
+						// If the key is an integer, it's assumed to be an unnamed function used
+						//  the old way, {funcX} where X is its index in the functions array.
+						// We keep the integer support mostly for backwards compatibility, the
+						//  new way is encouraged.
+						if(is_string($key)) {
+							$funcrules[sprintf('{%s}', $key)] = $this->controller->evaluateExpression(
 								strtr($function, $defaultrules));
+						} else {
+							$funcrules[sprintf('{func%d}', $key)] = $this->controller->evaluateExpression(
+								strtr($function, $defaultrules));
+						}
 					}
 				}
 
