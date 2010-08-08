@@ -348,7 +348,7 @@ class Relation extends CWidget
 				$value = strtr($this->template, $rules);
 
 				// Apply the user contributed functions to $htmlOptions's template, if requested.
-				if(isset($this->htmlOptions['template']) && $this->functionsInHtmlOptionsTemplate !== false) {
+				if(isset($this->htmlOptions['template']) && $this->functionsInHtmlOptionsTemplate !== false && isset($funcrules) && is_array($funcrules)) {
 					if(is_array($this->functionsInHtmlOptionsTemplate))
 					{
 						$funcrulesToUse = array();
