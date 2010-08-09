@@ -24,29 +24,4 @@ printf('<h1> %s %s #%s </h1>',
 $this->modelClass,
 '<?php echo ' . $pk . '; ?>'); ?>
 
-<div class="form">
-
-<?php 
-$ajax = ($this->enable_ajax_validation) ? 'true' : 'false';
-echo "<?php \$form=\$this->beginWidget('CActiveForm', array(
-	'id'=>'".$this->class2id($this->modelClass)."-form',
-	'enableAjaxValidation'=>$ajax,
-)); \n"; 
-
-echo "echo \$this->renderPartial('_form', array(
-	'model'=>\$model,
-	'form' =>\$form
-	)); ?>\n"; ?>
-
-<div class="row buttons">
-	<?php echo '<?php
-	$url = array(Yii::app()->request->getQuery(\'returnTo\'));
-	if(empty($url[0])) 
-		$url = array(\''.strtolower($this->modelClass).'/admin\');';
-	echo "\necho CHtml::Button(Yii::t('app', 'Cancel'), array('submit' => \$url)); ?>&nbsp;\n"; 
-	echo "\n<?php echo CHtml::submitButton(Yii::t('app', 'Update')); ?>\n"; ?>
-</div>
-
-<?php echo "<?php \$this->endWidget(); ?>\n"; ?>
-
-</div><!-- form -->
+<?php echo "<?php \$this->renderPartial('_form', array('model'=>\$model, 'buttons' => true)); ?>\n"; ?>

@@ -4,6 +4,7 @@
 
 Version 0.5
 -----------
+- New: added views/buttons.php for easier rendering of forms from another model into a form after generation
 - New: Relation widget can now inject user contributed function values into htmlOption's template property. This is useful for example if one want to build a hierarchy of relation widgets inside one another, or just generally control how the entire row for each of the related records is rendered. Relation widget's $functionsInHtmlOptionsTemplate property may be true or an array of function names, see source file documentation for more information. (rawtaz)
 - Chg: Enable use of named user functions in Relation's template (one can now use {myFuncName} instead of just {funcX}). Also, the user functions are now evaluated under the context of the controller that called the relation widget ($this refers to the controller instead of as before the relation widget). Note: The old way of writing {funcX} still works, for backwards compatibility. However, it is not recommended as naming the functions is clearer. (rawtaz)
 - Added support for enabling/disabling Ajax Validation, Session Persistency and used AUTH schema for fullCrud Generator (thyseus)

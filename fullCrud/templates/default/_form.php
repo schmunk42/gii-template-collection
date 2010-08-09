@@ -1,13 +1,19 @@
+<div class="form">
 <p class="note">
 	<?php echo "<?php echo Yii::t('app','Fields with');?> <span class=\"required\">*</span> <?php echo Yii::t('app','are required');?>";?>.
 </p>
 
 <?php
-	echo "<?php\n";
-	echo "\tif(isset(\$_POST['returnUrl']))\n";
-	echo "\t\techo CHtml::hiddenField('returnUrl', \$_POST['returnUrl']);\n";
-	echo "\techo \$form->errorSummary(\$model);\n";
-	echo "?>";
+$ajax = ($this->enable_ajax_validation) ? 'true' : 'false';
+echo "<?php \$form=\$this->beginWidget('CActiveForm', array(
+	'id'=>'".$this->class2id($this->modelClass)."-form',
+	'enableAjaxValidation'=>$ajax,
+)); \n"; 
+
+echo "\tif(isset(\$_POST['returnUrl']))\n";
+echo "\t\techo CHtml::hiddenField('returnUrl', \$_POST['returnUrl']);\n";
+echo "\techo \$form->errorSummary(\$model);\n";
+echo "?>";
 ?>
 
 <?php
@@ -37,3 +43,9 @@
 		}
 	}
 ?>
+
+	<?php echo "<?php
+if(isset(\$buttons))
+\t\$this->renderPartial('buttons', array('model' => \$model)); 
+\$this->endWidget(); ?>\n";  ?>
+	</div> <!-- form -->
