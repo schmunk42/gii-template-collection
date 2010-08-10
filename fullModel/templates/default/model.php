@@ -14,7 +14,19 @@
 ?>
 <?php echo "<?php\n"; ?>
 
-class <?php echo $modelClass; ?> extends <?php echo $modelClass."Base\n"; ?>
+class <?php echo $modelClass; ?> extends <?php echo 'Base' . $modelClass."\n"; ?>
 {
-	// Add your model-specific stuff here. This file will not be overriden by gtc except you force it.
+	// Add your model-specific methods here. This file will not be overriden by gtc except you force it.
+
+	public function init()
+  {
+		return parent::init();
+  }
+
+	public function rules() 
+	{
+		// $rules = array();
+		// return array_merge(parent::rules(), $rules);
+		return parent::rules();
+	}
 }

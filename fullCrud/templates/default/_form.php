@@ -44,8 +44,10 @@ echo "?>";
 	}
 ?>
 
-	<?php echo "<?php
+<?php echo "<?php
 if(isset(\$buttons))
-\t\$this->renderPartial('buttons', array('model' => \$model)); 
-\$this->endWidget(); ?>\n";  ?>
+	\t\$this->renderPartial('_buttons', array(
+\t\t'returnUrl' => \$returnUrl,
+\t\t'buttons' => \$buttons)); 
+	\$this->endWidget(); ?>\n";  ?>
 	</div> <!-- form -->

@@ -24,4 +24,9 @@ printf('<h1> %s %s #%s </h1>',
 $this->modelClass,
 '<?php echo ' . $pk . '; ?>'); ?>
 
-<?php echo "<?php \$this->renderPartial('_form', array('model'=>\$model, 'buttons' => true)); ?>\n"; ?>
+<?php echo "<?php\n"; ?>
+$this->renderPartial('_form', array(
+			'model'=>$model,
+			'returnUrl' => $returnUrl,
+			'buttons' => 'update'));
+?>

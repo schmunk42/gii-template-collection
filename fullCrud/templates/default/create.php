@@ -13,9 +13,13 @@ $this->menu=array(
 );
 ?>
 
-<?php printf('<h1> %s %s </h1>',
-		Yii::t('app', 'Create'),
-		$this->modelClass); ?>
+<?php printf('<h1> %s %s </h1>', Yii::t('app', 'Create'), $this->modelClass); ?>
 
-<?php echo "<?php \$this->renderPartial('_form', array('model'=>\$model, 'buttons' => true)); ?>\n"; ?>
+<?php echo "<?php\n"; ?>
+$this->renderPartial('_form', array(
+			'model' => $model,
+			'returnUrl' => $returnUrl,
+			'buttons' => 'create'));
+
+?>
 

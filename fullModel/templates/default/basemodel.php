@@ -14,7 +14,7 @@
 ?>
 <?php echo "<?php\n"; ?>
 
-class <?php echo $modelClass . 'Base'; ?> extends <?php echo $this->baseClass."\n"; ?>
+class <?php echo 'Base' . $modelClass; ?> extends <?php echo $this->baseClass."\n"; ?>
 {
 	public static function model($className=__CLASS__)
 	{

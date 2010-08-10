@@ -83,8 +83,8 @@ class FullModelCode extends ModelCode
 				'relations'=>isset($this->relations[$className]) ? $this->relations[$className] : array(),
 			);
 			$this->files[]=new CCodeFile(
-				Yii::getPathOfAlias($this->modelPath).'/'.$className.'Base.php',
-				$this->render($templatePath.'/modelBase.php', $params)
+				Yii::getPathOfAlias($this->modelPath).'/'.'Base'.$className.'.php',
+				$this->render($templatePath . '/basemodel.php', $params)
 			);
 		}
 	}
@@ -93,7 +93,7 @@ class FullModelCode extends ModelCode
 	{
 		return array(
 				'model.php',
-				'modelBase.php',
+				'basemodel.php',
 				);
 	}
 

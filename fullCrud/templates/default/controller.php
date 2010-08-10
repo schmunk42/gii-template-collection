@@ -10,22 +10,31 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 	public function actionView()
 	{
 		$this->render('view',array(
-			'model'=>$this->loadModel(),
+			'model' => $this->loadModel(),
 		));
 	}
 
-	public function actionCreate()
-	{
-		$model=new <?php echo $this->modelClass; ?>;
-
+	
 		<?php if($this->persistent_sessions) { ?>
-		foreach($_POST as $key => $value) {
-			if(is_array($value))
-				$_SESSION[$key] = $value;
-		}
+	public function unpickleForm(&$model) {
 		if(isset($_SESSION['<?php echo $this->modelClass; ?>'])) 
 			$model->attributes = $_SESSION['<?php echo $this->modelClass; ?>'];
+  }
+
+	public function pickleForm(&$model, $formdata) {
+		foreach($formdata as $key => $value) 
+			if(is_array($value))
+				$_SESSION[$key] = $value;
+	}
+
     <?php } ?>
+	public function actionCreate()
+	{
+		$model = new <?php echo $this->modelClass; ?>;
+
+		<?php if($this->persistent_sessions) { ?>
+			$this->pickleForm($model, $_POST);
+		<?php } ?>
 
 		<?php if($this->enable_ajax_validation) { ?>
 		$this->performAjaxValidation($model);
@@ -48,7 +57,9 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 ?>
 
 			if($model->save()) {
+		<?php if($this->persistent_sessions) { ?>
 				unset($_SESSION['<?php echo $this->modelClass; ?>']);
+    <?php } ?>
 
 				if(isset($_POST['returnUrl']))
 					$this->redirect($_POST['returnUrl']); 
@@ -57,26 +68,27 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 			}
 		}
 
+		if(isset($_POST['returnUrl']))
+			$returnUrl = $_POST['returnUrl'];
+		else
+			$returnUrl = array('<?php echo strtolower($this->modelClass) ?>/admin');
+
 		$this->render('create',array(
 			'model'=>$model,
+			'returnUrl' => $returnUrl
 		));
 	}
 
 	public function actionUpdate()
 	{
-		$model=$this->loadModel();
+		$model = $this->loadModel();
 
 		<?php if($this->persistent_sessions) { ?>
-		foreach($_POST as $key => $value) {
-			if(is_array($value))
-				$_SESSION[$key] = $value;
-		}
-		if(isset($_SESSION['<?php echo $this->modelClass; ?>'])) 
-			$model->attributes = $_SESSION['<?php echo $this->modelClass; ?>'];
+    $this->pickleForm($model, $_POST);
 		<?php } ?>
 
 		<?php if($this->enable_ajax_validation) { ?>
-		$this->performAjaxValidation($model);
+    $this->performAjaxValidation($model);
 		<?php } ?>
 
 		if(isset($_POST['<?php echo $this->modelClass; ?>']))
@@ -88,24 +100,29 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 			{
 				if($relation[0] == 'CManyManyRelation')
 				{
-					printf("\t\t\tif(isset(\$_POST['%s']['%s']))\n", $this->modelClass, $relation[1]);
+					printf("\t\t\tif(isset(\$_POST['%s']['%s']))\n", $this->_model->modelClass, $relation[1]);
 					printf("\t\t\t\t\$model->setRelationRecords('%s', \$_POST['%s']['%s']);\n", $key, $this->modelClass, $relation[1]);
 				}
 			}
 ?>
 
 			if($model->save()) {
-				unset($_SESSION['<?php echo $this->modelClass; ?>']);
+		<?php if($this->persistent_sessions) { ?>
+      unset($_SESSION['<?php echo $this->modelClass; ?>']);
+		<?php } ?>
 
-				if(isset($_POST['returnUrl']))
-					$this->redirect($_POST['returnUrl']); 
-				else
-					$this->redirect(array('view','id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>));
+      $this->redirect(array('view','id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>));
 			}
 		}
 
+		if(isset($_POST['returnUrl']))
+			$returnUrl = $_POST['returnUrl'];
+		else
+			$returnUrl = array('<?php echo strtolower($this->modelClass) ?>/admin');
+
 		$this->render('update',array(
 			'model'=>$model,
+			'returnUrl' => $returnUrl
 		));
 	}
 
@@ -151,10 +168,10 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 
 	public function loadModel()
 	{
-		if($this->_model===null)
+		if($this->_model === null)
 		{
 			if(isset($_GET['id']))
-				$this->_model = <?php echo $this->modelClass; ?>::model()->findbyPk($_GET['id']);
+				$this->_model = CActiveRecord::model('<?php echo $this->modelClass; ?>')->findbyPk($_GET['id']);
 
 			if($this->_model===null)
 				throw new CHttpException(404, Yii::t('app', 'The requested page does not exist.'));
