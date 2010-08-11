@@ -65,18 +65,24 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 					$this->redirect($_POST['returnUrl']); 
 				else
 					$this->redirect(array('view','id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>));
+				}
 			}
-		}
 
 		if(isset($_POST['returnUrl']))
 			$returnUrl = $_POST['returnUrl'];
 		else
 			$returnUrl = array('<?php echo strtolower($this->modelClass) ?>/admin');
 
-		$this->render('create',array(
-			'model'=>$model,
-			'returnUrl' => $returnUrl
-		));
+		if(Yii::app()->request->isPostRequest) {
+			$this->renderPartial('_miniform',array(
+						'model'=>$model,
+						));
+		} else {
+			$this->render('create',array(
+						'model'=>$model,
+						'returnUrl' => $returnUrl
+						));
+		}
 	}
 
 	public function actionUpdate()
@@ -100,7 +106,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 			{
 				if($relation[0] == 'CManyManyRelation')
 				{
-					printf("\t\t\tif(isset(\$_POST['%s']['%s']))\n", $this->_model->modelClass, $relation[1]);
+					printf("\t\t\tif(isset(\$_POST['%s']['%s']))\n", $this->model, $relation[1]);
 					printf("\t\t\t\t\$model->setRelationRecords('%s', \$_POST['%s']['%s']);\n", $key, $this->modelClass, $relation[1]);
 				}
 			}
