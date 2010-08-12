@@ -61,7 +61,9 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 				unset($_SESSION['<?php echo $this->modelClass; ?>']);
     <?php } ?>
 
-				if(isset($_POST['returnUrl']))
+				if(Yii::app()->request->isAjaxRequest)
+					echo 'Data has been saved. ' . $this->closeButton();
+				else if(isset($_POST['returnUrl'])) 
 					$this->redirect($_POST['returnUrl']); 
 				else
 					$this->redirect(array('view','id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>));
@@ -84,6 +86,13 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 						));
 		}
 	}
+
+		public function closeButton() 
+		{
+			return CHtml::Button('Close', array(
+						'onClick' => "$('#<?php echo strtolower($this->modelClass); ?>').hide();"), array(
+						'id' => '<?php echo $this->modelClass;?>CloseButton'));
+		}
 
 	public function actionUpdate()
 	{
