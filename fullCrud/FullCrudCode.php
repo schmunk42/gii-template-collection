@@ -8,6 +8,7 @@ class FullCrudCode extends CrudCode {
 	public $enable_ajax_validation = true;
 
 	public function prepare() {
+		$this->baseControllerClass = 'ApplicationController';
 		parent::prepare();
 	}
 
@@ -34,19 +35,36 @@ class FullCrudCode extends CrudCode {
 		// Make sure that the Relation Widget is in the application components
 		// Folder. if it is not, copy it over there
 
-		$path = Yii::getPathOfAlias('application.extensions');
-		if ($path === false)
-			mkdir($path);
+		$extensionspath = Yii::getPathOfAlias('application.extensions');
+		$controllerspath = Yii::getPathOfAlias('application.controllers');
 
-		if (!is_dir($path))
+		if ($extensionspath === false)
+			mkdir($extensionspath);
+
+		if ($controllerspath === false)
+			mkdir($controllerspath);
+
+		if (!is_dir($extensionspath))
 			throw new CException('Fatal Error: Your application extensions/ is not an directory!');
 
-		$names = scandir($path);
+		if (!is_dir($controllerspath))
+			throw new CException('Fatal Error: Your application controllers/ is not an directory!');
+
+
+		$names = scandir($extensionspath);
+		$gtcpath = Yii::getPathOfAlias('ext.gtc.vendors');
 
 		if (!in_array('Relation.php', $names)) {
-			$gtcpath = Yii::getPathOfAlias('ext.gtc.vendors');
-			if (!copy($gtcpath . '/Relation.php', $path . '/Relation.php'))
+			if (!copy($gtcpath . '/Relation.php', $extensionspath . '/Relation.php'))
 				throw new CException('Relation.php could not be copied over to your components directory');
+		}
+
+		$names = scandir($controllerspath);
+
+		if (!in_array('ApplicationController.php', $names)) {
+			if (!copy($gtcpath . '/ApplicationController.php',
+						$controllerspath . '/ApplicationController.php'))
+				throw new CException('ApplicationController.php could not be copied over to your components directory');
 		}
 	}
 

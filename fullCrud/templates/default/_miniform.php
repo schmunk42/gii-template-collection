@@ -32,8 +32,13 @@ echo "?>";
 
 ?>
 </table>	
-<?php 
-$model = strtolower($this->modelClass);
-echo "<?php \$this->renderPartial('_minibuttons', array('model' => '{$model}'));
-	\$this->endWidget(); ?>\n";  ?>
-	</div> <!-- form -->
+<?php echo "<?php\n"; ?>
+echo CHtml::Button(Yii::t('app', 'Cancel'), array(
+			'onClick' => "$('#dialog_<?php echo strtolower($this->modelClass);?>').dialog('close');"));  
+echo CHtml::AjaxSubmitButton(Yii::t('app', 'Create'), array(
+			'<?php echo strtolower($this->modelClass); ?>/miniCreate'), array(
+				'update' => "#dialog_<?php echo strtolower($this->modelClass); ?>"), array(
+				'id' => 'submit_<?php echo strtolower($this->modelClass); ?>')); 
+$this->endWidget(); 
+<?php echo "\n?>"; ?>
+</div> <!-- form -->

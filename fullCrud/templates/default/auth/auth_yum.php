@@ -13,7 +13,7 @@ public function accessRules()
 				'roles'=>array('*'),
 				),
 			array('allow', 
-				'actions'=>array('create','update'),
+				'actions'=>array('minicreate', 'create','update'),
 				'roles'=>array('UserCreator'),
 				),
 			array('allow', 

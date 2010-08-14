@@ -18,7 +18,6 @@ $this->menu=array(
 <?php echo "<?php\n"; ?>
 $this->renderPartial('_form', array(
 			'model' => $model,
-			'returnUrl' => $returnUrl,
 			'buttons' => 'create'));
 
 ?>

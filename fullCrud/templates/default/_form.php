@@ -41,19 +41,24 @@ echo "?>";
 			printf("<label for=\"%s\"><?php echo Yii::t('app', 'Belonging').' '.Yii::t('app', '%s'); ?></label>\n", $relation[1], $relation[1]);
 			echo "<?php ". $this->generateRelation($this->modelClass, $key, $relation)."; ?>\n";
 			$model = strtolower($relation[1]); 
-			echo "<div style=\"background-color:lightgray;position:fixed;top:20px; left:50px;display: none;\" id=\"{$model}\">\n
-				<?php \$this->renderPartial('/{$model}/_miniform', array('model' => new {$relation[1]}())); ?>\n
-				</div>";
+	echo "<?php \$this->beginWidget('zii.widgets.jui.CJuiDialog', array(
+		'id' => 'dialog_{$model}',
+		'options' => array(
+		'title' => Yii::t('app', 'Create new {$relation[1]}'),
+		'autoOpen' => false))); 
+	\$this->renderPartial('/{$model}/_miniform', array(
+				'model' => new {$relation[1]}())); \n
+		\$this->endWidget('zii.widgets.jui.CJuiDialog');\n?>	
+				</div>\n";
 
-			echo "<?php echo CHtml::Button('New {$model}', array('onClick' => \"$('#{$model}').toggle();\")); ?>";
+			echo "<?php echo CHtml::Button('New {$model}', array('onClick' => \"$('#dialog_{$model}').dialog('open');\")); ?>";
 		}
 	}
 ?>
 
 <?php echo "<?php
-if(isset(\$buttons))
-	\t\$this->renderPartial('_buttons', array(
-\t\t'returnUrl' => \$returnUrl,
-\t\t'buttons' => \$buttons)); 
-	\$this->endWidget(); ?>\n";  ?>
-	</div> <!-- form -->
+echo CHtml::Button(Yii::t('app', 'Cancel'), array(
+			'submit' => array('". strtolower($this->modelClass) ."/admin'))); 
+echo CHtml::submitButton(Yii::t('app', 'Save')); 
+\$this->endWidget(); ?>\n";  ?>
+</div> <!-- form -->

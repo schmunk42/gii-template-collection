@@ -141,7 +141,7 @@ class Relation extends CWidget
 
 	// disable this to hide the Add Button
 	// set this to a string to set the String to be displayed
-	public $showAddButton = true;
+	public $showAddButton = false;
 	public $addButtonLink = '';
 	// Set this to false to generate a Link rather than a LinkButton
 	// This is useful when Javascript is not available
