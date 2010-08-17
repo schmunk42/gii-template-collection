@@ -5,7 +5,6 @@ Yii::import('application.controllers.ApplicationController');
 class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseControllerClass."\n"; ?>
 {
 	public $layout='//layouts/column2';
-	private $_model;
 
 	<?php 
 		$authpath = 'ext.gtc.fullCrud.templates.default.auth.';

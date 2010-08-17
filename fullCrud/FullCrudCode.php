@@ -192,6 +192,7 @@ class FullCrudCode extends CrudCode {
 	 */
 	public function generateValueField($modelClass, $column, $view = false) {
 		if ($column->isForeignKey) {
+
 			$model = CActiveRecord::model($modelClass);
 			$table = $model->getTableSchema();
 			$fk = $table->foreignKeys[$column->name];

@@ -1,6 +1,8 @@
 <?php
 
 class ApplicationController extends Controller {
+	protected $_model;
+
 	public function unpickleForm(&$model) {
 		if(isset($_SESSION['<?php echo $this->modelClass; ?>'])) 
 			$model->attributes = $_SESSION['<?php echo $this->modelClass; ?>'];
@@ -13,8 +15,11 @@ class ApplicationController extends Controller {
 	}
 
 
-	public function loadModel($model)
+	public function loadModel($model = false)
 	{
+		if(!$model)
+			$model = str_replace('Controller', '', get_called_class());
+
 		if($this->_model === null)
 		{
 			if(isset($_GET['id']))

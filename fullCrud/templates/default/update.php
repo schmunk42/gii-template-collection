@@ -26,7 +26,5 @@ $this->modelClass,
 
 <?php echo "<?php\n"; ?>
 $this->renderPartial('_form', array(
-			'model'=>$model,
-			'returnUrl' => $returnUrl,
-			'buttons' => 'update'));
+			'model'=>$model));
 ?>
