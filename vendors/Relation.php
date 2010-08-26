@@ -105,7 +105,7 @@ $this->widget('application.components.Relation', array(
 
 
 @author Herbert Maschke <thyseus@gmail.com>
-@version 0.95 (after 1.0rc5)
+@version 0.97 (after 1.0rc5)
 @since 1.1
 */
 
@@ -195,6 +195,8 @@ class Relation extends CWidget
 	public $manyManyTable = '';
 	public $manyManyTableLeft = '';
 	public $manyManyTableRight = '';
+
+	public $num = 1;
 
 	public function init()
 	{
@@ -403,6 +405,9 @@ class Relation extends CWidget
 				$objects[$id] = $this->_relatedModel->findByPk($id); 
 			}
 
+			foreach($this->_model->{$this->relation} as $relobj) 
+				$objects[$relobj->id] = $relobj;
+
 			return isset($objects) ? $objects : array();
 		}
 
@@ -466,6 +471,12 @@ class Relation extends CWidget
 						$this->field, 
 						$this->getRelatedData(), 
 						$this->htmlOptions);
+			else if(strcasecmp($this->style, "radiobutton") == 0) 
+				echo CHtml::ActiveRadiobuttonList(
+						$this->_model, 
+						$this->field, 
+						$this->getRelatedData(), 
+						$this->htmlOptions);
 			else if(strcasecmp($this->style, "listbox") == 0)
 				echo CHtml::ActiveListBox(
 						$this->_model, 
@@ -478,7 +489,6 @@ class Relation extends CWidget
 						$this->field, 
 						$this->getRelatedData(), 
 						$this->htmlOptions);
-
 		}
 
 		public function renderManyManySelection() {
@@ -488,29 +498,41 @@ class Relation extends CWidget
 				$this->renderCheckBoxListSelection();
 			else if(strcasecmp($this->style, 'dropDownList') == 0)
 				$this->renderManyManyDropDownListSelection();
+			else if(strcasecmp($this->style, 'radiobutton') == 0)
+				$this->renderManyManyRadioButtonListSelection();
+
 			else
 				$this->renderOnePaneSelection();
 		}
 
-
+	 // when only one of the MANY_MANY related Objects should be choosable
+		public function renderManyManyRadioButtonListSelection() {
+			echo CHtml::RadiobuttonList(
+					get_class($this->_model). '[' . get_class($this->_relatedModel) . '][]', 
+					$this->_model{$this->relation}[0]->{$this->_model{$this->relation}[0]->tableSchema->primaryKey},
+					$this->getRelatedData(), 
+					$this->htmlOptions);
+		}
 		/* 
 		 * Renders one dropDownList per selectable related Element.
 		 * The users can add additional entries with the + and remove entries
 		 * with the - Button .
 		 */
 		public function renderManyManyDropDownListSelection() {
+			$uniqueid = $this->_relatedModel->tableSchema->name;
+
 			if($this->parentObjects != 0)
 				$relatedmodels = $this->parentObjects;
 			else
 				$relatedmodels = $this->_relatedModel->findAll();
 
-			$addbutton = sprintf('i = %d; maxi = %d;',
+			$addbutton = sprintf('i'.$this->num.' = %d; maxi'.$this->num.' = %d;',
 					count($this->getAssignedObjects()) + 1,
 					count($relatedmodels));
-			Yii::app()->clientScript->registerScript('addbutton', $addbutton); 
+			Yii::app()->clientScript->registerScript(
+					'addbutton_'.$uniqueid.'_'.$this->num, $addbutton); 
 
 			$i = 0;
-			$uniqueid = $this->_relatedModel->tableSchema->name;
 			foreach($relatedmodels as $obj) { 
 				$i++;
 				$isAssigned = $this->isAssigned($obj->id);
@@ -529,12 +551,14 @@ class Relation extends CWidget
 								$this->relatedPk,
 								$this->fields)
 						);
-				echo CHtml::button('-', array('id' => sprintf('sub_%s_%d', $uniqueid, $i)));
+				echo CHtml::button('-', array('id' => sprintf('sub_%s_%d',
+								$uniqueid,
+								$i)));
 				echo CHtml::closeTag('div');
 				$jsadd = '
-					$(\'#add_'.$uniqueid.'_'.$i.'\').click(function() {
-							$(\'#div_'.$uniqueid.'_\' + i).show();
-							if(i <= maxi) i++;
+					$(\'#add_'.$uniqueid.'\').click(function() {
+							$(\'#div_'.$uniqueid.'_\' + i'.$this->num.').show();
+							if(i'.$this->num.' <= maxi'.$this->num.') i'.$this->num.'++;
 							});
 				';
 
@@ -542,15 +566,15 @@ class Relation extends CWidget
 					$(\'#sub_'.$uniqueid.'_'.$i.'\').click(function() {
 							$(\'#div_'.$uniqueid.'_'.$i.'\').hide();
 							$("select[name=\''.$this->getListBoxName().'['.$i.']\']").val(\'\');
-							if(i >= 1) i--;
+							if(i'.$this->num.' >= 1) i--;
 							});
 				';
 
-				Yii::app()->clientScript->registerScript('addbutton_'.$i, $jsadd); 
-				Yii::app()->clientScript->registerScript('subbutton_'.$i, $jssub); 
+				Yii::app()->clientScript->registerScript('addbutton_'.$uniqueid, $jsadd); 
+				Yii::app()->clientScript->registerScript('subbutton_'.$uniqueid, $jssub); 
 			}
 			echo '&nbsp;';
-			echo CHtml::button('+', array('id' => sprintf('add_%s_%d', $uniqueid, 1)));
+			echo CHtml::button('+', array('id' => sprintf('add_%s', $uniqueid)));
 
 
 		}
