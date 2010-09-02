@@ -88,7 +88,6 @@ class FullModelCode extends ModelCode {
 
     protected function generateRelations() {
         $relations = array();
-        $i = 0;
         foreach (Yii::app()->db->schema->getTables() as $table) {
             if ($this->tablePrefix != '' && strpos($table->name, $this->tablePrefix) !== 0)
                 continue;
