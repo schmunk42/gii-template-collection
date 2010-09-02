@@ -39,7 +39,7 @@ echo "?>";
 				|| $relation[0] == 'CManyManyRelation')
 		{
 			printf("<label for=\"%s\"><?php echo Yii::t('app', 'Belonging').' '.Yii::t('app', '%s'); ?></label>\n", $relation[1], $relation[1]);
-			echo "<?php ". $this->generateRelation($this->modelClass, $key, $relation)."; ?><br /><br />\n";
+			echo "<?php ". $this->generateRelation($this->modelClass, $key, $relation)."; ?>\n";
 			$model = strtolower($relation[1]); 
 	echo "<?php \$this->beginWidget('zii.widgets.jui.CJuiDialog', array(
 		'id' => 'dialog_{$model}',
@@ -52,6 +52,7 @@ echo "?>";
 				\n";
 
 			echo "<?php echo CHtml::Button('New {$model}', array('onClick' => \"$('#dialog_{$model}').dialog('open');\")); ?>\n";
+                        echo "<br /><br />";
 		}
 	}
 ?>
