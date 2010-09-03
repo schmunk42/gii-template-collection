@@ -155,20 +155,21 @@ class FullCrudCode extends CrudCode {
 		} else if (strtoupper($column->dbType) == 'DATE') {
 			$modelname = get_class($model);
 			return ("\$this->widget('zii.widgets.jui.CJuiDatePicker',
-						 array(
-								 'model'=>'\$model',
-								 'name'=>'{$modelname}[{$column->name}]',
-								 //'language'=>'de',
-								 'value'=>\$model->{$column->name},
-								 'htmlOptions'=>array('size'=>10, 'style'=>'width:80px !important'),
-								 'options'=>array(
-									 'showButtonPanel'=>true,
-									 'changeYear'=>true,
-									 'changeYear'=>true,
-									 ),
-								 )
-							 );
-					");
+        array(
+            'model'=>'\$model',
+            'name'=>'{$modelname}[{$column->name}]',
+            'language'=>Yii::app()->language,
+            'value'=>\$model->{$column->name},
+            'htmlOptions'=>array('size'=>10, 'style'=>'width:80px !important'),
+            'options'=>array(
+                'showButtonPanel'=>true,
+                'changeYear'=>true,
+                'changeYear'=>true,
+                'dateFormat'=>'yy-mm-dd',
+                ),
+            )
+        );
+");
 		} else if (substr(strtoupper($column->dbType), 0, 4) == 'ENUM') {
 			$string = sprintf("echo CHtml::activeDropDownList(\$model, '%s', array(\n", $column->name);
 
