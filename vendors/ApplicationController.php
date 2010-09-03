@@ -18,7 +18,7 @@ class ApplicationController extends Controller {
 	public function loadModel($model = false)
 	{
 		if(!$model)
-			$model = str_replace('Controller', '', get_called_class());
+			$model = str_replace('Controller', '', get_class($this));
 
 		if($this->_model === null)
 		{
