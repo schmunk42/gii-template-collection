@@ -293,9 +293,9 @@ class Relation extends CWidget
 
 			if($this->allowEmpty)
 				if(is_string($this->allowEmpty))
-					$dataArray[0] = $this->allowEmpty;
+					$dataArray[''] = $this->allowEmpty;
 				else
-					$dataArray[0] = Yii::t('app', 'None');
+					$dataArray[''] = Yii::t('app', 'None');
 
 			foreach($parentobjects as $obj)	
 			{

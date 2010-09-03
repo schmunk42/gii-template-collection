@@ -86,6 +86,52 @@ class FullModelCode extends ModelCode {
         );
     }
 
+    public function generateRules($table)
+    {
+            $rules=array();
+            $required=array();
+            $null=array();
+            $integers=array();
+            $numerical=array();
+            $length=array();
+            $safe=array();
+            foreach($table->columns as $column)
+            {
+                    if($column->isPrimaryKey && $table->sequenceName!==null)
+                            continue;
+                    $r=!$column->allowNull && $column->defaultValue===null;
+                    if($r)
+                            $required[]=$column->name;
+                    else
+                            $null[]=$column->name;
+                    if($column->type==='integer')
+                            $integers[]=$column->name;
+                    else if($column->type==='double')
+                            $numerical[]=$column->name;
+                    else if($column->type==='string' && $column->size>0)
+                            $length[$column->size][]=$column->name;
+                    else if(!$column->isPrimaryKey && !$r)
+                            $safe[]=$column->name;
+            }
+            if($required!==array())
+                    $rules[]="array('".implode(', ',$required)."', 'required')";
+            if($null!==array())
+                    $rules[]="array('".implode(', ',$null)."', 'default', 'setOnEmpty' => true, 'value' => null)";
+            if($integers!==array())
+                    $rules[]="array('".implode(', ',$integers)."', 'numerical', 'integerOnly'=>true)";
+            if($numerical!==array())
+                    $rules[]="array('".implode(', ',$numerical)."', 'numerical')";
+            if($length!==array())
+            {
+                    foreach($length as $len=>$cols)
+                            $rules[]="array('".implode(', ',$cols)."', 'length', 'max'=>$len)";
+            }
+            if($safe!==array())
+                    $rules[]="array('".implode(', ',$safe)."', 'safe')";
+
+            return $rules;
+    }
+
 }
 
 ?>
