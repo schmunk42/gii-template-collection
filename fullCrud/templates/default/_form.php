@@ -40,7 +40,7 @@ echo "?>";
 		{
 			printf("<label for=\"%s\"><?php echo Yii::t('app', 'Belonging').' '.Yii::t('app', '%s'); ?></label>\n", $relation[1], $relation[1]);
 			echo "<?php ". $this->generateRelation($this->modelClass, $key, $relation)."; ?><br />\n";
-			$model = lcfirst($relation[1]);
+			$model = (string)(strtolower(substr($relation[1],0,1)).substr($relation[1],1));//lcfirst($relation[1]);
 	echo "<?php \$this->beginWidget('zii.widgets.jui.CJuiDialog', array(
 		'id' => 'dialog_{$model}',
 		'options' => array(
