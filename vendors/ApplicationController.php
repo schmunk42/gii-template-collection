@@ -1,6 +1,6 @@
 <?php
 
-class ApplicationController extends Controller {
+abstract class ApplicationController extends Controller {
 	protected $_model;
 
 	public function unpickleForm(&$model) {
