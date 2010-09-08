@@ -14,6 +14,46 @@
 ?>
 <?php echo "<?php\n"; ?>
 
+/**
+ * This is the model base class for the table "<?php echo $tableName; ?>".
+ *
+ * Columns in table "<?php echo $tableName; ?>" available as properties of the model:
+<?php foreach($columns as $column): ?>
+ * @property <?php echo $column->type.' $'.$column->name."\n"; ?>
+<?php endforeach; ?>
+ *
+<?php if(count($relations)>0): ?>
+ * Relations of table "<?php echo $tableName; ?>" available as properties of the model:
+<?php else: ?>
+ * There are no model relations.
+<?php endif; ?>
+<?php foreach($relations as $name=>$relation): ?>
+ * @property <?php
+	if (preg_match("~^array\(self::([^,]+), '([^']+)', '([^']+)'\)$~", $relation, $matches))
+    {
+        $relationType = $matches[1];
+        $relationModel = $matches[2];
+
+        switch($relationType){
+            case 'HAS_ONE':
+                echo $relationModel.' $'.$name."\n";
+            break;
+            case 'BELONGS_TO':
+                echo $relationModel.' $'.$name."\n";
+            break;
+            case 'HAS_MANY':
+                echo $relationModel.'[] $'.$name."\n";
+            break;
+            case 'MANY_MANY':
+                echo $relationModel.'[] $'.$name."\n";
+            break;
+            default:
+                echo 'mixed $'.$name."\n";
+        }
+	}
+    ?>
+<?php endforeach; ?>
+ */
 abstract class <?php echo 'Base' . $modelClass; ?> extends <?php echo $this->baseClass."\n"; ?>
 {
 	public static function model($className=__CLASS__)
