@@ -118,13 +118,18 @@ class FullCrudCode extends CrudCode {
 			$field = current($columns);
 			$style = $relation[0] == 'CManyManyRelation' ? 'checkbox' : 'dropdownlist';
 
-			if (is_object($field))
+			if (is_object($field)) {
+				if($relation[0] == 'CManyManyRelation')
+					$emp='false';
+				else
+					$emp= (CActiveRecord::model($model)->tableSchema->columns[$relation[2]]->allowNull?'true':'false');
+				
 				return("
                     \$this->widget('ext.Relation', array(
                                     'model' => \$model,
                                     'relation' => '{$relationname}',
                                     'fields' => '{$field->name}',
-                                    'allowEmpty' => ".(CActiveRecord::model($model)->tableSchema->columns[$relation[2]]->allowNull?'true':'false').",
+                                    'allowEmpty' => {$emp},
                                     'style' => '{$style}',
                                     'htmlOptions' => array(
                                             'checkAll' => Yii::t('app', 'Choose all'),
@@ -133,6 +138,7 @@ class FullCrudCode extends CrudCode {
 
                                     )
                             )");
+			}
 		}
 	}
 
