@@ -120,16 +120,16 @@ class FullCrudCode extends CrudCode {
 
 			if (is_object($field)) {
 				if($relation[0] == 'CManyManyRelation')
-					$emp='false';
+					$allowEmpty='false';
 				else
-					$emp= (CActiveRecord::model($model)->tableSchema->columns[$relation[2]]->allowNull?'true':'false');
+					$allowEmpty= (CActiveRecord::model($model)->tableSchema->columns[$relation[2]]->allowNull?'true':'false');
 				
 				return("
                     \$this->widget('ext.Relation', array(
                                     'model' => \$model,
                                     'relation' => '{$relationname}',
                                     'fields' => '{$field->name}',
-                                    'allowEmpty' => {$emp},
+                                    'allowEmpty' => {$allowEmpty},
                                     'style' => '{$style}',
                                     'htmlOptions' => array(
                                             'checkAll' => Yii::t('app', 'Choose all'),
