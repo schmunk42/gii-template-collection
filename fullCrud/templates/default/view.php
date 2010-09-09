@@ -46,7 +46,7 @@ foreach($this->tableSchema->columns as $column)
 
 
 <?php
-foreach(CActiveRecord::model($this->model)->relations() as $key => $relation)	
+foreach(CActiveRecord::model(Yii::import($this->model))->relations() as $key => $relation)
 {
 	if($relation[0] == 'CManyManyRelation' || $relation[0] == 'CHasManyRelation') 
 	{

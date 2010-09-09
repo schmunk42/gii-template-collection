@@ -37,7 +37,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 
 <?php
 			// Add additional MANY_MANY Attributes to the model object
-			foreach(CActiveRecord::model($this->model)->relations() as $key => $relation)
+			foreach(CActiveRecord::model($this->modelClass)->relations() as $key => $relation)
 			{
 				if($relation[0] == 'CManyManyRelation')
 				{
@@ -85,7 +85,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 
 <?php
 			// Add additional MANY_MANY Attributes to the model object
-			foreach(CActiveRecord::model($this->model)->relations() as $key => $relation)
+			foreach(CActiveRecord::model($this->modelClass)->relations() as $key => $relation)
 			{
 				if($relation[0] == 'CManyManyRelation')
 				{
@@ -127,7 +127,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 			$model->attributes = $_POST['<?php echo $this->modelClass; ?>'];
 
 <?php
-			foreach(CActiveRecord::model($this->model)->relations() as $key => $relation)
+			foreach(CActiveRecord::model($this->modelClass)->relations() as $key => $relation)
 			{
 				if($relation[0] == 'CManyManyRelation')
 				{

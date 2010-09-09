@@ -96,7 +96,7 @@ class FullCrudCode extends CrudCode {
 	}
 
 	public function getRelations() {
-		return CActiveRecord::model($this->model)->relations();
+		return CActiveRecord::model($this->modelClass)->relations();
 	}
 
 	public function generateRelation($model, $relationname, $relation) {

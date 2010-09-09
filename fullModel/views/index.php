@@ -37,7 +37,7 @@ $('.form .row.model-class').toggle($('#{$class}_tableName').val().substring($('#
 <p>This generator generates an even more enhanced model class for the specified database table. It will include the CSaveRelationsBehavior to add additional functions for MANY_MANY relations </p>
 
 <?php 
-$model->baseClass = 'GtcActiveRecord';
+if (!isset($model->baseClass)) $model->baseClass = 'GtcActiveRecord';
 $form=$this->beginWidget('CCodeForm', array('model'=>$model)); ?>
 
 	<div class="row sticky">
