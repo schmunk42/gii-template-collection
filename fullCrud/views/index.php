@@ -34,30 +34,14 @@ $('#{$class}_model').bind('keyup change', function(){
 	<li> Moved the submit button of Create and Update view to the corresponding views rather than to _form.php</li>
 </ul>
 
-<?php
-// Get the models to build the list.
-$models = array();
-$files = scandir(Yii::getPathOfAlias('application.models'));
-foreach($files as $file) {
-    if((substr($file, 0, 1) !== '.') && (strtolower(substr($file, -4)) === '.php')) {
-        $fileClassName = substr($file, 0, strpos($file, '.'));
-        if(class_exists($fileClassName) && is_subclass_of($fileClassName, 'CActiveRecord')) {
-            $fileClass = new ReflectionClass($fileClassName);
-            if ($fileClass->isAbstract()) continue;
-            $models[] = $fileClassName;
-        }
-    }
-}
-
-$form=$this->beginWidget('CCodeForm', array('model'=>$model));
-?>
+<?php $form=$this->beginWidget('CCodeForm', array('model'=>$model)); ?>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'model'); ?>
         <?php $form->widget('zii.widgets.jui.CJuiAutoComplete', array(
             'model'=>$model,
             'attribute'=>'model',
-            'source'=>$models,
+            'source'=>$this->getModels(),
             'options'=>array(
                 'delay'=>100,
                 'focus'=>'js:function(event,ui){

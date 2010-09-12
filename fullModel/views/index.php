@@ -38,11 +38,6 @@ $('.form .row.model-class').toggle($('#{$class}_tableName').val().substring($('#
 
 <?php 
 if (!isset($model->baseClass)) $model->baseClass = 'GtcActiveRecord';
-
-// Get the tables to build the list.
-$tables=Yii::app()->db->schema->tableNames;
-$tables[]='*';
-
 $form=$this->beginWidget('CCodeForm', array('model'=>$model));
 ?>
 
@@ -64,7 +59,7 @@ $form=$this->beginWidget('CCodeForm', array('model'=>$model));
         <?php $form->widget('zii.widgets.jui.CJuiAutoComplete', array(
             'model'=>$model,
             'attribute'=>'tableName',
-            'source'=>$tables,
+            'source'=>$this->getTables(),
             'options'=>array(
                 'delay'=>100,
                 'focus'=>'js:function(event,ui){
