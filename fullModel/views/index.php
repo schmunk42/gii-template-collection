@@ -6,7 +6,7 @@ $('#{$class}_modelClass').change(function(){
 });
 $('#{$class}_tableName').bind('keyup change', function(){
 	var model=$('#{$class}_modelClass');
-	var tableName=$(this).val();
+    var tableName=$(this).val();
 	if(tableName.substring(tableName.length-1)!='*') {
 		$('.form .row.model-class').show();
 	}
@@ -38,7 +38,13 @@ $('.form .row.model-class').toggle($('#{$class}_tableName').val().substring($('#
 
 <?php 
 if (!isset($model->baseClass)) $model->baseClass = 'GtcActiveRecord';
-$form=$this->beginWidget('CCodeForm', array('model'=>$model)); ?>
+
+// Get the tables to build the list.
+$tables=Yii::app()->db->schema->tableNames;
+$tables[]='*';
+
+$form=$this->beginWidget('CCodeForm', array('model'=>$model));
+?>
 
 	<div class="row sticky">
 		<?php echo $form->labelEx($model,'tablePrefix'); ?>
@@ -55,7 +61,22 @@ $form=$this->beginWidget('CCodeForm', array('model'=>$model)); ?>
 	</div>
 	<div class="row">
 		<?php echo $form->labelEx($model,'tableName'); ?>
-		<?php echo $form->textField($model,'tableName', array('size'=>65)); ?>
+        <?php $form->widget('zii.widgets.jui.CJuiAutoComplete', array(
+            'model'=>$model,
+            'attribute'=>'tableName',
+            'source'=>$tables,
+            'options'=>array(
+                'delay'=>100,
+                'focus'=>'js:function(event,ui){
+                    $(this).val($(ui.item).val());
+                    $(this).trigger(\'change\');
+                }',
+            ),
+            'htmlOptions'=>array(
+                'size'=>'65',
+            ),
+        ));
+        ?>
 		<div class="tooltip">
 		This refers to the table name that a new model class should be generated for
 		(e.g. <code>tbl_user</code>). It can contain schema name, if needed (e.g. <code>public.tbl_post</code>).
