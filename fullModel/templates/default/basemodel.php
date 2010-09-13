@@ -54,7 +54,7 @@
     ?>
 <?php endforeach; ?>
  */
-class <?php echo 'Base' . $modelClass; ?> extends <?php echo $this->baseClass."\n"; ?>
+class <?php echo 'Base' . $modelClass; ?> extends <?php echo $this->baseClass; ?>
 {
 	public static function model($className=__CLASS__)
 	{
@@ -98,6 +98,24 @@ class <?php echo 'Base' . $modelClass; ?> extends <?php echo $this->baseClass."\
 		}
 ?>
 		);
+	}
+
+	public function __toString() {
+		return $this-><?php
+			$found = false;
+			foreach($columns as $name => $column) {
+				if(!$found &&$column->type==='string' && !$column->isPrimaryKey) {
+					echo $column->name;
+					$found = true;
+				}
+			}
+
+			// if the columns contains no column of type 'string', return the
+			// first column (usually the primary key)
+			if(!$found)
+				echo reset($columns)->name; 
+			?>;
+
 	}
 
 	public function search()

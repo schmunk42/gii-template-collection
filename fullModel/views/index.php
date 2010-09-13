@@ -34,10 +34,9 @@ $('.form .row.model-class').toggle($('#{$class}_tableName').val().substring($('#
 ?>
 <h1>Full Model Generator</h1>
 
-<p>This generator generates an even more enhanced model class for the specified database table. It will include the CSaveRelationsBehavior to add additional functions for MANY_MANY relations </p>
+<p>This generator generates an even more enhanced model class for the specified database table. It will include the CSaveRelationsBehavior to add additional functions for MANY_MANY relations and adds the __toString() php magic function to the Base Model class </p>
 
 <?php 
-$model->baseClass = 'GActiveRecord';
 $form=$this->beginWidget('CCodeForm', array('model'=>$model));
 ?>
 

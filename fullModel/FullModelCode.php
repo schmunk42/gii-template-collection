@@ -2,6 +2,7 @@
 Yii::import('system.gii.generators.model.ModelCode');
 
 class FullModelCode extends ModelCode {
+	public $baseClass = 'GActiveRecord';
 
     public function init() {
         parent::init();
@@ -11,6 +12,7 @@ class FullModelCode extends ModelCode {
 
         $extPath = Yii::getPathOfAlias('ext');
         $modelsPath = Yii::getPathOfAlias('application.models');
+
         if ($extPath === false)
             mkdir($extPath);
 
