@@ -1,6 +1,6 @@
 <?php
 
-abstract class ApplicationController extends Controller {
+abstract class GController extends Controller {
 	protected $_model;
 
 	public function unpickleForm(&$model) {
@@ -15,13 +15,11 @@ abstract class ApplicationController extends Controller {
 	}
 
 
-	public function loadModel($model = false)
-	{
+	public function loadModel($model = false) {
 		if(!$model)
 			$model = str_replace('Controller', '', get_class($this));
 
-		if($this->_model === null)
-		{
+		if($this->_model === null) {
 			if(isset($_GET['id']))
 				$this->_model = CActiveRecord::model($model)->findbyPk($_GET['id']);
 
@@ -31,10 +29,8 @@ abstract class ApplicationController extends Controller {
 		return $this->_model;
 	}
 
-	protected function performAjaxValidation($model, $form)
-	{
-		if(isset($_POST['ajax']) && $_POST['ajax'] == $form)
-		{
+	protected function performAjaxValidation($model, $form) {
+		if(isset($_POST['ajax']) && $_POST['ajax'] == $form) {
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}

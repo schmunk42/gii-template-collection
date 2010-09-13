@@ -28,10 +28,10 @@ class FullModelCode extends ModelCode {
         }
 
         $fileNames = scandir($modelsPath);
-        if (!in_array('GtcActiveRecord.php', $fileNames)) {
+        if (!in_array('GActiveRecord.php', $fileNames)) {
             $modelPath = Yii::getPathOfAlias('ext.gtc.vendors');
-            if (!copy($modelPath . '/GtcActiveRecord.php', $modelsPath . '/GtcActiveRecord.php'))
-                throw new CException('GtcActiveRecord.php could not be copied over to your extensions/ directory.');
+            if (!copy($modelPath . '/GActiveRecord.php', $modelsPath . '/GActiveRecord.php'))
+                throw new CException('GActiveRecord.php could not be copied over to your extensions/ directory.');
         }
     }
 

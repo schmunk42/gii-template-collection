@@ -8,7 +8,7 @@ class FullCrudCode extends CrudCode {
 	public $enable_ajax_validation = true;
 
 	public function prepare() {
-		$this->baseControllerClass = 'ApplicationController';
+		$this->baseControllerClass = 'GController';
 		parent::prepare();
 	}
 
@@ -61,10 +61,10 @@ class FullCrudCode extends CrudCode {
 
 		$names = scandir($controllerspath);
 
-		if (!in_array('ApplicationController.php', $names)) {
-			if (!copy($gtcpath . '/ApplicationController.php',
-						$controllerspath . '/ApplicationController.php'))
-				throw new CException('ApplicationController.php could not be copied over to your components directory');
+		if (!in_array('GController.php', $names)) {
+			if (!copy($gtcpath . '/GController.php',
+						$controllerspath . '/GController.php'))
+				throw new CException('GController.php could not be copied over to your components directory');
 		}
 	}
 
@@ -206,8 +206,8 @@ class FullCrudCode extends CrudCode {
 			$fmodel = CActiveRecord::model(ucfirst($fk[0]));
 			$modelTable = ucfirst($fmodel->tableName());
 			$fcolumns = $fmodel->attributeNames();
-			//$rel = $model->getActiveRelation($column->name);
 			$relname = strtolower($fk[0]);
+
 			foreach ($model->relations() as $key => $value) {
 				if (strcasecmp($value[2], $column->name) == 0)
 					$relname = $key;

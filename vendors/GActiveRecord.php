@@ -1,6 +1,6 @@
 <?php
 
-abstract class GtcActiveRecord extends CActiveRecord {
+abstract class GActiveRecord extends CActiveRecord {
 
 	public function behaviors()
 	{
