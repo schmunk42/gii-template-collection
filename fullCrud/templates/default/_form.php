@@ -5,13 +5,12 @@
 
 <?php
 $ajax = ($this->enable_ajax_validation) ? 'true' : 'false';
+
 echo "<?php \$form=\$this->beginWidget('CActiveForm', array(
 	'id'=>'".$this->class2id($this->modelClass)."-form',
 	'enableAjaxValidation'=>$ajax,
 )); \n"; 
 
-echo "\tif(isset(\$_POST['returnUrl']))\n";
-echo "\t\techo CHtml::hiddenField('returnUrl', \$_POST['returnUrl']);\n";
 echo "\techo \$form->errorSummary(\$model);\n";
 echo "?>";
 ?>
@@ -40,19 +39,6 @@ echo "?>";
 		{
 			printf("<label for=\"%s\"><?php echo Yii::t('app', 'Belonging').' '.Yii::t('app', '%s'); ?></label>\n", $relation[1], $relation[1]);
 			echo "<?php ". $this->generateRelation($this->modelClass, $key, $relation)."; ?><br />\n";
-			$model = (string)(strtolower(substr($relation[1],0,1)).substr($relation[1],1));//lcfirst($relation[1]);
-	echo "<?php \$this->beginWidget('zii.widgets.jui.CJuiDialog', array(
-		'id' => 'dialog_{$model}',
-		'options' => array(
-		'title' => Yii::t('app', 'Create new {$relation[1]}'),
-		'autoOpen' => false))); 
-	\$this->renderPartial('/{$model}/_miniform', array(
-				'model' => new {$relation[1]}())); \n
-		\$this->endWidget('zii.widgets.jui.CJuiDialog');\n?>	
-				\n";
-
-			echo "<?php echo CHtml::Button('New {$model}', array('onClick' => \"$('#dialog_{$model}').dialog('open');\")); ?>\n";
-                        echo "<br /><br />";
 		}
 	}
 ?>

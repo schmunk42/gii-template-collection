@@ -97,7 +97,7 @@ $this->widget('application.components.Relation', array(
 			'fields' => array( 'username', 'username.group.groupid' ),
 			'delimiter' => ' -> ', // default: ' | '
 			'returnTo' => 'model/create',
-			'addButtonLink' => 'othercontroller/otheraction', // default: ''
+			'addButtonUrl' => 'othercontroller/otheraction', // default: ''
 			'showAddButton' => 'click here to add a new User', // default: ''
 			'htmlOptions' => array('style' => 'width: 100px;')
 			));
@@ -105,7 +105,7 @@ $this->widget('application.components.Relation', array(
 
 
 @author Herbert Maschke <thyseus@gmail.com>
-@version 0.97 (after 1.0rc5)
+@version 0.98 
 @since 1.1
 */
 
@@ -141,15 +141,11 @@ class Relation extends CWidget
 
 	// disable this to hide the Add Button
 	// set this to a string to set the String to be displayed
-	public $showAddButton = false;
-	public $addButtonLink = '';
-	// Set this to false to generate a Link rather than a LinkButton
-	// This is useful when Javascript is not available
-	public $useLinkButton = true;
-
-	// use this to set the link where the user should return to after
-	// clicking the add Button
-	public $returnLink;
+	public $showAddButton = true;
+	public $addButtonUrl = '';
+	// url for the action that refreshes the dropdownlist after related
+  // object is created
+	public $addButtonRefreshUrl = '';
 
 	// How the label of a row should be rendered. {id} will be replaced by the
 	// id of the model. You can also insert every field that is available in the
@@ -671,39 +667,70 @@ class Relation extends CWidget
 			else
 				$this->renderBelongsToSelection();
 
-			if($this->showAddButton !== false) 
-			{
+			if($this->showAddButton)
 				$this->renderAddButton();
-			}
 		}
 		protected function renderAddButton() 
 		{
-			if(!isset($this->returnLink) or $this->returnLink == "")
-				$this->returnLink = get_class($this->model) . "/create";
+			$relatedModel = strtolower(get_class($this->_relatedModel));
 
-			if(isset($_POST['returnUrl']))
-				echo CHtml::hiddenField('returnUrl', $_POST['returnUrl']);
+			if($this->addButtonUrl != '')
+				$link = $this->addButtonUrl;
 			else
-				echo CHtml::hiddenField('returnUrl', Yii::app()->request->hostInfo . Yii::app()->request->requestUri);
-				
-			if($this->addButtonLink != '')
-				$link = $this->addButtonLink;
-			else
-				$link = array(get_class($this->_relatedModel) . "/create"); 
+				$link = array($relatedModel . '/create'); 
 
-			$string = '<br />' . Yii::t('app', 'Add new') . ' ' . Yii::t('app', get_class($this->_relatedModel));
+			if($this->addButtonRefreshUrl == '')
+				$this->addButtonRefreshUrl = array($relatedModel . 'getOptions', 'relation' => $this->relation);
 
-			if(!$this->useLinkButton) {
-				echo CHtml::Link(
-						is_string($this->showAddButton) 
-						? $this->showAddButton 
-						: $string, $link);  
+			$string = Yii::t('app', 'Add new {model}', array('{model}' => $relatedModel));
+
+			$dialog = 'zii.widgets.jui.CJuiDialog';
+			$this->beginWidget($dialog, array(
+						'id' => $relatedModel . '_dialog',
+						'options' => array('autoOpen' => false,
+							'modal' => true,
+							'title' => $string,
+							'width' => 800,
+							'height' => 600)
+						));
+			$this->endWidget($dialog);
+
+			echo CHtml::AjaxButton(
+						is_string($this->showAddButton) ? $this->showAddButton : $string,
+						$link, array(
+							'success' => "function(html) {
+							jQuery('#".$relatedModel."_dialog').html(html);
+							$('#".$relatedModel."_dialog').dialog('open');
+							}"), array('id' => $relatedModel . '_create')
+					);
+
+			// prepare the Submit button that is not loaded into the DOM yet 
+			Yii::app()->clientScript->registerScript($relatedModel.'_submit',
+					"jQuery('body').delegate('#submit_".$relatedModel."','click',function(){
+				jQuery.ajax({'url':'".$this->controller->createUrl($link[0])."',
+						'cache':false,
+						'type':'POST',
+						'data':jQuery(this).parents('form').serialize(),
+						'success':function(html){
+						jQuery('#".$relatedModel."_dialog').html(html)}});
+			return false;});");
+
+			if($this->style == 'dropdownlist') {
+				Yii::app()->clientScript->registerScript($relatedModel.'_done',
+						"jQuery('body').delegate('#".$relatedModel."_done','click',function(){
+					jQuery.ajax({'url':'".$this->addButtonRefreshUrl."',
+							'cache':false,
+							'success':function(html){
+							jQuery('#".$relatedModel."_dialog').html(html)}});
+				return false;});");
 			} else {
-				echo CHtml::LinkButton(
-						is_string($this->showAddButton) 
-						? $this->showAddButton 
-						: $string,
-						array('submit' => $link));
+				Yii::app()->clientScript->registerScript($relatedModel.'_done',
+						"$('#".$relatedModel."_done').click(function() {
+					$('#".$relatedModel."_dialog').dialog('close'); 
+			});");
 			}
+
+
+
 		}
 }

@@ -1,4 +1,4 @@
-<div class="miniform">
+<div class="form">
 <?php
 $ajax = ($this->enable_ajax_validation) ? 'true' : 'false';
 echo "<?php \$form=\$this->beginWidget('CActiveForm', array(
@@ -6,13 +6,10 @@ echo "<?php \$form=\$this->beginWidget('CActiveForm', array(
 	'enableAjaxValidation'=>$ajax,
 )); \n"; 
 
-echo "\tif(isset(\$_POST['returnUrl']))\n";
-echo "\t\techo CHtml::hiddenField('returnUrl', \$_POST['returnUrl']);\n";
 echo "\techo \$form->errorSummary(\$model);\n";
 echo "?>";
 ?>
 
-<table>
 <?php
 	foreach($this->tableSchema->columns as $column)
 	{
@@ -21,24 +18,20 @@ echo "?>";
 
 		if(!$column->isForeignKey) 
 		{
-
-			echo "<tr>\n";
-			printf("<td><?php echo %s ?></td>\n", $this->generateActiveLabel($this->modelClass,$column));
-			printf("<td><?php %s ?></td>\n", $this->generateActiveField($this->modelClass,$column));
-			printf("<td><?php echo %s ?></td>\n", "\$form->error(\$model,'{$column->name}')"); 
-			echo "</tr>\n";
+			echo "<div class=\"row\">\n";
+			echo "<?php echo ".$this->generateActiveLabel($this->modelClass,$column)."; ?>\n"; 
+			echo "<?php ".$this->generateActiveField($this->modelClass,$column)."; ?>\n"; 
+			echo "<?php echo \$form->error(\$model,'{$column->name}'); ?>\n"; 
+			echo "</div>\n\n";
 		}
 	}
 
 ?>
-</table>	
+
 <?php echo "<?php\n"; ?>
 echo CHtml::Button(Yii::t('app', 'Cancel'), array(
-			'onClick' => "$('#dialog_<?php echo strtolower($this->modelClass);?>').dialog('close');"));  
-echo CHtml::AjaxSubmitButton(Yii::t('app', 'Create'), array(
-			'<?php echo strtolower($this->modelClass); ?>/miniCreate'), array(
-				'update' => "#dialog_<?php echo strtolower($this->modelClass); ?>"), array(
-				'id' => 'submit_<?php echo strtolower($this->modelClass); ?>')); 
+			'onClick' => "$('#<?php echo strtolower($this->modelClass);?>_dialog').dialog('close');"));  
+echo CHtml::Button(Yii::t('app', 'Create'), array('id' => 'submit_<?php echo strtolower($this->modelClass); ?>'));
 $this->endWidget(); 
 <?php echo "\n?>"; ?>
 </div> <!-- form -->
