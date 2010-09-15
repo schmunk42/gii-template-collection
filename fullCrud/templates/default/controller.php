@@ -18,7 +18,6 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 		));
 	}
 
-
 	public function actionCreate()
 	{
 		$model = new <?php echo $this->modelClass; ?>;

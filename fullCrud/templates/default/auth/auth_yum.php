@@ -9,7 +9,7 @@ public function accessRules()
 {
 	return array(
 			array('allow',  
-				'actions'=>array('index','view'),
+				'actions'=>array('index','view', 'getOptions'),
 				'roles'=>array('*'),
 				),
 			array('allow', 

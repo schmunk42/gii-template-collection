@@ -8,6 +8,25 @@ abstract class GController extends Controller {
 			$model->attributes = $_SESSION['<?php echo $this->modelClass; ?>'];
 	}
 
+	// This function updated a dropdownlist/checkboxlist/other relation after
+  // a foreign object has been added
+	public function actionGetOptions() {
+		$relation = $_GET['relation'];
+		$style = $_GET['style'];
+		$fields = $_GET['fields'];
+
+		$classname = str_replace('Controller', '', get_class($this));
+
+		$model = new $classname;
+		$this->widget('application.extensions.Relation', array(
+					'model' => $model,
+					'relation' => $relation,
+					'showAddButton' => false,
+					'style' => $style,
+					'fields' => $fields[0]));
+	}
+
+
 	public function pickleForm(&$model, $formdata) {
 		foreach($formdata as $key => $value) 
 			if(is_array($value))

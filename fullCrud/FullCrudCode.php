@@ -125,19 +125,18 @@ class FullCrudCode extends CrudCode {
 					$allowEmpty= (CActiveRecord::model($model)->tableSchema->columns[$relation[2]]->allowNull?'true':'false');
 				
 				return("
-                    \$this->widget('ext.Relation', array(
-                                    'model' => \$model,
-                                    'relation' => '{$relationname}',
-                                    'fields' => '{$field->name}',
-                                    'allowEmpty' => {$allowEmpty},
-                                    'style' => '{$style}',
-                                    'htmlOptions' => array(
-                                            'checkAll' => Yii::t('app', 'Choose all'),
-                                            'template' => '<div style=\"float:left;margin-right:5px;\">{input}</div>{label}',
-                                            ),
+						\$this->widget('ext.Relation', array(
+								'model' => \$model,
+								'relation' => '{$relationname}',
+								'fields' => '{$field->name}',
+								'allowEmpty' => {$allowEmpty},
+								'style' => '{$style}',
+								'htmlOptions' => array(
+									'checkAll' => Yii::t('app', 'Choose all'),
+									),
 
-                                    )
-                            )");
+								)
+							)");
 			}
 		}
 	}

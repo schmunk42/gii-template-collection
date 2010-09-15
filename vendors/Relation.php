@@ -105,7 +105,7 @@ $this->widget('application.components.Relation', array(
 
 
 @author Herbert Maschke <thyseus@gmail.com>
-@version 0.98 
+@version 0.97 (after 1.0rc5)
 @since 1.1
 */
 
@@ -602,10 +602,13 @@ class Relation extends CWidget
 			if(isset($this->preselect) && $this->preselect != false)
 				$keys = $this->preselect;
 
+			$id = strtolower(get_class($this->_relatedModel)) . '_options';
+			echo CHtml::openTag('div', array('id' => $id));
 			echo CHtml::CheckBoxList($this->getListBoxName(),
 					$keys,
 					$this->getRelatedData(),
 					$this->htmlOptions);
+			echo CHtml::closeTag('div');
 		}
 
 
@@ -672,15 +675,19 @@ class Relation extends CWidget
 		}
 		protected function renderAddButton() 
 		{
+			$model = strtolower(get_class($this->_model));
 			$relatedModel = strtolower(get_class($this->_relatedModel));
 
 			if($this->addButtonUrl != '')
 				$link = $this->addButtonUrl;
 			else
-				$link = array($relatedModel . '/create'); 
+				$link = $this->controller->createUrl($relatedModel . '/create'); 
 
 			if($this->addButtonRefreshUrl == '')
-				$this->addButtonRefreshUrl = array($relatedModel . 'getOptions', 'relation' => $this->relation);
+				$this->addButtonRefreshUrl = $this->controller->createUrl($model . '/getOptions', array(
+							'relation' => $this->relation,
+							'style' => $this->style,
+							'fields' => $this->fields));
 
 			$string = Yii::t('app', 'Add new {model}', array('{model}' => $relatedModel));
 
@@ -707,7 +714,7 @@ class Relation extends CWidget
 			// prepare the Submit button that is not loaded into the DOM yet 
 			Yii::app()->clientScript->registerScript($relatedModel.'_submit',
 					"jQuery('body').delegate('#submit_".$relatedModel."','click',function(){
-				jQuery.ajax({'url':'".$this->controller->createUrl($link[0])."',
+				jQuery.ajax({'url':'".$link."',
 						'cache':false,
 						'type':'POST',
 						'data':jQuery(this).parents('form').serialize(),
@@ -715,22 +722,13 @@ class Relation extends CWidget
 						jQuery('#".$relatedModel."_dialog').html(html)}});
 			return false;});");
 
-			if($this->style == 'dropdownlist') {
 				Yii::app()->clientScript->registerScript($relatedModel.'_done',
 						"jQuery('body').delegate('#".$relatedModel."_done','click',function(){
 					jQuery.ajax({'url':'".$this->addButtonRefreshUrl."',
 							'cache':false,
 							'success':function(html){
-							jQuery('#".$relatedModel."_dialog').html(html)}});
+							jQuery('#".$relatedModel."_options').html(html)}});
+						$('#".$relatedModel."_dialog').dialog('close');
 				return false;});");
-			} else {
-				Yii::app()->clientScript->registerScript($relatedModel.'_done',
-						"$('#".$relatedModel."_done').click(function() {
-					$('#".$relatedModel."_dialog').dialog('close'); 
-			});");
-			}
-
-
-
 		}
 }
