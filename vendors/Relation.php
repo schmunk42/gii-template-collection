@@ -461,6 +461,8 @@ class Relation extends CWidget
 		}
 
 		public function renderBelongsToSelection() {
+			$id = strtolower(get_class($this->_relatedModel)) . '_options';
+			echo CHtml::openTag('div', array('id' => $id));
 			if(strcasecmp($this->style, "dropDownList") == 0) 
 				echo CHtml::ActiveDropDownList(
 						$this->_model, 
@@ -485,6 +487,7 @@ class Relation extends CWidget
 						$this->field, 
 						$this->getRelatedData(), 
 						$this->htmlOptions);
+			echo CHtml::closeTag('div');
 		}
 
 		public function renderManyManySelection() {
