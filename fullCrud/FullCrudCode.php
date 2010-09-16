@@ -202,7 +202,16 @@ class FullCrudCode extends CrudCode {
 			$model = CActiveRecord::model($modelClass);
 			$table = $model->getTableSchema();
 			$fk = $table->foreignKeys[$column->name];
-			$fmodel = CActiveRecord::model(ucfirst($fk[0]));
+
+                        // We have to look into relations to find the correct model class (i.e. if models are generated with table prefix)
+                        // TODO: do not repeat yourself (foreach) - this is a hotfix
+                        foreach ($model->relations() as $key => $value) {
+				if (strcasecmp($value[2], $column->name) == 0)
+					echo $relation = $value;
+			}
+                        $fmodel = CActiveRecord::model($relation[1]);
+			#$fmodel = CActiveRecord::model(ucfirst($fk[0]));
+
 			$modelTable = ucfirst($fmodel->tableName());
 			$fcolumns = $fmodel->attributeNames();
 			$relname = strtolower($fk[0]);
