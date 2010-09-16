@@ -121,9 +121,13 @@ class FullCrudCode extends CrudCode {
 			if (is_object($field)) {
 				if($relation[0] == 'CManyManyRelation')
 					$allowEmpty='false';
-				else
-					$allowEmpty= (CActiveRecord::model($model)->tableSchema->columns[$relation[2]]->allowNull?'true':'false');
-				
+				elseif($relation[0] == 'CHasOneRelation') {
+					$allowEmpty= (CActiveRecord::model($relation[1])->tableSchema->columns[$relation[2]]->allowNull?'true':'false');
+        				return "echo 'TBD';";
+                                }
+        			else
+                			$allowEmpty= (CActiveRecord::model($model)->tableSchema->columns[$relation[2]]->allowNull?'true':'false');
+
 				return("
 						\$this->widget('ext.Relation', array(
 								'model' => \$model,
