@@ -211,9 +211,10 @@ class FullCrudCode extends CrudCode {
                         // TODO: do not repeat yourself (foreach) - this is a hotfix
                         foreach ($model->relations() as $key => $value) {
 				if (strcasecmp($value[2], $column->name) == 0)
-					echo $relation = $value;
+					$relation = $value;
 			}
                         $fmodel = CActiveRecord::model($relation[1]);
+                        $fmodelName = $relation[1];
 			#$fmodel = CActiveRecord::model(ucfirst($fk[0]));
 
 			$modelTable = ucfirst($fmodel->tableName());
@@ -234,13 +235,13 @@ class FullCrudCode extends CrudCode {
 							'value'=>CHtml::value(\$model,'{$relname}.{$fcolumns[1]}'),
 							)";
 			} elseif($view=='search')
-			return "\$form->dropDownList(\$model,'{$column->name}',CHtml::listData({$modelTable}::model()->findAll(), '{$fmodel->getTableSchema()->primaryKey}', '{$fcolumns[1]}'),array('prompt'=>Yii::t('app', 'All')))";
+			return "\$form->dropDownList(\$model,'{$column->name}',CHtml::listData({$fmodelName}::model()->findAll(), '{$fmodel->getTableSchema()->primaryKey}', '{$fcolumns[1]}'),array('prompt'=>Yii::t('app', 'All')))";
 			else
 				return "
 					array(
 							'name'=>'{$column->name}',
 							'value'=>'CHtml::value(\$data,\\'{$relname}.{$fcolumns[1]}\\')',
-								'filter'=>CHtml::listData({$modelTable}::model()->findAll(), '{$fcolumns[0]}', '{$fcolumns[1]}'),
+								'filter'=>CHtml::listData({$fmodelName}::model()->findAll(), '{$fcolumns[0]}', '{$fcolumns[1]}'),
 								)";
 							//{$relname}.{$fcolumns[1]}
 							}
