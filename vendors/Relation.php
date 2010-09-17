@@ -394,7 +394,7 @@ class Relation extends CWidget
 					$this->manyManyTableLeft,
 					$this->_model->{$this->_model->tableSchema->primaryKey});
 
-			$result = Yii::app()->db->createCommand($sql)->queryAll();
+			$result = $this->_model->getDbConnection()->createCommand($sql)->queryAll();
 
 			foreach($result as $foreignObject) {
 				$id = $foreignObject[$this->manyManyTableRight];
