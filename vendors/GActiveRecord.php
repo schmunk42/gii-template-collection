@@ -6,7 +6,7 @@ abstract class GActiveRecord extends CActiveRecord {
 	{
 		return array_merge(parent::behaviors(), array(
 					'CSaveRelationsBehavior' => array(
-						'class' => 'ext.CSaveRelationsBehavior'
+						'class' => 'CSaveRelationsBehavior'
 						)
 					)
 				);
