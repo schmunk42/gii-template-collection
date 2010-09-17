@@ -121,7 +121,7 @@ class FullCrudCode extends CrudCode {
 					$allowEmpty = 'false';
 				elseif ($relation[0] == 'CHasOneRelation') {
 					$allowEmpty = (CActiveRecord::model($relation[1])->tableSchema->columns[$relation[2]]->allowNull ? 'true' : 'false');
-					return "echo 'TBD';";
+					return "if (\$model->{$relationname} !== null) echo \$model->{$relationname}->title;";
 				}
 				else
 					$allowEmpty= ( CActiveRecord::model($model)->tableSchema->columns[$relation[2]]->allowNull ? 'true' : 'false');
