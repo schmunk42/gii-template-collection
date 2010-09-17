@@ -9,7 +9,7 @@ class FullCrudCode extends CrudCode {
 	public $enable_ajax_validation = true;
 
 	public function prepare() {
-		$this->baseControllerClass = 'GController';
+		if (!isset($this->baseControllerClass)) $this->baseControllerClass = 'GController';
 		parent::prepare();
 	}
 
