@@ -6,35 +6,13 @@ class FullModelCode extends ModelCode {
 
     public function init() {
         parent::init();
+		if (!@class_exists("CSaveRelationsBehavior")) {
+			throw new CException("Fatal Error: Class 'CSaveRelationsBehavior' could not be found in your application! Add 'ext.gtc.vendors.*' to your import paths.");
+		}
+		if (!@class_exists("GActiveRecord")) {
+			throw new CException("Fatal Error: Class 'GActiveRecord' could not be found in your application! Add 'ext.gtc.vendors.*' to your import paths.");
+		}
 
-        // Make sure that the CSaveRelationsBehavior is in the application
-        // components folder. If it is not, copy it over there.
-
-        $extPath = Yii::getPathOfAlias('ext');
-        $modelsPath = Yii::getPathOfAlias('application.models');
-
-        if ($extPath === false)
-            mkdir($extPath);
-
-        if (!is_dir($extPath) || !is_writable($extPath))
-            throw new CException("Fatal Error: Your application extensions/ is not a writable directory!");
-
-        if (!is_dir($modelsPath) || !is_writable($modelsPath))
-            throw new CException("Fatal Error: Your application extensions/ is not a writable directory!");
-
-        $fileNames = scandir($extPath);
-        if (!in_array('CSaveRelationsBehavior.php', $fileNames)) {
-            $gtcPath = Yii::getPathOfAlias('ext.gtc.vendors.CSaveRelationsBehavior');
-            if (!copy($gtcPath . '/CSaveRelationsBehavior.php', $extPath . '/CSaveRelationsBehavior.php'))
-                throw new CException('CSaveRelationsBehavior.php could not be copied over to your extensions/ directory.');
-        }
-
-        $fileNames = scandir($modelsPath);
-        if (!in_array('GActiveRecord.php', $fileNames)) {
-            $modelPath = Yii::getPathOfAlias('ext.gtc.vendors');
-            if (!copy($modelPath . '/GActiveRecord.php', $modelsPath . '/GActiveRecord.php'))
-                throw new CException('GActiveRecord.php could not be copied over to your extensions/ directory.');
-        }
     }
 
     public function prepare() {

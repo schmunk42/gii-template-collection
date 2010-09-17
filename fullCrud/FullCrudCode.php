@@ -29,40 +29,12 @@ class FullCrudCode extends CrudCode {
 
 	public function init() {
 		parent::init();
-
-		// Make sure that the Relation Widget is in the application components
-		// Folder. if it is not, copy it over there
-
-		$extensionspath = Yii::getPathOfAlias('application.extensions');
-		$controllerspath = Yii::getPathOfAlias('application.controllers');
-
-		if ($extensionspath === false)
-			mkdir($extensionspath);
-
-		if ($controllerspath === false)
-			mkdir($controllerspath);
-
-		if (!is_dir($extensionspath))
-			throw new CException('Fatal Error: Your application extensions/ is not an directory!');
-
-		if (!is_dir($controllerspath))
-			throw new CException('Fatal Error: Your application controllers/ is not an directory!');
-
-
-		$names = scandir($extensionspath);
-		$gtcpath = Yii::getPathOfAlias('ext.gtc.vendors');
-
-		if (!in_array('Relation.php', $names)) {
-			if (!copy($gtcpath . '/Relation.php', $extensionspath . '/Relation.php'))
-				throw new CException('Relation.php could not be copied over to your components directory');
+		// just check if the classes can be found
+		if (!@class_exists("GController")) {
+			throw new CException("Fatal Error: Class 'GController' could not be found in your application! Add 'ext.gtc.vendors.*' to your import paths.");
 		}
-
-		$names = scandir($controllerspath);
-
-		if (!in_array('GController.php', $names)) {
-			if (!copy($gtcpath . '/GController.php',
-					$controllerspath . '/GController.php'))
-				throw new CException('GController.php could not be copied over to your components directory');
+		if (!@class_exists("Relation")) {
+			throw new CException("Fatal Error: Class 'Relation' could not be found in your application! Add 'ext.gtc.vendors.*' to your import paths.");
 		}
 	}
 
@@ -127,7 +99,7 @@ class FullCrudCode extends CrudCode {
 					$allowEmpty= ( CActiveRecord::model($model)->tableSchema->columns[$relation[2]]->allowNull ? 'true' : 'false');
 
 				return("\$this->widget(
-					'ext.Relation',
+					'Relation',
 					array(
 					'model' => \$model,
 					'relation' => '{$relationname}',

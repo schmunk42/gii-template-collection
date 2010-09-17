@@ -1,7 +1,5 @@
 <?php echo "<?php\n"; ?>
 
-Yii::import('application.controllers.GController');
-
 class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseControllerClass."\n"; ?>
 {
 	public $layout='//layouts/column2';
