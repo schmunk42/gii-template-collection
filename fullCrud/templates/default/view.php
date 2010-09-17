@@ -24,15 +24,16 @@ $this->menu=array(
 	'attributes'=>array(
 <?php
 foreach($this->tableSchema->columns as $column) 
-{
+{	
 	if($column->isForeignKey) {
                 echo "\t\tarray(\n";
                 echo "\t\t\t'name'=>'{$column->name}',\n";
 		foreach($this->relations as $key => $relation) {
-			if($relation[2] == $column->name) {
+			if((($relation[0] == "CHasOneRelation") || ($relation[0] == "CBelongsToRelation")) && $relation[2] == $column->name) {
 				$columns = CActiveRecord::model($relation[1])->tableSchema->columns;
 				$suggestedfield = $this->suggestName($columns);
-				echo "\t\t\t'value'=>CHtml::link(\$model->{$key}->{$suggestedfield->name}, array('{$key}/view','id'=>\$model->{$key}->id)),\n";
+				$controller = strtolower($relation[1]);
+				echo "\t\t\t'value'=>(\$model->{$key} !== null)?CHtml::link(\$model->{$key}->{$suggestedfield->name}, array('{$controller}/view','id'=>\$model->{$key}->id)):'n/a',\n";
 				echo "\t\t\t'type'=>'html',\n";
 			}
 		}
