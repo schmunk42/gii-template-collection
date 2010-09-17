@@ -15,12 +15,8 @@ section of the gii Configuration inside your application configuration:
 After that, two new Generators 'FullCrud' and 'FullModel' should be available
 in your Gii index page.
 
-Please note that the provided CSaveRelationsBehavior and the Relation widget
-will be inserted into your application extensions/ folder automatically after
-the first use of the Generator.
-Before version 0.5 of the Gii Template Collection extension, CAdvancedArBehavior
-was used instead of CSaveRelationsBehavior. This file (CAdvancedArBehavior.php)
-is still provided in the vendors/ folder, for those who need it.
+Please note that you have to add 'ext.gtc.*' to your import path so the needed components 
+can be found by the application.
 
 De, fr, lt, es, pt and sv translations are provided in the messages/
 directory. To make your Application use them, simply copy them over to the
