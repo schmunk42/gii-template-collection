@@ -697,7 +697,7 @@ class Relation extends CWidget
 
 			$dialog = 'zii.widgets.jui.CJuiDialog';
 			$this->beginWidget($dialog, array(
-						'id' => $relatedModel . '_dialog',
+						'id' => $this->relation . '_dialog',
 						'options' => array('autoOpen' => false,
 							'modal' => true,
 							'title' => $string,
@@ -710,29 +710,29 @@ class Relation extends CWidget
 						is_string($this->showAddButton) ? $this->showAddButton : $string,
 						$link, array(
 							'success' => "function(html) {
-							jQuery('#".$relatedModel."_dialog').html(html);
-							$('#".$relatedModel."_dialog').dialog('open');
-							}"), array('id' => $relatedModel . '_create')
+							jQuery('#".$this->relation."_dialog').html(html);
+							$('#".$this->relation."_dialog').dialog('open');
+							}"), array('id' => $this->relation . '_create')
 					);
 
 			// prepare the Submit button that is not loaded into the DOM yet 
-			Yii::app()->clientScript->registerScript($relatedModel.'_submit',
-					"jQuery('body').delegate('#submit_".$relatedModel."','click',function(){
+			Yii::app()->clientScript->registerScript($this->relation.'_submit',
+					"jQuery('body').delegate('#submit_".$this->relation."','click',function(){
 				jQuery.ajax({'url':'".$link."',
 						'cache':false,
 						'type':'POST',
 						'data':jQuery(this).parents('form').serialize(),
 						'success':function(html){
-						jQuery('#".$relatedModel."_dialog').html(html)}});
+						jQuery('#".$this->relation."_dialog').html(html)}});
 			return false;});");
 
-				Yii::app()->clientScript->registerScript($relatedModel.'_done',
-						"jQuery('body').delegate('#".$relatedModel."_done','click',function(){
+				Yii::app()->clientScript->registerScript($this->relation.'_done',
+						"jQuery('body').delegate('#".$this->relation."_done','click',function(){
 					jQuery.ajax({'url':'".$this->addButtonRefreshUrl."',
 							'cache':false,
 							'success':function(html){
-							jQuery('#".$relatedModel."_options').html(html)}});
-						$('#".$relatedModel."_dialog').dialog('close');
+							jQuery('#".$this->relation."_options').html(html)}});
+						$('#".$this->relation."_dialog').dialog('close');
 				return false;});");
 		}
 }
