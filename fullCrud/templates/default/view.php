@@ -32,7 +32,8 @@ foreach($this->tableSchema->columns as $column)
 			if($relation[2] == $column->name) {
 				$columns = CActiveRecord::model($relation[1])->tableSchema->columns;
 				$suggestedfield = $this->suggestName($columns);
-				echo "\t\t\t'value'=>CHtml::value(\$model,'{$key}.{$suggestedfield->name}'),\n";
+				echo "\t\t\t'value'=>CHtml::link(\$model->{$key}->{$suggestedfield->name}, array('{$key}/view','id'=>\$model->{$key}->id)),\n";
+				echo "\t\t\t'type'=>'html',\n";
 			}
 		}
                 echo "\t\t),\n";
