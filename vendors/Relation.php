@@ -462,7 +462,7 @@ class Relation extends CWidget
 
 		public function renderBelongsToSelection() {
 			$id = strtolower(get_class($this->_relatedModel)) . '_options';
-			echo CHtml::openTag('div', array('id' => $id));
+			echo CHtml::openTag('div', array('id' => $id, 'class' => 'relation'));
 			if(strcasecmp($this->style, "dropDownList") == 0) 
 				echo CHtml::ActiveDropDownList(
 						$this->_model, 
@@ -539,6 +539,7 @@ class Relation extends CWidget
 				echo CHtml::openTag('div', array(
 							'id' => sprintf('div_%s_%d', $uniqueid, $i),
 							'style' => $isAssigned ? '' : 'display:none;',
+							'class' => 'relation'
 							));
 				echo CHtml::dropDownList(sprintf('%s[%d]',
 							$this->getListBoxName(),
@@ -606,7 +607,7 @@ class Relation extends CWidget
 				$keys = $this->preselect;
 
 			$id = strtolower(get_class($this->_relatedModel)) . '_options';
-			echo CHtml::openTag('div', array('id' => $id));
+			echo CHtml::openTag('div', array('id' => $id, 'class' => 'relation'));
 			echo CHtml::CheckBoxList($this->getListBoxName(),
 					$keys,
 					$this->getRelatedData(),

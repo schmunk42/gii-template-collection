@@ -18,7 +18,7 @@ abstract class GController extends Controller {
 		$classname = str_replace('Controller', '', get_class($this));
 
 		$model = new $classname;
-		$this->widget('application.extensions.Relation', array(
+		$this->widget('Relation', array(
 					'model' => $model,
 					'relation' => $relation,
 					'showAddButton' => false,

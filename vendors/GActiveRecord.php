@@ -11,4 +11,8 @@ abstract class GActiveRecord extends CActiveRecord {
 					)
 				);
 	}
+
+	public function  __toString() {
+		return $this->id;
+	}
 }
