@@ -64,5 +64,21 @@ foreach(CActiveRecord::model(Yii::import($this->model))->relations() as $key => 
 				} ?>", $key, $suggestedtitle->name, strtolower($relation[1])); 
 		echo CHtml::closeTag('ul');
 	}
+if($relation[0] == 'CHasOneRelation')
+	{
+		$model = CActiveRecord::model($relation[1]);
+		if(!$pk = $model->tableSchema->primaryKey)
+			$pk = 'id';
+
+		$suggestedtitle = $this->suggestName($model->tableSchema->columns);
+                echo '<br /><h2>';
+                echo "<?php echo Yii::t('app','{relation} that belongs to this {model}',array('{relation}'=>'{$relation[1]}', '{model}'=>'{$this->modelClass}'));?>";
+                echo ": </h2>\n";
+		echo CHtml::openTag('ul');
+		printf("<?php
+				if(\$model->%s !== null) printf('<li>%%s</li>', CHtml::link(\$model->{$key}->%s, array('%s/view', 'id' => \$model->{$key}->%s)));\n
+				 ?>", $key, $suggestedtitle->name, strtolower($relation[1]), $pk);
+		echo CHtml::closeTag('ul');
+	}
 }
 ?>
