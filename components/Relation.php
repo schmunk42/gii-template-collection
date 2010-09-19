@@ -461,33 +461,12 @@ class Relation extends CWidget
 		}
 
 		public function renderBelongsToSelection() {
-			$id = strtolower(get_class($this->_relatedModel)) . '_options';
-			echo CHtml::openTag('div', array('id' => $id, 'class' => 'relation'));
-			if(strcasecmp($this->style, "dropDownList") == 0) 
-				echo CHtml::ActiveDropDownList(
-						$this->_model, 
-						$this->field, 
-						$this->getRelatedData(), 
-						$this->htmlOptions);
-			else if(strcasecmp($this->style, "radiobutton") == 0) 
-				echo CHtml::ActiveRadiobuttonList(
-						$this->_model, 
-						$this->field, 
-						$this->getRelatedData(), 
-						$this->htmlOptions);
-			else if(strcasecmp($this->style, "listbox") == 0)
-				echo CHtml::ActiveListBox(
-						$this->_model, 
-						$this->field, 
-						$this->getRelatedData(), 
-						$this->htmlOptions);
-			else if(strcasecmp($this->style, "checkbox") == 0)
-				echo CHtml::ActiveCheckBoxList(
-						$this->_model,
-						$this->field, 
-						$this->getRelatedData(), 
-						$this->htmlOptions);
-			echo CHtml::closeTag('div');
+			CWidget::render(strtolower($this->style), array(
+						'id' => strtolower(get_class($this->_relatedModel)) . '_options', 
+						'model' => $this->_model,
+						'field' => $this->field,
+						'data' => $this->getRelatedData(),
+						'htmlOptions' => $this->htmlOptions));
 		}
 
 		public function renderManyManySelection() {

@@ -7,10 +7,10 @@ class FullModelCode extends ModelCode {
     public function init() {
         parent::init();
 		if (!@class_exists("CSaveRelationsBehavior")) {
-			throw new CException("Fatal Error: Class 'CSaveRelationsBehavior' could not be found in your application! Add 'ext.gtc.vendors.*' to your import paths.");
+			throw new CException("Fatal Error: Class 'CSaveRelationsBehavior' could not be found in your application! Add 'ext.gtc.components.*' to your import paths.");
 		}
 		if (!@class_exists("GActiveRecord")) {
-			throw new CException("Fatal Error: Class 'GActiveRecord' could not be found in your application! Add 'ext.gtc.vendors.*' to your import paths.");
+			throw new CException("Fatal Error: Class 'GActiveRecord' could not be found in your application! Add 'ext.gtc.components.*' to your import paths.");
 		}
 
     }

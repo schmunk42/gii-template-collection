@@ -4,7 +4,7 @@
  *
  * @author Herbert Maschke <thyseus@gmail.com>
  * @link http://www.yiiframework.com/
- * @version 0.3
+ * @version 0.4
  */
 
 /* The CAdvancedArBehavior extension adds up some functionality to the default
@@ -93,6 +93,31 @@ class CAdvancedArbehavior extends CActiveRecordBehavior
 		$this->writeManyManyTables();
 		return true;
 	}
+
+	/**
+	 * Sets the attribute values in a massive way.
+	 * @param array attribute values (name=>value) to be set.
+	 * @param boolean whether the assignments should only be done to the safe attributes.
+	 * A safe attribute is one that is associated with a validation rule in the current {@link scenario}.
+	 * @see getSafeAttributeNames
+	 * @see attributeNames
+	 */
+	public function setAttributes($values,$safeOnly=true)
+	{
+die('jo');
+		if(!is_array($values))
+			return;
+		$attributes=array_flip($safeOnly ? $this->getSafeAttributeNames() : $this->attributeNames());
+		foreach($values as $name=>$value)
+		{
+			if(isset($attributes[$name]))
+				$this->$name=$value;
+			else
+				$this->onUnsafeAttribute($name,$value);
+		}
+	}
+
+
 
 	protected function writeManyManyTables() 
 	{

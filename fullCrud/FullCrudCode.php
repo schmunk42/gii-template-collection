@@ -30,11 +30,11 @@ class FullCrudCode extends CrudCode {
 	public function init() {
 		parent::init();
 		// just check if the classes can be found
-		if (!@class_exists("GController")) {
-			throw new CException("Fatal Error: Class 'GController' could not be found in your application! Add 'ext.gtc.vendors.*' to your import paths.");
+		if (!class_exists("GController")) {
+			throw new CException("Fatal Error: Class 'GController' could not be found in your application! Add 'ext.gtc.components.*' to your import paths.");
 		}
-		if (!@class_exists("Relation")) {
-			throw new CException("Fatal Error: Class 'Relation' could not be found in your application! Add 'ext.gtc.vendors.*' to your import paths.");
+		if (!class_exists("Relation")) {
+			throw new CException("Fatal Error: Class 'Relation' could not be found in your application! Add 'ext.gtc.components.*' to your import paths.");
 		}
 	}
 
