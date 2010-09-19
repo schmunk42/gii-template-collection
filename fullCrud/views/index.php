@@ -18,8 +18,11 @@ $('#{$class}_model').bind('keyup change', function(){
 <h1>Full Crud Generator</h1>
 
 <p>This generator generates a controller and views that implement CRUD operations for the specified data model. </p>
-<p> In addition to the default CRUD Generator provided by Gii, this Generator will:</p>
-
+<p>Please click <?php 
+echo CHtml::link('this link', '#', array(
+			'onClick' => "$('#differences').toggle()"));
+			?> to see the differences between this and the default Gii Crud Generator</p>
+<div id="differences" style="display:none;">
 <ul>
 	<li> Add the Relation Widget when generating a foreign Key so that a DropDownList/CheckBox/ComboBox gets displayed </li>
 	<li> Add Yii::t() for every string occuring so that your Application is easily being able to be translated to other languages </li>
@@ -33,6 +36,7 @@ $('#{$class}_model').bind('keyup change', function(){
 	<li> Remove all comments out of generated Code to avoid redundancy </li>
 	<li> Moved the submit button of Create and Update view to the corresponding views rather than to _form.php</li>
 </ul>
+</div>
 
 <?php $form=$this->beginWidget('CCodeForm', array('model'=>$model)); ?>
 
