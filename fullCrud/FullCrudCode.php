@@ -127,42 +127,22 @@ class FullCrudCode extends CrudCode {
 
 		/* if ($column->isForeignKey)
 		  return false; */
+		$providerPaths = Yii::app()->controller->module->params['gtc.fullCrud.providers'];
+		$providerPaths[] = 'ext.gtc.fullCrud.providers.FullCrudFieldProvider';
 
-		if (strtoupper($column->dbType) == 'TINYINT(1)'
-			|| strtoupper($column->dbType) == 'BIT'
-			|| strtoupper($column->dbType) == 'BOOL'
-			|| strtoupper($column->dbType) == 'BOOLEAN') {
-			return "echo \$form->checkBox(\$model,'{$column->name}')";
-		} else if (strtoupper($column->dbType) == 'DATE') {
-			$modelname = get_class($model);
-			return ("\$this->widget('zii.widgets.jui.CJuiDatePicker',
-						 array(
-								 'model'=>'\$model',
-								 'name'=>'{$modelname}[{$column->name}]',
-								 'language'=>Yii::app()->language,
-								 'value'=>\$model->{$column->name},
-								 'htmlOptions'=>array('size'=>10, 'style'=>'width:80px !important'),
-								 'options'=>array(
-									 'showButtonPanel'=>true,
-									 'changeYear'=>true,
-									 'changeYear'=>true,
-									 'dateFormat'=>'yy-mm-dd',
-									 ),
-								 )
-							 );
-					");
-		} else if (substr(strtoupper($column->dbType), 0, 4) == 'ENUM') {
-			$string = sprintf("echo CHtml::activeDropDownList(\$model, '%s', array(\n", $column->name);
+		$field = null;
+		foreach($providerPaths AS $provider) {
+			#Yii::import($provider);
+			$providerClass = Yii::createComponent($provider);
+			#var_dump($providerClass);
+			if (($field = $providerClass::generateActiveField($model, $column)) !== null)
+				break;
+		}
 
-			$enum_values = explode(',', substr($column->dbType, 4, strlen($column->dbType) - 1));
+		#var_dump($field);exit;
 
-			foreach ($enum_values as $value) {
-				$value = trim($value, "()'");
-				$string .= "\t\t\t'$value' => Yii::t('app', '" . $value . "') ,\n";
-			}
-			$string .= '))';
-
-			return $string;
+		if ($field !== null) {
+			return $field;
 		} else {
 			return('echo ' . parent::generateActiveField($model, $column));
 		}
