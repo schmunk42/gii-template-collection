@@ -25,8 +25,21 @@ class <?php echo $modelClass; ?> extends <?php echo 'Base' . $modelClass."\n"; ?
 
 	public function rules() 
 	{
-		// $rules = array();
-		// return array_merge(parent::rules(), $rules);
-		return parent::rules();
+		return array_merge(
+			/*array('column1, column2', 'rule'),*/
+			parent::rules()
+		);
+	}
+
+	public function behaviors()
+	{
+		return array_merge(
+			/*array(
+				'BehaviourName' => array(
+					'class' => 'CWhateverBehavior'
+				)
+			),*/
+			parent::behaviors()
+		);
 	}
 }
