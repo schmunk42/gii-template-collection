@@ -28,7 +28,7 @@ class XMarkDownReferenceLink extends CWidget
 
     private function renderMarkDownLink()
     {
-        $currentLang = Yii::app()->language;
+        $currentLang = Yii::app()->getLanguage();
         $country = explode("_",$currentLang);
         $link = '<p class="hint">';
         switch($country[0]){

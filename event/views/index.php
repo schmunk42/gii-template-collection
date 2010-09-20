@@ -1,3 +1,4 @@
+<?php Yii::import('EventGenerator.widgets.ddeditor.*'); ?>
 <h1>Event Generator</h1>
 <p>This generator helps you to quickly generate the skeleton code for a new event class.</p>
 <?php $form=$this->beginWidget('CCodeForm', array('model'=>$model)); ?>

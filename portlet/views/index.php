@@ -1,3 +1,4 @@
+<?php Yii::import('PortletGenerator.widgets.ddeditor.*'); ?>
 <h1>Portlet Generator</h1>
 <p>This generator helps you to quickly generate the skeleton code for a new portlet class.</p>
 <?php $form=$this->beginWidget('CCodeForm', array('model'=>$model)); ?>

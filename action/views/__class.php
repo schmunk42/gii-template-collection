@@ -9,7 +9,13 @@
 
 	<div class="row sticky">
 		<?php echo $form->labelEx($model,'baseClass'); ?>
-		<?php echo $form->textField($model,'baseClass',array('size'=>65)); ?>
+        <?php $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
+            'model'=>$model,
+            'attribute'=>'baseClass',
+        	'source'=>array('CAction','XRenderAction'),
+        	'htmlOptions'=>array('size'=>65),
+        ));
+        ?>
 		<div class="tooltip">
 			This is the class that the new action class will extend from.
 			Please make sure the class exists and can be autoloaded.

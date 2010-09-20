@@ -1,3 +1,4 @@
+<?php Yii::import('CacheGenerator.widgets.ddeditor.*'); ?>
 <h1>Cache Generator</h1>
 <p>This generator helps you to quickly generate the skeleton code for a new cache class.</p>
 <?php $form=$this->beginWidget('CCodeForm', array('model'=>$model)); ?>

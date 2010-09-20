@@ -1,3 +1,4 @@
+<?php Yii::import('FilterGenerator.widgets.ddeditor.*'); ?>
 <h1>Filter Generator</h1>
 <p>This generator helps you to quickly generate the skeleton code for a new filter class.</p>
 <?php $form=$this->beginWidget('CCodeForm', array('model'=>$model)); ?>

@@ -107,5 +107,19 @@ class ActionCode extends CCodeModel
                           : " * " . $line;
     }
 
+	public function successMessage()
+	{
+		$output=<<<EOD
+<p>The Action has been generated successfully.</p>
+EOD;
+		$code=$this->render($this->templatePath.'/action.php');
+		return $output.highlight_string($code,true);
+	}
+
+    public function p($name)
+    {
+        return Yii::app()->params[$name];
+    }
+
 }
 ?>

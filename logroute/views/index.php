@@ -1,3 +1,4 @@
+<?php Yii::import('LogRouteGenerator.widgets.ddeditor.*'); ?>
 <h1>Log Route Generator</h1>
 <p>This generator helps you to quickly generate the skeleton code for a new routing class.</p>
 <?php $form=$this->beginWidget('CCodeForm', array('model'=>$model)); ?>

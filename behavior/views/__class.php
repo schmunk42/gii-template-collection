@@ -9,9 +9,15 @@
 
 	<div class="row sticky">
 		<?php echo $form->labelEx($model,'baseClass'); ?>
-		<?php echo $form->textField($model,'baseClass',array('size'=>65)); ?>
+        <?php $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
+            'model'=>$model,
+            'attribute'=>'baseClass',
+        	'source'=>array('CBehavior','CModelBehavior','CActiveRecordBehavior'),
+            'htmlOptions'=>array('size'=>65),
+        ));
+        ?>
 		<div class="tooltip">
-			This is the class that the new widget class will extend from.
+			This is the class that the new behavior class will extend from.
 			Please make sure the class exists and can be autoloaded.
 		</div>
 		<?php echo $form->error($model,'baseClass'); ?>

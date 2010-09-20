@@ -1,4 +1,5 @@
-﻿<h1>View Renderer Generator</h1>
+﻿<?php Yii::import('VRGenerator.widgets.ddeditor.*'); ?>
+<h1>View Renderer Generator</h1>
 <p>This generator helps you to quickly generate the skeleton code for a new view renderer class.</p>
 <?php $form=$this->beginWidget('CCodeForm', array('model'=>$model)); ?>
  <?php $this->widget('system.web.widgets.CTabView', array('tabs'=>array(

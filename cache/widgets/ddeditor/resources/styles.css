@@ -1,0 +1,15 @@
+.ddeditor .preview
+{
+    display: none;
+    border: 1px solid #aaa;
+    padding: 3px;
+}
+.ddeditor BUTTON,SELECT
+{
+    font-size: 9pt;
+}
+.ddeditor BUTTON
+{
+    border: 1px solid blue;
+    background-color: #eee;
+}

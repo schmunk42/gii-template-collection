@@ -92,5 +92,20 @@ class CacheCode extends CCodeModel
                           : " * " . $line;
     }
 
+	public function successMessage()
+	{
+		$output=<<<EOD
+<p>The Cache has been generated successfully.</p>
+EOD;
+		$code=$this->render($this->templatePath.'/cache.php');
+		return $output.highlight_string($code,true);
+	}
+
+    public function p($name)
+    {
+        return Yii::app()->params[$name];
+    }
+
+
 }
 ?>

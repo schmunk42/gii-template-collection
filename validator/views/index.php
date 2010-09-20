@@ -1,3 +1,4 @@
+<?php Yii::import('ValidatorGenerator.widgets.ddeditor.*'); ?>
 <h1>Validator Generator</h1>
 <p>This generator helps you to quickly generate the skeleton code for a new validator class.</p>
 <?php $form=$this->beginWidget('CCodeForm', array('model'=>$model)); ?>

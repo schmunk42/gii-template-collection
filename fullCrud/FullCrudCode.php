@@ -9,33 +9,36 @@ class FullCrudCode extends CrudCode {
 	public $enable_ajax_validation = true;
 
 	public function prepare() {
-		if (!isset($this->baseControllerClass)) $this->baseControllerClass = 'GController';
 		parent::prepare();
+		if(!isset($this->baseControllerClass))
+			$this->baseControllerClass = 'GController';
 	}
 
-	public function rules() {
+	public function rules()                                                       
+	{
 		return array_merge(parent::rules(), array(
-			array('authtype, persistent_sessions, enable_ajax_validation', 'required'),
-		));
+					array('authtype, persistent_sessions, enable_ajax_validation', 'required'),
+					));
 	}
 
-	public function attributeLabels() {
+	public function attributeLabels()
+	{
 		return array_merge(parent::attributeLabels(), array(
-			'authtype' => 'Authentication type',
-			'persistent_sessions' => 'Persistent Sessions',
-			'enable_ajax_validateion' => 'Enable ajax Validation',
-		));
+					'authtype'=>'Authentication type',
+					'persistent_sessions'=>'Persistent Sessions',
+					'enable_ajax_validateion'=>'Enable ajax Validation',
+					));
 	}
 
 	public function init() {
-		parent::init();
 		// just check if the classes can be found
-		if (!class_exists("GController")) {
+		if (!@class_exists("GController")) {
 			throw new CException("Fatal Error: Class 'GController' could not be found in your application! Add 'ext.gtc.components.*' to your import paths.");
 		}
-		if (!class_exists("Relation")) {
+		if (!@class_exists("Relation")) {
 			throw new CException("Fatal Error: Class 'Relation' could not be found in your application! Add 'ext.gtc.components.*' to your import paths.");
 		}
+		parent::init();
 	}
 
 	// suggest which database column is best suited for being display in
@@ -96,20 +99,20 @@ class FullCrudCode extends CrudCode {
 					return "if (\$model->{$relationname} !== null) echo \$model->{$relationname}->title;";
 				}
 				else
-					$allowEmpty= ( CActiveRecord::model($model)->tableSchema->columns[$relation[2]]->allowNull ? 'true' : 'false');
+					$allowEmpty= (CActiveRecord::model($model)->tableSchema->columns[$relation[2]]->allowNull?'true':'false');
 
 				return("\$this->widget(
 					'Relation',
 					array(
-					'model' => \$model,
-					'relation' => '{$relationname}',
-					'fields' => '{$field->name}',
-					'allowEmpty' => {$allowEmpty},
-					'style' => '{$style}',
-					'htmlOptions' => array(
-						'checkAll' => Yii::t('app', 'Choose all'),
-					),)
-				)");
+							'model' => \$model,
+							'relation' => '{$relationname}',
+							'fields' => '{$field->name}',
+							'allowEmpty' => {$allowEmpty},
+							'style' => '{$style}',
+							'htmlOptions' => array(
+								'checkAll' => Yii::t('app', 'Choose all'),
+								),)
+						)");
 			}
 		}
 	}
@@ -132,20 +135,22 @@ class FullCrudCode extends CrudCode {
 			return "echo \$form->checkBox(\$model,'{$column->name}')";
 		} else if (strtoupper($column->dbType) == 'DATE') {
 			$modelname = get_class($model);
-			return ("\$this->widget('zii.widgets.jui.CJuiDatePicker',array(
-            'model'=>'\$model',
-            'name'=>'{$modelname}[{$column->name}]',
-            'language'=>Yii::app()->language,
-            'value'=>\$model->{$column->name},
-            'htmlOptions'=>array('size'=>10, 'style'=>'width:80px !important'),
-            'options'=>array(
-                'showButtonPanel'=>true,
-                'changeYear'=>true,
-                'changeYear'=>true,
-                'dateFormat'=>'yy-mm-dd',
-                ),
-            )
-			);");
+			return ("\$this->widget('zii.widgets.jui.CJuiDatePicker',
+						 array(
+								 'model'=>'\$model',
+								 'name'=>'{$modelname}[{$column->name}]',
+								 'language'=>Yii::app()->language,
+								 'value'=>\$model->{$column->name},
+								 'htmlOptions'=>array('size'=>10, 'style'=>'width:80px !important'),
+								 'options'=>array(
+									 'showButtonPanel'=>true,
+									 'changeYear'=>true,
+									 'changeYear'=>true,
+									 'dateFormat'=>'yy-mm-dd',
+									 ),
+								 )
+							 );
+					");
 		} else if (substr(strtoupper($column->dbType), 0, 4) == 'ENUM') {
 			$string = sprintf("echo CHtml::activeDropDownList(\$model, '%s', array(\n", $column->name);
 
@@ -186,8 +191,8 @@ class FullCrudCode extends CrudCode {
 
 			$modelTable = ucfirst($fmodel->tableName());
 			$fcolumns = $fmodel->attributeNames();
+			//$rel = $model->getActiveRelation($column->name);
 			$relname = strtolower($fk[0]);
-
 			foreach ($model->relations() as $key => $value) {
 				if (strcasecmp($value[2], $column->name) == 0)
 					$relname = $key;

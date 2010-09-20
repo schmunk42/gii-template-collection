@@ -92,5 +92,19 @@ class CommandCode extends CCodeModel
                           : " * " . $line;
     }
 
+	public function successMessage()
+	{
+		$output=<<<EOD
+<p>The Console Command has been generated successfully.</p>
+EOD;
+		$code=$this->render($this->templatePath.'/command.php');
+		return $output.highlight_string($code,true);
+	}
+
+    public function p($name)
+    {
+        return Yii::app()->params[$name];
+    }
+
 }
 ?>

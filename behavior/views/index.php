@@ -1,3 +1,4 @@
+<?php Yii::import('BehaviorGenerator.widgets.ddeditor.*'); ?>
 <h1>Behavior Generator</h1>
 <p>This generator helps you to quickly generate the skeleton code for a new behavior class.</p>
 <?php $form=$this->beginWidget('CCodeForm', array('model'=>$model)); ?>

@@ -93,5 +93,18 @@ class PortletCode extends CCodeModel
                           : " * " . $line;
     }
 
+	public function successMessage()
+	{
+		$output=<<<EOD
+<p>The Portlet has been generated successfully.</p>
+EOD;
+		$code=$this->render($this->templatePath.'/portlet.php');
+		return $output.highlight_string($code,true);
+	}
+
+    public function p($name)
+    {
+        return Yii::app()->params[$name];
+    }
 }
 ?>
