@@ -18,6 +18,17 @@ available in your Gii index page.
 Please note that you have to add 'ext.gtc.components.*' to your import path so
 the needed components can be found by the application.
 
+-- Experimental --
+You also have the ability to add custom field providers by config.
+'gii' => array(
+    'params' => array(
+	'gtc.fullCrud.providers' => array(
+	    'p2.gii.fullCrud.providers.P2FieldProvider',
+	)
+    )
+)
+(tbd)
+
 De, fr, lt, es, pt and sv translations are provided in the messages/
 directory. To make your Application use them, simply copy them over to the
 messages directory of your Web Application.
