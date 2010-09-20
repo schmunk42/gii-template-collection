@@ -19,7 +19,10 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 	public function actionCreate()
 	{
 		$model = new <?php echo $this->modelClass; ?>;
-		$relation = $_GET['relation']; // TODO - check?!
+		if (isset($_GET['relation'])) 
+			$relation = $_GET['relation']; // TODO - check?!
+	    else
+			$relation = null;
 
 		<?php if($this->persistent_sessions) { ?>
 			$this->pickleForm($model, $_POST);
