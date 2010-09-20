@@ -29,9 +29,16 @@ echo "?>";
 ?>
 
 <?php echo "<?php\n"; ?>
-echo CHtml::Button(Yii::t('app', 'Cancel'), array(
-			'onClick' => "$('#<?php echo strtolower($this->modelClass);?>_dialog').dialog('close');"));  
-echo CHtml::Button(Yii::t('app', 'Create'), array('id' => 'submit_<?php echo strtolower($this->modelClass); ?>'));
+echo CHtml::Button(
+	Yii::t('app', 'Cancel'),
+	array(
+		'onClick' => "$('#".$relation."_dialog').dialog('close');"
+	));
+echo CHtml::Button(
+	Yii::t('app', 'Create'),
+	array(
+		'id' => "submit_".$relation
+	));
 $this->endWidget(); 
 <?php echo "\n?>"; ?>
 </div> <!-- form -->

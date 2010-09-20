@@ -462,7 +462,7 @@ class Relation extends CWidget
 
 		public function renderBelongsToSelection() {
 			CWidget::render(strtolower($this->style), array(
-						'id' => strtolower(get_class($this->_relatedModel)) . '_options', 
+						'id' => $this->relation . '_options',
 						'model' => $this->_model,
 						'field' => $this->field,
 						'data' => $this->getRelatedData(),
@@ -585,7 +585,7 @@ class Relation extends CWidget
 			if(isset($this->preselect) && $this->preselect != false)
 				$keys = $this->preselect;
 
-			$id = strtolower(get_class($this->_relatedModel)) . '_options';
+			$id = $this->relation . '_options';
 			echo CHtml::openTag('div', array('id' => $id, 'class' => 'relation'));
 			echo CHtml::CheckBoxList($this->getListBoxName(),
 					$keys,
@@ -664,7 +664,7 @@ class Relation extends CWidget
 			if($this->addButtonUrl != '')
 				$link = $this->addButtonUrl;
 			else
-				$link = $this->controller->createUrl($relatedModel . '/create'); 
+				$link = $this->controller->createUrl($relatedModel . '/create', array('relation' => $this->relation));
 
 			if($this->addButtonRefreshUrl == '')
 				$this->addButtonRefreshUrl = $this->controller->createUrl($model . '/getOptions', array(
@@ -687,11 +687,13 @@ class Relation extends CWidget
 
 			echo CHtml::AjaxButton(
 						is_string($this->showAddButton) ? $this->showAddButton : $string,
-						$link, array(
+						$link,
+						array(
 							'success' => "function(html) {
-							jQuery('#".$this->relation."_dialog').html(html);
-							$('#".$this->relation."_dialog').dialog('open');
-							}"), array('id' => $this->relation . '_create')
+								jQuery('#".$this->relation."_dialog').html(html);
+								$('#".$this->relation."_dialog').dialog('open');
+							}"),
+						array('id' => $this->relation . '_create')
 					);
 
 			// prepare the Submit button that is not loaded into the DOM yet 

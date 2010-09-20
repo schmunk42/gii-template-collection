@@ -19,6 +19,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 	public function actionCreate()
 	{
 		$model = new <?php echo $this->modelClass; ?>;
+		$relation = $_GET['relation']; // TODO - check?!
 
 		<?php if($this->persistent_sessions) { ?>
 			$this->pickleForm($model, $_POST);
@@ -50,7 +51,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 
 
 		if(Yii::app()->request->isAjaxRequest)
-			$this->renderPartial('success', array('model' => $model));
+			$this->renderPartial('success', array('model' => $model, 'relation' => $relation));
 		else
 			$this->redirect(array('view','id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>));
 			Yii::app()->end();
@@ -59,7 +60,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 
 
 		if(Yii::app()->request->isAjaxRequest)
-			$this->renderPartial('_miniform',array( 'model'=>$model));
+			$this->renderPartial('_miniform',array( 'model'=>$model, 'relation' => $relation));
 		else
 			$this->render('create',array( 'model'=>$model));
 	}

@@ -37,7 +37,9 @@ echo "?>";
 				|| $relation[0] == 'CHasOneRelation' 
 				|| $relation[0] == 'CManyManyRelation')
 		{
-			printf("<label for=\"%s\"><?php echo Yii::t('app', 'Belonging').' '.Yii::t('app', '%s'); ?></label>\n", $relation[1], $relation[1]);
+			/*printf("<label for=\"%s\"><?php echo Yii::t('app', 'Belonging').' '.Yii::t('app', '%s'); ?></label>\n", $relation[1], $relation[1]);
+			 */
+			printf("<label for=\"%s\"><?php echo Yii::t('app', '%s'); ?></label>\n", $key, ucfirst($key));
 			echo "<?php ". $this->generateRelation($this->modelClass, $key, $relation)."; ?><br />\n";
 		}
 	}

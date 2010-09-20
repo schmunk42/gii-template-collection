@@ -17,7 +17,8 @@ $this->menu=array(
 );
 ?>
 
-<h1><?php echo "<?php echo Yii::t('app', 'View');?>"?> <?php echo $this->modelClass." #<?php echo \$model->{$this->tableSchema->primaryKey}; ?>"; ?></h1>
+<h1><?php echo "<?php echo Yii::t('app', 'View');?>"?>
+<?php echo $this->modelClass." #<?php echo \$model->{$this->tableSchema->primaryKey}; ?>"; ?></h1>
 
 <?php echo "<?php"; ?> $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
@@ -57,9 +58,9 @@ foreach(CActiveRecord::model(Yii::import($this->model))->relations() as $key => 
 			$pk = 'id';
 
 		$suggestedtitle = $this->suggestName($model->tableSchema->columns);
-                echo '<br /><h2>';
-                echo "<?php echo Yii::t('app','{relation} that belongs to this {model}',array('{relation}'=>'{$relation[1]}', '{model}'=>'{$this->modelClass}'));?>";
-                echo ": </h2>\n";
+                echo '<h2>';
+                echo "<?php echo CHtml::link(Yii::t('app','{relation}',array('{relation}'=>'".ucfirst($key)."')), array('".$relation[1]."/admin'));?>";
+                echo "</h2>\n";
 		echo CHtml::openTag('ul');
 		printf("<?php foreach(\$model->%s as \$foreignobj) { \n
 				printf('<li>%%s</li>', CHtml::link(\$foreignobj->%s, array('%s/view', 'id' => \$foreignobj->".$pk.")));\n
@@ -73,9 +74,9 @@ if($relation[0] == 'CHasOneRelation')
 			$pk = 'id';
 
 		$suggestedtitle = $this->suggestName($model->tableSchema->columns);
-                echo '<br /><h2>';
-                echo "<?php echo Yii::t('app','{relation} that belongs to this {model}',array('{relation}'=>'{$relation[1]}', '{model}'=>'{$this->modelClass}'));?>";
-                echo ": </h2>\n";
+                echo '<h2>';
+                echo "<?php echo CHtml::link(Yii::t('app','{relation}',array('{relation}'=>'{$key}')),'XXX');?>";
+                echo "</h2>\n";
 		echo CHtml::openTag('ul');
 		printf("<?php
 				if(\$model->%s !== null) printf('<li>%%s</li>', CHtml::link(\$model->{$key}->%s, array('%s/view', 'id' => \$model->{$key}->%s)));\n
