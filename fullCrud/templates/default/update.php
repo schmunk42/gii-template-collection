@@ -1,6 +1,6 @@
 <?php
 echo "<?php\n";
-$nameColumn = $this->guessNameColumn($this->tableSchema->columns);
+$nameColumn = GHelper::guessNameColumn($this->tableSchema->columns);
 $label = $this->pluralize($this->class2name($this->modelClass));
 echo "\$this->breadcrumbs=array(
 	'$label'=>array('index'),

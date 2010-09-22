@@ -284,7 +284,7 @@ class Relation extends CWidget
 			} 
 			else // Show all Parent elements
 			{ 
-				$parentobjects = CActiveRecord::model(get_class($this->_relatedModel))->findAll();
+				$parentobjects = CActiveRecord::model(get_class($this->_relatedModel))->findAll(array('order'=>GHelper::guessNameColumn($this->_relatedModel->tableSchema->columns)));
 			} 
 
 			if($this->allowEmpty)
@@ -366,11 +366,11 @@ class Relation extends CWidget
 
 				if($this->groupParentsBy != '') 
 				{
-					$dataArray[$obj->{$this->groupParentsBy}][$obj->{$this->relatedPk}] = CHtml::encode($value);
+					$dataArray[$obj->{$this->groupParentsBy}][$obj->{$this->relatedPk}] = $value;
 				}
 				else 
 				{
-					$dataArray[$obj->{$this->relatedPk}] = CHtml::encode($value);
+					$dataArray[$obj->{$this->relatedPk}] = $value;
 				}	
 			}
 

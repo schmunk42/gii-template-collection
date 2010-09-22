@@ -171,6 +171,11 @@ class FullCrudCode extends CrudCode {
 
 			$modelTable = ucfirst($fmodel->tableName());
 			$fcolumns = $fmodel->attributeNames();
+
+			if (method_exists($fmodel,'getRecordTitle')) {
+				$fcolumns[1] = "recordTitle";
+			}
+
 			//$rel = $model->getActiveRelation($column->name);
 			$relname = strtolower($fk[0]);
 			foreach ($model->relations() as $key => $value) {
@@ -214,27 +219,6 @@ class FullCrudCode extends CrudCode {
 		}
 	}
 
-	public function guessNameColumn($columns) {
-		$name = Yii::t('app', 'name');
-
-		foreach ($columns as $column) {
-			if (!strcasecmp($column->name, $name))
-				return $column->name;
-		}
-
-		$title = Yii::t('app', 'title');
-
-		foreach ($columns as $column) {
-			if (!strcasecmp($column->name, $title))
-				return $column->name;
-		}
-
-		foreach ($columns as $column) {
-			if ($column->isPrimaryKey)
-				return $column->name;
-		}
-		return 'id';
-	}
 
 }
 
