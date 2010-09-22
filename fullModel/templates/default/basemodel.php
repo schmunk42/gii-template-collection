@@ -54,7 +54,7 @@
     ?>
 <?php endforeach; ?>
  */
-class <?php echo 'Base' . $modelClass; ?> extends <?php echo $this->baseClass; ?>
+abstract class <?php echo 'Base' . $modelClass; ?> extends <?php echo $this->baseClass; ?>
 {
 	public static function model($className=__CLASS__)
 	{

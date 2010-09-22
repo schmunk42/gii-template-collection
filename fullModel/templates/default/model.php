@@ -17,11 +17,15 @@
 class <?php echo $modelClass; ?> extends <?php echo 'Base' . $modelClass."\n"; ?>
 {
 	// Add your model-specific methods here. This file will not be overriden by gtc except you force it.
+	public static function model($className=__CLASS__)
+	{
+		return parent::model($className);
+	}
 
 	public function init()
-  {
+	{
 		return parent::init();
-  }
+	}
 
 	public function rules() 
 	{
