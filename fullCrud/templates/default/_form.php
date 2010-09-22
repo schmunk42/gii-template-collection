@@ -26,7 +26,9 @@ echo "?>";
 			echo "<div class=\"row\">\n";
 			echo "<?php echo ".$this->generateActiveLabel($this->modelClass,$column)."; ?>\n"; 
 			echo "<?php ".$this->generateActiveField($this->modelClass,$column)."; ?>\n"; 
-			echo "<?php echo \$form->error(\$model,'{$column->name}'); ?>\n"; 
+			echo "<?php echo \$form->error(\$model,'{$column->name}'); ?>\n";
+			$placholder = "_HINT_".$this->modelClass.".".$column->name."";
+			echo "<?php if('".$placholder."' != \$hint = Yii::t('app', '".$placholder."')) echo \$hint; ?>\n";
 			echo "</div>\n\n";
 		}
 	}
