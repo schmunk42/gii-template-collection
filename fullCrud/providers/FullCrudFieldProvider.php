@@ -19,7 +19,7 @@ class FullCrudFieldProvider{
 						 array(
 								 'model'=>'\$model',
 								 'name'=>'{$modelname}[{$column->name}]',
-								 'language'=>Yii::app()->language,
+								 'language'=> substr(Yii::app()->language,0,strpos(Yii::app()->language,'_')),
 								 'value'=>\$model->{$column->name},
 								 'htmlOptions'=>array('size'=>10, 'style'=>'width:80px !important'),
 								 'options'=>array(
