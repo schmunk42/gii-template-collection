@@ -40,6 +40,13 @@ foreach($this->tableSchema->columns as $column)
 		}
                 echo "\t\t),\n";
 	}
+	if(stristr($column->name, 'url')) {
+		// TODO - experimental - move to provider class
+		echo "array(";
+		echo "\t\t\t'name'=>'{$column->name}',\n";
+		echo "\t\t\t'type'=>'link',\n";
+		echo "),\n";
+	}
 	else
 		echo "\t\t'".$column->name."',\n";
 	}
