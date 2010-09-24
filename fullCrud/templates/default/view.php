@@ -39,8 +39,7 @@ foreach($this->tableSchema->columns as $column)
 			}
 		}
                 echo "\t\t),\n";
-	}
-	if(stristr($column->name, 'url')) {
+	} else if(stristr($column->name, 'url')) {
 		// TODO - experimental - move to provider class
 		echo "array(";
 		echo "\t\t\t'name'=>'{$column->name}',\n";
