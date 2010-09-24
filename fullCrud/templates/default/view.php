@@ -1,7 +1,7 @@
 <?php
 echo "<?php\n";
-$nameColumn=GHelper::guessNameColumn($this->tableSchema->columns);
-$label=$this->pluralize($this->class2name($this->modelClass));
+$nameColumn = GHelper::guessNameColumn($this->tableSchema->columns);
+$label = $this->pluralize($this->class2name($this->modelClass));
 echo "\$this->breadcrumbs=array(
 	'$label'=>array('index'),
 	\$model->{$nameColumn},
@@ -17,28 +17,27 @@ $this->menu=array(
 );
 ?>
 
-<h1><?php echo "<?php echo Yii::t('app', 'View');?>"?> <?php echo $this->modelClass." #<?php echo \$model->{$this->tableSchema->primaryKey}; ?>"; ?></h1>
+<h1><?php echo "<?php echo Yii::t('app', 'View');?>" ?> <?php echo $this->modelClass . " #<?php echo \$model->{$this->tableSchema->primaryKey}; ?>"; ?></h1>
 
 <?php echo "<?php"; ?> $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
 	'attributes'=>array(
 <?php
-foreach($this->tableSchema->columns as $column) 
-{	
-	if($column->isForeignKey) {
-                echo "\t\tarray(\n";
-                echo "\t\t\t'name'=>'{$column->name}',\n";
-		foreach($this->relations as $key => $relation) {
-			if((($relation[0] == "CHasOneRelation") || ($relation[0] == "CBelongsToRelation")) && $relation[2] == $column->name) {
+foreach ($this->tableSchema->columns as $column) {
+	if ($column->isForeignKey) {
+		echo "\t\tarray(\n";
+		echo "\t\t\t'name'=>'{$column->name}',\n";
+		foreach ($this->relations as $key => $relation) {
+			if ((($relation[0] == "CHasOneRelation") || ($relation[0] == "CBelongsToRelation")) && $relation[2] == $column->name) {
 				$columns = CActiveRecord::model($relation[1])->tableSchema->columns;
 				$suggestedfield = $this->suggestName($columns);
-				$controller = strtolower($relation[1]);
+				$controller = (string)(strtolower(substr($relation[1],0,1)).substr($relation[1],1));//strtolower($relation[1]);
 				echo "\t\t\t'value'=>(\$model->{$key} !== null)?CHtml::link(\$model->{$key}->{$suggestedfield->name}, array('{$controller}/view','id'=>\$model->{$key}->id)):'n/a',\n";
 				echo "\t\t\t'type'=>'html',\n";
 			}
 		}
-                echo "\t\t),\n";
-	} else if(stristr($column->name, 'url')) {
+		echo "\t\t),\n";
+	} else if (stristr($column->name, 'url')) {
 		// TODO - experimental - move to provider class
 		echo "array(";
 		echo "\t\t\t'name'=>'{$column->name}',\n";
@@ -46,42 +45,39 @@ foreach($this->tableSchema->columns as $column)
 		echo "),\n";
 	}
 	else
-		echo "\t\t'".$column->name."',\n";
-	}
+		echo "\t\t'" . $column->name . "',\n";
+}
 ?>
 	),
 )); ?>
 
 
 <?php
-foreach(CActiveRecord::model(Yii::import($this->model))->relations() as $key => $relation)
-{
-	if($relation[0] == 'CManyManyRelation' || $relation[0] == 'CHasManyRelation') 
-	{
+foreach (CActiveRecord::model(Yii::import($this->model))->relations() as $key => $relation) {
+	if ($relation[0] == 'CManyManyRelation' || $relation[0] == 'CHasManyRelation') {
 		$model = CActiveRecord::model($relation[1]);
-		if(!$pk = $model->tableSchema->primaryKey)
+		if (!$pk = $model->tableSchema->primaryKey)
 			$pk = 'id';
 
 		$suggestedtitle = $this->suggestName($model->tableSchema->columns);
-                echo '<h2>';
-                echo "<?php echo CHtml::link(Yii::t('app','{relation}',array('{relation}'=>'".ucfirst($key)."')), array('".$relation[1]."/admin'));?>";
-                echo "</h2>\n";
+		echo '<h2>';
+		echo "<?php echo CHtml::link(Yii::t('app','{relation}',array('{relation}'=>'" . ucfirst($key) . "')), array('" . $relation[1] . "/admin'));?>";
+		echo "</h2>\n";
 		echo CHtml::openTag('ul');
 		printf("<?php foreach(\$model->%s as \$foreignobj) { \n
-				printf('<li>%%s</li>', CHtml::link(\$foreignobj->%s, array('%s/view', 'id' => \$foreignobj->".$pk.")));\n
-				} ?>", $key, $suggestedtitle->name, strtolower($relation[1])); 
+				printf('<li>%%s</li>', CHtml::link(\$foreignobj->%s, array('%s/view', 'id' => \$foreignobj->" . $pk . ")));\n
+				} ?>", $key, $suggestedtitle->name, strtolower($relation[1]));
 		echo CHtml::closeTag('ul');
 	}
-if($relation[0] == 'CHasOneRelation')
-	{
+	if ($relation[0] == 'CHasOneRelation') {
 		$model = CActiveRecord::model($relation[1]);
-		if(!$pk = $model->tableSchema->primaryKey)
+		if (!$pk = $model->tableSchema->primaryKey)
 			$pk = 'id';
 
 		$suggestedtitle = $this->suggestName($model->tableSchema->columns);
-                echo '<h2>';
-                echo "<?php echo CHtml::link(Yii::t('app','{relation}',array('{relation}'=>'{$key}')),'XXX');?>";
-                echo "</h2>\n";
+		echo '<h2>';
+		echo "<?php echo CHtml::link(Yii::t('app','{relation}',array('{relation}'=>'{$key}')),'XXX');?>";
+		echo "</h2>\n";
 		echo CHtml::openTag('ul');
 		printf("<?php
 				if(\$model->%s !== null) printf('<li>%%s</li>', CHtml::link(\$model->{$key}->%s, array('%s/view', 'id' => \$model->{$key}->%s)));\n
