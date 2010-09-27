@@ -660,11 +660,13 @@ class Relation extends CWidget
 		{
 			$model = strtolower(get_class($this->_model));
 			$relatedModel = strtolower(get_class($this->_relatedModel));
+			$relations = $this->model->relations();
+			$controller = GHelper::resolveController($relations[$this->relation]);
 
 			if($this->addButtonUrl != '')
 				$link = $this->addButtonUrl;
 			else
-				$link = $this->controller->createUrl($relatedModel . '/create', array('relation' => $this->relation));
+				$link = $this->controller->createUrl($controller . '/create', array('relation' => $this->relation));
 
 			if($this->addButtonRefreshUrl == '')
 				$this->addButtonRefreshUrl = $this->controller->createUrl($model . '/getOptions', array(

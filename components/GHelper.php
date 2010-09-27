@@ -57,6 +57,10 @@ class GHelper {
 		return 'id';
 	}
 
+	public static function resolveController($relation) {
+		return (string)(strtolower(substr($relation[1],0,1)).substr($relation[1],1));
+	}
+
 }
 
 ?>

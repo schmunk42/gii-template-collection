@@ -31,7 +31,7 @@ foreach ($this->tableSchema->columns as $column) {
 			if ((($relation[0] == "CHasOneRelation") || ($relation[0] == "CBelongsToRelation")) && $relation[2] == $column->name) {
 				$columns = CActiveRecord::model($relation[1])->tableSchema->columns;
 				$suggestedfield = $this->suggestName($columns);
-				$controller = (string)(strtolower(substr($relation[1],0,1)).substr($relation[1],1));//strtolower($relation[1]);
+				$controller = GHelper::resolveController($relation);
 				echo "\t\t\t'value'=>(\$model->{$key} !== null)?CHtml::link(\$model->{$key}->{$suggestedfield->name}, array('{$controller}/view','id'=>\$model->{$key}->id)):'n/a',\n";
 				echo "\t\t\t'type'=>'html',\n";
 			}
