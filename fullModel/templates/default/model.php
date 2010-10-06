@@ -27,6 +27,28 @@ class <?php echo $modelClass; ?> extends <?php echo 'Base' . $modelClass."\n"; ?
 		return parent::init();
 	}
 
+	public function __toString() {
+		return (string) $this-><?php
+			$found = false;
+			foreach($columns as $name => $column) {
+				if(!$found 
+						&& $column->type != 'datetime'
+						&& $column->type==='string' 
+						&& !$column->isPrimaryKey) {
+					echo $column->name;
+					$found = true;
+				}
+			}
+
+			// if the columns contains no column of type 'string', return the
+			// first column (usually the primary key)
+			if(!$found)
+				echo reset($columns)->name; 
+			?>;
+
+	}
+
+
 	public function rules() 
 	{
 		return array_merge(

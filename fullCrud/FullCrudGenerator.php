@@ -17,7 +17,8 @@ class FullCrudGenerator extends CCodeGenerator {
 		foreach (Yii::app()->getModules() as $moduleName => $config) {
 			$aliases[] = $moduleName . ".models";
 		}
-		foreach ($aliases AS $alias) {
+
+		foreach ($aliases as $alias) {
 			$files = scandir(Yii::getPathOfAlias($alias));
 			Yii::import($alias.".*");
 			foreach ($files as $file) {

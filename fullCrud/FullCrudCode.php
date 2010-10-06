@@ -3,7 +3,6 @@
 Yii::import('system.gii.generators.crud.CrudCode');
 
 class FullCrudCode extends CrudCode {
-
 	public $authtype;
 	public $persistent_sessions = true;
 	public $enable_ajax_validation = true;
