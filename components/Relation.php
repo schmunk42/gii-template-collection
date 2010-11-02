@@ -90,6 +90,7 @@ $this->widget('application.components.Relation', array(
 			'model' => 'Post',
 			'field' => 'Userid',
 			'style' => 'ListBox',
+			'criteria' => new CDBCriteria(array('condition' => 'id_of_user IN (1,8,20)')),
 			'parentObjects' => Parentmodel::model()->findAll('userid = 17'),
 			'groupParentsBy' => 'city',
 			'relation' => 'user',
@@ -146,6 +147,9 @@ class Relation extends CWidget
 	// url for the action that refreshes the dropdownlist after related
   // object is created
 	public $addButtonRefreshUrl = '';
+	
+	// criteria for filtering records
+	public $criteria = false;
 
 	// How the label of a row should be rendered. {id} will be replaced by the
 	// id of the model. You can also insert every field that is available in the
@@ -284,7 +288,13 @@ class Relation extends CWidget
 			} 
 			else // Show all Parent elements
 			{ 
-				$parentobjects = CActiveRecord::model(get_class($this->_relatedModel))->findAll(array('order'=>GHelper::guessNameColumn($this->_relatedModel->tableSchema->columns)));
+				if($this->criteria === false){
+					$parentobjects = CActiveRecord::model(get_class($this->_relatedModel))->findAll(array('order'=>GHelper::guessNameColumn($this->_relatedModel->tableSchema->columns)));
+				} else {
+					$parentobjects = CActiveRecord::model(get_class($this->_relatedModel));
+					$parentobjects->setDbCriteria($this->criteria);
+					$parentobjects = $parentobjects->findAll(array('order'=>GHelper::guessNameColumn($this->_relatedModel->tableSchema->columns)));
+				}
 			} 
 
 			if($this->allowEmpty)
