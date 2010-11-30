@@ -11,13 +11,21 @@ class TimestampBehavior extends CActiveRecordBehavior {
 	 * The field that stores the modification time
 	 */
 	public $updatetime = 'updatetime';
-
+	public $integer_timestamps = true;
 
 	public function beforeValidate($on) {
+	if(isset($this->Owner->tableSchema->columns[$this->createtime]))
 		if ($this->Owner->isNewRecord)
-			$this->Owner->{$this->createtime} = new CDbExpression('NOW()');
-		else
-			$this->Owner->{$this->updatetime} = new CDbExpression('NOW()');
+			if($this->integer_timestamps)
+				$this->Owner->{$this->createtime} = time();
+			else
+				$this->Owner->{$this->createtime} = new CDbExpression('NOW()');
+
+	if(isset($this->Owner->tableSchema->columns[$this->updatetime]))
+			if($this->integer_timestamps)
+				$this->Owner->{$this->updatetime} = time();
+			else
+				$this->Owner->{$this->updatetime} = new CDbExpression('NOW()');
 
 		return true;
 	}

@@ -1,7 +1,6 @@
 <?php
 
 abstract class GActiveRecord extends CActiveRecord {
-
 	public function behaviors()
 	{
 		return array_merge(parent::behaviors(), array(

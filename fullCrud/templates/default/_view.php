@@ -11,7 +11,14 @@ foreach($this->tableSchema->columns as $column)
 	if(++$count==7)
 		echo "\t<?php /*\n";
 	echo "\t<b><?php echo CHtml::encode(\$data->getAttributeLabel('{$column->name}')); ?>:</b>\n";
+		if($column->name == 'createtime'
+				or $column->name == 'updatetime'
+				or $column->name == 'timestamp') {
+	echo "<?php \$locale = CLocale::getInstance(Yii::app()->language);\n";
+	echo "\techo \$locale->getDateFormatter()->formatDateTime(\$data->{$column->name}, 'medium', 'medium'); ?>\n\t<br />\n\n";
+} else {
 	echo "\t<?php echo CHtml::encode(\$data->{$column->name}); ?>\n\t<br />\n\n";
+}
 }
 if($count>=7)
 	echo "\t*/ ?>\n";

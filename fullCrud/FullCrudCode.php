@@ -124,21 +124,15 @@ class FullCrudCode extends CrudCode {
 		if (!is_object($model))
 			$model = CActiveRecord::model($model);
 
-		/* if ($column->isForeignKey)
-			 return false; */
 		$providerPaths = Yii::app()->controller->module->params['gtc.fullCrud.providers'];
 		$providerPaths[] = 'ext.gtc.fullCrud.providers.FullCrudFieldProvider';
 
 		$field = null;
 		foreach($providerPaths AS $provider) {
-#Yii::import($provider);
 			$providerClass = Yii::createComponent($provider);
-#var_dump($providerClass);
 			if (($field = $providerClass::generateActiveField($model, $column)) !== null)
 				break;
 		}
-
-#var_dump($field);exit;
 
 		if ($field !== null) {
 			return $field;
@@ -166,7 +160,6 @@ class FullCrudCode extends CrudCode {
 			}
 			$fmodel = CActiveRecord::model($relation[1]);
 			$fmodelName = $relation[1];
-#$fmodel = CActiveRecord::model(ucfirst($fk[0]));
 
 			$modelTable = ucfirst($fmodel->tableName());
 			$fcolumns = $fmodel->attributeNames();
@@ -198,9 +191,9 @@ class FullCrudCode extends CrudCode {
 							'filter'=>CHtml::listData({$fmodelName}::model()->findAll(), '{$fcolumns[0]}', '{$fcolumns[1]}'),
 							)";
 			//{$relname}.{$fcolumns[1]}
-		}
-		elseif (strtoupper($column->dbType) == 'BOOLEAN' or strtoupper($column->dbType) == 'TINYINT(1)' OR strtoupper($column->dbType) == 'BIT') {
-
+		} else if (strtoupper($column->dbType) == 'BOOLEAN' 
+				or strtoupper($column->dbType) == 'TINYINT(1)' or
+				strtoupper($column->dbType) == 'BIT') {
 			if ($view) {
 				return "array(
 					'name'=>'{$column->name}',
@@ -212,13 +205,17 @@ class FullCrudCode extends CrudCode {
 					'value'=>'\$data->{$column->name}?Yii::t(\\'app\\',\\'Yes\\'):Yii::t(\\'app\\', \\'No\\')',
 							'filter'=>array('0'=>Yii::t('app','No'),'1'=>Yii::t('app','Yes')),
 							)";
-		}
-		else {
+		} else if($column->name == 'createtime'
+				or $column->name == 'updatetime'
+				or $column->name == 'timestamp')
+		{
+			return "array(
+				'name'=>'{$column->name}',
+				'value' =>'date(\"Y. m. d G:i:s\", \$data->{$column->name})')";
+		} else {
 			return("'" . $column->name . "'");
 		}
 	}
-
-
 }
 
 ?>

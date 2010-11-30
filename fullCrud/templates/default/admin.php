@@ -40,7 +40,9 @@ echo $this->pluralize($this->class2name($this->modelClass)); ?></h1>
 )); ?>\n"; ?>
 </div>
 
-<?php echo "<?php"; ?> $this->widget('zii.widgets.grid.CGridView', array(
+<?php echo "<?php
+\$locale = CLocale::getInstance(Yii::app()->language);\n
+"; ?> $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'<?php echo $this->class2id($this->modelClass); ?>-grid',
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
