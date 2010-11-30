@@ -46,10 +46,10 @@ class FullCrudCode extends CrudCode {
 		$j = 0;
 		foreach ($columns as $column) {
 			if (!$column->isForeignKey
-				&& !$column->isPrimaryKey
-				&& $column->type != 'INT'
-				&& $column->type != 'INTEGER'
-				&& $column->type != 'BOOLEAN') {
+					&& !$column->isPrimaryKey
+					&& $column->type != 'INT'
+					&& $column->type != 'INTEGER'
+					&& $column->type != 'BOOLEAN') {
 				$num = $j;
 				break;
 			}
@@ -125,20 +125,20 @@ class FullCrudCode extends CrudCode {
 			$model = CActiveRecord::model($model);
 
 		/* if ($column->isForeignKey)
-		  return false; */
+			 return false; */
 		$providerPaths = Yii::app()->controller->module->params['gtc.fullCrud.providers'];
 		$providerPaths[] = 'ext.gtc.fullCrud.providers.FullCrudFieldProvider';
 
 		$field = null;
 		foreach($providerPaths AS $provider) {
-			#Yii::import($provider);
+#Yii::import($provider);
 			$providerClass = Yii::createComponent($provider);
-			#var_dump($providerClass);
+#var_dump($providerClass);
 			if (($field = $providerClass::generateActiveField($model, $column)) !== null)
 				break;
 		}
 
-		#var_dump($field);exit;
+#var_dump($field);exit;
 
 		if ($field !== null) {
 			return $field;
@@ -166,7 +166,7 @@ class FullCrudCode extends CrudCode {
 			}
 			$fmodel = CActiveRecord::model($relation[1]);
 			$fmodelName = $relation[1];
-			#$fmodel = CActiveRecord::model(ucfirst($fk[0]));
+#$fmodel = CActiveRecord::model(ucfirst($fk[0]));
 
 			$modelTable = ucfirst($fmodel->tableName());
 			$fcolumns = $fmodel->attributeNames();
@@ -188,15 +188,15 @@ class FullCrudCode extends CrudCode {
 				return "array(
 					'name'=>'{$column->name}',
 					'value'=>CHtml::value(\$model,'{$relname}.{$fcolumns[1]}'),
-				)";
+					)";
 			} elseif ($view == 'search')
-				return "\$form->dropDownList(\$model,'{$column->name}',CHtml::listData({$fmodelName}::model()->findAll(), '{$fmodel->getTableSchema()->primaryKey}', '{$fcolumns[1]}'),array('prompt'=>Yii::t('app', 'All')))";
+			return "\$form->dropDownList(\$model,'{$column->name}',CHtml::listData({$fmodelName}::model()->findAll(), '{$fmodel->getTableSchema()->primaryKey}', '{$fcolumns[1]}'),array('prompt'=>Yii::t('app', 'All')))";
 			else
 				return "array(
 					'name'=>'{$column->name}',
 					'value'=>'CHtml::value(\$data,\\'{$relname}.{$fcolumns[1]}\\')',
-					'filter'=>CHtml::listData({$fmodelName}::model()->findAll(), '{$fcolumns[0]}', '{$fcolumns[1]}'),
-				)";
+							'filter'=>CHtml::listData({$fmodelName}::model()->findAll(), '{$fcolumns[0]}', '{$fcolumns[1]}'),
+							)";
 			//{$relname}.{$fcolumns[1]}
 		}
 		elseif (strtoupper($column->dbType) == 'BOOLEAN' or strtoupper($column->dbType) == 'TINYINT(1)' OR strtoupper($column->dbType) == 'BIT') {
@@ -205,13 +205,13 @@ class FullCrudCode extends CrudCode {
 				return "array(
 					'name'=>'{$column->name}',
 					'value'=>\$model->{$column->name}?Yii::t('app', 'Yes'):Yii::t('app', 'No'),
-				)";
+					)";
 			} else
 				return "array(
 					'name'=>'{$column->name}',
 					'value'=>'\$data->{$column->name}?Yii::t(\\'app\\',\\'Yes\\'):Yii::t(\\'app\\', \\'No\\')',
-					'filter'=>array('0'=>Yii::t('app','No'),'1'=>Yii::t('app','Yes')),
-				)";
+							'filter'=>array('0'=>Yii::t('app','No'),'1'=>Yii::t('app','Yes')),
+							)";
 		}
 		else {
 			return("'" . $column->name . "'");
