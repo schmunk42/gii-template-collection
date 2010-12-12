@@ -6,11 +6,12 @@ class FullCrudCode extends CrudCode {
 	public $authtype;
 	public $persistent_sessions = true;
 	public $enable_ajax_validation = true;
+	public $baseControllerClass='GController';
 
 	public function prepare() {
 		parent::prepare();
 		if(!isset($this->baseControllerClass))
-			$this->baseControllerClass = 'GController';
+			$this->baseControllerClass;
 	}
 
 	public function rules()                                                       
