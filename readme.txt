@@ -15,8 +15,16 @@ section of the gii Configuration inside your application configuration:
 After that, the new Generators of the Gii Template Collection should be
 available in your Gii index page.
 
-Please note that you have to add 'ext.gtc.components.*' to your import path so
-the needed components can be found by the application.
+The last step is to add 'ext.gtc.components.*' to your import path so
+the needed components can be found by the application:
+
+	// autoloading model and component classes
+	'import'=>array(
+		'application.models.*',
+		'application.components.*',
+		'application.modules.user.models.*',
+		'ext.gtc.components.*', // Gii Template Collection
+		),
 
 -- Experimental --
 You also have the ability to add custom field providers by config.
