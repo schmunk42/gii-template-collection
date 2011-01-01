@@ -4,6 +4,7 @@
 
 Version 0.5
 -----------
+- Fix: Relation incorrectly referenced $this->model instead of $this->_model in one place, causing problems when the 'model' option was set to a model class name instead of a model instance. (rawtaz)
 - Chg: Changed vendors/ to components/ since it now contains Gtc-related components and not vendors anymore
 - New: added views/buttons.php for easier rendering of forms from another model into a form after generation
 - New: Relation widget can now inject user contributed function values into htmlOption's template property. This is useful for example if one want to build a hierarchy of relation widgets inside one another, or just generally control how the entire row for each of the related records is rendered. Relation widget's $functionsInHtmlOptionsTemplate property may be true or an array of function names, see source file documentation for more information. (rawtaz)

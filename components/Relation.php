@@ -670,7 +670,7 @@ class Relation extends CWidget
 		{
 			$model = strtolower(get_class($this->_model));
 			$relatedModel = strtolower(get_class($this->_relatedModel));
-			$relations = $this->model->relations();
+			$relations = $this->_model->relations();
 			$controller = GHelper::resolveController($relations[$this->relation]);
 
 			if($this->addButtonUrl != '')
