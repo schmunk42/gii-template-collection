@@ -19,14 +19,6 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 	public function actionCreate()
 	{
 		$model = new <?php echo $this->modelClass; ?>;
-		if (isset($_GET['relation'])) 
-			$relation = $_GET['relation']; // TODO - check?!
-	    else
-			$relation = null;
-
-		<?php if($this->persistent_sessions) { ?>
-			$this->pickleForm($model, $_POST);
-		<?php } ?>
 
 		<?php if($this->enable_ajax_validation) { ?>
 		$this->performAjaxValidation($model, '<?php echo $this->class2id($this->modelClass)?>-form');
@@ -48,16 +40,8 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 ?>
 
 			if($model->save()) {
-		<?php if($this->persistent_sessions) { ?>
-				unset($_SESSION['<?php echo $this->modelClass; ?>']);
-    <?php } ?>
 
-
-		if(Yii::app()->request->isAjaxRequest)
-			$this->renderPartial('success', array('model' => $model, 'relation' => $relation));
-		else
 			$this->redirect(array('view','id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>));
-			Yii::app()->end();
 				}
 			}
 
@@ -72,10 +56,6 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 	public function actionUpdate()
 	{
 		$model = $this->loadModel();
-
-		<?php if($this->persistent_sessions) { ?>
-    $this->pickleForm($model, $_POST);
-		<?php } ?>
 
 		<?php if($this->enable_ajax_validation) { ?>
 		$this->performAjaxValidation($model, '<?php echo $this->class2id($this->modelClass)?>-form');
@@ -97,9 +77,6 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 ?>
 
 			if($model->save()) {
-		<?php if($this->persistent_sessions) { ?>
-      unset($_SESSION['<?php echo $this->modelClass; ?>']);
-		<?php } ?>
 
       $this->redirect(array('view','id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>));
 			}
