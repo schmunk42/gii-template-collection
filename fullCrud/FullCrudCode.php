@@ -1,6 +1,7 @@
 <?php
 
 Yii::import('system.gii.generators.crud.CrudCode');
+Yii::import('ext.gtc.components.*');
 
 class FullCrudCode extends CrudCode {
 	public $authtype;

@@ -1,11 +1,13 @@
 <?php
 Yii::import('system.gii.generators.model.ModelCode');
+Yii::import('ext.gtc.components.*');
 
 class FullModelCode extends ModelCode {
 	public $baseClass = 'GActiveRecord';
 
 	public function init() {
 		parent::init();
+
 		if (!@class_exists("CSaveRelationsBehavior")) {
 			throw new CException("Fatal Error: Class 'CSaveRelationsBehavior' could not be found in your application! Add 'ext.gtc.components.*' to your import paths.");
 		}
@@ -52,6 +54,8 @@ class FullModelCode extends ModelCode {
 					'rules' => $this->generateRules($table),
 					'relations' => isset($this->relations[$className]) ? $this->relations[$className] : array(),
 					);
+
+		if($this->template != 'singlefile')
 			$this->files[] = new CCodeFile(
 					Yii::getPathOfAlias($this->modelPath) . '/' . 'Base' . $className . '.php',
 					$this->render($templatePath . '/basemodel.php', $params)
@@ -60,10 +64,13 @@ class FullModelCode extends ModelCode {
 	}
 
 	public function requiredTemplates() {
-		return array(
-				'model.php',
-				'basemodel.php',
-				);
+		if($this->template == 'singlefile')
+			return array('model.php');
+		else
+			return array(
+					'model.php',
+					'basemodel.php',
+					);
 	}
 
 	public function generateRules($table)
