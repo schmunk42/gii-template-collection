@@ -3,4 +3,6 @@
   =================================
 
 - rewrite miniforms  
-- setup github mirror ...
+- setup github mirror
+- testing commits from svn and git
+   - resolving conflicts
