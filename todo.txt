@@ -6,3 +6,4 @@
 - setup github mirror
 - testing commits from svn and git
    - resolving conflicts
+   - switched to master branch and commit from submodule
