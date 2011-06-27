@@ -86,7 +86,7 @@ $this->menu=array(
 
 			$suggestedtitle = $this->suggestName($model->tableSchema->columns);
 			echo '<h2>';
-			echo "<?php echo CHtml::link(Yii::t('app','{relation}',array('{relation}'=>'{$key}')),'XXX');?>";
+			echo "<?php echo CHtml::link(Yii::t('app','{relation}',array('{relation}'=>'".$relation[1]."')),'/".strtolower($relation[1])."/admin');?>";
 			echo "</h2>\n";
 			echo CHtml::openTag('ul');
 			printf("<?php
