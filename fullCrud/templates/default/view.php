@@ -74,10 +74,18 @@ $this->menu=array(
 			echo "<?php echo CHtml::link(Yii::t('app','{relation}',array('{relation}'=>'" . ucfirst($key) . "')), array('" . $relation[1] . "/admin'));?>";
 			echo "</h2>\n";
 			echo CHtml::openTag('ul');
-			printf("<?php foreach(\$model->%s as \$foreignobj) { \n
-					printf('<li>%%s</li>', CHtml::link(\$foreignobj->%s, array('%s/view', 'id' => \$foreignobj->" . $pk . ")));\n
-					} ?>", $key, $suggestedtitle->name, strtolower($relation[1]));
-		echo CHtml::closeTag('ul');
+			echo "<?php foreach(\$model->{$key} as \$foreignobj) { \n
+					echo '<li>';
+					echo CHtml::link(
+						\$foreignobj->{$suggestedtitle->name}?\$foreignobj->{$suggestedtitle->name}:\$foreignobj->{$pk},
+						array('".strtolower($relation[1])."/view', 'id' => \$foreignobj->{$pk}));\n
+					}; ?>";
+			echo CHtml::closeTag('ul');
+
+			echo "<p><?php echo CHtml::link(
+				Yii::t('app','Create'),
+				array('/".strtolower($relation[1])."/create', '$relation[1]' => array('$relation[2]'=>\$model->id))
+				);  ?></p>";
 		}
 		if ($relation[0] == 'CHasOneRelation') {
 			$model = CActiveRecord::model($relation[1]);
@@ -89,9 +97,12 @@ $this->menu=array(
 			echo "<?php echo CHtml::link(Yii::t('app','{relation}',array('{relation}'=>'".$relation[1]."')),'/".strtolower($relation[1])."/admin');?>";
 			echo "</h2>\n";
 			echo CHtml::openTag('ul');
-			printf("<?php
-					if(\$model->%s !== null) printf('<li>%%s</li>', CHtml::link(\$model->{$key}->%s, array('%s/view', 'id' => \$model->{$key}->%s)));\n
-					?>", $key, $suggestedtitle->name, strtolower($relation[1]), $pk);
+			echo "<?php foreach(\$model->{$key} as \$foreignobj) { \n
+					echo '<li>';
+					echo CHtml::link(
+						\$foreignobj->{$suggestedtitle->name}?\$foreignobj->{$suggestedtitle->name}:\$foreignobj->{$pk},
+						array('".strtolower($relation[1])."/view', 'id' => \$foreignobj->{$pk}));\n
+					}; ?>";
 			echo CHtml::closeTag('ul');
 		}
 	}

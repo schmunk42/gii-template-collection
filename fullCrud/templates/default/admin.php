@@ -34,6 +34,17 @@ data: $(this).serialize()
 echo "<?php echo Yii::t('app', 'Manage'); ?> ";
 echo $this->pluralize($this->class2name($this->modelClass)); ?></h1>
 
+<?php 
+echo '<?php
+echo "<ul>";
+foreach ($model->relations() AS $key => $relation) {
+
+	echo  "<li>".substr(str_replace("Relation","",$relation[0]),1)." ".CHtml::link(Yii::t("app",$relation[1]), array("/".$relation[1]."/admin"))." "."</li>";
+}
+echo "</ul>";
+?>'
+?>
+
 <?php echo "<?php echo CHtml::link(Yii::t('app', 'Advanced Search'),'#',array('class'=>'search-button')); ?>"; ?>
 
 <div class="search-form" style="display:none">
