@@ -48,7 +48,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 
 
 		if(Yii::app()->request->isAjaxRequest)
-			$this->renderPartial('_miniform',array( 'model'=>$model, 'relation' => $relation));
+			$this->renderPartial('_miniform',array( 'model'=>$model, 'relation' => $_GET['relation']));
 		else
 			$this->render('create',array( 'model'=>$model));
 	}
