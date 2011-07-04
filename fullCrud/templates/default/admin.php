@@ -34,12 +34,15 @@ data: $(this).serialize()
 echo "<?php echo Yii::t('app', 'Manage'); ?> ";
 echo $this->pluralize($this->class2name($this->modelClass)); ?></h1>
 
-<?php 
+<?php
 echo '<?php
 echo "<ul>";
-foreach ($model->relations() AS $key => $relation) {
-
-	echo  "<li>".substr(str_replace("Relation","",$relation[0]),1)." ".CHtml::link(Yii::t("app",$relation[1]), array("/".$relation[1]."/admin"))." "."</li>";
+foreach ($model->relations() AS $key => $relation)
+{
+	echo  "<li>".
+		substr(str_replace("Relation","",$relation[0]),1)." ".
+		CHtml::link(Yii::t("app",$relation[1]), array("/".$this->resolveRelationController($relation)."/admin")).
+		" </li>";
 }
 echo "</ul>";
 ?>'
