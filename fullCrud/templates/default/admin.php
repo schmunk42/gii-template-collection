@@ -41,7 +41,7 @@ foreach ($model->relations() AS $key => $relation)
 {
 	echo  "<li>".
 		substr(str_replace("Relation","",$relation[0]),1)." ".
-		CHtml::link(Yii::t("app",$relation[1]), array("/".$this->resolveRelationController($relation)."/admin")).
+		CHtml::link(Yii::t("app",$relation[1]), array("/".$this->resolveRelationController($relation)."/admin"))." (".$relation[2].")".
 		" </li>";
 }
 echo "</ul>";
