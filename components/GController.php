@@ -1,6 +1,9 @@
 <?php
 
 abstract class GController extends Controller {
+	
+	public $menu = null;
+	
 	protected $_model;
 
 	public function unpickleForm(&$model) {
