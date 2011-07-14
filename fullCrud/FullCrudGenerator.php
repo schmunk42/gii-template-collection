@@ -19,7 +19,9 @@ class FullCrudGenerator extends CCodeGenerator {
 		}
 
 		foreach ($aliases as $alias) {
-			$files = scandir(Yii::getPathOfAlias($alias));
+            $path = Yii::getPathOfAlias($alias);
+		    if (!is_dir($path)) continue;
+			$files = scandir($path);
 			Yii::import($alias.".*");
 			foreach ($files as $file) {
 				if ($fileClassName = $this->checkFile($file, $alias))
