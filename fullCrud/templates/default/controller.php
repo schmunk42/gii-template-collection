@@ -40,14 +40,15 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 ?>
 
 			if($model->save()) {
-
-			$this->redirect(array('view','id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>));
-				}
-			}
+				$this->redirect(array('view','id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>));
+			}			
+		} elseif(isset($_GET['<?php echo $this->modelClass; ?>'])) {
+				$model->attributes = $_GET['<?php echo $this->modelClass; ?>'];
+		}
 
 
 		if(Yii::app()->request->isAjaxRequest)
-			$this->renderPartial('_miniform',array( 'model'=>$model, 'relation' => $relation));
+			$this->renderPartial('_miniform',array( 'model'=>$model, 'relation' => $_GET['relation']));
 		else
 			$this->render('create',array( 'model'=>$model));
 	}

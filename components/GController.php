@@ -57,5 +57,13 @@ abstract class GController extends Controller {
 			Yii::app()->end();
 		}
 	}
+
+	/**
+	 * Determines the controller for a relation
+	 */
+	public static function resolveRelationController($relation){
+		$controller = strtolower(substr($relation[1],0,1)).substr($relation[1],1);
+		return $controller;
+	}
 }
 ?>

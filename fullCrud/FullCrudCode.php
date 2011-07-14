@@ -218,6 +218,8 @@ class FullCrudCode extends CrudCode {
 			return("'" . $column->name . "'");
 		}
 	}
+
+	
 }
 
 ?>

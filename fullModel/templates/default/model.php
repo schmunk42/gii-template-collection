@@ -68,4 +68,19 @@ class <?php echo $modelClass; ?> extends <?php echo 'Base' . $modelClass."\n"; ?
 			parent::behaviors()
 		);
 	}
+
+	<?php if (!isset($columns['name'])): ?>
+	public function getName()
+	{
+		<?php
+		foreach($columns AS $col){
+			//if no name attribute is found, use the first string value in the table
+			if($col->type == 'string') {
+				echo 'return $this->'.$col->name.';';
+				break;
+			}
+		}
+		?>
+	}
+	<?php endif;?>
 }
