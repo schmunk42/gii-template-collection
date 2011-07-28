@@ -3,16 +3,15 @@
 <?php echo "<?php echo Yii::t('app','Fields with');?> <span class=\"required\">*</span> <?php echo Yii::t('app','are required');?>";?>.
 </p>
 
-<?php
-$ajax = ($this->enable_ajax_validation) ? 'true' : 'false';
+<?php echo '<?php'; ?>
 
-echo "<?php \$form=\$this->beginWidget('CActiveForm', array(
-'id'=>'".$this->class2id($this->modelClass)."-form',
-	'enableAjaxValidation'=>$ajax,
-	)); \n"; 
+$form=$this->beginWidget('CActiveForm', array(
+'id'=>'<?php echo $this->class2id($this->modelClass);?>-form',
+	'enableAjaxValidation'=><?php echo $this->validation == 1 || $this->validation == 3 ? 'true' : 'false'; ?>,
+	'enableClientValidation'=><?php echo $this->validation == 2 || $this->validation == 3 ? 'true' : 'false';?>,
+	)); 
 
-echo "\techo \$form->errorSummary(\$model);\n";
-echo "?>";
+echo $form->errorSummary($model);
 ?>
 
 	<?php
@@ -22,6 +21,8 @@ foreach($this->tableSchema->columns as $column)
 		continue;
 
 	if(!$column->isForeignKey
+			&& $column->name != 'create_time'
+			&& $column->name != 'update_time'
 			&& $column->name != 'createtime'
 			&& $column->name != 'updatetime'
 			&& $column->name != 'timestamp') {
@@ -29,8 +30,6 @@ foreach($this->tableSchema->columns as $column)
 		echo "<?php echo ".$this->generateActiveLabel($this->modelClass,$column)."; ?>\n"; 
 		echo "<?php ".$this->generateActiveField($this->modelClass,$column)."; ?>\n"; 
 		echo "<?php echo \$form->error(\$model,'{$column->name}'); ?>\n";
-		$placholder = "_HINT_".$this->modelClass.".".$column->name."";
-		echo "<?php if('".$placholder."' != \$hint = Yii::t('app', '".$placholder."')) echo \$hint; ?>\n";
 		echo "</div>\n\n";
 	}
 }

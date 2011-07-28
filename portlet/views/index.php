@@ -1,20 +1,35 @@
-<?php Yii::import('PortletGenerator.widgets.ddeditor.*'); ?>
-<h1>Portlet Generator</h1>
+<h2>Portlet Generator</h2>
 <p>This generator helps you to quickly generate the skeleton code for a new portlet class.</p>
+<p style="padding:5px;">A portlet displays a fragment of content with a title, usually in terms of a block
+ on the side bars of a Web page.
+ </p>
 <?php $form=$this->beginWidget('CCodeForm', array('model'=>$model)); ?>
-<?php $this->widget('system.web.widgets.CTabView', array('tabs'=>array(
-    'tab1'=>array(
-	    'title'=>'Component', 'view'=>'__class',
-        'data'=>array('model'=>$model,'form'=>$form),
-	 ),
-    'tab2'=>array(
-	    'title'=>'Comment', 'view'=>'__comment',
-        'data'=>array('model'=>$model,'form'=>$form),
-	 ),
-    'tab3'=>array(
-	    'title'=>'Info', 'view'=>'__infos',
-        'data'=>array('model'=>$model,'form'=>$form),
-	 ),
-)));
-?>
+<div class="row">
+        <?php echo $form->labelEx($model,'className'); ?>
+        <?php echo $form->textField($model,'className',array('size'=>65)); ?>
+        <div class="tooltip">
+            Portlet class name must only contain word characters.
+        </div>
+        <?php echo $form->error($model,'className'); ?>
+    </div>
+
+	<div class="row sticky">
+		<?php echo $form->labelEx($model,'baseClass'); ?>
+		<?php echo $form->textField($model,'baseClass',array('size'=>65)); ?>
+		<div class="tooltip">
+			This is the class that the new portlet class will extend from.
+			Please make sure the class exists and can be autoloaded.
+		</div>
+		<?php echo $form->error($model,'baseClass'); ?>
+	</div>
+	<div class="row sticky">
+		<?php echo $form->labelEx($model,'scriptPath'); ?>
+		<?php echo $form->textField($model,'scriptPath', array('size'=>65)); ?>
+		<div class="tooltip">
+			This refers to the directory that the new view script file should be generated under.
+			It should be specified in the form of a path alias, for example, <code>application.web</code>,
+			<code>mymodule.views</code>.
+		</div>
+		<?php echo $form->error($model,'scriptPath'); ?>
+	</div>
 <?php $this->endWidget(); ?>

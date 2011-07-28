@@ -71,21 +71,13 @@ $this->menu=array(
 
 			$suggestedtitle = $this->suggestName($model->tableSchema->columns);
 			echo '<h2>';
-			echo "<?php echo CHtml::link(Yii::t('app','{relation}',array('{relation}'=>'" . ucfirst($key) . "')), array('".GController::resolveRelationController($relation)."/admin'));?>";
+			echo "<?php echo CHtml::link(Yii::t('app','{relation}',array('{relation}'=>'" . ucfirst($key) . "')), array('" . $relation[1] . "/admin'));?>";
 			echo "</h2>\n";
 			echo CHtml::openTag('ul');
-			echo "<?php foreach(\$model->{$key} as \$foreignobj) { \n
-					echo '<li>';
-					echo CHtml::link(
-						\$foreignobj->{$suggestedtitle->name}?\$foreignobj->{$suggestedtitle->name}:\$foreignobj->{$pk},
-						array('/".GController::resolveRelationController($relation)."/view', 'id' => \$foreignobj->{$pk}));\n
-					}; ?>";
-			echo CHtml::closeTag('ul');
-
-			echo "<p><?php echo CHtml::link(
-				Yii::t('app','Create'),
-				array('/".GController::resolveRelationController($relation)."/create', '$relation[1]' => array('$relation[2]'=>\$model->id))
-				);  ?></p>";
+			printf("<?php foreach(\$model->%s as \$foreignobj) { \n
+					printf('<li>%%s</li>', CHtml::link(\$foreignobj->%s, array('%s/view', 'id' => \$foreignobj->" . $pk . ")));\n
+					} ?>", $key, $suggestedtitle->name, strtolower($relation[1]));
+		echo CHtml::closeTag('ul');
 		}
 		if ($relation[0] == 'CHasOneRelation') {
 			$model = CActiveRecord::model($relation[1]);
@@ -94,15 +86,12 @@ $this->menu=array(
 
 			$suggestedtitle = $this->suggestName($model->tableSchema->columns);
 			echo '<h2>';
-			echo "<?php echo CHtml::link(Yii::t('app','{relation}',array('{relation}'=>'".$relation[1]."')),'/\$this->resolveRelationController(\$relation)/admin');?>";
+			echo "<?php echo CHtml::link(Yii::t('app','{relation}',array('{relation}'=>'{$key}')),'XXX');?>";
 			echo "</h2>\n";
 			echo CHtml::openTag('ul');
-			echo "<?php foreach(\$model->{$key} as \$foreignobj) { \n
-					echo '<li>';
-					echo CHtml::link(
-						\$foreignobj->{$suggestedtitle->name}?\$foreignobj->{$suggestedtitle->name}:\$foreignobj->{$pk},
-						array('/\$this->resolveRelationController(\$relation)/view', 'id' => \$foreignobj->{$pk}));\n
-					}; ?>";
+			printf("<?php
+					if(\$model->%s !== null) printf('<li>%%s</li>', CHtml::link(\$model->{$key}->%s, array('%s/view', 'id' => \$model->{$key}->%s)));\n
+					?>", $key, $suggestedtitle->name, strtolower($relation[1]), $pk);
 			echo CHtml::closeTag('ul');
 		}
 	}
