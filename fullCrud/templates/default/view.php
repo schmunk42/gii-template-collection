@@ -37,7 +37,7 @@ $this->menu=array(
 			$columns = CActiveRecord::model($relation[1])->tableSchema->columns;
 			$suggestedfield = $this->suggestName($columns);
 			$controller = GHelper::resolveController($relation);
-			echo "\t\t\t'value'=>(\$model->{$key} !== null)?CHtml::link(\$model->{$key}->{$suggestedfield->name}, array('{$controller}/view','id'=>\$model->{$key}->id)):'n/a',\n";
+			echo "\t\t\t'value'=>(\$model->{$key} !== null)?CHtml::link(\$model->{$key}->{$suggestedfield->name}, array('{$controller}/view','id'=>\$model->{$key}->{\$model->{$key}->tableSchema->primaryKey})):'n/a',\n";
 			echo "\t\t\t'type'=>'html',\n";
 			}
 			}
@@ -84,7 +84,7 @@ $this->menu=array(
 
 			echo "<p><?php echo CHtml::link(
 				Yii::t('app','Create'),
-				array('/".GController::resolveRelationController($relation)."/create', '$relation[1]' => array('$relation[2]'=>\$model->id))
+				array('/".GController::resolveRelationController($relation)."/create', '$relation[1]' => array('$relation[2]'=>\$model->{$pk}))
 				);  ?></p>";
 		}
 		if ($relation[0] == 'CHasOneRelation') {
@@ -94,16 +94,22 @@ $this->menu=array(
 
 			$suggestedtitle = $this->suggestName($model->tableSchema->columns);
 			echo '<h2>';
-			echo "<?php echo CHtml::link(Yii::t('app','{relation}',array('{relation}'=>'".$relation[1]."')),'/\$this->resolveRelationController(\$relation)/admin');?>";
+			echo "<?php echo CHtml::link(Yii::t('app','{relation}',array('{relation}'=>'" . ucfirst($key) . "')), array('".GController::resolveRelationController($relation)."/admin'));?>";
 			echo "</h2>\n";
 			echo CHtml::openTag('ul');
-			echo "<?php foreach(\$model->{$key} as \$foreignobj) { \n
-					echo '<li>';
+			echo "<?php if(\$model->{$key} !== null) { \n
+					\$foreignobj = \$model->{$key}; \n
+					echo '<li>'; \n
 					echo CHtml::link(
 						\$foreignobj->{$suggestedtitle->name}?\$foreignobj->{$suggestedtitle->name}:\$foreignobj->{$pk},
-						array('/\$this->resolveRelationController(\$relation)/view', 'id' => \$foreignobj->{$pk}));\n
+						array('/".GController::resolveRelationController($relation)."/view', 'id' => \$foreignobj->{$pk}));\n
 					}; ?>";
 			echo CHtml::closeTag('ul');
+
+			echo "<p><?php if(\$model->{$key} === null) echo CHtml::link(
+				Yii::t('app','Create'),
+				array('/".GController::resolveRelationController($relation)."/create', '$relation[1]' => array('$relation[2]'=>\$model->{\$model->tableSchema->primaryKey}))
+				);  ?></p>";
 		}
 	}
 ?>
