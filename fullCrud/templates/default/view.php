@@ -37,7 +37,7 @@ $this->menu=array(
 			$columns = CActiveRecord::model($relation[1])->tableSchema->columns;
 			$suggestedfield = $this->suggestName($columns);
 			$controller = GHelper::resolveController($relation);
-			echo "\t\t\t'value'=>(\$model->{$key} !== null)?CHtml::link(\$model->{$key}->{$suggestedfield->name}, array('{$controller}/view','id'=>\$model->{$key}->{\$model->{$key}->tableSchema->primaryKey})):'n/a',\n";
+			echo "\t\t\t'value'=>(\$model->{$key} !== null)?CHtml::link(\$model->{$key}->getRecordTitle(), array('{$controller}/view','id'=>\$model->{$key}->{\$model->{$key}->tableSchema->primaryKey})):'n/a',\n";
 			echo "\t\t\t'type'=>'html',\n";
 			}
 			}
@@ -69,7 +69,7 @@ $this->menu=array(
 			if (!$pk = $model->tableSchema->primaryKey)
 				$pk = 'id';
 
-			$suggestedtitle = $this->suggestName($model->tableSchema->columns);
+			#$suggestedtitle = $this->suggestName($model->tableSchema->columns);
 			echo '<h2>';
 			echo "<?php echo CHtml::link(Yii::t('app','{relation}',array('{relation}'=>'" . ucfirst($key) . "')), array('".GController::resolveRelationController($relation)."/admin'));?>";
 			echo "</h2>\n";
@@ -77,7 +77,7 @@ $this->menu=array(
 			echo "<?php foreach(\$model->{$key} as \$foreignobj) { \n
 					echo '<li>';
 					echo CHtml::link(
-						\$foreignobj->{$suggestedtitle->name}?\$foreignobj->{$suggestedtitle->name}:\$foreignobj->{$pk},
+						\$foreignobj->getRecordTitle()?\$foreignobj->getRecordTitle():\$foreignobj->{$pk},
 						array('/".GController::resolveRelationController($relation)."/view', 'id' => \$foreignobj->{$pk}));\n
 					}; ?>";
 			echo CHtml::closeTag('ul');
@@ -92,7 +92,7 @@ $this->menu=array(
 			if (!$pk = $model->tableSchema->primaryKey)
 				$pk = 'id';
 
-			$suggestedtitle = $this->suggestName($model->tableSchema->columns);
+			#$suggestedtitle = $this->suggestName($model->tableSchema->columns);
 			echo '<h2>';
 			echo "<?php echo CHtml::link(Yii::t('app','{relation}',array('{relation}'=>'" . ucfirst($key) . "')), array('".GController::resolveRelationController($relation)."/admin'));?>";
 			echo "</h2>\n";
@@ -101,7 +101,7 @@ $this->menu=array(
 					\$foreignobj = \$model->{$key}; \n
 					echo '<li>'; \n
 					echo CHtml::link(
-						\$foreignobj->{$suggestedtitle->name}?\$foreignobj->{$suggestedtitle->name}:\$foreignobj->{$pk},
+						\$foreignobj->getRecordTitle()?\$foreignobj->getRecordTitle():\$foreignobj->{$pk},
 						array('/".GController::resolveRelationController($relation)."/view', 'id' => \$foreignobj->{$pk}));\n
 					}; ?>";
 			echo CHtml::closeTag('ul');
