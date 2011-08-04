@@ -30,7 +30,7 @@ foreach($this->tableSchema->columns as $column)
 		echo "<?php ".$this->generateActiveField($this->modelClass,$column)."; ?>\n"; 
 		echo "<?php echo \$form->error(\$model,'{$column->name}'); ?>\n";
 		$placholder = "_HINT_".$this->modelClass.".".$column->name."";
-		echo "<?php if('".$placholder."' != \$hint = Yii::t('app', '".$placholder."')) echo \$hint; ?>\n";
+		echo "<div class='hint'><?php if('".$placholder."' != \$hint = Yii::t('app', '".$placholder."')) echo \$hint; ?></div>\n";
 		echo "</div>\n\n";
 	}
 }
