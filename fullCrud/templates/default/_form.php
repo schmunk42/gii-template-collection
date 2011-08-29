@@ -30,6 +30,11 @@ foreach($this->tableSchema->columns as $column)
 		echo "<?php echo ".$this->generateActiveLabel($this->modelClass,$column)."; ?>\n"; 
 		echo "<?php ".$this->generateActiveField($this->modelClass,$column)."; ?>\n"; 
 		echo "<?php echo \$form->error(\$model,'{$column->name}'); ?>\n";
+
+		// renders a hint div, but leaves it empty, when the hint is not translated yet
+		$placholder = "hint.".$this->modelClass.".".$column->name."";
+		echo "<div class='hint'><?php if('".$placholder."' != \$hint = Yii::t('app', '".$column->name."')) echo \$hint; ?></div>\n";
+
 		echo "</div>\n\n";
 	}
 }

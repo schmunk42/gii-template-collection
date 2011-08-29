@@ -64,7 +64,6 @@ class FullCrudCode extends CrudCode {
 		return CActiveRecord::model($this->modelClass)->relations();
 	}
 
-
 	
 }
 
