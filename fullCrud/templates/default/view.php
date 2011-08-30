@@ -9,7 +9,7 @@ echo "if(!isset(\$this->breadcrumbs))\n
 	);\n";
 ?>
 
-if(!isset($this->menu))
+if(!isset($this->menu) || $this->menu === array())
 $this->menu=array(
 		array('label'=>Yii::t('app', 'List') . ' <?php echo $this->modelClass; ?>', 'url'=>array('index')),
 		array('label'=>Yii::t('app', 'Create') . ' <?php echo $this->modelClass; ?>', 'url'=>array('create')),
@@ -64,12 +64,12 @@ $this->menu=array(
 
 	<?php
 	foreach (CActiveRecord::model(Yii::import($this->model))->relations() as $key => $relation) {
-		$model = CActiveRecord::model($relation[1]);
-		$suggestedtitle = $this->suggestName($model->tableSchema->columns);
 		if ($relation[0] == 'CManyManyRelation' || $relation[0] == 'CHasManyRelation') {
+			$model = CActiveRecord::model($relation[1]);
 			if (!$pk = $model->tableSchema->primaryKey)
 				$pk = 'id';
 
+			$suggestedtitle = $this->suggestName($model->tableSchema->columns);
 			echo '<h2>';
 			echo "<?php echo CHtml::link(Yii::t('app','{relation}',array('{relation}'=>'" . ucfirst($key) . "')), array('".GController::resolveRelationController($relation)."/admin'));?>";
 			echo "</h2>\n";
@@ -88,9 +88,11 @@ $this->menu=array(
 				);  ?></p>";
 		}
 		if ($relation[0] == 'CHasOneRelation') {
+			$model = CActiveRecord::model($relation[1]);
 			if (!$pk = $model->tableSchema->primaryKey)
 				$pk = 'id';
 
+			$suggestedtitle = $this->suggestName($model->tableSchema->columns);
 			echo '<h2>';
 			echo "<?php echo CHtml::link(Yii::t('app','{relation}',array('{relation}'=>'".$relation[1]."')),'/\$this->resolveRelationController(\$relation)/admin');?>";
 			echo "</h2>\n";
@@ -102,11 +104,6 @@ $this->menu=array(
 						array('/\$this->resolveRelationController(\$relation)/view', 'id' => \$foreignobj->{$pk}));\n
 					}; ?>";
 			echo CHtml::closeTag('ul');
-			echo "<p><?php if(\$model->{$key} === null) echo CHtml::link(
-				Yii::t('app','Create'),
-				array('/".GController::resolveRelationController($relation)."/create', '$relation[1]' => array('$relation[2]'=>\$model->{\$model->tableSchema->primaryKey}))
-				);  ?></p>";
-
 		}
 	}
 ?>
