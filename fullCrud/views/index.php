@@ -23,15 +23,11 @@ $('#{$class}_model').bind('keyup change', function(){
 <p>This generator generates a controller and views that implement CRUD operations for the specified data model. </p>
 
 <?php $form=$this->beginWidget('CCodeForm', array('model'=>$model)); ?>
-<?php $this->widget('system.web.widgets.CTabView', array('tabs'=>array(
-    'tab1'=>array(
-	    'title'=>'CRUD Options', 'view'=>'crud',
-        'data'=>array('model'=>$model,'form'=>$form),
-	 ),
-    'tab2'=>array(
-	    'title'=>'Info', 'view'=>'info',
-        'data'=>array('model'=>$model,'form'=>$form),
-	 ),
-)));
+<?php $this->widget(
+        'zii.widgets.jui.CJuiTabs', array(
+        'tabs' => array(
+                'CRUD Options' => $this->renderPartial('crud', array('model' => $model, 'form' => $form), true),
+                'Info' => $this->renderPartial('info', array('model' => $model, 'form' => $form), true),
+        )));
 ?>
 <?php $this->endWidget(); ?>
