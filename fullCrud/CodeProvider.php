@@ -1,21 +1,20 @@
 <?php
 
-class CodeProvider{
+class CodeProvider {
 
 	public function generateDateField () {
-
 			
 	}
 
 	static public function generateActiveField($model, $column) {
 		if (strtoupper($column->dbType) == 'TINYINT(1)'
-			|| strtoupper($column->dbType) == 'BIT'
-			|| strtoupper($column->dbType) == 'BOOL'
-			|| strtoupper($column->dbType) == 'BOOLEAN') {
+				|| strtoupper($column->dbType) == 'BIT'
+				|| strtoupper($column->dbType) == 'BOOL'
+				|| strtoupper($column->dbType) == 'BOOLEAN') {
 			return "echo \$form->checkBox(\$model,'{$column->name}')";
 		} else if (strtoupper($column->dbType) == 'DATE') {
 			$modelname = get_class($model);
-					} else if (substr(strtoupper($column->dbType), 0, 4) == 'ENUM') {
+		} else if (substr(strtoupper($column->dbType), 0, 4) == 'ENUM') {
 			$string = sprintf("echo CHtml::activeDropDownList(\$model, '%s', array(\n", $column->name);
 
 			$enum_values = explode(',', substr($column->dbType, 4, strlen($column->dbType) - 1));
@@ -81,7 +80,7 @@ class CodeProvider{
 	 * @param CActiveRecord $modelClass
 	 * @param CDbColumnSchema $column
 	 */
-	public function generateActiveField($model, $column) {
+/*	public function generateActiveField($model, $column) {
 		if (!is_object($model))
 			$model = CActiveRecord::model($model);
 
@@ -93,14 +92,14 @@ class CodeProvider{
 			$providerClass = Yii::createComponent($provider);
 			if (($field = $providerClass::generateActiveField($model, $column)) !== null)
 				break;
-		}
+		} 
 
 		if ($field !== null) {
 			return $field;
 		} else {
 			return('echo ' . parent::generateActiveField($model, $column));
 		}
-	}
+	} */
 
 	/**
 	 * @param CActiveRecord $modelClass
