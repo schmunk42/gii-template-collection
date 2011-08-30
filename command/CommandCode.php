@@ -1,9 +1,9 @@
 ﻿<?php
-class PortletCode extends CCodeModel
+class CommandCode extends CCodeModel
 {
     public $className;
-    public $baseClass='CPortlet';
-    public $scriptPath='application.web.portlets';
+    public $baseClass='CConsoleCommand';
+    public $scriptPath='application.commands';
     public $comment;
     public $md_comment; // comment after mardown parse
 
@@ -24,7 +24,7 @@ class PortletCode extends CCodeModel
     {
         return array_merge(parent::attributeLabels(), array(
             'baseClass'=>'Base Class',
-            'className'=>'Portlet Class Name',
+            'className'=>'Console Command Class Name',
             'scriptPath'=>'Script Path',
             'comment'=>'class-level DocBlock for your component',
         ));
@@ -40,8 +40,8 @@ class PortletCode extends CCodeModel
 
     public function prepare()
     {
-        $path=Yii::getPathOfAlias($this->scriptPath).'/' . ucfirst($this->className) . '.php';
-        $code=$this->render($this->templatepath.'/portlet.php');
+        $path=Yii::getPathOfAlias($this->scriptPath).'/' . ucfirst($this->className) . 'Command.php';
+        $code=$this->render($this->templatepath.'/command.php');
         $this->files[]=new CCodeFile($path, $code);
     }
 
@@ -57,7 +57,6 @@ class PortletCode extends CCodeModel
 
     public function startComment()
     {
-
         return "/**\n";
     }
 
@@ -96,9 +95,9 @@ class PortletCode extends CCodeModel
 	public function successMessage()
 	{
 		$output=<<<EOD
-<p>The Portlet has been generated successfully.</p>
+<p>The Console Command has been generated successfully.</p>
 EOD;
-		$code=$this->render($this->templatePath.'/portlet.php');
+		$code=$this->render($this->templatePath.'/command.php');
 		return $output.highlight_string($code,true);
 	}
 
@@ -106,5 +105,6 @@ EOD;
     {
         return Yii::app()->params[$name];
     }
+
 }
 ?>

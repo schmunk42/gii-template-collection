@@ -2,34 +2,17 @@
 
 class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseControllerClass."\n"; ?>
 {
-	public $layout='//layouts/main';
+	public $layout='//layouts/column2';
 
-	public function accessRules()
-	{
-		return array(
-			array('allow',  
-				'actions'=>array('index','view'),
-				'users'=>array('*'),
-			),
-			array('allow', 
-				'actions'=>array('create','update'),
-				'users'=>array('@'),
-			),
-			array('allow', 
-				'actions'=>array('admin','delete'),
-				'users'=>array('admin'),
-			),
-			array('deny',  
-				'users'=>array('*'),
-			),
-		);
-	}
+	<?php 
+		$authpath = 'ext.gtc.fullCrud.templates.default.auth.';
+	Yii::app()->controller->renderPartial($authpath.$this->authtype);
+	?>
 
-		public function actionView($id)
+		public function actionView()
 	{
-		$model = $this->loadModel($id);
 		$this->render('view',array(
-			'model' => $model,
+			'model' => $this->loadModel(),
 		));
 	}
 
@@ -37,7 +20,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 	{
 		$model = new <?php echo $this->modelClass; ?>;
 
-		<?php if($this->validation == 1 || $this->validation == 3) { ?>
+		<?php if($this->enable_ajax_validation) { ?>
 		$this->performAjaxValidation($model, '<?php echo $this->class2id($this->modelClass)?>-form');
     <?php } ?>
 
@@ -57,20 +40,25 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 ?>
 
 			if($model->save()) {
+				$this->redirect(array('view','id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>));
+			}			
+		} elseif(isset($_GET['<?php echo $this->modelClass; ?>'])) {
+				$model->attributes = $_GET['<?php echo $this->modelClass; ?>'];
+		}
 
-			$this->redirect(array('view','id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>));
-				}
-			}
 
+		if(Yii::app()->request->isAjaxRequest)
+			$this->renderPartial('_miniform',array( 'model'=>$model, 'relation' => $_GET['relation']));
+		else
 			$this->render('create',array( 'model'=>$model));
 	}
 
 
-	public function actionUpdate($id)
+	public function actionUpdate()
 	{
-		$model = $this->loadModel($id);
+		$model = $this->loadModel();
 
-		<?php if($this->validation == 1 || $this->validation == 3) { ?>
+		<?php if($this->enable_ajax_validation) { ?>
 		$this->performAjaxValidation($model, '<?php echo $this->class2id($this->modelClass)?>-form');
 		<?php } ?>
 
@@ -140,20 +128,4 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 		));
 	}
 
-	public function loadModel($id)
-	{
-		$model=<?php echo $this->modelClass; ?>::model()->findByPk($id);
-		if($model===null)
-			throw new CHttpException(404,'The requested page does not exist.');
-		return $model;
-	}
-
-	protected function performAjaxValidation($model)
-	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='<?php echo $this->class2id($this->modelClass); ?>-form')
-		{
-			echo CActiveForm::validate($model);
-			Yii::app()->end();
-		}
-	}
 }

@@ -1,6 +1,6 @@
-<?php Yii::import('PortletGenerator.widgets.ddeditor.*'); ?>
-<h1>Portlet Generator</h1>
-<p>This generator helps you to quickly generate the skeleton code for a new portlet class.</p>
+<?php Yii::import('CommandGenerator.widgets.ddeditor.*'); ?>
+<h1>Console Command Generator</h1>
+<p>This generator helps you to quickly generate the skeleton code for a new console command class.</p>
 <?php $form=$this->beginWidget('CCodeForm', array('model'=>$model)); ?>
 <?php $this->widget('system.web.widgets.CTabView', array('tabs'=>array(
     'tab1'=>array(
