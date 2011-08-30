@@ -59,8 +59,10 @@ abstract class GController extends Controller {
 	 * Determines the controller for a relation
 	 */
 	public static function resolveRelationController($relation){
-		$modulePrefix = (Yii::app()->controller->module->name)?Yii::app()->controller->module->name."/":"";
+		
+		$modulePrefix = "";#(Yii::app()->controller->module->name)?Yii::app()->controller->module->name."/":"";
 		$controller = $modulePrefix.strtolower(substr($relation[1],0,1)).substr($relation[1],1);
+		
 		return $controller;
 	}
 }
