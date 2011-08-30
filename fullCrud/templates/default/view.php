@@ -64,12 +64,12 @@ $this->menu=array(
 
 	<?php
 	foreach (CActiveRecord::model(Yii::import($this->model))->relations() as $key => $relation) {
+		$model = CActiveRecord::model($relation[1]);
+		$suggestedtitle = $this->suggestName($model->tableSchema->columns);
 		if ($relation[0] == 'CManyManyRelation' || $relation[0] == 'CHasManyRelation') {
-			$model = CActiveRecord::model($relation[1]);
 			if (!$pk = $model->tableSchema->primaryKey)
 				$pk = 'id';
 
-			#$suggestedtitle = $this->suggestName($model->tableSchema->columns);
 			echo '<h2>';
 			echo "<?php echo CHtml::link(Yii::t('app','{relation}',array('{relation}'=>'" . ucfirst($key) . "')), array('" . $relation[1] . "/admin'));?>";
 			echo "</h2>\n";
@@ -81,11 +81,9 @@ $this->menu=array(
 
 		}
 		if ($relation[0] == 'CHasOneRelation') {
-			$model = CActiveRecord::model($relation[1]);
 			if (!$pk = $model->tableSchema->primaryKey)
 				$pk = 'id';
 
-			#$suggestedtitle = $this->suggestName($model->tableSchema->columns);
 			echo '<h2>';
 			echo "<?php echo CHtml::link(Yii::t('app','{relation}',array('{relation}'=>'{$key}')),'XXX');?>";
 			echo "</h2>\n";
@@ -97,7 +95,7 @@ $this->menu=array(
 
 			echo "<p><?php if(\$model->{$key} === null) echo CHtml::link(
 				Yii::t('app','Create'),
-				array('/".GController::resolveRelationController($relation)."/create', '$relation[1]' => array('$relation[2]'=>\$model->{\$model->tableSchema->primaryKey}))
+				array('/".strtoupper('XXX')."/create', '$relation[1]' => array('$relation[2]'=>\$model->{\$model->tableSchema->primaryKey}))
 				);  ?></p>";
 		}
 	}
