@@ -60,7 +60,7 @@ abstract class GController extends Controller {
 	 */
 	public static function resolveRelationController($relation){
 		
-		$modulePrefix = "";#(Yii::app()->controller->module->name)?Yii::app()->controller->module->name."/":"";
+		$modulePrefix = (isset(Yii::app()->controller->module->name) && Yii::app()->controller->module->name !== 'gii')?"/".Yii::app()->controller->module->name."/":"/";
 		$controller = $modulePrefix.strtolower(substr($relation[1],0,1)).substr($relation[1],1);
 		
 		return $controller;

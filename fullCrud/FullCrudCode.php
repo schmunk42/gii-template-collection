@@ -74,30 +74,19 @@ class FullCrudCode extends CrudCode {
 	}
 
 	public function generateRelation($model, $relationname, $relation) {
-		// Use the second attribute of the model, since the first is the id in
-		// most cases
+		
+		// Use the id primary key and recordTitle
 		if ($columns = CActiveRecord::model($relation[1])->tableSchema->columns) {
-			$j = 0;
-			foreach ($columns as $column) {
-				if (!$column->isForeignKey && !$column->isPrimaryKey) {
-					$num = $j;
-					break;
-				}
-				$j++;
-			}
-
-			for ($i = 0; $i < $j; $i++)
-				next($columns);
 
 			$field = current($columns);
 			$style = $relation[0] == 'CManyManyRelation' ? 'checkbox' : 'dropdownlist';
-
+						
 			if (is_object($field)) {
 				if ($relation[0] == 'CManyManyRelation')
 					$allowEmpty = 'false';
 				elseif ($relation[0] == 'CHasOneRelation') {
 					$allowEmpty = (CActiveRecord::model($relation[1])->tableSchema->columns[$relation[2]]->allowNull ? 'true' : 'false');
-					return "if (\$model->{$relationname} !== null) echo \$model->{$relationname}->title;";
+					return "if (\$model->{$relationname} !== null) echo \$model->{$relationname}->recordTitle;"; // recordTitle should provide every model, TODO: create IFullCrudInterface
 				}
 				else
 					$allowEmpty= (CActiveRecord::model($model)->tableSchema->columns[$relation[2]]->allowNull?'true':'false');
@@ -107,7 +96,7 @@ class FullCrudCode extends CrudCode {
 					array(
 							'model' => \$model,
 							'relation' => '{$relationname}',
-							'fields' => '{$field->name}',
+							'fields' => array('recordTitle'),
 							'allowEmpty' => {$allowEmpty},
 							'style' => '{$style}',
 							'htmlOptions' => array(

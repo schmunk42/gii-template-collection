@@ -29,7 +29,6 @@ class GHelper {
 		$name = Yii::t('app', 'name');
 		$title = Yii::t('app', 'title');
 
-
 		foreach ($columns as $column) {
 			if (!strcasecmp($column->name, $name))
 				return $column->name;
@@ -48,7 +47,6 @@ class GHelper {
 			if (stripos($column->name, $title) !== false)
 				return $column->name;
 		}
-
 
 		foreach ($columns as $column) {
 			if ($column->isPrimaryKey)
