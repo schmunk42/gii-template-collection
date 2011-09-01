@@ -10,11 +10,20 @@ echo "if(!isset(\$this->breadcrumbs))\n
 
 if(!isset($this->menu) || $this->menu === array())
 $this->menu=array(
-		array('label'=>Yii::t('app', 'List') . ' <?php echo $this->modelClass; ?>',
-			'url'=>array('index')),
-		array('label'=>Yii::t('app', 'Create') . ' <?php echo $this->modelClass; ?>',
-		'url'=>array('create')),
-	);
+	array(
+		'label' => Yii::t('app', 'Administration'), 
+		'items' => array(
+			array('label'=>Yii::t('app', 'Create') , 'url'=>array('create')),
+		)
+	),
+	/*array(
+		'label' => Yii::t('app', 'View'), 
+		'items' => array(
+			array('label'=>Yii::t('app', 'List') , 'url'=>array('index')),
+		)
+	)*/
+);
+
 
 		Yii::app()->clientScript->registerScript('search', "
 			$('.search-button').click(function(){
@@ -32,7 +41,8 @@ data: $(this).serialize()
 
 <h1> <?php 
 echo "<?php echo Yii::t('app', 'Manage'); ?> ";
-echo $this->pluralize($this->class2name($this->modelClass)); ?></h1>
+echo "<?php echo Yii::t('app', '".$this->pluralize($this->class2name($this->modelClass))."'); ?> ";
+?></h1>
 
 <?php
 echo '<?php
@@ -40,8 +50,8 @@ echo "<ul>";
 foreach ($model->relations() AS $key => $relation)
 {
 	echo  "<li>".
-		substr(str_replace("Relation","",$relation[0]),1)." ".
-		CHtml::link(Yii::t("app",$relation[1]), array($this->resolveRelationController($relation)."/admin"))." (".$relation[2].")".
+		Yii::t("app",substr(str_replace("Relation","",$relation[0]),1))." ".
+		CHtml::link(Yii::t("app",$relation[1]), array($this->resolveRelationController($relation)."/admin")).
 		" </li>";
 }
 echo "</ul>";
@@ -69,8 +79,12 @@ foreach($this->tableSchema->columns as $column)
 {
 	if(++$count==7)
 		echo "\t\t/*\n";
+	
+	if (strtoupper($column->dbType) == 'TEXT')
+		echo "#";
 	echo "\t\t".$this->generateValueField($this->modelClass, $column).",\n";
 }
+
 if($count>=7)
 	echo "\t\t*/\n";
 ?>

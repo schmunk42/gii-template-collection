@@ -21,6 +21,12 @@ foreach($this->tableSchema->columns as $column)
 	if($column->isPrimaryKey)
 		continue;
 
+	// omit relations, they are rendered below
+	foreach($this->getRelations() as $key => $relation){
+		if ($relation[2] == $column->name) continue 2;
+	}
+	
+	
 	if(!$column->isForeignKey
 			&& $column->name != 'createtime'
 			&& $column->name != 'updatetime'
@@ -29,8 +35,8 @@ foreach($this->tableSchema->columns as $column)
 		echo "<?php echo ".$this->generateActiveLabel($this->modelClass,$column)."; ?>\n"; 
 		echo "<?php ".$this->generateActiveField($this->modelClass,$column)."; ?>\n"; 
 		echo "<?php echo \$form->error(\$model,'{$column->name}'); ?>\n";
-		$placholder = "_HINT_".$this->modelClass.".".$column->name."";
-		echo "<?php if('".$placholder."' != \$hint = Yii::t('app', '".$placholder."')) echo \$hint; ?>\n";
+		$placholder = "hint.".$column->name."";
+		echo "<div class='hint'><?php if('".$placholder."' != \$hint = Yii::t('".$this->modelClass."', '".$placholder."')) echo \$hint; ?></div>\n";
 		echo "</div>\n\n";
 	}
 }
@@ -46,6 +52,8 @@ foreach($this->getRelations() as $key => $relation)
 		 */
 		printf("<label for=\"%s\"><?php echo Yii::t('app', '%s'); ?></label>\n", $key, ucfirst($key));
 		echo "<?php ". $this->generateRelation($this->modelClass, $key, $relation)."; ?><br />\n";
+		$placholder = "hint.".$key."";
+		echo "<div class='hint'><?php if('".$placholder."' != \$hint = Yii::t('".$this->modelClass."', '".$placholder."')) echo \$hint; ?></div>\n";
 		echo "</div>\n\n";
 	}
 }

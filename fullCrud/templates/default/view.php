@@ -1,25 +1,37 @@
 <?php
-echo "<?php\n";
 $nameColumn = GHelper::guessNameColumn($this->tableSchema->columns);
 $label = $this->pluralize($this->class2name($this->modelClass));
+
+echo "<?php\n";
+
 echo "if(!isset(\$this->breadcrumbs))\n
 \$this->breadcrumbs=array(
 '$label'=>array('index'),
 	\$model->{$nameColumn},
-	);\n";
+	);\n"; 
 ?>
 
 if(!isset($this->menu) || $this->menu === array())
 $this->menu=array(
-		array('label'=>Yii::t('app', 'List') . ' <?php echo $this->modelClass; ?>', 'url'=>array('index')),
-		array('label'=>Yii::t('app', 'Create') . ' <?php echo $this->modelClass; ?>', 'url'=>array('create')),
-		array('label'=>Yii::t('app', 'Update') . ' <?php echo $this->modelClass; ?>', 'url'=>array('update', 'id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>)),
-		array('label'=>Yii::t('app', 'Delete') . ' <?php echo $this->modelClass; ?>', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>),'confirm'=>'Are you sure you want to delete this item?')),
-		array('label'=>Yii::t('app', 'Manage') . ' <?php echo $this->modelClass; ?>', 'url'=>array('admin')),
-		);
+	array(
+		'label' => Yii::t('app', 'Record'), 
+		'items' => array(
+			array('label'=>Yii::t('app', 'Update') , 'url'=>array('update', 'id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>)),
+			array('label'=>Yii::t('app', 'Delete') , 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>),'confirm'=>'Are you sure you want to delete this item?')),
+		)
+	),
+	array(
+		'label' => Yii::t('app', 'Administration'), 
+		'items' => array(
+			/*array('label'=>Yii::t('app', 'List') , 'url'=>array('index')),*/
+			array('label'=>Yii::t('app', 'Create') , 'url'=>array('create')),
+			array('label'=>Yii::t('app', 'Manage') , 'url'=>array('admin')),
+		)
+	)
+);
 ?>
 
-<h1><?php echo "<?php echo Yii::t('app', 'View');?>" ?> <?php echo $this->modelClass . " #<?php echo \$model->{$this->tableSchema->primaryKey}; ?>"; ?></h1>
+<h1><?php echo "<?php echo Yii::t('app', 'View').' '.Yii::t('app', '{$this->modelClass}') . ' #' .\$model->{$this->tableSchema->primaryKey}; ?>"; ?></h1>
 
 <?php echo "<?php
 \$locale = CLocale::getInstance(Yii::app()->language);\n
@@ -42,7 +54,7 @@ $this->menu=array(
 			$controller = GHelper::resolveController($relation);
 			$value = "(\$model->{$key} !== null)?";
 			$value .= "CHtml::link(\$model->{$key}->recordTitle, array('{$controller}/view','id'=>\$model->{$key}->{$relatedModel->tableSchema->primaryKey})).' '.";
-			$value .= "CHtml::link('Edit', array('{$controller}/update','id'=>\$model->{$key}->{$relatedModel->tableSchema->primaryKey}), array('class'=>'edit'))";
+			$value .= "CHtml::link(Yii::t('app','Update'), array('{$controller}/update','id'=>\$model->{$key}->{$relatedModel->tableSchema->primaryKey}), array('class'=>'edit'))";
 			$value .= ":'n/a'";
 			
 			echo "\t\t\t'value'=>{$value},\n";
@@ -84,16 +96,15 @@ $this->menu=array(
 
 			#$suggestedtitle = $this->suggestName($model->tableSchema->columns);
 			echo '<h2>';
-			echo "<?php echo CHtml::link(Yii::t('app','{relation}',array('{relation}'=>'" . ucfirst($key) . "')), array('".$controller."/admin'));?>";
+			echo "<?php echo CHtml::link(Yii::t('app','" . ucfirst($key) . "'), array('".$controller."/admin'));?>";
 			echo "</h2>\n";
 			echo CHtml::openTag('ul');
-			echo "<?php if (is_array(\$model->{$key})) foreach(\$model->{$key} as \$foreignobj) { \n
+			echo "
+			<?php if (is_array(\$model->{$key})) foreach(\$model->{$key} as \$foreignobj) { \n
 					echo '<li>';
-					echo ''.CHtml::link(
-						\$foreignobj->recordTitle,
-						array('".$controller."/view', 'id' => \$foreignobj->{$pk}));\n
-					};
-					
+					echo CHtml::link(\$foreignobj->recordTitle, array('{$controller}/view','id'=>\$foreignobj->{$pk}));\n							
+					echo ' '.CHtml::link(Yii::t('app','Update'), array('{$controller}/update','id'=>\$foreignobj->{$pk}), array('class'=>'edit'));\n
+					}
 						?>";
 			echo CHtml::closeTag('ul');
 
@@ -109,7 +120,7 @@ $this->menu=array(
 			
 			#$suggestedtitle = $this->suggestName($model->tableSchema->columns);
 			echo '<h2>';
-			echo "<?php echo CHtml::link(Yii::t('app','{relation}',array('{relation}'=>'".$relation[1]."')),'".$controller."/admin');?>";
+			echo "<?php echo CHtml::link(Yii::t('app','".$relation[1]."'), array('".$controller."/admin'));?>";
 			echo "</h2>\n";
 			echo CHtml::openTag('ul');
 			echo "<?php \$foreignobj = \$model->{$key}; \n
@@ -117,22 +128,16 @@ $this->menu=array(
 					echo '<li>';
 					echo '#'.\$model->{$key}->{$pk}.' ';
 					echo CHtml::link(\$model->{$key}->recordTitle, array('{$controller}/view','id'=>\$model->{$key}->{$pk}));\n							
-					echo ' '.CHtml::link('Edit', array('{$controller}/update','id'=>\$model->{$key}->{$pk}));\n
+					echo ' '.CHtml::link(Yii::t('app','Update'), array('{$controller}/update','id'=>\$model->{$key}->{$pk}), array('class'=>'edit'));\n
 					
 					
 					}
 					?>";
 			echo CHtml::closeTag('ul');
-			echo "<p><?php if(\$model->{$key} === null) \$this->widget(
-						'zii.widgets.jui.CJuiButton', 
-						array(
-							'name' => uniqid('add'),
-							'url' => array('".$controller."/create', '$relation[1]' => array('$relation[2]'=>\$model->id)),
-							'caption'=>'Add',
-							'buttonType'=>'link',
-							'options'=>array('icons'=>array('primary'=>'ui-icon-plus'),),
-						)
-					);  ?></p>";
+			echo "<p><?php if(\$model->{$key} === null) echo CHtml::link(
+				Yii::t('app','Create'),
+				array('".$controller."/create', '$relation[1]' => array('$relation[2]'=>\$model->{\$model->tableSchema->primaryKey}))
+				);  ?></p>";
 
 		}
 	}
