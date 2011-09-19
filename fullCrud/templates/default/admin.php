@@ -1,7 +1,7 @@
 <?php
 echo "<?php\n";
 $label=$this->pluralize($this->class2name($this->modelClass));
-echo "if(!isset(\$this->breadcrumbs))\n
+echo "if(!isset(\$this->breadcrumbs) || (\$this->breadcrumbs === array()))\n
 \$this->breadcrumbs=array(
 	'$label'=>array(Yii::t('app', 'index')),
 	Yii::t('app', 'Manage'),

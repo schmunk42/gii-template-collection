@@ -59,10 +59,11 @@ abstract class GController extends Controller {
 	 * Determines the controller for a relation
 	 */
 	public static function resolveRelationController($relation){
-		
-		$modulePrefix = (isset(Yii::app()->controller->module->name) && Yii::app()->controller->module->name !== 'gii')?"/".Yii::app()->controller->module->name."/":"/";
+		$model = new $relation[1];
+		$reflection = new ReflectionClass($model);
+		$module = preg_match("/\/modules\/([a-zA-Z0-9]+)\//", $reflection->getFileName(), $matches);
+		$modulePrefix = (isset($matches[$module]))?"/".$matches[$module]."/":"/";
 		$controller = $modulePrefix.strtolower(substr($relation[1],0,1)).substr($relation[1],1);
-		
 		return $controller;
 	}
 }

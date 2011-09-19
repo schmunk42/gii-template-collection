@@ -2,7 +2,7 @@
 echo "<?php\n";
 $nameColumn = GHelper::guessNameColumn($this->tableSchema->columns);
 $label = $this->pluralize($this->class2name($this->modelClass));
-echo "if(!isset(\$this->breadcrumbs))\n
+echo "if(!isset(\$this->breadcrumbs) || (\$this->breadcrumbs === array()))\n
 \$this->breadcrumbs=array(
 	'$label'=>array('index'),
 	\$model->{$nameColumn}=>array('view','id'=>\$model->{$this->tableSchema->primaryKey}),
@@ -10,7 +10,7 @@ echo "if(!isset(\$this->breadcrumbs))\n
 );\n";
 ?>
 
-if(!isset($this->menu))
+if(!isset($this->menu) || $this->menu === array())
 $this->menu=array(
 	array('label'=>Yii::t('app', 'List') . ' ' . Yii::t('app','<?php echo $this->modelClass; ?>'), 'url'=>array('index')),
 	array('label'=>Yii::t('app', 'Create') . ' ' . Yii::t('app','<?php echo $this->modelClass; ?>'), 'url'=>array('create')),

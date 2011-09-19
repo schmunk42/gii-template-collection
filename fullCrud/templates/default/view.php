@@ -4,7 +4,7 @@ $label = $this->pluralize($this->class2name($this->modelClass));
 
 echo "<?php\n";
 
-echo "if(!isset(\$this->breadcrumbs))\n
+echo "if(!isset(\$this->breadcrumbs) || (\$this->breadcrumbs === array()))\n
 \$this->breadcrumbs=array(
 '$label'=>array('index'),
 	\$model->{$nameColumn},
