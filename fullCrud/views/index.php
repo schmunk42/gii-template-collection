@@ -1,6 +1,6 @@
 <?php
-$class=get_class($model);
-Yii::app()->clientScript->registerScript('gii.crud',"
+$class = get_class($model);
+Yii::app()->clientScript->registerScript('gii.crud', "
 $('#{$class}_controller').change(function(){
 	$(this).data('changed',$(this).val()!='');
 });
@@ -22,12 +22,23 @@ $('#{$class}_model').bind('keyup change', function(){
 
 <p>This generator generates a controller and views that implement CRUD operations for the specified data model. </p>
 
-<?php $form=$this->beginWidget('CCodeForm', array('model'=>$model)); ?>
-<?php $this->widget(
-        'zii.widgets.jui.CJuiTabs', array(
-        'tabs' => array(
-                'CRUD Options' => $this->renderPartial('crud', array('model' => $model, 'form' => $form), true),
-                'Info' => $this->renderPartial('info', array('model' => $model, 'form' => $form), true),
-        )));
+
+<?php $form = $this->beginWidget('CCodeForm', array('model' => $model)); ?>
+
+<p> <?php echo CHtml::link(
+		'Click here to see what FullCrud does exactly', '#', array(
+			'onClick' => '$(".details").toggle()')); ?> </p>
+
+<div class="details" style="display: none;">
+<?php $this->renderPartial('info', array(
+			'model' => $model,
+			'form' => $form));
+?>
+</div>
+
+<?php
+$this->renderPartial('crud', array(
+			'model' => $model,
+			'form' => $form));
 ?>
 <?php $this->endWidget(); ?>

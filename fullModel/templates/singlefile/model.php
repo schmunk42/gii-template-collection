@@ -18,41 +18,41 @@
  * This is the model base class for the table "<?php echo $tableName; ?>".
  *
  * Columns in table "<?php echo $tableName; ?>" available as properties of the model:
-<?php foreach($columns as $column): ?>
+ <?php foreach($columns as $column): ?>
  * @property <?php echo $column->type.' $'.$column->name."\n"; ?>
-<?php endforeach; ?>
+ <?php endforeach; ?>
  *
-<?php if(count($relations)>0): ?>
+ <?php if(count($relations)>0): ?>
  * Relations of table "<?php echo $tableName; ?>" available as properties of the model:
-<?php else: ?>
+ <?php else: ?>
  * There are no model relations.
-<?php endif; ?>
-<?php foreach($relations as $name=>$relation): ?>
+ <?php endif; ?>
+ <?php foreach($relations as $name=>$relation): ?>
  * @property <?php
-	if (preg_match("~^array\(self::([^,]+), '([^']+)', '([^']+)'\)$~", $relation, $matches))
-    {
-        $relationType = $matches[1];
-        $relationModel = $matches[2];
+ if (preg_match("~^array\(self::([^,]+), '([^']+)', '([^']+)'\)$~", $relation, $matches))
+ {
+ $relationType = $matches[1];
+ $relationModel = $matches[2];
 
-        switch($relationType){
-            case 'HAS_ONE':
-                echo $relationModel.' $'.$name."\n";
-            break;
-            case 'BELONGS_TO':
-                echo $relationModel.' $'.$name."\n";
-            break;
-            case 'HAS_MANY':
-                echo $relationModel.'[] $'.$name."\n";
-            break;
-            case 'MANY_MANY':
-                echo $relationModel.'[] $'.$name."\n";
-            break;
-            default:
-                echo 'mixed $'.$name."\n";
-        }
-	}
-    ?>
-<?php endforeach; ?>
+ switch($relationType){
+ case 'HAS_ONE':
+ echo $relationModel.' $'.$name."\n";
+ break;
+ case 'BELONGS_TO':
+ echo $relationModel.' $'.$name."\n";
+ break;
+ case 'HAS_MANY':
+ echo $relationModel.'[] $'.$name."\n";
+ break;
+ case 'MANY_MANY':
+ echo $relationModel.'[] $'.$name."\n";
+ break;
+ default:
+ echo 'mixed $'.$name."\n";
+ }
+ }
+ ?>
+ <?php endforeach; ?>
  */
 class <?php echo $modelClass; ?> extends <?php echo $this->baseClass; ?>
 {
@@ -69,71 +69,149 @@ class <?php echo $modelClass; ?> extends <?php echo $this->baseClass; ?>
 	public function rules()
 	{
 		return array(
-<?php
-		foreach($rules as $rule) {
-			echo "\t\t\t$rule,\n";
-		}
-?>
-			array('<?php echo implode(', ', array_keys($columns)); ?>', 'safe', 'on'=>'search'),
-		);
+				<?php
+				foreach($rules as $rule) {
+				echo "\t\t\t$rule,\n";
+				}
+				?>
+				array('<?php echo implode(', ', array_keys($columns)); ?>', 'safe', 'on'=>'search'),
+				);
 	}
 
 	public function relations()
 	{
 		return array(
-<?php
-		foreach($relations as $name=>$relation) {
-			echo "\t\t\t'$name' => $relation,\n";
-		}
-?>
-		);
+				<?php
+				foreach($relations as $name=>$relation) {
+				echo "\t\t\t'$name' => $relation,\n";
+				}
+				?>
+				);
 	}
 
 	public function attributeLabels()
 	{
 		return array(
-<?php
-		foreach($labels as $name=>$label) {
-			echo "\t\t\t'$name' => Yii::t('app', '$label'),\n";
-		}
-?>
-		);
+				<?php
+				foreach($labels as $name=>$label) {
+				echo "\t\t\t'$name' => Yii::t('app', '$label'),\n";
+				}
+				?>
+				);
 	}
 
 	public function search()
 	{
 		$criteria=new CDbCriteria;
 
-<?php
-		foreach($columns as $name=>$column)
-		{
-			if($column->type==='string' and !$column->isForeignKey)
+		<?php
+			foreach($columns as $name=>$column)
 			{
-				echo "\t\t\$criteria->compare('$name', \$this->$name, true);\n";
+				if($column->type==='string' and !$column->isForeignKey)
+				{
+					echo "\t\t\$criteria->compare('$name', \$this->$name, true);\n";
+				}
+				else
+				{
+					echo "\t\t\$criteria->compare('$name', \$this->$name);\n";
+				}
 			}
-			else
-			{
-				echo "\t\t\$criteria->compare('$name', \$this->$name);\n";
-			}
-		}
 		echo "\n";
-?>
-		return new CActiveDataProvider(get_class($this), array(
-			'criteria'=>$criteria,
-		));
+		?>
+			return new CActiveDataProvider(get_class($this), array(
+						'criteria'=>$criteria,
+						));
 	}
 
-	public function beforeValidate() {
+	public function behaviors() 
+	{
+		<?php
+			$behaviors = 'return array(';
+					foreach($columns as $name => $column) {
+					if(in_array($column->name, array(
+								'create_time',
+								'createtime',
+								'created_at',
+								'createdat',
+								'changed',
+								'changed_at',
+								'updatetime',
+								'update_time',
+								'timestamp'))) {
+					$behaviors .= sprintf("\n\t\t'CTimestampBehavior' => array(
+				'class' => 'zii.behaviors.CTimestampBehavior',
+				'createAttribute' => %s,
+				'updateAttribute' => %s,
+				\t),\n", $this->getCreatetimeAttribute($columns),
+						$this->getUpdatetimeAttribute($columns));
+					break; // once a column is found, we are done
+					}
+					}
+					foreach($columns as $name => $column) {
+						if(in_array($column->name, array(
+										'user_id',
+										'userid',
+										'ownerid',
+										'owner_id',
+										'created_by',
+										'createdby'))) {
+							$behaviors .= sprintf("\n\t\t'OwnerBehavior' => array(
+								'class' => 'OwnerBehavior',
+							'ownerColumn' => '%s',
+							\t),\n", $column->name);
+							break; // once a column is found, we are done
+
+						}
+					}
+
+
+					$behaviors .= "\n);\n";
+					echo $behaviors;
+					?>
+	}
+
+
+	public function beforeValidate() 
+	{
 		return parent::beforeValidate();	
 	}
-	public function afterValidate() {
+
+	public function afterValidate() 
+	{
 		return parent::afterValidate();	
 	}
-	public function beforeSave() {
+
+	public function beforeSave() 
+	{
 		return parent::beforeSave();	
 	}
-	public function afterSave() {
+
+	public function afterSave() 
+	{
 		return parent::afterSave();	
 	}
+
+	public function __toString() {
+		return (string) $this-><?php
+			$found = false;
+		foreach($columns as $name => $column) {
+			if(!$found 
+					&& $column->type != 'datetime'
+					&& $column->type==='string' 
+					&& !$column->isPrimaryKey) {
+				echo $column->name;
+				$found = true;
+			}
+		}
+
+		// if the columns contains no column of type 'string', return the
+		// first column (usually the primary key)
+		if(!$found)
+			echo reset($columns)->name; 
+		?>;
+
+	}
+
+
 
 }

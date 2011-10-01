@@ -119,6 +119,25 @@ class FullModelCode extends ModelCode {
 		return $rules;
 	}
 
+			function getCreatetimeAttribute($columns) {
+				foreach(array('create_time', 'createtime', 'created_at', 'createdat', 'timestamp') as $try)
+					foreach($columns as $column)
+					if($try == $column->name)
+						return sprintf("'%s'", $column->name);
+
+				return 'null';
+			}
+
+			function getUpdatetimeAttribute($columns) {
+				foreach(array('update_time', 'updatetime', 'changed', 'changed_at') as $try)
+					foreach($columns as $column)
+					if($try == $column->name)
+						return sprintf("'%s'", $column->name);
+
+				return 'null';
+			}
+
+
 }
 
 ?>

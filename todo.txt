@@ -2,7 +2,7 @@
   Gii Template Collection ToDo List
   =================================
 
-- rewrite miniforms  
+- remove miniforms  
 - setup github mirror
 - testing commits from svn and git
    - resolving conflicts
