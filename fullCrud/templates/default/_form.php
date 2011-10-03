@@ -28,7 +28,7 @@ foreach($this->tableSchema->columns as $column)
 			&& $column->name != 'timestamp') {
 		echo "<div class=\"row\">\n";
 		echo "<?php echo ".$this->generateActiveLabel($this->modelClass,$column)."; ?>\n"; 
-		echo "<?php ".$this->generateActiveField($this->modelClass,$column)."; ?>\n"; 
+		echo "<?php echo ".$this->generateActiveField($this->modelClass,$column)."; ?>\n"; 
 		echo "<?php echo \$form->error(\$model,'{$column->name}'); ?>\n";
 
 		// renders a hint div, but leaves it empty, when the hint is not translated yet
