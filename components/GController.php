@@ -2,6 +2,8 @@
 
 abstract class GController extends Controller {
 	protected $_model;
+	
+	public $menu = null;
 
 	public function unpickleForm(&$model) {
 		if(isset($_SESSION['<?php echo $this->modelClass; ?>'])) 

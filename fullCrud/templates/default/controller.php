@@ -2,7 +2,7 @@
 
 class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseControllerClass."\n"; ?>
 {
-	public $layout='//layouts/main';
+	public $layout='//layouts/column2';
 
 	public function accessRules()
 	{

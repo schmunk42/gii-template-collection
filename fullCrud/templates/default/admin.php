@@ -7,8 +7,7 @@ echo "if(!isset(\$this->breadcrumbs))\n
 	Yii::t('app', 'Manage'),
 );\n";
 ?>
-
-if(!isset($this->menu))
+if(!isset($this->menu) || ($this->menu == array()))
 $this->menu=array(
 		array('label'=>Yii::t('app', 'List') . ' <?php echo $this->modelClass; ?>',
 			'url'=>array('index')),

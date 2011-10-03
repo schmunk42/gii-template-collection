@@ -4,11 +4,11 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL';
 
 
 -- -----------------------------------------------------
--- Table `demo_category`
+-- Table `fc_category`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `demo_category` ;
+DROP TABLE IF EXISTS `fc_category` ;
 
-CREATE  TABLE IF NOT EXISTS `demo_category` (
+CREATE  TABLE IF NOT EXISTS `fc_category` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(45) NULL ,
   PRIMARY KEY (`id`) )
@@ -16,11 +16,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `demo_product`
+-- Table `fc_product`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `demo_product` ;
+DROP TABLE IF EXISTS `fc_product` ;
 
-CREATE  TABLE IF NOT EXISTS `demo_product` (
+CREATE  TABLE IF NOT EXISTS `fc_product` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `category_id` INT NULL ,
   `name` VARCHAR(45) NULL ,
@@ -30,18 +30,18 @@ CREATE  TABLE IF NOT EXISTS `demo_product` (
   INDEX `fk_product_category1` (`category_id` ASC) ,
   CONSTRAINT `fk_product_category1`
     FOREIGN KEY (`category_id` )
-    REFERENCES `demo_category` (`id` )
+    REFERENCES `fc_category` (`id` )
     ON DELETE SET NULL
     ON UPDATE SET NULL)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `demo_feature`
+-- Table `fc_feature`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `demo_feature` ;
+DROP TABLE IF EXISTS `fc_feature` ;
 
-CREATE  TABLE IF NOT EXISTS `demo_feature` (
+CREATE  TABLE IF NOT EXISTS `fc_feature` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(45) NULL ,
   PRIMARY KEY (`id`) )
@@ -49,30 +49,30 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `demo_description`
+-- Table `fc_description`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `demo_description` ;
+DROP TABLE IF EXISTS `fc_description` ;
 
-CREATE  TABLE IF NOT EXISTS `demo_description` (
+CREATE  TABLE IF NOT EXISTS `fc_description` (
   `title` VARCHAR(45) NULL ,
   `text` TEXT NULL ,
   `product_id` INT NOT NULL ,
   PRIMARY KEY (`product_id`) ,
-  INDEX `fk_demo_description_demo_product1` (`product_id` ASC) ,
-  CONSTRAINT `fk_demo_description_demo_product1`
+  INDEX `fk_fc_description_fc_product1` (`product_id` ASC) ,
+  CONSTRAINT `fk_fc_description_fc_product1`
     FOREIGN KEY (`product_id` )
-    REFERENCES `demo_product` (`id` )
+    REFERENCES `fc_product` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `demo_feature_has_product`
+-- Table `fc_feature_has_product`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `demo_feature_has_product` ;
+DROP TABLE IF EXISTS `fc_feature_has_product` ;
 
-CREATE  TABLE IF NOT EXISTS `demo_feature_has_product` (
+CREATE  TABLE IF NOT EXISTS `fc_feature_has_product` (
   `feature_id` INT NOT NULL ,
   `product_id` INT NOT NULL ,
   PRIMARY KEY (`feature_id`, `product_id`) ,
@@ -80,12 +80,12 @@ CREATE  TABLE IF NOT EXISTS `demo_feature_has_product` (
   INDEX `fk_feature_has_product_product1` (`product_id` ASC) ,
   CONSTRAINT `fk_feature_has_product_feature1`
     FOREIGN KEY (`feature_id` )
-    REFERENCES `demo_feature` (`id` )
+    REFERENCES `fc_feature` (`id` )
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_feature_has_product_product1`
     FOREIGN KEY (`product_id` )
-    REFERENCES `demo_product` (`id` )
+    REFERENCES `fc_product` (`id` )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;

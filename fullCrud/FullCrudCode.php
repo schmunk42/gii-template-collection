@@ -11,7 +11,7 @@ class FullCrudCode extends CrudCode {
 	public $codeProvider;
 
 	public function prepare() {
-		$this->codeProvider = new CodeProvider;
+		$this->codeProvider = new CodeProvider;		
 		parent::prepare();
 	}
 
@@ -22,6 +22,14 @@ class FullCrudCode extends CrudCode {
 					));
 	}
 
+	public function validateModel($attribute,$params)
+	{
+		// check your import paths, if you get an error here
+		// PHP error can't be catched as an exception
+		$class=Yii::import($this->model, true);
+		parent::validateModel($attribute,$params);
+	}
+	
 	public function attributeLabels()
 	{
 		return array_merge(parent::attributeLabels(), array(
