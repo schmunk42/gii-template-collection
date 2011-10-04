@@ -70,6 +70,8 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 			} catch (Exception $e) {
 				throw new CHttpException(500,$e->getMessage());
 			}
+		} elseif(isset($_GET['<?php echo $this->modelClass; ?>'])) {
+				$model->attributes = $_GET['<?php echo $this->modelClass; ?>'];
 		}
 
 		$this->render('create',array( 'model'=>$model));
