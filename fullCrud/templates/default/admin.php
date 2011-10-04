@@ -10,18 +10,8 @@ echo "if(!isset(\$this->breadcrumbs) || (\$this->breadcrumbs === array()))\n
 
 if(!isset($this->menu) || $this->menu === array())
 $this->menu=array(
-	array(
-		'label' => Yii::t('app', 'Administration'), 
-		'items' => array(
-			array('label'=>Yii::t('app', 'Create') , 'url'=>array('create')),
-		)
-	),
-	/*array(
-		'label' => Yii::t('app', 'View'), 
-		'items' => array(
-			array('label'=>Yii::t('app', 'List') , 'url'=>array('index')),
-		)
-	)*/
+	array('label'=>Yii::t('app', 'Create') , 'url'=>array('create')),
+	array('label'=>Yii::t('app', 'List') , 'url'=>array('index')),
 );
 
 

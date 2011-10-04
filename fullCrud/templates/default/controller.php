@@ -32,7 +32,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 		);
 	}
 
-		public function actionView($id)
+	public function actionView($id)
 	{
 		$model = $this->loadModel($id);
 		$this->render('view',array(
