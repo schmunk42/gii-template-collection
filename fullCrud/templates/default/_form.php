@@ -20,6 +20,12 @@ foreach($this->tableSchema->columns as $column)
 	if($column->isPrimaryKey)
 		continue;
 
+	// omit relations, they are rendered below
+	foreach($this->getRelations() as $key => $relation){
+		if ($relation[2] == $column->name) continue 2;
+	}
+	
+	
 	if(!$column->isForeignKey
 			&& $column->name != 'create_time'
 			&& $column->name != 'update_time'
