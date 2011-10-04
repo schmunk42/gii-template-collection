@@ -85,7 +85,7 @@ $this->menu=array(
 	<?php
 	foreach (CActiveRecord::model(Yii::import($this->model))->relations() as $key => $relation) {
 		
-		$controller = GController::resolveRelationController($relation);
+		$controller = GHelper::resolveController($relation);
 		$relatedModel = CActiveRecord::model($relation[1]);
 		$pk = $relatedModel->tableSchema->primaryKey;
 		
