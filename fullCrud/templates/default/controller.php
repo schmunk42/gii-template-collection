@@ -4,6 +4,13 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 {
 	public $layout='//layouts/column2';
 
+	public function filters()
+	{
+		return array(
+			'accessControl', 
+		);
+	}	
+
 	public function accessRules()
 	{
 		return array(
@@ -55,14 +62,17 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 				}
 			}
 ?>
-
-			if($model->save()) {
-
-			$this->redirect(array('view','id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>));
+			
+			try {
+				if($model->save()) {
+					$this->redirect(array('view','id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>));
 				}
+			} catch (Exception $e) {
+				throw new CHttpException(500,$e->getMessage());
 			}
+		}
 
-			$this->render('create',array( 'model'=>$model));
+		$this->render('create',array( 'model'=>$model));
 	}
 
 
@@ -89,10 +99,14 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 			}
 ?>
 
-			if($model->save()) {
-
-      $this->redirect(array('view','id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>));
+			try {
+				if($model->save()) {
+					$this->redirect(array('view','id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>));
+				}
+			} catch (Exception $e) {
+				throw new CHttpException(500,$e->getMessage());
 			}
+			
 		}
 
 		$this->render('update',array(
@@ -104,7 +118,11 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 	{
 		if(Yii::app()->request->isPostRequest)
 		{
-			$this->loadModel()->delete();
+			try {
+				$this->loadModel($_GET['id'])->delete();
+			} catch (Exception $e) {
+				throw new CHttpException(500,$e->getMessage());
+			}
 
 			if(!isset($_GET['ajax']))
 			{
