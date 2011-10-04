@@ -41,6 +41,10 @@ if($count>=7)
 ?>
 		array(
 			'class'=>'CButtonColumn',
+			'viewButtonUrl' => "Yii::app()->controller->createUrl('//<?php echo $this->modelClass; ?>/view', array('<?php echo $this->identificationColumn; ?>' => \$data-><?php echo $this->identificationColumn; ?>))",
+			'updateButtonUrl' => "Yii::app()->controller->createUrl('//<?php echo $this->modelClass; ?>/update', array('<?php echo $this->identificationColumn; ?>' => \$data-><?php echo $this->identificationColumn; ?>))",
+			'deleteButtonUrl' => "Yii::app()->controller->createUrl('//<?php echo $this->modelClass; ?>/delete', array('<?php echo $this->identificationColumn; ?>' => \$data-><?php echo $this->identificationColumn; ?>))",
+
 		),
 	),
 )); ?>

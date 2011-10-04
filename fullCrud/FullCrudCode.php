@@ -7,11 +7,14 @@ Yii::import('ext.gtc.fullCrud.CodeProvider');
 class FullCrudCode extends CrudCode {
 	// validation method; 0 = none, 1 = ajax, 2 = client-side, 3 = both
 	public $validation = 3;
+	public $identificationColumn = null;
 	public $baseControllerClass='Controller';
 	public $codeProvider;
 
 	public function prepare() {
 		$this->codeProvider = new CodeProvider;
+		if(!$this->identificationColumn)
+			$this->identificationColumn = $this->tableSchema->primaryKey;
 		parent::prepare();
 	}
 
@@ -19,6 +22,7 @@ class FullCrudCode extends CrudCode {
 	{
 		return array_merge(parent::rules(), array(
 					array('validation', 'required'),
+					array('identificationColumn', 'safe'),
 					));
 	}
 

@@ -25,9 +25,9 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 		);
 	}
 
-		public function actionView($id)
+		public function actionView($<?php echo $this->identificationColumn; ?>)
 	{
-		$model = $this->loadModel($id);
+		$model = $this->loadModel($<?php echo $this->identificationColumn; ?>);
 		$this->render('view',array(
 			'model' => $model,
 		));
@@ -58,7 +58,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 
 			if($model->save()) {
 
-			$this->redirect(array('view','id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>));
+			$this->redirect(array('view','<?php echo $this->identificationColumn;?>'=>$model-><?php echo $this->identificationColumn; ?>));
 				}
 			}
 
@@ -66,9 +66,9 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 	}
 
 
-	public function actionUpdate($id)
+	public function actionUpdate($<?php echo $this->identificationColumn; ?>)
 	{
-		$model = $this->loadModel($id);
+		$model = $this->loadModel($<?php echo $this->identificationColumn; ?>);
 
 		<?php if($this->validation == 1 || $this->validation == 3) { ?>
 		$this->performAjaxValidation($model, '<?php echo $this->class2id($this->modelClass)?>-form');
@@ -91,7 +91,8 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 
 			if($model->save()) {
 
-      $this->redirect(array('view','id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>));
+			$this->redirect(array('view','<?php echo $this->identificationColumn;?>'=>$model-><?php echo $this->identificationColumn; ?>));
+
 			}
 		}
 
@@ -100,17 +101,14 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 					));
 	}
 
-	public function actionDelete()
+	public function actionDelete($<?php echo $this->identificationColumn; ?>)
 	{
 		if(Yii::app()->request->isPostRequest)
 		{
-			$this->loadModel()->delete();
+			$this->loadModel($<?php echo $this->identificationColumn; ?>)->delete();
 
 			if(!isset($_GET['ajax']))
 			{
-				if(isset($_POST['returnUrl']))
-					$this->redirect($_POST['returnUrl']); 
-				else
 					$this->redirect(array('admin'));
 			}
 		}
@@ -140,11 +138,12 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 		));
 	}
 
-	public function loadModel($id)
+	public function loadModel($<?php echo $this->identificationColumn; ?>)
 	{
-		$model=<?php echo $this->modelClass; ?>::model()->findByPk($id);
+		$model=<?php echo $this->modelClass; ?>::model()->find('<?php echo $this->identificationColumn; ?> = :<?php echo $this->identificationColumn; ?>', array(
+			':<?php echo $this->identificationColumn; ?>' => $<?php echo $this->identificationColumn; ?>));
 		if($model===null)
-			throw new CHttpException(404,'The requested page does not exist.');
+			throw new CHttpException(404,Yii::t('The requested page does not exist.'));
 		return $model;
 	}
 
