@@ -15,6 +15,11 @@ class FullCrudCode extends CrudCode {
 		$this->codeProvider = new CodeProvider;
 		if(!$this->identificationColumn)
 			$this->identificationColumn = $this->tableSchema->primaryKey;
+
+		if(!array_key_exists(
+					$this->identificationColumn, $this->tableSchema->columns))
+			$this->addError('identificationColumn', 'The specified column can not be found in the models attributes. <br /> Please specify a valid attribute. If unsure, leave the field empty.'); 
+
 		parent::prepare();
 	}
 
