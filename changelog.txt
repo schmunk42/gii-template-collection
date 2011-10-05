@@ -2,23 +2,26 @@ Gii Template Collection Change Log
 ==================================
 
 Version 0.6 - to be released
+-----------
 
-Enhancements to FullModel:
-
-* At first, the model is split into two files: a BaseModel.php file 
+FullModel
+- Enh: At first, the model is split into two files: a BaseModel.php file 
 and a Model.php file extending from the BaseModel. This makes it possible
 to override the BaseModel when the database schema changes, without 
-overriding any business logic that should go into the Model.php file.
-* To disable this behavior, choose the 'singlefile' template instead of the
+overriding any business logic that should go into the Model.php file. (thyseus)
+- Enh: To disable this behavior, choose the 'singlefile' template instead of the (thyseus)
 default. 
-* It will include the CSaveRelationsBehavior to add additional functions for MANY_MANY relations 
-* It adds the __toString() php magic function to the Base Model class 
-* All comments are removed except for the first comment describing the attributes of the model 
-* Attribute labels gets a Yii::t('app', <label>) wrapper to make easier i18n possible 
-* If a column is called <em> create_time, createtime, update_time, updatetime or timestamp </em> the CTimestampBehavior shipped with zii will automatically added as a behavior 
-* If a column is called <em> created_by, createdby, user, user_id, owner or owner_id </em> the OwnerBehavior shipped with the gii-template-collection will automatically added as a behavior 
-* Added model relations to view templates
-* Added demo schema (MySQL)
+- Enh: It will include the CSaveRelationsBehavior to add additional functions for MANY_MANY relations (thyseus)
+- Enh: It adds the __toString() php magic function to the Base Model class (thyseus)
+- Chg: All comments are removed except for the first comment describing the attributes of the model (thyseus)
+
+FullCrud
+- Attribute labels gets a Yii::t('app', <label>) wrapper to make easier i18n possible (thyseus)
+- Chg: If a column is called <em> create_time, createtime, update_time, updatetime or timestamp </em> the CTimestampBehavior shipped with zii will automatically added as a behavior (thyseus)
+- Chg: If a column is called <em> created_by, createdby, user, user_id, owner or owner_id </em> the OwnerBehavior shipped with the gii-template-collection will automatically added as a behavior (thyseus)
+- Enh: Added model relations to view templates (schmunk)
+- Enh: Added demo schema (MySQL) (schmunk)
+- Enh: Added resolveController method to helper (schmunk) 
 
 
 Version 0.5
@@ -42,13 +45,15 @@ Version 0.5
 - Fix: Relation: Dropdownlist support for MANY_MANY bugfixes
 - Fix: FullModel: A bug in the model template made Gii/Yii look for the CAdvancedArBehavior directly (not via path alias). (rawtaz)  
 - New: Added support for generating activeDropDownList's for ENUM mysql column fields
-- Fix: Add missing translation for "Fields with * are required". (robregonm)
+- Fix: Add missing translation for "Fields with - are required". (robregonm)
 - Fix: Fix translation when generating "view" file. (robregonm)
 - Fix: Added returnUrl verification to actionDelete. Added unsetAttributtes to actionAdmin. (robregonm)
+
 
 Version 0.4
 -----------
 <Censored by the Council of Galaxy Hitchhiking>
+
 
 Version 0.3
 -----------
