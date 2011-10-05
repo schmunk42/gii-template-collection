@@ -41,7 +41,7 @@ $this->renderPartial('crud', array(
 			'model' => $model,
 			'form' => $form));
 
-if(isset($_POST['preview'])) 
+if(isset($_POST['preview']) && !$model->hasErrors())
 $this->renderPartial('url_hint', array(
 			'model' => $model,
 			'form' => $form));
