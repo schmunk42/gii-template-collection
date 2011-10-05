@@ -5,10 +5,10 @@ abstract class GActiveRecord extends CActiveRecord {
 	{
 		return array_merge(parent::behaviors(), array(
 					'CSaveRelationsBehavior' => array(
-						'class' => 'CSaveRelationsBehavior'
+						'class' => 'ext.gtc.components.CSaveRelationsBehavior'
 						),
 					'TimestampBehavior' => array(
-						'class' => 'TimestampBehavior'
+						'class' => 'ext.gtc.components.TimestampBehavior'
 						)
 					)
 				);

@@ -34,7 +34,30 @@ $('.form .row.model-class').toggle($('#{$class}_tableName').val().substring($('#
 ?>
 <h1>Full Model Generator</h1>
 
-<p>This generator generates an even more enhanced model class for the specified database table. It will include the CSaveRelationsBehavior to add additional functions for MANY_MANY relations and adds the __toString() php magic function to the Base Model class </p>
+<p>This generator generates an enhanced model class for the specified database table. </p>
+
+<p> <?php echo CHtml::link(
+		'Click here to see what FullModel does exactly', '#', array(
+			'onClick' => '$(".details").toggle()')); ?> </p>
+
+<div class="details" style="display: none;">
+<ul>
+<li> At first, the model is split into two files: a BaseModel.php file 
+and a Model.php file extending from the BaseModel. This makes it possible
+to override the BaseModel when the database schema changes, without 
+overriding any business logic that should go into the Model.php file.
+To disable this behavior, choose the 'singlefile' template instead of the
+default. </li>
+<li> It will include the CSaveRelationsBehavior to add additional functions for MANY_MANY relations </li>
+<li> It adds the __toString() php magic function to the Base Model class </li>
+<li> All comments are removed except for the first comment describing the attributes of the model </li>
+<li> Attribute labels gets a Yii::t('app', <label>) wrapper to make easier i18n possible </li>
+<li> If a column is called <em> create_time, createtime, update_time, updatetime or timestamp </em> the CTimestampBehavior shipped with zii will automatically added as a behavior </li>
+<li> If a column is called <em> created_by, createdby, user, user_id, owner or owner_id </em> the OwnerBehavior shipped with the gii-template-collection will automatically added as a behavior </li>
+
+</ul>
+
+</div>
 
 <?php 
 $form=$this->beginWidget('CCodeForm', array('model'=>$model));

@@ -1,4 +1,4 @@
-This is the (not yet) official template collection for the Gii System.
+This is the gii template collection. 
 
 To use it, simply extract the content of the archive into your application 
 extensions/ directory and configure the templates in the 'generatorPaths'

@@ -10,18 +10,8 @@ echo "if(!isset(\$this->breadcrumbs) || (\$this->breadcrumbs === array()))\n
 
 if(!isset($this->menu) || $this->menu === array())
 $this->menu=array(
-	array(
-		'label' => Yii::t('app', 'Administration'), 
-		'items' => array(
-			array('label'=>Yii::t('app', 'Create') , 'url'=>array('create')),
-		)
-	),
-	/*array(
-		'label' => Yii::t('app', 'View'), 
-		'items' => array(
-			array('label'=>Yii::t('app', 'List') , 'url'=>array('index')),
-		)
-	)*/
+	array('label'=>Yii::t('app', 'Create') , 'url'=>array('create')),
+	array('label'=>Yii::t('app', 'List') , 'url'=>array('index')),
 );
 
 
@@ -51,7 +41,7 @@ foreach ($model->relations() AS $key => $relation)
 {
 	echo  "<li>".
 		Yii::t("app",substr(str_replace("Relation","",$relation[0]),1))." ".
-		CHtml::link(Yii::t("app",$relation[1]), array($this->resolveRelationController($relation)."/admin")).
+		CHtml::link(Yii::t("app",$relation[1]), array(GHelper::resolveController($relation)."/admin")).
 		" </li>";
 }
 echo "</ul>";
@@ -82,7 +72,7 @@ foreach($this->tableSchema->columns as $column)
 	
 	if (strtoupper($column->dbType) == 'TEXT')
 		echo "#";
-	echo "\t\t".$this->generateValueField($this->modelClass, $column).",\n";
+	echo "\t\t".$this->codeProvider->generateValueField($this->modelClass, $column).",\n";
 }
 
 if($count>=7)

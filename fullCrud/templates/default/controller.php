@@ -4,15 +4,39 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 {
 	public $layout='//layouts/column2';
 
-	<?php 
-		$authpath = 'ext.gtc.fullCrud.templates.default.auth.';
-	Yii::app()->controller->renderPartial($authpath.$this->authtype);
-	?>
-
-		public function actionView()
+	public function filters()
 	{
+		return array(
+			'accessControl', 
+		);
+	}	
+
+	public function accessRules()
+	{
+		return array(
+			array('allow',  
+				'actions'=>array('index','view'),
+				'users'=>array('*'),
+			),
+			array('allow', 
+				'actions'=>array('create','update'),
+				'users'=>array('@'),
+			),
+			array('allow', 
+				'actions'=>array('admin','delete'),
+				'users'=>array('admin'),
+			),
+			array('deny',  
+				'users'=>array('*'),
+			),
+		);
+	}
+
+	public function actionView($id)
+	{
+		$model = $this->loadModel($id);
 		$this->render('view',array(
-			'model' => $this->loadModel(),
+			'model' => $model,
 		));
 	}
 
@@ -20,7 +44,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 	{
 		$model = new <?php echo $this->modelClass; ?>;
 
-		<?php if($this->enable_ajax_validation) { ?>
+		<?php if($this->validation == 1 || $this->validation == 3) { ?>
 		$this->performAjaxValidation($model, '<?php echo $this->class2id($this->modelClass)?>-form');
     <?php } ?>
 
@@ -38,27 +62,27 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 				}
 			}
 ?>
-
-			if($model->save()) {
-				$this->redirect(array('view','id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>));
-			}			
+			
+			try {
+				if($model->save()) {
+					$this->redirect(array('view','id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>));
+				}
+			} catch (Exception $e) {
+				throw new CHttpException(500,$e->getMessage());
+			}
 		} elseif(isset($_GET['<?php echo $this->modelClass; ?>'])) {
 				$model->attributes = $_GET['<?php echo $this->modelClass; ?>'];
 		}
 
-
-		if(Yii::app()->request->isAjaxRequest)
-			$this->renderPartial('_miniform',array( 'model'=>$model, 'relation' => $_GET['relation']));
-		else
-			$this->render('create',array( 'model'=>$model));
+		$this->render('create',array( 'model'=>$model));
 	}
 
 
-	public function actionUpdate()
+	public function actionUpdate($id)
 	{
-		$model = $this->loadModel();
+		$model = $this->loadModel($id);
 
-		<?php if($this->enable_ajax_validation) { ?>
+		<?php if($this->validation == 1 || $this->validation == 3) { ?>
 		$this->performAjaxValidation($model, '<?php echo $this->class2id($this->modelClass)?>-form');
 		<?php } ?>
 
@@ -73,14 +97,20 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 				{
 					printf("\t\t\tif(isset(\$_POST['%s']['%s']))\n", $this->modelClass, $relation[1]);
 					printf("\t\t\t\t\$model->setRelationRecords('%s', \$_POST['%s']['%s']);\n", $key, $this->modelClass, $relation[1]);
+					echo "else\n";
+					echo "\$model->setRelationRecords('{$key}',array());\n";
 				}
 			}
 ?>
 
-			if($model->save()) {
-
-      $this->redirect(array('view','id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>));
+			try {
+				if($model->save()) {
+					$this->redirect(array('view','id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>));
+				}
+			} catch (Exception $e) {
+				throw new CHttpException(500,$e->getMessage());
 			}
+			
 		}
 
 		$this->render('update',array(
@@ -92,7 +122,11 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 	{
 		if(Yii::app()->request->isPostRequest)
 		{
-			$this->loadModel()->delete();
+			try {
+				$this->loadModel($_GET['id'])->delete();
+			} catch (Exception $e) {
+				throw new CHttpException(500,$e->getMessage());
+			}
 
 			if(!isset($_GET['ajax']))
 			{
@@ -128,4 +162,20 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 		));
 	}
 
+	public function loadModel($id)
+	{
+		$model=<?php echo $this->modelClass; ?>::model()->findByPk($id);
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $model;
+	}
+
+	protected function performAjaxValidation($model)
+	{
+		if(isset($_POST['ajax']) && $_POST['ajax']==='<?php echo $this->class2id($this->modelClass); ?>-form')
+		{
+			echo CActiveForm::validate($model);
+			Yii::app()->end();
+		}
+	}
 }

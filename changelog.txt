@@ -1,6 +1,25 @@
+Gii Template Collection Change Log
+==================================
 
-  Gii Template Collection Change Log
-  ==================================
+Version 0.6 - to be released
+
+Enhancements to FullModel:
+
+* At first, the model is split into two files: a BaseModel.php file 
+and a Model.php file extending from the BaseModel. This makes it possible
+to override the BaseModel when the database schema changes, without 
+overriding any business logic that should go into the Model.php file.
+* To disable this behavior, choose the 'singlefile' template instead of the
+default. 
+* It will include the CSaveRelationsBehavior to add additional functions for MANY_MANY relations 
+* It adds the __toString() php magic function to the Base Model class 
+* All comments are removed except for the first comment describing the attributes of the model 
+* Attribute labels gets a Yii::t('app', <label>) wrapper to make easier i18n possible 
+* If a column is called <em> create_time, createtime, update_time, updatetime or timestamp </em> the CTimestampBehavior shipped with zii will automatically added as a behavior 
+* If a column is called <em> created_by, createdby, user, user_id, owner or owner_id </em> the OwnerBehavior shipped with the gii-template-collection will automatically added as a behavior 
+* Added model relations to view templates
+* Added demo schema (MySQL)
+
 
 Version 0.5
 -----------

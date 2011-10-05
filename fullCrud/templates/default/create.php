@@ -10,8 +10,8 @@ echo "if(!isset(\$this->breadcrumbs) || (\$this->breadcrumbs === array()))\n
 
 if(!isset($this->menu) || $this->menu === array())
 $this->menu=array(
-	/*array('label'=>Yii::t('app', 'List') . ' <?php echo $this->modelClass; ?>', 'url'=>array('index')),
-	array('label'=>Yii::t('app', 'Manage') . ' <?php echo $this->modelClass; ?>', 'url'=>array('admin')),*/
+	/*array('label'=>Yii::t('app', 'List'), 'url'=>array('index')),
+	array('label'=>Yii::t('app', 'Manage'), 'url'=>array('admin')),*/
 );
 ?>
 
