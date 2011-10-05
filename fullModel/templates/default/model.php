@@ -51,7 +51,7 @@ class <?php echo $modelClass; ?> extends <?php echo 'Base' . $modelClass."\n"; ?
 	public function behaviors() 
 	{
 		<?php
-			$behaviors = 'return array(';
+			$behaviors = 'return array_merge(parent::behaviors(),array(';
 					foreach($columns as $name => $column) {
 					if(in_array($column->name, array(
 								'create_time',
@@ -90,7 +90,7 @@ class <?php echo $modelClass; ?> extends <?php echo 'Base' . $modelClass."\n"; ?
 					}
 
 
-					$behaviors .= "\n);\n";
+					$behaviors .= "\n));\n";
 					echo $behaviors;
 					?>
 	}

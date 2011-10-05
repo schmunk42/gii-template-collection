@@ -2,17 +2,17 @@
 $label = $this->pluralize($this->class2name($this->modelClass));
 
 echo "<?php\n";
-echo "if(!isset(\$this->breadcrumbs))\n
+echo "if(!isset(\$this->breadcrumbs) || (\$this->breadcrumbs === array()))\n
 \$this->breadcrumbs = array(
 	'$label',
 	Yii::t('app', 'Index'),
 );\n";
 ?>
 
-if(!isset($this->menu))
+if(!isset($this->menu) || $this->menu === array())
 $this->menu=array(
-	array('label'=>Yii::t('app', 'Create') . ' <?php echo $this->modelClass; ?>', 'url'=>array('create')),
-	array('label'=>Yii::t('app', 'Manage') . ' <?php echo $this->modelClass; ?>', 'url'=>array('admin')),
+	array('label'=>Yii::t('app', 'Create'), 'url'=>array('create')),
+	array('label'=>Yii::t('app', 'Manage'), 'url'=>array('admin')),
 );
 ?>
 

@@ -19,7 +19,6 @@ class FullCrudCode extends CrudCode {
 		if(!array_key_exists(
 					$this->identificationColumn, $this->tableSchema->columns))
 			$this->addError('identificationColumn', 'The specified column can not be found in the models attributes. <br /> Please specify a valid attribute. If unsure, leave the field empty.'); 
-
 		parent::prepare();
 	}
 
@@ -31,6 +30,14 @@ class FullCrudCode extends CrudCode {
 					));
 	}
 
+	public function validateModel($attribute,$params)
+	{
+		// check your import paths, if you get an error here
+		// PHP error can't be catched as an exception
+		$class=Yii::import($this->model, true);
+		parent::validateModel($attribute,$params);
+	}
+	
 	public function attributeLabels()
 	{
 		return array_merge(parent::attributeLabels(), array(

@@ -56,7 +56,12 @@ class GHelper {
 	}
 
 	public static function resolveController($relation) {
-		return (string)(strtolower(substr($relation[1],0,1)).substr($relation[1],1));
+		$model = new $relation[1];
+		$reflection = new ReflectionClass($model);
+		$module = preg_match("/\/modules\/([a-zA-Z0-9]+)\//", $reflection->getFileName(), $matches);
+		$modulePrefix = (isset($matches[$module]))?"/".$matches[$module]."/":"/";
+		$controller = $modulePrefix.strtolower(substr($relation[1],0,1)).substr($relation[1],1);
+		return $controller;
 	}
 
 }

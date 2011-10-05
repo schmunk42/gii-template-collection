@@ -663,8 +663,9 @@ class Relation extends CWidget
 			else
 				$this->renderBelongsToSelection();
 
-			if($this->showAddButton)
-				$this->renderAddButton();
+			// TODO: reimplement add button
+			//if($this->showAddButton)
+			//	$this->renderAddButton();
 		}
 		protected function renderAddButton() 
 		{

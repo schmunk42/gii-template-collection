@@ -20,6 +20,12 @@ foreach($this->tableSchema->columns as $column)
 	if($column->isPrimaryKey)
 		continue;
 
+	// omit relations, they are rendered below
+	foreach($this->getRelations() as $key => $relation){
+		if ($relation[2] == $column->name) continue 2;
+	}
+	
+	
 	if(!$column->isForeignKey
 			&& $column->name != 'create_time'
 			&& $column->name != 'update_time'
@@ -28,7 +34,7 @@ foreach($this->tableSchema->columns as $column)
 			&& $column->name != 'timestamp') {
 		echo "<div class=\"row\">\n";
 		echo "<?php echo ".$this->generateActiveLabel($this->modelClass,$column)."; ?>\n"; 
-		echo "<?php ".$this->generateActiveField($this->modelClass,$column)."; ?>\n"; 
+		echo "<?php echo ".$this->generateActiveField($this->modelClass,$column)."; ?>\n"; 
 		echo "<?php echo \$form->error(\$model,'{$column->name}'); ?>\n";
 
 		// renders a hint div, but leaves it empty, when the hint is not translated yet

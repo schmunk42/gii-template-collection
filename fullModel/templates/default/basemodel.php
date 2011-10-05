@@ -123,4 +123,5 @@ abstract class <?php echo 'Base' . $modelClass; ?> extends <?php echo $this->bas
 			'criteria'=>$criteria,
 		));
 	}
+	
 }
