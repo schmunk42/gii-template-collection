@@ -40,5 +40,10 @@ $('#{$class}_model').bind('keyup change', function(){
 $this->renderPartial('crud', array(
 			'model' => $model,
 			'form' => $form));
-?>
-<?php $this->endWidget(); ?>
+
+if(isset($_POST['preview'])) 
+$this->renderPartial('url_hint', array(
+			'model' => $model,
+			'form' => $form));
+
+$this->endWidget(); ?>

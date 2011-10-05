@@ -1,9 +1,10 @@
+<?php $models = $this->getModels(); ?>
 <div class="row">
 <?php echo $form->labelEx($model,'model'); ?>
 <?php $form->widget('zii.widgets.jui.CJuiAutoComplete', array(
 			'model'=>$model,
 			'attribute'=>'model',
-			'source'=>$this->getModels(),
+			'source'=>array_keys($models),
 			'options'=>array(
 				'delay'=>100,
 				'focus'=>'js:function(event,ui){
@@ -39,6 +40,26 @@ Model class is case-sensitive. It can be either a class name (e.g. <code>Post</c
 	<?php echo $form->error($model,'controller'); ?>
 	</div>
 
+	<div class="row wide">
+	<?php echo $form->labelEx($model, 'identificationColumn'); ?>
+	<?php echo $form->textField($model, 'identificationColumn', array(
+'size' => 65)); ?>
+	<div class="tooltip">
+	If you specify a column here, the generated <br /> C-R-U-D Pages will be 
+	generated with URLs that uses the corresponding column as identification.
+	Leave it empty or stick to the PK (default) column of the model to use the 
+	traditional identification via PK.
+	For example, entering <code>title</code> as identification Column, a
+	post would be associated with <code>index.php/post/title-of-the-post</code>
+	instead of <code>index.php?r=post/view&id=5</code>.
+	Ready to use url rules for Yii's CUrlManager will be generated and shown
+	after the generation.
+	Please make sure that the column is marked as <em> Unique </em> in the
+	model Rules section when using this function.
+	</div>
+	<?php echo $form->error($model,'identificationColumn'); ?>
+	</div>
+
 	<div class="row">
 	<?php echo $form->labelEx($model, 'validation'); ?>
 	<?php echo $form->dropDownList($model, 'validation', array(
@@ -55,6 +76,7 @@ Model class is case-sensitive. It can be either a class name (e.g. <code>Post</c
 	<?php echo $form->error($model,'validation'); ?>
 	</div>
 
+
 	<div class="row sticky">
 	<?php echo $form->labelEx($model,'baseControllerClass'); ?>
 	<?php echo $form->textField($model,'baseControllerClass',array('size'=>65)); ?>
@@ -64,3 +86,7 @@ Model class is case-sensitive. It can be either a class name (e.g. <code>Post</c
 	</div>
 	<?php echo $form->error($model,'baseControllerClass'); ?>
 	</div>
+
+<style>
+input.radio { display: inline !important; } 
+</style>
