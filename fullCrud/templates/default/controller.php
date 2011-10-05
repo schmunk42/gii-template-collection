@@ -167,7 +167,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 			':<?php echo $this->identificationColumn; ?>' => $<?php echo $this->identificationColumn; ?>));
 		}
 		if($model===null)
-			throw new CHttpException(404,Yii::t('The requested page does not exist.'));
+			throw new CHttpException(404,Yii::t('app','The requested page does not exist.'));
 		return $model;
 	}
 
