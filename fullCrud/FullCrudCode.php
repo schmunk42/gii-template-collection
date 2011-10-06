@@ -34,7 +34,8 @@ class FullCrudCode extends CrudCode {
 	{
 		// check your import paths, if you get an error here
 		// PHP error can't be catched as an exception
-		$class=Yii::import($this->model, true);
+		if($this->model) 
+			Yii::import($this->model, true);
 		parent::validateModel($attribute,$params);
 	}
 	

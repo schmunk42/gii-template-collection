@@ -82,7 +82,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
         			$this->redirect(array('view','id'=>$model->id));
 				}
 			} catch (Exception $e) {
-				throw new CHttpException(500,$e->getMessage());
+				$model->addError('<?php echo $this->identificationColumn;?>', $e->getMessage());
 			}
 		} elseif(isset($_GET['<?php echo $this->modelClass; ?>'])) {
 				$model->attributes = $_GET['<?php echo $this->modelClass; ?>'];
@@ -122,7 +122,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
         			$this->redirect(array('view','id'=>$model->id));
         		}
 			} catch (Exception $e) {
-				throw new CHttpException(500,$e->getMessage());
+				$model->addError('<?php echo $this->identificationColumn;?>', $e->getMessage());
 			}	
 		}
 
@@ -176,7 +176,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 	{
 		$model=<?php echo $this->modelClass; ?>::model()->findByPk($id);
 		if($model===null)
-			throw new CHttpException(404,Yii::t('app','The requested page does not exist.'));
+			throw new CHttpException(404,Yii::t('app', 'The requested page does not exist.'));
 		return $model;
 	}
 

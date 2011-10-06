@@ -125,51 +125,8 @@ class <?php echo $modelClass; ?> extends <?php echo $this->baseClass; ?>
 
 	public function behaviors() 
 	{
-		<?php
-			$behaviors = 'return array(';
-					foreach($columns as $name => $column) {
-					if(in_array($column->name, array(
-								'create_time',
-								'createtime',
-								'created_at',
-								'createdat',
-								'changed',
-								'changed_at',
-								'updatetime',
-								'update_time',
-								'timestamp'))) {
-					$behaviors .= sprintf("\n\t\t'CTimestampBehavior' => array(
-				'class' => 'zii.behaviors.CTimestampBehavior',
-				'createAttribute' => %s,
-				'updateAttribute' => %s,
-				\t),\n", $this->getCreatetimeAttribute($columns),
-						$this->getUpdatetimeAttribute($columns));
-					break; // once a column is found, we are done
-					}
-					}
-					foreach($columns as $name => $column) {
-						if(in_array($column->name, array(
-										'user_id',
-										'userid',
-										'ownerid',
-										'owner_id',
-										'created_by',
-										'createdby'))) {
-							$behaviors .= sprintf("\n\t\t'OwnerBehavior' => array(
-								'class' => 'OwnerBehavior',
-							'ownerColumn' => '%s',
-							\t),\n", $column->name);
-							break; // once a column is found, we are done
-
-						}
-					}
-
-
-					$behaviors .= "\n);\n";
-					echo $behaviors;
-					?>
-	}
-
+		<?php echo $this->getBehaviors($columns); ?>
+  }
 
 	public function beforeValidate() 
 	{
@@ -192,25 +149,8 @@ class <?php echo $modelClass; ?> extends <?php echo $this->baseClass; ?>
 	}
 
 	public function __toString() {
-		return (string) $this-><?php
-			$found = false;
-		foreach($columns as $name => $column) {
-			if(!$found 
-					&& $column->type != 'datetime'
-					&& $column->type==='string' 
-					&& !$column->isPrimaryKey) {
-				echo $column->name;
-				$found = true;
-			}
+		return (string) $this-><?php echo $this->identificationColumn; ?>;
 		}
-
-		// if the columns contains no column of type 'string', return the
-		// first column (usually the primary key)
-		if(!$found)
-			echo reset($columns)->name; 
-		?>;
-
-	}
 
 
 
