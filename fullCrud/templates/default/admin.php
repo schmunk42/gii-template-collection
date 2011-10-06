@@ -80,9 +80,9 @@ if($count>=7)
 ?>
 		array(
 			'class'=>'CButtonColumn',
-			'viewButtonUrl' => "Yii::app()->controller->createUrl('view', array('<?php echo $this->identificationColumn; ?>' => \$data-><?php echo $this->identificationColumn; ?>))",
-			'updateButtonUrl' => "Yii::app()->controller->createUrl('update', array('<?php echo $this->identificationColumn; ?>' => \$data-><?php echo $this->identificationColumn; ?>))",
-			'deleteButtonUrl' => "Yii::app()->controller->createUrl('delete', array('<?php echo $this->identificationColumn; ?>' => \$data-><?php echo $this->identificationColumn; ?>))",
+			'viewButtonUrl' => "Yii::app()->controller->createUrl('view', array('<?php echo $this->tableSchema->primaryKey; ?>' => \$data-><?php echo $this->tableSchema->primaryKey; ?>))",
+			'updateButtonUrl' => "Yii::app()->controller->createUrl('update', array('<?php echo $this->tableSchema->primaryKey; ?>' => \$data-><?php echo $this->tableSchema->primaryKey; ?>))",
+			'deleteButtonUrl' => "Yii::app()->controller->createUrl('delete', array('<?php echo $this->tableSchema->primaryKey; ?>' => \$data-><?php echo $this->tableSchema->primaryKey; ?>))",
 
 		),
 	),

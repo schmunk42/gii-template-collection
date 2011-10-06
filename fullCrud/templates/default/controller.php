@@ -31,10 +31,25 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 			),
 		);
 	}
-
-	public function actionView($<?php echo $this->identificationColumn; ?>)
+	
+	public function beforeAction($action){
+		parent::beforeAction($action);
+		// map identifcationColumn to id
+		if (!isset($_GET['id']) && isset($_GET['<?php echo $this->identificationColumn; ?>'])) {
+			$model=<?php echo $this->modelClass; ?>::model()->find('<?php echo $this->identificationColumn; ?> = :<?php echo $this->identificationColumn; ?>', array(
+			':<?php echo $this->identificationColumn; ?>' => $_GET['<?php echo $this->identificationColumn; ?>']));
+			if ($model !== null) {
+				$_GET['id'] = $model->id;
+			} else {
+				throw new CHttpException(400);
+			}
+		}
+		return true;
+	}
+	
+	public function actionView($id)
 	{
-		$model = $this->loadModel($<?php echo $this->identificationColumn; ?>);
+		$model = $this->loadModel($id);
 		$this->render('view',array(
 			'model' => $model,
 		));
@@ -64,7 +79,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 ?>
 			try {
     			if($model->save()) {
-        			$this->redirect(array('view','<?php echo $this->identificationColumn;?>'=>$model-><?php echo $this->identificationColumn; ?>));
+        			$this->redirect(array('view','id'=>$model->id));
 				}
 			} catch (Exception $e) {
 				throw new CHttpException(500,$e->getMessage());
@@ -77,9 +92,9 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 	}
 
 
-	public function actionUpdate($<?php echo $this->identificationColumn; ?>)
+	public function actionUpdate($id)
 	{
-		$model = $this->loadModel($<?php echo $this->identificationColumn; ?>);
+		$model = $this->loadModel($id);
 
 		<?php if($this->validation == 1 || $this->validation == 3) { ?>
 		$this->performAjaxValidation($model, '<?php echo $this->class2id($this->modelClass)?>-form');
@@ -104,7 +119,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 
 			try {
     			if($model->save()) {
-        			$this->redirect(array('view','<?php echo $this->identificationColumn;?>'=>$model-><?php echo $this->identificationColumn; ?>));
+        			$this->redirect(array('view','id'=>$model->id));
         		}
 			} catch (Exception $e) {
 				throw new CHttpException(500,$e->getMessage());
@@ -116,12 +131,12 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 					));
 	}
 
-	public function actionDelete($<?php echo $this->identificationColumn; ?>)
+	public function actionDelete($id)
 	{
 		if(Yii::app()->request->isPostRequest)
 		{
 			try {
-				$this->loadModel($<?php echo $this->identificationColumn; ?>)->delete();
+				$this->loadModel($id)->delete();
 			} catch (Exception $e) {
 				throw new CHttpException(500,$e->getMessage());
 			}
@@ -157,15 +172,9 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 		));
 	}
 
-	public function loadModel($<?php echo $this->identificationColumn; ?>)
+	public function loadModel($id)
 	{
-		// TODO: is_numeric is for backward compatibility ... if the value is a number it's treated as the PK
-		if (is_numeric($<?php echo $this->identificationColumn; ?>)) {
-			$model=<?php echo $this->modelClass; ?>::model()->findByPk($<?php echo $this->identificationColumn; ?>);
-		} else {
-			$model=<?php echo $this->modelClass; ?>::model()->find('<?php echo $this->identificationColumn; ?> = :<?php echo $this->identificationColumn; ?>', array(
-			':<?php echo $this->identificationColumn; ?>' => $<?php echo $this->identificationColumn; ?>));
-		}
+		$model=<?php echo $this->modelClass; ?>::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,Yii::t('app','The requested page does not exist.'));
 		return $model;

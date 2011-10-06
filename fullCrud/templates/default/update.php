@@ -4,7 +4,7 @@ $label = $this->pluralize($this->class2name($this->modelClass));
 echo "if(!isset(\$this->breadcrumbs) || (\$this->breadcrumbs === array()))\n
 \$this->breadcrumbs=array(
 	'$label'=>array('index'),
-	\$model->{$this->identificationColumn}=>array('view','{$this->identificationColumn}'=>\$model->{$this->identificationColumn}),
+	\$model->id=>array('view','id'=>\$model->id),
 	Yii::t('app', 'Update'),
 );\n";
 ?>
@@ -19,7 +19,7 @@ $this->menu=array(
 ?>
 
 <?php 
-$pk = "\$model->" . $this->identificationColumn;
+$pk = "\$model->" . $this->tableSchema->primaryKey;
 printf('<h1> %s %s #%s </h1>',
 '<?php echo Yii::t(\'app\', \'Update\');?>',
 '<?php echo Yii::t(\'app\', \''.$this->modelClass.'\');?>',
