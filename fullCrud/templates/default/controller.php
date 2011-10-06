@@ -67,7 +67,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
         			$this->redirect(array('view','<?php echo $this->identificationColumn;?>'=>$model-><?php echo $this->identificationColumn; ?>));
 				}
 			} catch (Exception $e) {
-				throw new CHttpException(500,$e->getMessage());
+				$model->addError('<?php echo $this->identificationColumn;?>', $e->getMessage());
 			}
 		} elseif(isset($_GET['<?php echo $this->modelClass; ?>'])) {
 				$model->attributes = $_GET['<?php echo $this->modelClass; ?>'];
@@ -107,7 +107,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
         			$this->redirect(array('view','<?php echo $this->identificationColumn;?>'=>$model-><?php echo $this->identificationColumn; ?>));
         		}
 			} catch (Exception $e) {
-				throw new CHttpException(500,$e->getMessage());
+				$model->addError('<?php echo $this->identificationColumn;?>', $e->getMessage());
 			}	
 		}
 
@@ -160,14 +160,12 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 	public function loadModel($<?php echo $this->identificationColumn; ?>)
 	{
 		// TODO: is_numeric is for backward compatibility ... if the value is a number it's treated as the PK
-		if (is_numeric($<?php echo $this->identificationColumn; ?>)) {
-			$model=<?php echo $this->modelClass; ?>::model()->findByPk($<?php echo $this->identificationColumn; ?>);
-		} else {
+		// Protest ! :) - the 'title' can containt only numbers, even if not the PK
+		// is meant ! We need to think about another 'fallback' technique! - thyseus
 			$model=<?php echo $this->modelClass; ?>::model()->find('<?php echo $this->identificationColumn; ?> = :<?php echo $this->identificationColumn; ?>', array(
 			':<?php echo $this->identificationColumn; ?>' => $<?php echo $this->identificationColumn; ?>));
-		}
 		if($model===null)
-			throw new CHttpException(404,Yii::t('The requested page does not exist.'));
+			throw new CHttpException(404,Yii::t('app', 'The requested page does not exist.'));
 		return $model;
 	}
 

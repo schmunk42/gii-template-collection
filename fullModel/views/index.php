@@ -111,6 +111,22 @@ $form=$this->beginWidget('CCodeForm', array('model'=>$model));
 		</div>
 		<?php echo $form->error($model,'modelClass'); ?>
 	</div>
+	<div class="row">
+		<?php echo $form->labelEx($model,'identificationColumn'); ?>
+		<?php echo $form->textField($model,'identificationColumn', array('size'=>65)); ?>
+		<div class="tooltip">
+	If you specify a column here, the generated Model will use the column
+	as a human-readable identifier. Specify the 'title' or 'name' attribute of
+	the model here. Leave it empty to let the column be guessed automatically.
+	Set it to 'id' or to the PK of the model to bypass this feature. <hr />
+	If unsure, leave it empty <hr />
+	The 'identificationColumnValidator' will automatically applied to the column
+	because certain conditions need to be met for the column. Check the Validator
+	for details.
+		</div>
+		<?php echo $form->error($model,'identificationColumn'); ?>
+	</div>
+
 	<div class="row sticky">
 		<?php echo $form->labelEx($model,'baseClass'); ?>
 		<?php echo $form->textField($model,'baseClass',array('size'=>65)); ?>
@@ -129,5 +145,7 @@ $form=$this->beginWidget('CCodeForm', array('model'=>$model));
 		</div>
 		<?php echo $form->error($model,'modelPath'); ?>
 	</div>
+
+
 
 <?php $this->endWidget(); ?>
