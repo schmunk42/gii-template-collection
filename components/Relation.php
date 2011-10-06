@@ -665,16 +665,19 @@ class Relation extends CWidget
 			else
 				$this->renderBelongsToSelection();
 
-			// TODO: reimplement add button
-			//if($this->showAddButton)
-			//	$this->renderAddButton();
 		}
 		protected function renderAddButton() 
 		{
+			// TODO: reimplement add button
+			// if($this->showAddButton)
+			//   $this->renderAddButton();
+			return;
+			
 			$model = strtolower(get_class($this->_model));
 			$relatedModel = strtolower(get_class($this->_relatedModel));
 			$relations = $this->_model->relations();
-			$controller = GHelper::resolveController($relations[$this->relation]);
+			
+			#$controller = GHelper::resolveController($relations[$this->relation]);
 
 			if($this->addButtonUrl != '')
 				$link = $this->addButtonUrl;

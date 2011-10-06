@@ -41,7 +41,7 @@ $this->menu=array(
 			
 			#$suggestedfield = $this->suggestName($columns);
 			
-			$controller = GHelper::resolveController($relation);
+			$controller = $this->codeProvider->resolveController($relation);
 			$value = "(\$model->{$key} !== null)?";
 			$value .= "CHtml::link(\$model->{$key}->_label, array('{$controller}/view','id'=>\$model->{$key}->{$relatedModel->tableSchema->primaryKey})).' '.";
 			$value .= "CHtml::link(Yii::t('app','Update'), array('{$controller}/update','id'=>\$model->{$key}->{$relatedModel->tableSchema->primaryKey}), array('class'=>'edit'))";
@@ -75,7 +75,7 @@ $this->menu=array(
 	<?php
 	foreach (CActiveRecord::model(Yii::import($this->model))->relations() as $key => $relation) {
 		
-		$controller = GHelper::resolveController($relation);
+		$controller = $this->codeProvider->resolveController($relation);
 		$relatedModel = CActiveRecord::model($relation[1]);
 		$pk = $relatedModel->tableSchema->primaryKey;
 		

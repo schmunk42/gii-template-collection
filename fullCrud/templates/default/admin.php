@@ -34,28 +34,27 @@ echo "<?php echo Yii::t('app', 'Manage'); ?> ";
 echo "<?php echo Yii::t('app', '".$this->pluralize($this->class2name($this->modelClass))."'); ?> ";
 ?></h1>
 
+
 <?php
-echo '<?php
+// render relation links
+$model = new $this->modelClass;
 echo "<ul>";
-foreach ($model->relations() AS $key => $relation)
-{
+foreach($model->relations() AS $key => $relation){
 	echo  "<li>".
 		Yii::t("app",substr(str_replace("Relation","",$relation[0]),1))." ".
-		CHtml::link(Yii::t("app",$relation[1]), array(GHelper::resolveController($relation)."/admin")).
+		CHtml::link(Yii::t("app",$relation[1]), array($this->codeProvider->resolveController($relation).'/admin')).
 		" </li>";
 }
 echo "</ul>";
-?>'
 ?>
 
-<?php echo "<?php echo CHtml::link(Yii::t('app', 'Advanced Search'),'#',array('class'=>'search-button')); ?>"; ?>
 
+<?php echo "<?php echo CHtml::link(Yii::t('app', 'Advanced Search'),'#',array('class'=>'search-button')); ?>"; ?>
 <div class="search-form" style="display:none">
 <?php echo "<?php \$this->renderPartial('_search',array(
 	'model'=>\$model,
 )); ?>\n"; ?>
 </div>
-
 <?php echo "<?php
 \$locale = CLocale::getInstance(Yii::app()->language);\n
 "; ?> $this->widget('zii.widgets.grid.CGridView', array(
@@ -63,6 +62,8 @@ echo "</ul>";
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
 	'columns'=>array(
+
+	
 <?php
 $count=0;
 foreach($this->tableSchema->columns as $column)
