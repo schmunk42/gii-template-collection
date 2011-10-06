@@ -19,9 +19,10 @@ FullCrud
 - Attribute labels gets a Yii::t('app', <label>) wrapper to make easier i18n possible (thyseus)
 - Chg: If a column is called <em> create_time, createtime, update_time, updatetime or timestamp </em> the CTimestampBehavior shipped with zii will automatically added as a behavior (thyseus)
 - Chg: If a column is called <em> created_by, createdby, user, user_id, owner or owner_id </em> the OwnerBehavior shipped with the gii-template-collection will automatically added as a behavior (thyseus)
+- Chg: Removed GHelper (schmunk)
 - Enh: Added model relations to view templates (schmunk)
 - Enh: Added demo schema (MySQL) (schmunk)
-- Enh: Added resolveController method to helper (schmunk) 
+- Enh: Added resolveController method to helper (schmunk)
 
 
 Version 0.5
