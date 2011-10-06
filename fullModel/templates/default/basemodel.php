@@ -124,4 +124,21 @@ abstract class <?php echo 'Base' . $modelClass; ?> extends <?php echo $this->bas
 		));
 	}
 	
+	public function get_label()
+	{
+		return '#'.$this->id;
+		
+		<?php
+		 // I would suggest to overwrite this method in the model class
+
+		 /*	foreach($columns AS $col){
+					//if no name attribute is found, use the first string value in the table
+					if($col->type == 'string') {
+						echo 'return $this->'.$col->name.';';
+						break;
+					}
+				} */
+			?>
+	}
+	
 }

@@ -1,5 +1,4 @@
 <?php
-$nameColumn = GHelper::guessNameColumn($this->tableSchema->columns);
 $label = $this->pluralize($this->class2name($this->modelClass));
 
 echo "<?php\n";
@@ -7,7 +6,7 @@ echo "<?php\n";
 echo "if(!isset(\$this->breadcrumbs) || (\$this->breadcrumbs === array()))\n
 \$this->breadcrumbs=array(
 '$label'=>array('index'),
-	\$model->{$nameColumn},
+	\$model->_label,
 	);\n"; 
 ?>
 
@@ -44,7 +43,7 @@ $this->menu=array(
 			
 			$controller = GHelper::resolveController($relation);
 			$value = "(\$model->{$key} !== null)?";
-			$value .= "CHtml::link(\$model->{$key}->recordTitle, array('{$controller}/view','id'=>\$model->{$key}->{$relatedModel->tableSchema->primaryKey})).' '.";
+			$value .= "CHtml::link(\$model->{$key}->_label, array('{$controller}/view','id'=>\$model->{$key}->{$relatedModel->tableSchema->primaryKey})).' '.";
 			$value .= "CHtml::link(Yii::t('app','Update'), array('{$controller}/update','id'=>\$model->{$key}->{$relatedModel->tableSchema->primaryKey}), array('class'=>'edit'))";
 			$value .= ":'n/a'";
 			
@@ -93,7 +92,7 @@ $this->menu=array(
 			echo "
 			<?php if (is_array(\$model->{$key})) foreach(\$model->{$key} as \$foreignobj) { \n
 					echo '<li>';
-					echo CHtml::link(\$foreignobj->recordTitle, array('{$controller}/view','id'=>\$foreignobj->{$pk}));\n							
+					echo CHtml::link(\$foreignobj->_label, array('{$controller}/view','id'=>\$foreignobj->{$pk}));\n							
 					echo ' '.CHtml::link(Yii::t('app','Update'), array('{$controller}/update','id'=>\$foreignobj->{$pk}), array('class'=>'edit'));\n
 					}
 						?>";
@@ -118,7 +117,7 @@ $this->menu=array(
 					if (\$foreignobj !== null) {
 					echo '<li>';
 					echo '#'.\$model->{$key}->{$pk}.' ';
-					echo CHtml::link(\$model->{$key}->recordTitle, array('{$controller}/view','id'=>\$model->{$key}->{$pk}));\n							
+					echo CHtml::link(\$model->{$key}->_label, array('{$controller}/view','id'=>\$model->{$key}->{$pk}));\n							
 					echo ' '.CHtml::link(Yii::t('app','Update'), array('{$controller}/update','id'=>\$model->{$key}->{$pk}), array('class'=>'edit'));\n
 					
 					

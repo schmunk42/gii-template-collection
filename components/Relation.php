@@ -289,11 +289,13 @@ class Relation extends CWidget
 			else // Show all Parent elements
 			{ 
 				if($this->criteria === false){
-					$parentobjects = CActiveRecord::model(get_class($this->_relatedModel))->findAll(array('order'=>GHelper::guessNameColumn($this->_relatedModel->tableSchema->columns)));
+					// TODO: reimplement ORDER BY array('order'=>GHelper::guessNameColumn($this->_relatedModel->tableSchema->columns))
+					$parentobjects = CActiveRecord::model(get_class($this->_relatedModel))->findAll();					
 				} else {
 					$parentobjects = CActiveRecord::model(get_class($this->_relatedModel));
 					$parentobjects->setDbCriteria($this->criteria);
-					$parentobjects = $parentobjects->findAll(array('order'=>GHelper::guessNameColumn($this->_relatedModel->tableSchema->columns)));
+					// TODO: reimplement ORDER BY array('order'=>GHelper::guessNameColumn($this->_relatedModel->tableSchema->columns))
+					$parentobjects = $parentobjects->findAll();
 				}
 			} 
 
