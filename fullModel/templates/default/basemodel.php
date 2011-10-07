@@ -126,7 +126,15 @@ abstract class <?php echo 'Base' . $modelClass; ?> extends <?php echo $this->bas
 	
 	public function get_label()
 	{
-		return '#'.$this->id;
+		<?php 
+		// TODO: found no better solution for the PK
+		foreach($columns as $name=>$column) {
+			if ($column->isPrimaryKey) {
+				echo "return '#'.\$this->{$column->name};";
+			}
+		}			
+		?>
+		
 		
 		<?php
 		 // I would suggest to overwrite this method in the model class
