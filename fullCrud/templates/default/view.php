@@ -1,14 +1,10 @@
 <?php
-$nameColumn = GHelper::guessNameColumn($this->tableSchema->columns);
 $label = $this->pluralize($this->class2name($this->modelClass));
 
 echo "<?php\n";
 
-echo "if(!isset(\$this->breadcrumbs) || (\$this->breadcrumbs === array()))\n
-\$this->breadcrumbs=array(
-'$label'=>array('index'),
-	\$model->{$nameColumn},
-	);\n"; 
+echo "\$this->breadcrumbs['$label'] = array('index');\n";
+echo "\$this->breadcrumbs[] = \$model->{$this->identificationColumn};";
 ?>
 
 if(!isset($this->menu) || $this->menu === array()) {
@@ -22,7 +18,7 @@ $this->menu=array(
 }
 ?>
 
-<h1><?php echo "<?php echo Yii::t('app', 'View');?>" ?> <?php echo $this->modelClass . " #<?php echo \$model->{$this->identificationColumn}; ?>"; ?></h1>
+<h1><?php echo "<?php echo Yii::t('app', 'View');?>" ?> <?php echo $this->modelClass . " #<?php echo \$model->id; ?>"; ?></h1>
 
 <?php echo "<?php
 \$locale = CLocale::getInstance(Yii::app()->language);\n
@@ -42,10 +38,10 @@ $this->menu=array(
 			
 			#$suggestedfield = $this->suggestName($columns);
 			
-			$controller = GHelper::resolveController($relation);
+			$controller = $this->codeProvider->resolveController($relation);
 			$value = "(\$model->{$key} !== null)?";
-			$value .= "CHtml::link(\$model->{$key}->recordTitle, array('{$controller}/view','id'=>\$model->{$key}->{$relatedModel->tableSchema->primaryKey})).' '.";
-			$value .= "CHtml::link(Yii::t('app','Update'), array('{$controller}/update','id'=>\$model->{$key}->{$relatedModel->tableSchema->primaryKey}), array('class'=>'edit'))";
+			$value .= "CHtml::link(\$model->{$key}->_label, array('{$controller}/view','{$relatedModel->tableSchema->primaryKey}'=>\$model->{$key}->{$relatedModel->tableSchema->primaryKey})).' '.";
+			$value .= "CHtml::link(Yii::t('app','Update'), array('{$controller}/update','{$relatedModel->tableSchema->primaryKey}'=>\$model->{$key}->{$relatedModel->tableSchema->primaryKey}), array('class'=>'edit'))";
 			$value .= ":'n/a'";
 			
 			echo "\t\t\t'value'=>{$value},\n";
@@ -76,7 +72,7 @@ $this->menu=array(
 	<?php
 	foreach (CActiveRecord::model(Yii::import($this->model))->relations() as $key => $relation) {
 		
-		$controller = GHelper::resolveController($relation);
+		$controller = $this->codeProvider->resolveController($relation);
 		$relatedModel = CActiveRecord::model($relation[1]);
 		$pk = $relatedModel->tableSchema->primaryKey;
 		
@@ -93,8 +89,8 @@ $this->menu=array(
 			echo "
 			<?php if (is_array(\$model->{$key})) foreach(\$model->{$key} as \$foreignobj) { \n
 					echo '<li>';
-					echo CHtml::link(\$foreignobj->recordTitle, array('{$controller}/view','id'=>\$foreignobj->{$pk}));\n							
-					echo ' '.CHtml::link(Yii::t('app','Update'), array('{$controller}/update','id'=>\$foreignobj->{$pk}), array('class'=>'edit'));\n
+					echo CHtml::link(\$foreignobj->_label, array('{$controller}/view','{$pk}'=>\$foreignobj->{$pk}));\n							
+					echo ' '.CHtml::link(Yii::t('app','Update'), array('{$controller}/update','{$pk}'=>\$foreignobj->{$pk}), array('class'=>'edit'));\n
 					}
 						?>";
 			echo CHtml::closeTag('ul');
@@ -118,8 +114,8 @@ $this->menu=array(
 					if (\$foreignobj !== null) {
 					echo '<li>';
 					echo '#'.\$model->{$key}->{$pk}.' ';
-					echo CHtml::link(\$model->{$key}->recordTitle, array('{$controller}/view','id'=>\$model->{$key}->{$pk}));\n							
-					echo ' '.CHtml::link(Yii::t('app','Update'), array('{$controller}/update','id'=>\$model->{$key}->{$pk}), array('class'=>'edit'));\n
+					echo CHtml::link(\$model->{$key}->_label, array('{$controller}/view','{$pk}'=>\$model->{$key}->{$pk}));\n							
+					echo ' '.CHtml::link(Yii::t('app','Update'), array('{$controller}/update','{$pk}'=>\$model->{$key}->{$pk}), array('class'=>'edit'));\n
 					
 					
 					}
