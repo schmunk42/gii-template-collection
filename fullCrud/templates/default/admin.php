@@ -52,9 +52,8 @@ echo "</ul>";
 	'model'=>\$model,
 )); ?>\n"; ?>
 </div>
-<?php echo "<?php
-\$locale = CLocale::getInstance(Yii::app()->language);\n
-"; ?> $this->widget('zii.widgets.grid.CGridView', array(
+
+$this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'<?php echo $this->class2id($this->modelClass); ?>-grid',
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
