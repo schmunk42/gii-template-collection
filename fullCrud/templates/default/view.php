@@ -20,6 +20,7 @@ $this->menu=array(
 
 <h1><?php echo "<?php echo Yii::t('app', 'View');?>" ?> <?php echo $this->modelClass . " #<?php echo \$model->id; ?>"; ?></h1>
 
+<?php echo "<?php " ?>
 $this->widget('zii.widgets.CDetailView', array(
 'data'=>$model,
 	'attributes'=>array(

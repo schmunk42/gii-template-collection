@@ -14,6 +14,10 @@
 ?>
 <?php echo "<?php\n"; ?>
 
+// auto-loading fix
+Yii::setPathOfAlias('<?php echo $modelClass; ?>', dirname(__FILE__));
+Yii::import('<?php echo $modelClass; ?>.*');
+
 class <?php echo $modelClass; ?> extends <?php echo 'Base' . $modelClass."\n"; ?>
 {
 	// Add your model-specific methods here. This file will not be overriden by gtc except you force it.
