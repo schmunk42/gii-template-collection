@@ -3,9 +3,8 @@ $label = $this->pluralize($this->class2name($this->modelClass));
 
 echo "<?php\n";
 
-echo "\$this->breadcrumbs['$label'] = array('index');";
-echo "\$this->breadcrumbs[] = \$model->_label;";
-?>
+echo "\$this->breadcrumbs['$label'] = array('index');\n";
+echo "\$this->breadcrumbs[] = \$model->{$this->identificationColumn};";
 
 if(!isset($this->menu) || $this->menu === array()) {
 $this->menu=array(
