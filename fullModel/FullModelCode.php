@@ -26,6 +26,7 @@ class FullModelCode extends ModelCode {
 	public function prepare() {
 		parent::prepare();
 
+		$generate_whole_db = false;
 		$templatePath = $this->templatePath;
 
 		if (($pos = strrpos($this->tableName, '.')) !== false) {
@@ -36,6 +37,7 @@ class FullModelCode extends ModelCode {
 			$tableName = $this->tableName;
 		}
 		if ($tableName[strlen($tableName) - 1] === '*') {
+			$generate_whole_db = true;
 			$this->tables = Yii::app()->db->schema->getTables($schema);
 			if ($this->tablePrefix != '') {
 				foreach ($this->tables as $i => $table) {
@@ -57,10 +59,9 @@ class FullModelCode extends ModelCode {
 				$this->identificationColumn = $this->guessIdentificationColumn(
 						$table->columns);
 
-		if(!array_key_exists(
-					$this->identificationColumn, $table->columns))
-			$this->addError('identificationColumn', 'The specified column can not be found in the models attributes. <br /> Please specify a valid attribute. If unsure, leave the field empty.'); 
-
+			if(!$generate_whole_db && !array_key_exists(
+						$this->identificationColumn, $table->columns))
+				$this->addError('identificationColumn', 'The specified column can not be found in the models attributes. <br /> Please specify a valid attribute. If unsure, leave the field empty.'); 
 
 			$params = array(
 					'tableName' => $schema === '' ? $tableName : $schema . '.' . $tableName,
@@ -220,8 +221,15 @@ class FullModelCode extends ModelCode {
 			}
 		}
 
+		// nothing found yet, deliver the primary key
+		if(!$found)
+			foreach($columns as $name => $column) 
+				if($column->isPrimaryKey) 
+					return $column;
+
+		// table does not seem to have a primary key.
 		// if the columns contains no column of type 'string', return the
-		// first column (usually the primary key)
+		// first column 
 		if(!$found)
 			return reset($columns)->name; 
 	}
