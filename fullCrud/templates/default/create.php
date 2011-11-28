@@ -12,7 +12,7 @@ $this->menu=array(
 );
 ?>
 
-<?php printf('<h1> %s %s </h1>', Yii::t('app', 'Create'), $this->modelClass); ?>
+<?php printf('<h2> %s %s </h2>', Yii::t('app', 'Create'), $this->modelClass); ?>
 
 <?php echo "<?php\n"; ?>
 $this->renderPartial('_form', array(

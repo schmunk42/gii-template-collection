@@ -4,7 +4,7 @@ $label = $this->pluralize($this->class2name($this->modelClass));
 echo "<?php\n";
 
 echo "\$this->breadcrumbs['$label'] = array('index');\n";
-echo "\$this->breadcrumbs[] = \$model->{$this->identificationColumn};";
+echo "\$this->breadcrumbs[] = \$model->{$this->identificationColumn};\n";
 
 if(!isset($this->menu) || $this->menu === array()) {
 $this->menu=array(
@@ -17,7 +17,7 @@ $this->menu=array(
 }
 ?>
 
-<h1><?php echo "<?php echo Yii::t('app', 'View');?>" ?> <?php echo $this->modelClass . " #<?php echo \$model->id; ?>"; ?></h1>
+<h2><?php echo "<?php echo Yii::t('app', 'View');?>" ?> <?php echo $this->modelClass . " #<?php echo \$model->id; ?>"; ?></h2>
 
 <?php echo "<?php
 \$locale = CLocale::getInstance(Yii::app()->language);\n

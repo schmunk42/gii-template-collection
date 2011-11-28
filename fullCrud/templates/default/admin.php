@@ -26,10 +26,10 @@ data: $(this).serialize()
 			");
 		?>
 
-<h1> <?php 
+<h2> <?php 
 echo "<?php echo Yii::t('app', 'Manage'); ?> ";
 echo "<?php echo Yii::t('app', '".$this->pluralize($this->class2name($this->modelClass))."'); ?> ";
-?></h1>
+?></h2>
 
 
 <?php
