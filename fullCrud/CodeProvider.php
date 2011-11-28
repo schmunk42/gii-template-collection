@@ -6,6 +6,15 @@ class CodeProvider {
 			
 	}
 
+		public function resolveController($relation) {
+		$model = new $relation[1];
+		$reflection = new ReflectionClass($model);
+		$module = preg_match("/\/modules\/([a-zA-Z0-9]+)\//", $reflection->getFileName(), $matches);
+		$modulePrefix = (isset($matches[$module]))?"/".$matches[$module]."/":"/";
+		$controller = $modulePrefix.strtolower(substr($relation[1],0,1)).substr($relation[1],1);
+		return $controller;
+	}
+	
 	static public function generateActiveField($model, $column) {
 		if (strtoupper($column->dbType) == 'TINYINT(1)'
 				|| strtoupper($column->dbType) == 'BIT'
@@ -34,6 +43,8 @@ class CodeProvider {
 	public function generateRelation($model, $relationname, $relation) {
 		// Use the second attribute of the model, since the first is the id in
 		// most cases
+		// 
+		// TODO: remove code, done via _label
 		if ($columns = CActiveRecord::model($relation[1])->tableSchema->columns) {
 			$j = 0;
 			foreach ($columns as $column) {
@@ -55,7 +66,7 @@ class CodeProvider {
 					$allowEmpty = 'false';
 				elseif ($relation[0] == 'CHasOneRelation') {
 					$allowEmpty = (CActiveRecord::model($relation[1])->tableSchema->columns[$relation[2]]->allowNull ? 'true' : 'false');
-					return "if (\$model->{$relationname} !== null) echo \$model->{$relationname}->title;";
+					return "if (\$model->{$relationname} !== null) echo \$model->{$relationname}->_label;";
 				}
 				else
 					$allowEmpty= (CActiveRecord::model($model)->tableSchema->columns[$relation[2]]->allowNull?'true':'false');
@@ -65,7 +76,7 @@ class CodeProvider {
 					array(
 							'model' => \$model,
 							'relation' => '{$relationname}',
-							'fields' => '{$field->name}',
+							'fields' => '_label',
 							'allowEmpty' => {$allowEmpty},
 							'style' => '{$style}',
 							'htmlOptions' => array(
@@ -124,8 +135,8 @@ class CodeProvider {
 			$modelTable = ucfirst($fmodel->tableName());
 			$fcolumns = $fmodel->attributeNames();
 
-			if (method_exists($fmodel,'getRecordTitle')) {
-				$fcolumns[1] = "recordTitle";
+			if (method_exists($fmodel,'get_label')) {
+				$fcolumns[1] = "_label";
 			}
 
 			//$rel = $model->getActiveRelation($column->name);

@@ -289,11 +289,13 @@ class Relation extends CWidget
 			else // Show all Parent elements
 			{ 
 				if($this->criteria === false){
-					$parentobjects = CActiveRecord::model(get_class($this->_relatedModel))->findAll(array('order'=>GHelper::guessNameColumn($this->_relatedModel->tableSchema->columns)));
+					// TODO: reimplement ORDER BY array('order'=>GHelper::guessNameColumn($this->_relatedModel->tableSchema->columns))
+					$parentobjects = CActiveRecord::model(get_class($this->_relatedModel))->findAll();					
 				} else {
 					$parentobjects = CActiveRecord::model(get_class($this->_relatedModel));
 					$parentobjects->setDbCriteria($this->criteria);
-					$parentobjects = $parentobjects->findAll(array('order'=>GHelper::guessNameColumn($this->_relatedModel->tableSchema->columns)));
+					// TODO: reimplement ORDER BY array('order'=>GHelper::guessNameColumn($this->_relatedModel->tableSchema->columns))
+					$parentobjects = $parentobjects->findAll();
 				}
 			} 
 
@@ -663,16 +665,19 @@ class Relation extends CWidget
 			else
 				$this->renderBelongsToSelection();
 
-			// TODO: reimplement add button
-			//if($this->showAddButton)
-			//	$this->renderAddButton();
 		}
 		protected function renderAddButton() 
 		{
+			// TODO: reimplement add button
+			// if($this->showAddButton)
+			//   $this->renderAddButton();
+			return;
+			
 			$model = strtolower(get_class($this->_model));
 			$relatedModel = strtolower(get_class($this->_relatedModel));
 			$relations = $this->_model->relations();
-			$controller = GHelper::resolveController($relations[$this->relation]);
+			
+			#$controller = GHelper::resolveController($relations[$this->relation]);
 
 			if($this->addButtonUrl != '')
 				$link = $this->addButtonUrl;

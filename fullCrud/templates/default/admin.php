@@ -1,11 +1,8 @@
 <?php
 echo "<?php\n";
 $label=$this->pluralize($this->class2name($this->modelClass));
-echo "if(!isset(\$this->breadcrumbs) || (\$this->breadcrumbs === array()))\n
-\$this->breadcrumbs=array(
-	'$label'=>array(Yii::t('app', 'index')),
-	Yii::t('app', 'Manage'),
-);\n";
+echo "\$this->breadcrumbs['$label'] = array('index');\n";
+echo "\$this->breadcrumbs[] = Yii::t('app', 'Admin');\n";
 ?>
 
 if(!isset($this->menu) || $this->menu === array())
@@ -34,28 +31,27 @@ echo "<?php echo Yii::t('app', 'Manage'); ?> ";
 echo "<?php echo Yii::t('app', '".$this->pluralize($this->class2name($this->modelClass))."'); ?> ";
 ?></h1>
 
+
 <?php
-echo '<?php
+// render relation links
+$model = new $this->modelClass;
 echo "<ul>";
-foreach ($model->relations() AS $key => $relation)
-{
+foreach($model->relations() AS $key => $relation){
 	echo  "<li>".
 		Yii::t("app",substr(str_replace("Relation","",$relation[0]),1))." ".
-		CHtml::link(Yii::t("app",$relation[1]), array(GHelper::resolveController($relation)."/admin")).
+		CHtml::link(Yii::t("app",$relation[1]), array($this->codeProvider->resolveController($relation).'/admin')).
 		" </li>";
 }
 echo "</ul>";
-?>'
 ?>
 
-<?php echo "<?php echo CHtml::link(Yii::t('app', 'Advanced Search'),'#',array('class'=>'search-button')); ?>"; ?>
 
+<?php echo "<?php echo CHtml::link(Yii::t('app', 'Advanced Search'),'#',array('class'=>'search-button')); ?>"; ?>
 <div class="search-form" style="display:none">
 <?php echo "<?php \$this->renderPartial('_search',array(
 	'model'=>\$model,
 )); ?>\n"; ?>
 </div>
-
 <?php echo "<?php
 \$locale = CLocale::getInstance(Yii::app()->language);\n
 "; ?> $this->widget('zii.widgets.grid.CGridView', array(
@@ -63,6 +59,8 @@ echo "</ul>";
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
 	'columns'=>array(
+
+	
 <?php
 $count=0;
 foreach($this->tableSchema->columns as $column)
@@ -80,10 +78,13 @@ if($count>=7)
 ?>
 		array(
 			'class'=>'CButtonColumn',
-			'viewButtonUrl' => "Yii::app()->controller->createUrl('view', array('<?php echo $this->identificationColumn; ?>' => \$data-><?php echo $this->identificationColumn; ?>))",
-			'updateButtonUrl' => "Yii::app()->controller->createUrl('update', array('<?php echo $this->identificationColumn; ?>' => \$data-><?php echo $this->identificationColumn; ?>))",
-			'deleteButtonUrl' => "Yii::app()->controller->createUrl('delete', array('<?php echo $this->identificationColumn; ?>' => \$data-><?php echo $this->identificationColumn; ?>))",
+			'viewButtonUrl' => "Yii::app()->controller->createUrl('view', array('<?php echo $this->tableSchema->primaryKey; ?>' => \$data-><?php echo $this->tableSchema->primaryKey; ?>))",
+			'updateButtonUrl' => "Yii::app()->controller->createUrl('update', array('<?php echo $this->tableSchema->primaryKey; ?>' => \$data-><?php echo $this->tableSchema->primaryKey; ?>))",
+			'deleteButtonUrl' => "Yii::app()->controller->createUrl('delete', array('<?php echo $this->tableSchema->primaryKey; ?>' => \$data-><?php echo $this->tableSchema->primaryKey; ?>))",
 
 		),
 	),
 )); ?>
+
+<?php echo "
+<?php echo CHtml::link('Create new {$this->modelClass}', array('create')); ?>"; ?>
