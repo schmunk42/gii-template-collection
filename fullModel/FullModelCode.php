@@ -56,7 +56,7 @@ class FullModelCode extends ModelCode {
 			if(!$this->identificationColumn)
 				$this->identificationColumn = $this->guessIdentificationColumn(
 						$table->columns);
-
+			
 		if(!array_key_exists(
 					$this->identificationColumn, $table->columns))
 			$this->addError('identificationColumn', 'The specified column can not be found in the models attributes. <br /> Please specify a valid attribute. If unsure, leave the field empty.'); 
