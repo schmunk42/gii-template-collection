@@ -1,6 +1,6 @@
 <?php
 echo "<?php\n";
-$label = $this->pluralize($this->class2name($this->modelClass));
+$label=$this->pluralize($this->class2name($this->modelClass));
 echo "\$this->breadcrumbs['$label'] = array('index');\n";
 echo "\$this->breadcrumbs[] = Yii::t('app', 'Admin');\n";
 ?>
@@ -36,11 +36,11 @@ echo "<?php echo Yii::t('app', '" . $this->pluralize($this->class2name($this->mo
 // render relation links
 $model = new $this->modelClass;
 echo "<ul>";
-foreach ($model->relations() AS $key => $relation) {
-	echo "<li>" .
-	Yii::t("app", substr(str_replace("Relation", "", $relation[0]), 1)) . " " .
-	CHtml::link(Yii::t("app", $relation[1]), array($this->codeProvider->resolveController($relation) . '/admin')) . // TODO: render dynamic links
-	" </li>";
+foreach($model->relations() AS $key => $relation){
+	echo  "<li>".
+		Yii::t("app",substr(str_replace("Relation","",$relation[0]),1))." ".
+		CHtml::link(Yii::t("app",$relation[1]), array($this->codeProvider->resolveController($relation).'/admin')).
+		" </li>";
 }
 echo "</ul>";
 ?>
@@ -52,15 +52,15 @@ echo "</ul>";
 	'model'=>\$model,
 )); ?>\n"; ?>
 </div>
+<?php echo "<?php
+\$locale = CLocale::getInstance(Yii::app()->language);\n
+"; ?> $this->widget('zii.widgets.grid.CGridView', array(
+	'id'=>'<?php echo $this->class2id($this->modelClass); ?>-grid',
+	'dataProvider'=>$model->search(),
+	'filter'=>$model,
+	'columns'=>array(
 
-<?php echo "<?php " ?>
-
-$this->widget('zii.widgets.grid.CGridView', array(
-'id'=>'<?php echo $this->class2id($this->modelClass); ?>-grid',
-'dataProvider'=>$model->search(),
-'filter'=>$model,
-'columns'=>array(
-
+	
 <?php
 $count = 0;
 foreach ($this->tableSchema->columns as $column) {
@@ -75,14 +75,15 @@ foreach ($this->tableSchema->columns as $column) {
 if ($count >= 7)
 	echo "\t\t*/\n";
 ?>
+		array(
+			'class'=>'CButtonColumn',
+			'viewButtonUrl' => "Yii::app()->controller->createUrl('view', array('<?php echo $this->tableSchema->primaryKey; ?>' => \$data-><?php echo $this->tableSchema->primaryKey; ?>))",
+			'updateButtonUrl' => "Yii::app()->controller->createUrl('update', array('<?php echo $this->tableSchema->primaryKey; ?>' => \$data-><?php echo $this->tableSchema->primaryKey; ?>))",
+			'deleteButtonUrl' => "Yii::app()->controller->createUrl('delete', array('<?php echo $this->tableSchema->primaryKey; ?>' => \$data-><?php echo $this->tableSchema->primaryKey; ?>))",
 
-array(
-'class'=>'CButtonColumn',
-'viewButtonUrl' => "Yii::app()->controller->createUrl('view', array('<?php echo $this->tableSchema->primaryKey; ?>' => \$data-><?php echo $this->tableSchema->primaryKey; ?>))",
-'updateButtonUrl' => "Yii::app()->controller->createUrl('update', array('<?php echo $this->tableSchema->primaryKey; ?>' => \$data-><?php echo $this->tableSchema->primaryKey; ?>))",
-'deleteButtonUrl' => "Yii::app()->controller->createUrl('delete', array('<?php echo $this->tableSchema->primaryKey; ?>' => \$data-><?php echo $this->tableSchema->primaryKey; ?>))",
-),
-),
-)); 
+		),
+	),
+)); ?>
 
-<?php echo " ?>" ?>
+<?php echo "
+<?php echo CHtml::link('Create new {$this->modelClass}', array('create')); ?>"; ?>
