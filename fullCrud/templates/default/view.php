@@ -18,7 +18,7 @@ $this->menu=array(
 }
 ?>
 
-<h1><?php echo "<?php echo Yii::t('app', 'View');?>" ?> <?php echo $this->modelClass . " #<?php echo \$model->id; ?>"; ?></h1>
+<h1><?php echo "<?php echo Yii::t('app', 'View');?>" ?> <?php echo $this->modelClass . " #<?php echo \$model->{\$model->tableSchema->primaryKey}; ?>"; ?></h1>
 
 <?php echo "<?php " ?>
 $this->widget('zii.widgets.CDetailView', array(
@@ -75,11 +75,13 @@ $this->widget('zii.widgets.CDetailView', array(
 		$relatedModel = CActiveRecord::model($relation[1]);
 		$pk = $relatedModel->tableSchema->primaryKey;
 		
-		if ($relation[0] == 'CManyManyRelation' || $relation[0] == 'CHasManyRelation') {
+		// TODO: currently composite PKs are omitted
+		if (is_array($pk)) continue;		
+		
+		if (($relation[0] == 'CManyManyRelation' || $relation[0] == 'CHasManyRelation')) {
 			#$model = CActiveRecord::model($relation[1]);
 			#if (!$pk = $model->tableSchema->primaryKey)
 			#	$pk = 'id';
-
 			#$suggestedtitle = $this->suggestName($model->tableSchema->columns);
 			echo '<h2>';
 			echo "<?php echo CHtml::link(Yii::t('app','" . ucfirst($key) . "'), array('".$controller."/admin'));?>";
