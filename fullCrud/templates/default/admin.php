@@ -26,10 +26,10 @@ return false;
 ");
 ?>
 
-<h1> <?php
+<h2> <?php 
 echo "<?php echo Yii::t('app', 'Manage'); ?> ";
-echo "<?php echo Yii::t('app', '" . $this->pluralize($this->class2name($this->modelClass)) . "'); ?> ";
-?></h1>
+echo "<?php echo Yii::t('app', '".$this->pluralize($this->class2name($this->modelClass))."'); ?> ";
+?></h2>
 
 
 <?php
