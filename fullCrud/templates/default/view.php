@@ -52,7 +52,7 @@ $this->widget('zii.widgets.CDetailView', array(
 			// TODO - experimental - move to provider class
 			echo "array(";
 			echo "\t\t\t'name'=>'{$column->name}',\n";
-			echo "\t\t\t'type'=>'link',\n";
+			echo "\t\t\t'type'=>'url',\n";
 			echo "),\n";
 			} else if($column->name == 'createtime'
 					or $column->name == 'updatetime'
