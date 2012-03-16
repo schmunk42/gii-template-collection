@@ -82,7 +82,11 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 ?>
 			try {
     			if($model->save()) {
-        			$this->redirect(array('view','id'=>$model->id));
+					if (isset($_GET['returnUrl'])) {
+						$this->redirect($_GET['returnUrl']);
+					} else {
+						$this->redirect(array('view','id'=>$model->id));
+					}
 				}
 			} catch (Exception $e) {
 				$model->addError('<?php echo $this->identificationColumn;?>', $e->getMessage());
@@ -122,7 +126,11 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 
 			try {
     			if($model->save()) {
-        			$this->redirect(array('view','id'=>$model->id));
+					if (isset($_GET['returnUrl'])) {
+						$this->redirect($_GET['returnUrl']);
+					} else {
+						$this->redirect(array('view','id'=>$model->id));
+					}
         		}
 			} catch (Exception $e) {
 				$model->addError('<?php echo $this->identificationColumn;?>', $e->getMessage());
