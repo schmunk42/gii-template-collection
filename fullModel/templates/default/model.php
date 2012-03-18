@@ -109,5 +109,13 @@ class <?php echo $modelClass; ?> extends <?php echo 'Base' . $modelClass."\n"; ?
 				parent::rules()
 				);
 	}
+	
+	/*
+	// customize this function ...
+	public function get_label()
+	{
+		return '#'.$this->id;		
+	}
+	*/
 
 }
