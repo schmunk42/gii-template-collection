@@ -19,9 +19,8 @@ if(!$this->menu)
 
 <h2><?php echo "<?php echo Yii::t('app', 'View');?>" ?> <?php echo $this->modelClass . " <?php echo \$model->{$this->identificationColumn}; ?>"; ?></h2>
 
-<?php echo "<?php
-\$locale = CLocale::getInstance(Yii::app()->language);\n
-"; ?> $this->widget('zii.widgets.CDetailView', array(
+<?php echo "<?php " ?>
+$this->widget('zii.widgets.CDetailView', array(
 'data'=>$model,
 	'attributes'=>array(
 			<?php
@@ -74,13 +73,15 @@ if(!$this->menu)
 		$controller = $this->codeProvider->resolveController($relation);
 		$relatedModel = CActiveRecord::model($relation[1]);
 		$pk = $relatedModel->tableSchema->primaryKey;
-
-		if ($relation[0] == 'CManyManyRelation' || $relation[0] == 'CHasManyRelation') {
-#$model = CActiveRecord::model($relation[1]);
-#if (!$pk = $model->tableSchema->primaryKey)
-#	$pk = 'id';
-
-#$suggestedtitle = $this->suggestName($model->tableSchema->columns);
+		
+		// TODO: currently composite PKs are omitted
+		if (is_array($pk)) continue;		
+		
+		if (($relation[0] == 'CManyManyRelation' || $relation[0] == 'CHasManyRelation')) {
+			#$model = CActiveRecord::model($relation[1]);
+			#if (!$pk = $model->tableSchema->primaryKey)
+			#	$pk = 'id';
+			#$suggestedtitle = $this->suggestName($model->tableSchema->columns);
 			echo '<h2>';
 			echo "<?php echo CHtml::link(Yii::t('app','" . ucfirst($key) . "'), array('".$controller."/admin'));?>";
 			echo "</h2>\n";

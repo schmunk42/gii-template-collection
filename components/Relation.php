@@ -414,7 +414,7 @@ class Relation extends CWidget
 			}
 
 			foreach($this->_model->{$this->relation} as $relobj) 
-				$objects[$relobj->id] = $relobj;
+				$objects[$relobj->{$relobj->tableSchema->primaryKey}] = $relobj;
 
 			return isset($objects) ? $objects : array();
 		}

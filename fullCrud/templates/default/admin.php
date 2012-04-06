@@ -7,24 +7,24 @@ echo "\$this->breadcrumbs[] = Yii::t('app', 'Admin');\n";
 
 if(!isset($this->menu) || $this->menu === array())
 $this->menu=array(
-	array('label'=>Yii::t('app', 'Create') , 'url'=>array('create')),
-	array('label'=>Yii::t('app', 'List') , 'url'=>array('index')),
+array('label'=>Yii::t('app', 'Create') , 'url'=>array('create')),
+array('label'=>Yii::t('app', 'List') , 'url'=>array('index')),
 );
 
 
-		Yii::app()->clientScript->registerScript('search', "
-			$('.search-button').click(function(){
-				$('.search-form').toggle();
-				return false;
-				});
-			$('.search-form form').submit(function(){
-				$.fn.yiiGridView.update('<?php echo $this->class2id($this->modelClass); ?>-grid', {
+Yii::app()->clientScript->registerScript('search', "
+$('.search-button').click(function(){
+$('.search-form').toggle();
+return false;
+});
+$('.search-form form').submit(function(){
+$.fn.yiiGridView.update('<?php echo $this->class2id($this->modelClass); ?>-grid', {
 data: $(this).serialize()
 });
-				return false;
-				});
-			");
-		?>
+return false;
+});
+");
+?>
 
 <h2> <?php 
 echo "<?php echo Yii::t('app', 'Manage'); ?> ";
@@ -48,7 +48,7 @@ echo "</ul>";
 
 <?php echo "<?php echo CHtml::link(Yii::t('app', 'Advanced Search'),'#',array('class'=>'search-button')); ?>"; ?>
 <div class="search-form" style="display:none">
-<?php echo "<?php \$this->renderPartial('_search',array(
+	<?php echo "<?php \$this->renderPartial('_search',array(
 	'model'=>\$model,
 )); ?>\n"; ?>
 </div>
@@ -62,18 +62,17 @@ echo "</ul>";
 
 	
 <?php
-$count=0;
-foreach($this->tableSchema->columns as $column)
-{
-	if(++$count==7)
+$count = 0;
+foreach ($this->tableSchema->columns as $column) {
+	if (++$count == 7)
 		echo "\t\t/*\n";
-	
+
 	if (strtoupper($column->dbType) == 'TEXT')
 		echo "#";
-	echo "\t\t".$this->codeProvider->generateValueField($this->modelClass, $column).",\n";
+	echo "\t\t" . $this->codeProvider->generateValueField($this->modelClass, $column) . ",\n";
 }
 
-if($count>=7)
+if ($count >= 7)
 	echo "\t\t*/\n";
 ?>
 		array(

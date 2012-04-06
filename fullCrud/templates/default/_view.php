@@ -14,8 +14,7 @@ foreach($this->tableSchema->columns as $column)
 		if($column->name == 'createtime'
 				or $column->name == 'updatetime'
 				or $column->name == 'timestamp') {
-	echo "<?php \$locale = CLocale::getInstance(Yii::app()->language);\n";
-	echo "\techo \$locale->getDateFormatter()->formatDateTime(\$data->{$column->name}, 'medium', 'medium'); ?>\n\t<br />\n\n";
+	echo "\techo Yii::app()->getDateFormatter()->formatDateTime(\$data->{$column->name}, 'medium', 'medium'); ?>\n\t<br />\n\n";
 } else {
 	echo "\t<?php echo CHtml::encode(\$data->{$column->name}); ?>\n\t<br />\n\n";
 }

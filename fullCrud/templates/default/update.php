@@ -2,7 +2,7 @@
 echo "<?php\n";
 $label = $this->pluralize($this->class2name($this->modelClass));
 echo "\$this->breadcrumbs['$label'] = array('index');\n";
-echo "\$this->breadcrumbs[\$model->id] = array('view','id'=>\$model->id);\n";
+echo "\$this->breadcrumbs[\$model->{\$model->tableSchema->primaryKey}] = array('view','id'=>\$model->{\$model->tableSchema->primaryKey});\n";
 echo "\$this->breadcrumbs[] = Yii::t('app', 'Update');\n";
 ?>
 

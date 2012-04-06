@@ -110,11 +110,11 @@ abstract class <?php echo 'Base' . $modelClass; ?> extends <?php echo $this->bas
 		{
 			if($column->type==='string' and !$column->isForeignKey)
 			{
-				echo "\t\t\$criteria->compare('$name', \$this->$name, true);\n";
+				echo "\t\t\$criteria->compare('t.$name', \$this->$name, true);\n";
 			}
 			else
 			{
-				echo "\t\t\$criteria->compare('$name', \$this->$name);\n";
+				echo "\t\t\$criteria->compare('t.$name', \$this->$name);\n";
 			}
 		}
 		echo "\n";
