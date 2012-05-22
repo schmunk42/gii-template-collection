@@ -83,7 +83,8 @@ class <?php echo $modelClass; ?> extends <?php echo 'Base' . $modelClass."\n"; ?
 										'ownerid',
 										'owner_id',
 										'created_by',
-										'createdby'))) {
+										'createdby',
+                                        'create_user'))) {
 							$behaviors .= sprintf("\n\t\t'OwnerBehavior' => array(
 								'class' => 'OwnerBehavior',
 							'ownerColumn' => '%s',

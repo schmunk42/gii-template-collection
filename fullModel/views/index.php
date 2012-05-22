@@ -53,7 +53,7 @@ default. </li>
 <li> All comments are removed except for the first comment describing the attributes of the model </li>
 <li> Attribute labels gets a Yii::t('app', <label>) wrapper to make easier i18n possible </li>
 <li> If a column is called <em> create_time, createtime, update_time, updatetime or timestamp </em> the CTimestampBehavior shipped with zii will automatically added as a behavior </li>
-<li> If a column is called <em> created_by, createdby, user, user_id, owner or owner_id </em> the OwnerBehavior shipped with the gii-template-collection will automatically added as a behavior </li>
+<li> If a column is called <em> created_by, createdby, create_user, user, user_id, owner or owner_id </em> the OwnerBehavior shipped with the gii-template-collection will automatically added as a behavior </li>
 
 </ul>
 
