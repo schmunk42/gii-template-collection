@@ -27,7 +27,7 @@ class OwnerBehavior extends CActiveRecordBehavior {
 		return true;
 	}
 
-	public function beforeSave() {
+	public function beforeSave($on) {
 
 		if(isset($this->owner->tableSchema->columns[$this->lastChangeColumn]))
 			$this->owner->{$this->lastChangeColumn} = Yii::app()->user->id;
