@@ -1,14 +1,14 @@
 <?php
 echo "<?php\n";
-$label=$this->pluralize($this->class2name($this->modelClass));
+$label = $this->pluralize($this->class2name($this->modelClass));
 echo "\$this->breadcrumbs['$label'] = array('index');\n";
 echo "\$this->breadcrumbs[] = Yii::t('app', 'Create');\n";
 ?>
 
 if(!isset($this->menu) || $this->menu === array())
 $this->menu=array(
-	/*array('label'=>Yii::t('app', 'List'), 'url'=>array('index')),
-	array('label'=>Yii::t('app', 'Manage'), 'url'=>array('admin')),*/
+/*array('label'=>Yii::t('app', 'List'), 'url'=>array('index')),
+array('label'=>Yii::t('app', 'Manage'), 'url'=>array('admin')),*/
 );
 ?>
 
@@ -16,8 +16,8 @@ $this->menu=array(
 
 <?php echo "<?php\n"; ?>
 $this->renderPartial('_form', array(
-			'model' => $model,
-			'buttons' => 'create'));
+'model' => $model,
+'buttons' => 'create'));
 
 ?>
 

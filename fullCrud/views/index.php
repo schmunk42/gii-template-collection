@@ -25,25 +25,29 @@ $('#{$class}_model').bind('keyup change', function(){
 
 <?php $form = $this->beginWidget('CCodeForm', array('model' => $model)); ?>
 
-<p> <?php echo CHtml::link(
-		'Click here to see what FullCrud does exactly', '#', array(
-			'onClick' => '$(".details").toggle()')); ?> </p>
+<p> <?php
+echo CHtml::link(
+    'Click here to see what FullCrud does exactly', '#', array(
+    'onClick' => '$(".details").toggle()'));
+?> </p>
 
 <div class="details" style="display: none;">
-<?php $this->renderPartial('info', array(
-			'model' => $model,
-			'form' => $form));
-?>
+    <?php
+    $this->renderPartial('info', array(
+        'model' => $model,
+        'form' => $form));
+    ?>
 </div>
 
 <?php
 $this->renderPartial('crud', array(
-			'model' => $model,
-			'form' => $form));
+    'model' => $model,
+    'form' => $form));
 
-if(isset($_POST['preview']) && !$model->hasErrors())
-$this->renderPartial('url_hint', array(
-			'model' => $model,
-			'form' => $form));
+if (isset($_POST['preview']) && !$model->hasErrors())
+    $this->renderPartial('url_hint', array(
+        'model' => $model,
+        'form' => $form));
 
-$this->endWidget(); ?>
+$this->endWidget();
+?>
