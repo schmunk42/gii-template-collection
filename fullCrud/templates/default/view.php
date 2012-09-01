@@ -5,19 +5,12 @@ echo "<?php\n";
 
 echo "\$this->breadcrumbs['$label'] = array('index');\n";
 echo "\$this->breadcrumbs[] = \$model->{$this->identificationColumn};\n";
+echo "?>";
 ?>
 
-if(!$this->menu)
-$this->menu=array(
-array('label'=>Yii::t('app', 'Update') , 'url'=>array('update', 'id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>)),
-array('label'=>Yii::t('app', 'Delete') , 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>),'confirm'=>'Are you sure you want to delete this item?')),
-array('label'=>Yii::t('app', 'Create') , 'url'=>array('create')),
-array('label'=>Yii::t('app', 'Manage') , 'url'=>array('admin')),
-array('label'=>Yii::t('app', 'List') , 'url'=>array('index')),
-);
-?>
+<h1><?php echo "<?php echo Yii::t('app', 'View');?>" ?> <?php echo $this->modelClass . " <?php echo \$model->{$this->identificationColumn}; ?>"; ?></h1>
 
-<h2><?php echo "<?php echo Yii::t('app', 'View');?>" ?> <?php echo $this->modelClass . " <?php echo \$model->{$this->identificationColumn}; ?>"; ?></h2>
+<?php echo '<?php $this->renderPartial("_toolbar", array("model"=>$model)); ?>'; ?>
 
 <?php echo "<?php " ?>
 $this->widget('zii.widgets.CDetailView', array(
