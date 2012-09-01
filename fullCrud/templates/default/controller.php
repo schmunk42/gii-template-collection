@@ -39,7 +39,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 			$model=<?php echo $this->modelClass; ?>::model()->find('<?php echo $this->identificationColumn; ?> = :<?php echo $this->identificationColumn; ?>', array(
 			':<?php echo $this->identificationColumn; ?>' => $_GET['<?php echo $this->identificationColumn; ?>']));
 			if ($model !== null) {
-				$_GET['id'] = $model->id;
+				$_GET['id'] = $model-><?php echo CActiveRecord::model($this->modelClass)->tableSchema->primaryKey ?>;
 			} else {
 				throw new CHttpException(400);
 			}
