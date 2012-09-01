@@ -3,12 +3,16 @@ echo "<?php\n";
 $label = $this->pluralize($this->class2name($this->modelClass));
 echo "\$this->breadcrumbs['$label'] = array('admin');\n";
 echo "\$this->breadcrumbs[] = Yii::t('app', 'Create');\n";
-echo "?>";
 ?>
 
-<?php printf('<h1> %s %s </h1>', Yii::t('app', 'Create'), $this->modelClass); ?>
+if(!isset($this->menu) || $this->menu === array())
+$this->menu=array(
+/*array('label'=>Yii::t('app', 'List'), 'url'=>array('index')),
+array('label'=>Yii::t('app', 'Manage'), 'url'=>array('admin')),*/
+);
+?>
 
-<?php echo '<?php $this->renderPartial("_toolbar", array("model"=>$model)); ?>'; ?>
+<?php printf('<h2> %s %s </h2>', Yii::t('app', 'Create'), $this->modelClass); ?>
 
 <?php echo "<?php\n"; ?>
 $this->renderPartial('_form', array(

@@ -2,37 +2,36 @@
 
 class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseControllerClass."\n"; ?>
 {
-    #public $layout='//layouts/column2';
-    public $defaultAction = "admin";
+	public $layout='//layouts/column2';
 
 	public function filters()
 	{
 		return array(
-			'accessControl',
+			'accessControl', 
 		);
-	}
+	}	
 
 	public function accessRules()
 	{
 		return array(
-			array('allow',
+			array('allow',  
 				'actions'=>array('index','view'),
 				'users'=>array('*'),
 			),
-			array('allow',
+			array('allow', 
 				'actions'=>array('create','update'),
 				'users'=>array('@'),
 			),
-			array('allow',
+			array('allow', 
 				'actions'=>array('admin','delete'),
 				'users'=>array('admin'),
 			),
-			array('deny',
+			array('deny',  
 				'users'=>array('*'),
 			),
 		);
 	}
-
+	
 	public function beforeAction($action){
 		parent::beforeAction($action);
 		// map identifcationColumn to id
@@ -50,7 +49,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 		}
 		return true;
 	}
-
+	
 	public function actionView($id)
 	{
 		$model = $this->loadModel($id);
@@ -135,7 +134,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
         		}
 			} catch (Exception $e) {
 				$model->addError('<?php echo $this->identificationColumn;?>', $e->getMessage());
-			}
+			}	
 		}
 
 		$this->render('update',array(
