@@ -1,8 +1,10 @@
 <?php
 
+Yii::setPathOfAlias("gtc", dirname(__FILE__).DIRECTORY_SEPARATOR.'..');
+
 class FullCrudGenerator extends CCodeGenerator {
 
-	public $codeModel = 'ext.gtc.fullCrud.FullCrudCode';
+	public $codeModel = 'gtc.fullCrud.FullCrudCode';
 
 	/**
 	 * Returns the model names and, if possible, the attributes in an array.
@@ -26,7 +28,7 @@ class FullCrudGenerator extends CCodeGenerator {
 			Yii::import($alias.".*");
 			foreach ($files as $file) {
 				if ($fileClassName = $this->checkFile($file, $alias)) {
-						$classname = sprintf('%s.%s',$alias,$fileClassName);					
+						$classname = sprintf('%s.%s',$alias,$fileClassName);
 						Yii::import($classname);
 					try {
 						$model = @new $fileClassName;
@@ -55,7 +57,7 @@ class FullCrudGenerator extends CCodeGenerator {
 			&& $file != 'GActiveRecord'
 			&& strtolower(substr($file, -4)) === '.php') {
 			$fileClassName = substr($file, 0, strpos($file, '.'));
-			if (class_exists($fileClassName) 
+			if (class_exists($fileClassName)
 					&& is_subclass_of($fileClassName, 'CActiveRecord')) {
 				$fileClass = new ReflectionClass($fileClassName);
 				if ($fileClass->isAbstract())

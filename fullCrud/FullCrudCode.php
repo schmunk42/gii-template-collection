@@ -1,8 +1,10 @@
 <?php
 
 Yii::import('system.gii.generators.crud.CrudCode');
-Yii::import('ext.gtc.components.*');
-Yii::import('ext.gtc.fullCrud.CodeProvider');
+
+Yii::setPathOfAlias("gtc", dirname(__FILE__).DIRECTORY_SEPARATOR.'..');
+Yii::import('gtc.components.*');
+Yii::import('gtc.fullCrud.CodeProvider');
 
 class FullCrudCode extends CrudCode {
 	// validation method; 0 = none, 1 = ajax, 2 = client-side, 3 = both
@@ -18,11 +20,11 @@ class FullCrudCode extends CrudCode {
 
 		if(!array_key_exists(
 					$this->identificationColumn, $this->tableSchema->columns))
-			$this->addError('identificationColumn', 'The specified column can not be found in the models attributes. <br /> Please specify a valid attribute. If unsure, leave the field empty.'); 
+			$this->addError('identificationColumn', 'The specified column can not be found in the models attributes. <br /> Please specify a valid attribute. If unsure, leave the field empty.');
 		parent::prepare();
 	}
 
-	public function rules()                                                       
+	public function rules()
 	{
 		return array_merge(parent::rules(), array(
 					array('validation', 'required'),
@@ -34,11 +36,11 @@ class FullCrudCode extends CrudCode {
 	{
 		// check your import paths, if you get an error here
 		// PHP error can't be catched as an exception
-		if($this->model) 
+		if($this->model)
 			Yii::import($this->model, true);
 		parent::validateModel($attribute,$params);
 	}
-	
+
 	public function attributeLabels()
 	{
 		return array_merge(parent::attributeLabels(), array(
@@ -81,7 +83,7 @@ class FullCrudCode extends CrudCode {
 		return CActiveRecord::model($this->modelClass)->relations();
 	}
 
-	
+
 }
 
 ?>

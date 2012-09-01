@@ -3,7 +3,7 @@
 class CodeProvider {
 
 	public function generateDateField () {
-			
+
 	}
 
 		public function resolveController($relation) {
@@ -14,36 +14,11 @@ class CodeProvider {
 		$controller = $modulePrefix.strtolower(substr($relation[1],0,1)).substr($relation[1],1);
 		return $controller;
 	}
-	
-	static public function generateActiveField($model, $column) {
-		if (strtoupper($column->dbType) == 'TINYINT(1)'
-				|| strtoupper($column->dbType) == 'BIT'
-				|| strtoupper($column->dbType) == 'BOOL'
-				|| strtoupper($column->dbType) == 'BOOLEAN') {
-			return "echo \$form->checkBox(\$model,'{$column->name}')";
-		} else if (strtoupper($column->dbType) == 'DATE') {
-			$modelname = get_class($model);
-		} else if (substr(strtoupper($column->dbType), 0, 4) == 'ENUM') {
-			$string = sprintf("echo CHtml::activeDropDownList(\$model, '%s', array(\n", $column->name);
-
-			$enum_values = explode(',', substr($column->dbType, 4, strlen($column->dbType) - 1));
-
-			foreach ($enum_values as $value) {
-				$value = trim($value, "()'");
-				$string .= "\t\t\t'$value' => Yii::t('app', '" . $value . "') ,\n";
-			}
-			$string .= '))';
-
-			return $string;
-		} else {
-			return null;
-		}
-	}
 
 	public function generateRelation($model, $relationname, $relation) {
 		// Use the second attribute of the model, since the first is the id in
 		// most cases
-		// 
+		//
 		// TODO: remove code, done via _label
 		if ($columns = CActiveRecord::model($relation[1])->tableSchema->columns) {
 			$j = 0;
@@ -91,26 +66,31 @@ class CodeProvider {
 	 * @param CActiveRecord $modelClass
 	 * @param CDbColumnSchema $column
 	 */
-/*	public function generateActiveField($model, $column) {
-		if (!is_object($model))
-			$model = CActiveRecord::model($model);
+	static public function generateActiveField($model, $column) {
+		if (strtoupper($column->dbType) == 'TINYINT(1)'
+				|| strtoupper($column->dbType) == 'BIT'
+				|| strtoupper($column->dbType) == 'BOOL'
+				|| strtoupper($column->dbType) == 'BOOLEAN') {
+			return "echo \$form->checkBox(\$model,'{$column->name}')";
+		} else if (strtoupper($column->dbType) == 'DATE') {
+			$modelname = get_class($model);
+		} else if (substr(strtoupper($column->dbType), 0, 4) == 'ENUM') {
+			$string = sprintf("echo CHtml::activeDropDownList(\$model, '%s', array(\n", $column->name);
 
-		$providerPaths = Yii::app()->controller->module->params['gtc.fullCrud.providers'];
-		$providerPaths[] = 'ext.gtc.fullCrud.providers.FullCrudFieldProvider';
+			$enum_values = explode(',', substr($column->dbType, 4, strlen($column->dbType) - 1));
 
-		$field = null;
-		foreach($providerPaths AS $provider) {
-			$providerClass = Yii::createComponent($provider);
-			if (($field = $providerClass::generateActiveField($model, $column)) !== null)
-				break;
-		} 
+			foreach ($enum_values as $value) {
+				$value = trim($value, "()'");
+				$string .= "\t\t\t'$value' => Yii::t('app', '" . $value . "') ,\n";
+			}
+			$string .= '))';
 
-		if ($field !== null) {
-			return $field;
+			return $string;
 		} else {
-			return('echo ' . parent::generateActiveField($model, $column));
+			return null;
 		}
-	} */
+	}
+
 
 	/**
 	 * @param CActiveRecord $modelClass
@@ -162,7 +142,7 @@ class CodeProvider {
 							'filter'=>CHtml::listData({$fmodelName}::model()->findAll(), '{$fcolumns[0]}', '{$fcolumns[1]}'),
 							)";
 			//{$relname}.{$fcolumns[1]}
-		} else if (strtoupper($column->dbType) == 'BOOLEAN' 
+		} else if (strtoupper($column->dbType) == 'BOOLEAN'
 				or strtoupper($column->dbType) == 'TINYINT(1)' or
 				strtoupper($column->dbType) == 'BIT') {
 			if ($view) {
