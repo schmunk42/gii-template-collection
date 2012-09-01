@@ -54,29 +54,21 @@ class FullCrudCode extends CrudCode {
 
 	// Which column will most probably be the one that gets used to list
 	// a model ? It may be the first non-numeric column.
-	public function suggestName($columns) {
-		$j = 0;
+	public static function suggestName($columns) {
 		foreach ($columns as $column) {
-			if (!$column->isForeignKey
+            if ($column->isPrimaryKey) {
+                $fallbackName = $column->name;
+            }
+            if (!$column->isForeignKey
 					&& !$column->isPrimaryKey
 					&& $column->type != 'INT'
 					&& $column->type != 'INTEGER'
 					&& $column->type != 'BOOLEAN') {
-				$num = $j;
+                return $column->name;
 				break;
 			}
-			$j++;
 		}
-
-		for ($i = 0; $i < $j; $i++)
-			next($columns);
-
-		if (is_object(current($columns)))
-			return current($columns);
-		else {
-			$column = reset($columns);
-			return $column;
-		}
+        return $fallbackName;
 	}
 
 	public function getRelations() {

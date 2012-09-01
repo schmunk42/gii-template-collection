@@ -34,11 +34,11 @@ $this->widget('zii.widgets.CDetailView', array(
 			$relatedModel = CActiveRecord::model($relation[1]);
 			$columns = $relatedModel->tableSchema->columns;
 
-#$suggestedfield = $this->suggestName($columns);
+$suggestedfield = $this->suggestName($columns);
 
 			$controller = $this->codeProvider->resolveController($relation);
 			$value = "(\$model->{$key} !== null)?";
-			$value .= "CHtml::link(\$model->{$key}->_label, array('{$controller}/view','{$relatedModel->tableSchema->primaryKey}'=>\$model->{$key}->{$relatedModel->tableSchema->primaryKey})).' '.";
+			$value .= "CHtml::link(\$model->{$key}->{$suggestedfield}, array('{$controller}/view','{$relatedModel->tableSchema->primaryKey}'=>\$model->{$key}->{$relatedModel->tableSchema->primaryKey})).' '.";
 			$value .= "CHtml::link(Yii::t('app','Update'), array('{$controller}/update','{$relatedModel->tableSchema->primaryKey}'=>\$model->{$key}->{$relatedModel->tableSchema->primaryKey}), array('class'=>'edit'))";
 			$value .= ":'n/a'";
 
@@ -73,6 +73,7 @@ $this->widget('zii.widgets.CDetailView', array(
 		$controller = $this->codeProvider->resolveController($relation);
 		$relatedModel = CActiveRecord::model($relation[1]);
 		$pk = $relatedModel->tableSchema->primaryKey;
+$suggestedfield = $this->suggestName($relatedModel->tableSchema->columns);
 
 		// TODO: currently composite PKs are omitted
 		if (is_array($pk)) continue;
@@ -89,7 +90,7 @@ $this->widget('zii.widgets.CDetailView', array(
 			echo "
 				<?php if (is_array(\$model->{$key})) foreach(\$model->{$key} as \$foreignobj) { \n
 					echo '<li>';
-					echo CHtml::link(\$foreignobj->_label, array('{$controller}/view','{$pk}'=>\$foreignobj->{$pk}));\n
+					echo CHtml::link(\$foreignobj->$suggestedfield, array('{$controller}/view','{$pk}'=>\$foreignobj->{$pk}));\n
 						echo ' '.CHtml::link(Yii::t('app','Update'), array('{$controller}/update','{$pk}'=>\$foreignobj->{$pk}), array('class'=>'edit'));\n
 				}
 			?>";
@@ -114,7 +115,7 @@ $this->widget('zii.widgets.CDetailView', array(
 				if (\$foreignobj !== null) {
 					echo '<li>';
 					echo '#'.\$model->{$key}->{$pk}.' ';
-					echo CHtml::link(\$model->{$key}->_label, array('{$controller}/view','{$pk}'=>\$model->{$key}->{$pk}));\n
+					echo CHtml::link(\$model->{$key}->$suggestedfield, array('{$controller}/view','{$pk}'=>\$model->{$key}->{$pk}));\n
 						echo ' '.CHtml::link(Yii::t('app','Update'), array('{$controller}/update','{$pk}'=>\$model->{$key}->{$pk}), array('class'=>'edit'));\n
 
 

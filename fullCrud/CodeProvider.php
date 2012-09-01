@@ -32,6 +32,8 @@ class CodeProvider {
 
 			for ($i = 0; $i < $j; $i++)
 				next($columns);
+            $suggestedfield = FullCrudCode::suggestName($columns);
+
 
 			$field = current($columns);
 			$style = $relation[0] == 'CManyManyRelation' ? 'checkbox' : 'dropdownlist';
@@ -41,7 +43,7 @@ class CodeProvider {
 					$allowEmpty = 'false';
 				elseif ($relation[0] == 'CHasOneRelation') {
 					$allowEmpty = (CActiveRecord::model($relation[1])->tableSchema->columns[$relation[2]]->allowNull ? 'true' : 'false');
-					return "if (\$model->{$relationname} !== null) echo \$model->{$relationname}->_label;";
+					return "if (\$model->{$relationname} !== null) echo \$model->{$relationname}->{$suggestedfield};";
 				}
 				else
 					$allowEmpty= (CActiveRecord::model($model)->tableSchema->columns[$relation[2]]->allowNull?'true':'false');
@@ -51,7 +53,7 @@ class CodeProvider {
 					array(
 							'model' => \$model,
 							'relation' => '{$relationname}',
-							'fields' => '_label',
+							'fields' => '{$suggestedfield}',
 							'allowEmpty' => {$allowEmpty},
 							'style' => '{$style}',
 							'htmlOptions' => array(
@@ -115,9 +117,9 @@ class CodeProvider {
 			$modelTable = ucfirst($fmodel->tableName());
 			$fcolumns = $fmodel->attributeNames();
 
-			if (method_exists($fmodel,'get_label')) {
+			/*if (method_exists($fmodel,'get_label')) {
 				$fcolumns[1] = "_label";
-			}
+			}*/
 
 			//$rel = $model->getActiveRelation($column->name);
 			$relname = strtolower($fk[0]);
