@@ -38,8 +38,8 @@
             echo "<?php echo \$form->error(\$model,'{$column->name}'); ?>\n";
 
             // renders a hint div, but leaves it empty, when the hint is not translated yet
-            $placholder = "hint." . $this->modelClass . "." . $column->name . "";
-            echo "<div class='hint'><?php if('" . $placholder . "' != \$hint = Yii::t('app', '" . $column->name . "')) echo \$hint; ?></div>\n";
+            $placholder = "hint." . $column->name . "";
+            echo "<div class='hint'><?php if('" . $placholder . "' != \$hint = Yii::t('crud-{$this->modelClass}', '" . $placholder . "')) echo \$hint; ?></div>\n";
 
             echo "</div>\n\n";
         }
