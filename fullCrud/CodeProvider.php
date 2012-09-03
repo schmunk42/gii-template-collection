@@ -1,7 +1,11 @@
 <?php
 
+/**
+ * Class to provide code snippets for CRUD generation
+ */
 class CodeProvider
 {
+
     public function resolveController($relation)
     {
         $model = new $relation[1];
@@ -12,45 +16,46 @@ class CodeProvider
         return $controller;
     }
 
-    public function generateRelation($model, $relationname, $relation)
+    public function generateRelationHeader($model, $relationName, $relationInfo)
     {
-        // Use the second attribute of the model, since the first is the id in
-        // most cases
-        //
-		// TODO: remove code, done via _label
-        if ($columns = CActiveRecord::model($relation[1])->tableSchema->columns) {
-            $j = 0;
-            foreach ($columns as $column) {
-                if (!$column->isForeignKey && !$column->isPrimaryKey) {
-                    $num = $j;
-                    break;
-                }
-                $j++;
-            }
+        $controller = $this->resolveController($relationInfo); // TODO
+        $code = "\$this->widget('bootstrap.widgets.TbButtonGroup', array(
+        'type'=>'', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
+        'buttons'=>array(
+            array('label'=>'{$relationName}', 'url'=> array('{$controller}/admin')),
+            array('items'=>array(
+                array('label'=>'Create', 'url'=>array('" . $controller . "/create', '$relationInfo[1]' => array('$relationInfo[2]'=>\$model->{\$model->tableSchema->primaryKey}))),
+            )),
+        ),
+    ));";
+        $code .= "echo '<span class=label>" . $relationInfo[0] . "</span>';";
 
-            for ($i = 0; $i < $j; $i++)
-                next($columns);
+        return $code;
+    }
+
+    public function generateRelation($model, $relationName, $relationInfo)
+    {
+        if ($columns = CActiveRecord::model($relationInfo[1])->tableSchema->columns) {
+
             $suggestedfield = FullCrudCode::suggestName($columns);
-
-
             $field = current($columns);
-            $style = $relation[0] == 'CManyManyRelation' ? 'checkbox' : 'dropdownlist';
+            $style = $relationInfo[0] == 'CManyManyRelation' ? 'checkbox' : 'dropdownlist';
 
             if (is_object($field)) {
-                if ($relation[0] == 'CManyManyRelation')
+                if ($relationInfo[0] == 'CManyManyRelation')
                     $allowEmpty = 'false';
-                elseif ($relation[0] == 'CHasOneRelation') {
-                    $allowEmpty = (CActiveRecord::model($relation[1])->tableSchema->columns[$relation[2]]->allowNull ? 'true' : 'false');
-                    return "if (\$model->{$relationname} !== null) echo \$model->{$relationname}->{$suggestedfield};";
+                elseif ($relationInfo[0] == 'CHasOneRelation') {
+                    $allowEmpty = (CActiveRecord::model($relationInfo[1])->tableSchema->columns[$relationInfo[2]]->allowNull ? 'true' : 'false');
+                    return "if (\$model->{$relationName} !== null) echo \$model->{$relationName}->{$suggestedfield};";
                 }
                 else
-                    $allowEmpty = (CActiveRecord::model($model)->tableSchema->columns[$relation[2]]->allowNull ? 'true' : 'false');
+                    $allowEmpty = (CActiveRecord::model($model)->tableSchema->columns[$relationInfo[2]]->allowNull ? 'true' : 'false');
 
                 return("\$this->widget(
 					'Relation',
 					array(
 							'model' => \$model,
-							'relation' => '{$relationname}',
+							'relation' => '{$relationName}',
 							'fields' => '{$suggestedfield}',
 							'allowEmpty' => {$allowEmpty},
 							'style' => '{$style}',

@@ -5,13 +5,6 @@ echo "\$this->breadcrumbs['$label'] = array('admin');\n";
 echo "\$this->breadcrumbs[] = Yii::t('app', 'Admin');\n";
 ?>
 
-if(!isset($this->menu) || $this->menu === array())
-$this->menu=array(
-array('label'=>Yii::t('app', 'Create') , 'url'=>array('create')),
-array('label'=>Yii::t('app', 'List') , 'url'=>array('index')),
-);
-
-
 Yii::app()->clientScript->registerScript('search', "
 $('.search-button').click(function(){
 $('.search-form').toggle();
@@ -24,6 +17,8 @@ data: $(this).serialize()
 return false;
 });
 ");
+<?php
+echo "?>";
 ?>
 
 <h1> <?php
