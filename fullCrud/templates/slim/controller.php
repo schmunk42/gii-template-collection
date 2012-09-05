@@ -4,6 +4,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 {
     #public $layout='//layouts/column2';
     public $defaultAction = "admin";
+    public $scenario = "crud";
 
     public function filters()
     {
@@ -62,6 +63,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
     public function actionCreate()
     {
         $model = new <?php echo $this->modelClass; ?>;
+        $model->scenario = $this->scenario;
 
         <?php if($this->validation == 1 || $this->validation == 3) { ?>
         $this->performAjaxValidation($model, '<?php echo $this->class2id($this->modelClass)?>-form');
@@ -103,6 +105,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
     public function actionUpdate($id)
     {
         $model = $this->loadModel($id);
+        $model->scenario = $this->scenario;
 
         <?php if($this->validation == 1 || $this->validation == 3) { ?>
         $this->performAjaxValidation($model, '<?php echo $this->class2id($this->modelClass)?>-form');

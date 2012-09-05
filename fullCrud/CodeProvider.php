@@ -19,16 +19,17 @@ class CodeProvider
     public function generateRelationHeader($model, $relationName, $relationInfo)
     {
         $controller = $this->resolveController($relationInfo); // TODO
-        $code = "\$this->widget('bootstrap.widgets.TbButtonGroup', array(
+
+        $code = "";
+        #$code .= "echo '<span class=label>" . $relationInfo[0] . "</span>';";
+
+        $code .= "\$this->widget('bootstrap.widgets.TbButtonGroup', array(
         'type'=>'', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
         'buttons'=>array(
-            array('label'=>'{$relationName}', 'url'=> array('{$controller}/admin')),
-            array('items'=>array(
-                array('label'=>'Create', 'url'=>array('" . $controller . "/create', '$relationInfo[1]' => array('$relationInfo[2]'=>\$model->{\$model->tableSchema->primaryKey}))),
-            )),
+            array('label'=>'{$relationName}', 'icon'=>'icon-list-alt', 'url'=> array('{$controller}/admin')),
+                array('icon'=>'icon-plus', 'url'=>array('" . $controller . "/create', '$relationInfo[1]' => array('$relationInfo[2]'=>\$model->{\$model->tableSchema->primaryKey}))),
         ),
     ));";
-        $code .= "echo '<span class=label>" . $relationInfo[0] . "</span>';";
 
         return $code;
     }

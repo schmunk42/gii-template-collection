@@ -6,7 +6,9 @@ echo "\$this->breadcrumbs[] = Yii::t('app', 'Create');\n";
 echo "?>";
 ?>
 
-<?php printf('<h1> %s %s </h1>', Yii::t('app', 'Create'), $this->modelClass); ?>
+<h1>
+    <?php echo "Create ".$this->class2name($this->modelClass); ?>
+</h1>
 
 <?php echo '<?php $this->renderPartial("_toolbar", array("model"=>$model)); ?>'; ?>
 

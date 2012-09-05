@@ -8,10 +8,14 @@ echo "?>";
 ?>
 
 <h1>
-    <?php echo "<?php echo Yii::t('app', 'View');?>" ?> <?php echo $this->modelClass . " <?php echo \$model->{$this->identificationColumn}; ?>"; ?>
+    <?php echo "View ".$this->class2name($this->modelClass)." #<?php echo \$model->" . $this->tableSchema->primaryKey." ?>"; ?>
 </h1>
 
+
+
 <?php echo '<?php $this->renderPartial("_toolbar", array("model"=>$model)); ?>'; ?>
+
+<h2>Data</h2>
 
 <p>
     <?php
@@ -33,8 +37,10 @@ echo "?>";
 
                     $controller = $this->codeProvider->resolveController($relation);
                     $value = "(\$model->{$key} !== null)?";
-                    $value .= "CHtml::link(\$model->{$key}->{$suggestedfield}, array('{$controller}/view','{$relatedModel->tableSchema->primaryKey}'=>\$model->{$key}->{$relatedModel->tableSchema->primaryKey}), array('class'=>'btn')).' '.";
-                    $value .= "CHtml::link(Yii::t('app','Update'), array('{$controller}/update','{$relatedModel->tableSchema->primaryKey}'=>\$model->{$key}->{$relatedModel->tableSchema->primaryKey}), array('class'=>'btn'))";
+                    $value .= "'<span class=label>" . $relation[0] . "</span><br/>'.";
+                    $value .= "CHtml::link(\$model->{$key}->{$suggestedfield}, array('{$controller}/view','{$relatedModel->tableSchema->primaryKey}'=>\$model->{$key}->{$relatedModel->tableSchema->primaryKey}), array('class'=>'btn'))";
+                    #$value .= "' '.";
+                    #$value .= "CHtml::link(Yii::t('app','Update'), array('{$controller}/update','{$relatedModel->tableSchema->primaryKey}'=>\$model->{$key}->{$relatedModel->tableSchema->primaryKey}), array('class'=>'btn'))";
                     $value .= ":'n/a'";
 
                     echo "            'value'=>{$value},\n";
@@ -75,22 +81,24 @@ foreach (CActiveRecord::model(Yii::import($this->model))->relations() as $key =>
     if (is_array($pk))
         continue;
 
-    echo "<?php ".$this->codeProvider->generateRelationHeader($relatedModel, $key, $relation)." ?>";
+    echo "<div class='row'>\n";
 
-    echo CHtml::openTag('div');
+    #echo CHtml::openTag('div');
     if (($relation[0] == 'CManyManyRelation' || $relation[0] == 'CHasManyRelation')) {
-        echo "
+        echo "<div class='span3'><?php ".$this->codeProvider->generateRelationHeader($relatedModel, $key, $relation)." ?></div>";
+        echo "<div class='span8'>
 <?php
+    echo '<span class=label>{$relation[0]}</span>';
     if (is_array(\$model->{$key})) {\n
         echo CHtml::openTag('ul');
             foreach(\$model->{$key} as \$relatedModel) {\n
                 echo '<li>';
-                echo CHtml::link(\$relatedModel->$suggestedfield, array('{$controller}/view','{$pk}'=>\$relatedModel->{$pk}), array('class'=>''));\n
+                echo CHtml::link(\$relatedModel->{$suggestedfield}, array('{$controller}/view','{$pk}'=>\$relatedModel->{$pk}), array('class'=>''));\n
                 echo '</li>';
             }
         echo CHtml::closeTag('ul');
     }
-?>";
+?></div>";
         echo "\n";
     }
 
@@ -100,21 +108,24 @@ foreach (CActiveRecord::model(Yii::import($this->model))->relations() as $key =>
         if (!$pk = $relatedModel->tableSchema->primaryKey)
             $pk = 'id';
 
-        echo "
+        echo "<div class='span3'><?php ".$this->codeProvider->generateRelationHeader($relatedModel, $key, $relation)." ?></div>";
+        echo "<div class='span8'>
 <?php
+    echo '<span class=label>{$relation[0]}</span>';
     \$relatedModel = \$model->{$key}; \n
     if (\$relatedModel !== null) {
         echo CHtml::openTag('ul');
         echo '<li>';
         echo CHtml::link(
-            '#'.\$model->{$key}->{$pk}.' '.\$model->{$key}->$suggestedfield,
+            '#'.\$model->{$key}->{$pk}.' '.\$model->{$key}->{$suggestedfield},
             array('{$controller}/view','{$pk}'=>\$model->{$key}->{$pk}),
             array('class'=>''));\n
         echo '</li>';\n
         echo CHtml::closeTag('ul');
     }
-?>";
+?></div>";
     }
-    echo CHtml::closeTag('div');
+    #echo CHtml::closeTag('div');
+    echo "</div>\n";
 }
 ?>

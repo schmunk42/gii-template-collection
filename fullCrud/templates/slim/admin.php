@@ -61,6 +61,3 @@ array(
 ),
 ),
 )); ?>
-
-<?php echo "
-<?php echo CHtml::link('Create new {$this->modelClass}', array('create')); ?>"; ?>
