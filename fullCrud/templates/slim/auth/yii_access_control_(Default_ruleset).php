@@ -1,20 +1,18 @@
-public function filters()
-{
+public function filters() {
 	return array(
 			'accessControl', 
 			);
 }
 
-public function accessRules()
-{
+public function accessRules() {
 	return array(
-			array('allow',  
+			array('allow',
 				'actions'=>array('index','view'),
-				'roles'=>array('*'),
+				'users'=>array('*'),
 				),
 			array('allow', 
-				'actions'=>array('getOptions', 'create','update'),
-				'roles'=>array('UserCreator'),
+				'actions'=>array('minicreate', 'create','update'),
+				'users'=>array('@'),
 				),
 			array('allow', 
 				'actions'=>array('admin','delete'),

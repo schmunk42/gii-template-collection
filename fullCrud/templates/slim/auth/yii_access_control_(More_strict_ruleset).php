@@ -1,15 +1,13 @@
-public function filters()
-{
+public function filters() {
 	return array(
 			'accessControl', 
 			);
 }
 
-public function accessRules()
-{
+public function accessRules() {
 	return array(
 			array('allow', 
-				'actions'=>array('index', 'view', 'getOptions'),
+				'actions'=>array('index', 'view'),
 				'users'=>array('@'),
 				),
 			array('allow', 

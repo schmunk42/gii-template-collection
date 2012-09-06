@@ -72,6 +72,15 @@ class FullCrudGenerator extends CCodeGenerator
         }
     }
 
+    protected function getAuthTypes()
+    {
+        foreach(scandir(Yii::getPathOfAlias('gtc.fullCrud.templates.slim.auth')) AS $file){
+            $name = str_replace(".php", "", $file);
+            $return[$name] = $name;
+        }
+        return $return;
+    }
+
 }
 
 ?>

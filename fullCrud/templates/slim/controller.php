@@ -13,26 +13,13 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
         );
     }
 
-    public function accessRules()
-    {
-        return array(
-            array('allow',
-                'actions'=>array('index','view'),
-                'users'=>array('*'),
-            ),
-            array('allow',
-                'actions'=>array('create','update'),
-                'users'=>array('@'),
-            ),
-            array('allow',
-                'actions'=>array('admin','delete'),
-                'users'=>array('admin'),
-            ),
-            array('deny',
-                'users'=>array('*'),
-            ),
-        );
-    }
+<?php
+    #Yii::setPathOfAlias("gtc", dirname(__FILE__).DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..');
+    #echo dirname(__FILE__).DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..';
+    #$authpath = 'gtc.fullCrud.templates.slim.auth';
+    #var_dump(Yii::app()->controller);exit;
+	#Yii::app()->controller->renderPartial($authpath.'.'.$this->authtype);
+?>
 
     public function beforeAction($action){
         parent::beforeAction($action);

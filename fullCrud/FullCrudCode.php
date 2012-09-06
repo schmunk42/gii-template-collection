@@ -14,6 +14,7 @@ class FullCrudCode extends CrudCode
     public $identificationColumn = null;
     public $baseControllerClass = 'Controller';
     public $codeProvider;
+    public $authtype;
 
     public function prepare()
     {

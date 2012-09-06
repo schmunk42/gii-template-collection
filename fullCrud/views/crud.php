@@ -63,6 +63,21 @@
 <?php echo $form->error($model, 'identificationColumn'); ?>
 </div>
 
+<!--
+<div class="row">
+    <?php
+    echo $form->labelEx($model, 'authtype');
+    echo $form->dropDownList($model, 'authtype', $this->getAuthTypes());
+    ?>
+    <div class="tooltip">
+        The Authentication method to be used in the Controller. Yii access Control is the
+        default accessControl of Yii using the Controller accessRules() method. No access
+        Control provides no Access control.
+    </div>
+    <?php echo $form->error($model, 'authtype'); ?>
+</div>
+-->
+
 <div class="row">
     <?php echo $form->labelEx($model, 'validation'); ?>
     <?php
