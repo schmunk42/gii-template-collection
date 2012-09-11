@@ -14,7 +14,7 @@ class FullCrudCode extends CrudCode
     public $identificationColumn = null;
     public $baseControllerClass = 'Controller';
     public $codeProvider;
-    public $authtype;
+    public $authTemplate;
 
     public function prepare()
     {
@@ -31,7 +31,7 @@ class FullCrudCode extends CrudCode
     public function rules()
     {
         return array_merge(parent::rules(), array(
-                array('validation', 'required'),
+                array('validation, authTemplate', 'required'),
                 array('identificationColumn', 'safe'),
             ));
     }

@@ -6,19 +6,10 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
     public $defaultAction = "admin";
     public $scenario = "crud";
 
-    public function filters()
-    {
-        return array(
-            'accessControl',
-        );
-    }
-
 <?php
-    #Yii::setPathOfAlias("gtc", dirname(__FILE__).DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..');
-    #echo dirname(__FILE__).DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..';
-    #$authpath = 'gtc.fullCrud.templates.slim.auth';
-    #var_dump(Yii::app()->controller);exit;
-	#Yii::app()->controller->renderPartial($authpath.'.'.$this->authtype);
+    $authPath = 'ext.phundament.gii-template-collection.FullCrud.templates.slim.auth.';
+    $rightsPrefix = str_replace(" ",".",ucwords(str_replace("/"," ",$this->controller)));
+	Yii::app()->controller->renderPartial($authPath . $this->authTemplate, array('rightsPrefix'=>$rightsPrefix));
 ?>
 
     public function beforeAction($action){

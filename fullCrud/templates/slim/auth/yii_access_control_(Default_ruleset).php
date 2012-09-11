@@ -1,6 +1,6 @@
 public function filters() {
 	return array(
-			'accessControl', 
+			'accessControl',
 			);
 }
 
@@ -10,15 +10,15 @@ public function accessRules() {
 				'actions'=>array('index','view'),
 				'users'=>array('*'),
 				),
-			array('allow', 
-				'actions'=>array('minicreate', 'create','update'),
+			array('allow',
+				'actions'=>array('create','update'),
 				'users'=>array('@'),
 				),
-			array('allow', 
+			array('allow',
 				'actions'=>array('admin','delete'),
 				'users'=>array('admin'),
 				),
-			array('deny', 
+			array('deny',
 				'users'=>array('*'),
 				),
 			);

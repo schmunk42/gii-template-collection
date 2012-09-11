@@ -1,24 +1,16 @@
 public function filters() {
 	return array(
-			'accessControl', 
+			'accessControl',
 			);
 }
 
 public function accessRules() {
 	return array(
 			array('allow',
-				'actions'=>array('index','view'),
-				'roles'=>array('*'),
+				'actions'=>array('create','update','delete','admin','view'),
+				'roles'=>array('<?php echo $rightsPrefix ?>.*'),
 				),
-			array('allow', 
-				'actions'=>array('minicreate', 'create','update'),
-				'roles'=>array('UserCreator'),
-				),
-			array('allow', 
-				'actions'=>array('admin','delete'),
-				'users'=>array('admin'),
-				),
-			array('deny', 
+			array('deny',
 				'users'=>array('*'),
 				),
 			);
