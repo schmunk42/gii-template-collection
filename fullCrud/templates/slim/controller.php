@@ -7,7 +7,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
     public $scenario = "crud";
 
 <?php
-    $authPath = 'ext.phundament.gii-template-collection.FullCrud.templates.slim.auth.';
+    $authPath = 'gii-template-collection.FullCrud.templates.slim.auth.';
     $rightsPrefix = str_replace(" ",".",ucwords(str_replace("/"," ",$this->controller)));
 	Yii::app()->controller->renderPartial($authPath . $this->authTemplate, array('rightsPrefix'=>$rightsPrefix));
 ?>
