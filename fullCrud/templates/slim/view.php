@@ -20,7 +20,7 @@ echo "?>";
 <p>
     <?php
     echo "<?php
-    \$this->widget('ext.crisu83.yii-bootstrap.widgets.TbDetailView', array(
+    \$this->widget('TbDetailView', array(
     'data'=>\$model,
     'attributes'=>array(
     ";

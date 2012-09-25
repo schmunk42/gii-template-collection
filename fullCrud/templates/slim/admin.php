@@ -31,7 +31,7 @@ return false;
 
 <?php echo "<?php
 \$locale = CLocale::getInstance(Yii::app()->language);\n
-"; ?> $this->widget('ext.crisu83.yii-bootstrap.widgets.TbGridView', array(
+"; ?> $this->widget('TbGridView', array(
 'id'=>'<?php echo $this->class2id($this->modelClass); ?>-grid',
 'dataProvider'=>$model->search(),
 'filter'=>$model,
@@ -53,7 +53,7 @@ if ($count >= 7)
     echo "\t\t*/\n";
 ?>
 array(
-'class'=>'ext.crisu83.yii-bootstrap.widgets.TbButtonColumn',
+'class'=>'TbButtonColumn',
 'viewButtonUrl' => "Yii::app()->controller->createUrl('view', array('<?php echo $this->tableSchema->primaryKey; ?>' => \$data-><?php echo $this->tableSchema->primaryKey; ?>))",
 'updateButtonUrl' => "Yii::app()->controller->createUrl('update', array('<?php echo $this->tableSchema->primaryKey; ?>' => \$data-><?php echo $this->tableSchema->primaryKey; ?>))",
 'deleteButtonUrl' => "Yii::app()->controller->createUrl('delete', array('<?php echo $this->tableSchema->primaryKey; ?>' => \$data-><?php echo $this->tableSchema->primaryKey; ?>))",
