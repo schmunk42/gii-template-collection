@@ -1,7 +1,9 @@
 <?php
 
+Yii::setPathOfAlias('gtc', dirname(__FILE__).DIRECTORY_SEPARATOR.'..');
+
 class FullModelGenerator extends CCodeGenerator {
-    public $codeModel = 'ext.gtc.fullModel.FullModelCode';
+    public $codeModel = 'gtc.fullModel.FullModelCode';
 
     /**
      * Returns the table names in an array.
