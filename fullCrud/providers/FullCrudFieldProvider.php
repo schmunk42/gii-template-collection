@@ -17,14 +17,12 @@ class FullCrudFieldProvider
             || strtoupper($column->dbType) == 'BOOLEAN') {
             return "echo \$form->checkBox(\$model,'{$column->name}')";
         } else if (strtoupper($column->dbType) == 'DATE') {
-            $modelname = get_class($model);
             return ("\$this->widget('zii.widgets.jui.CJuiDatePicker',
 						 array(
-								 'model'=>'\$model',
-								 'name'=>'{$modelname}[{$column->name}]',
+								 'model'=>\$model,
+								 'attribute'=>'{$column->name}',
 								 'language'=> substr(Yii::app()->language,0,strpos(Yii::app()->language,'_')),
-								 'value'=>\$model->{$column->name},
-								 'htmlOptions'=>array('size'=>10, 'style'=>'width:80px !important'),
+								 'htmlOptions'=>array('size'=>10),
 								 'options'=>array(
 									 'showButtonPanel'=>true,
 									 'changeYear'=>true,
