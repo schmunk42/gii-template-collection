@@ -8,14 +8,16 @@ echo "?>";
 ?>
 
 <h1>
-    <?php echo "View ".$this->class2name($this->modelClass)." #<?php echo \$model->" . $this->tableSchema->primaryKey." ?>"; ?>
+    <?php echo "View " . $this->class2name($this->modelClass) . " #<?php echo \$model->" . $this->tableSchema->primaryKey . " ?>"; ?>
 </h1>
-
 
 
 <?php echo '<?php $this->renderPartial("_toolbar", array("model"=>$model)); ?>'; ?>
 
-<h2>Data</h2>
+
+<h2>
+    Data
+</h2>
 
 <p>
     <?php
@@ -48,45 +50,61 @@ echo "?>";
                 }
             }
             echo "        ),\n";
-        } else if (stristr($column->name, 'url')) {
-            // TODO - experimental - move to provider class
-            echo "array(";
-            echo "            'name'=>'{$column->name}',\n";
-            echo "            'type'=>'link',\n";
-            echo "),\n";
-        } else if ($column->name == 'createtime'
-            or $column->name == 'updatetime'
-            or $column->name == 'timestamp') {
-            echo "array(
+        }
+        else {
+            if (stristr($column->name, 'url')) {
+                // TODO - experimental - move to provider class
+                echo "array(";
+                echo "            'name'=>'{$column->name}',\n";
+                echo "            'type'=>'link',\n";
+                echo "),\n";
+            }
+            else {
+                if ($column->name == 'createtime'
+                    or $column->name == 'updatetime'
+                    or $column->name == 'timestamp'
+                ) {
+                    echo "array(
 					'name'=>'{$column->name}',
 					'value' =>\$locale->getDateFormatter()->formatDateTime(\$model->{$column->name}, 'medium', 'medium')),\n";
-        } else
-            echo "        '" . $column->name . "',\n";
+                }
+                else {
+                    echo "        '" . $column->name . "',\n";
+                }
+            }
+        }
     }
     echo "),
         )); ?>";
     ?>
 </p>
 
-<h2>Relations</h2>
+<?php
+$relations = CActiveRecord::model(Yii::import($this->model))->relations();
+if ($relations !== array()): ?>
+
+<h2>
+    Relations
+</h2>
 
 <?php
-foreach (CActiveRecord::model(Yii::import($this->model))->relations() as $key => $relation) {
-    $controller = $this->codeProvider->resolveController($relation);
-    $relatedModel = CActiveRecord::model($relation[1]);
-    $pk = $relatedModel->tableSchema->primaryKey;
-    $suggestedfield = $this->suggestName($relatedModel->tableSchema->columns);
+    foreach ($relations as $key => $relation) {
+        $controller = $this->codeProvider->resolveController($relation);
+        $relatedModel = CActiveRecord::model($relation[1]);
+        $pk = $relatedModel->tableSchema->primaryKey;
+        $suggestedfield = $this->suggestName($relatedModel->tableSchema->columns);
 
-    // TODO: currently composite PKs are omitted
-    if (is_array($pk))
-        continue;
+        // TODO: currently composite PKs are omitted
+        if (is_array($pk)) {
+            continue;
+        }
 
-    echo "<div class='row'>\n";
+        echo "<div class='row'>\n";
 
-    #echo CHtml::openTag('div');
-    if (($relation[0] == 'CManyManyRelation' || $relation[0] == 'CHasManyRelation')) {
-        echo "<div class='span3'><?php ".$this->codeProvider->generateRelationHeader($relatedModel, $key, $relation)." ?></div>";
-        echo "<div class='span8'>
+        #echo CHtml::openTag('div');
+        if (($relation[0] == 'CManyManyRelation' || $relation[0] == 'CHasManyRelation')) {
+            echo "<div class='span3'><?php " . $this->codeProvider->generateRelationHeader($relatedModel, $key, $relation) . " ?></div>";
+            echo "<div class='span8'>
 <?php
     echo '<span class=label>{$relation[0]}</span>';
     if (is_array(\$model->{$key})) {\n
@@ -99,17 +117,18 @@ foreach (CActiveRecord::model(Yii::import($this->model))->relations() as $key =>
         echo CHtml::closeTag('ul');
     }
 ?></div>";
-        echo "\n";
-    }
+            echo "\n";
+        }
 
 
-    if ($relation[0] == 'CHasOneRelation') {
-        $relatedModel = CActiveRecord::model($relation[1]);
-        if (!$pk = $relatedModel->tableSchema->primaryKey)
-            $pk = 'id';
+        if ($relation[0] == 'CHasOneRelation') {
+            $relatedModel = CActiveRecord::model($relation[1]);
+            if (!$pk = $relatedModel->tableSchema->primaryKey) {
+                $pk = 'id';
+            }
 
-        echo "<div class='span3'><?php ".$this->codeProvider->generateRelationHeader($relatedModel, $key, $relation)." ?></div>";
-        echo "<div class='span8'>
+            echo "<div class='span3'><?php " . $this->codeProvider->generateRelationHeader($relatedModel, $key, $relation) . " ?></div>";
+            echo "<div class='span8'>
 <?php
     echo '<span class=label>{$relation[0]}</span>';
     \$relatedModel = \$model->{$key}; \n
@@ -124,8 +143,10 @@ foreach (CActiveRecord::model(Yii::import($this->model))->relations() as $key =>
         echo CHtml::closeTag('ul');
     }
 ?></div>";
+        }
+        #echo CHtml::closeTag('div');
+        echo "</div>\n";
     }
-    #echo CHtml::closeTag('div');
-    echo "</div>\n";
-}
+
+endif;
 ?>

@@ -35,6 +35,10 @@ return false;
 'id'=>'<?php echo $this->class2id($this->modelClass); ?>-grid',
 'dataProvider'=>$model->search(),
 'filter'=>$model,
+'pager' => array(
+    'class' => 'TbPager',
+    'displayFirstAndLast' => true,
+),
 'columns'=>array(
 
 
