@@ -4,6 +4,13 @@
         echo '<?php  ?>';
         echo '<?php
             switch($this->action->id) {
+                case "create":
+                    $this->widget("bootstrap.widgets.TbButton", array(
+                        "label"=>"Manage",
+                        "icon"=>"icon-list-alt",
+                        "url"=>array("admin")
+                    ));
+                    break;
                 case "admin":
                     $this->widget("bootstrap.widgets.TbButton", array(
                         "label"=>"Create",
@@ -21,6 +28,11 @@
                         "label"=>"Update",
                         "icon"=>"icon-edit",
                         "url"=>array("update","id"=>$model->id)
+                    ));
+                    $this->widget("bootstrap.widgets.TbButton", array(
+                        "label"=>"Create",
+                        "icon"=>"icon-plus",
+                        "url"=>array("create")
                     ));
                     $this->widget("bootstrap.widgets.TbButton", array(
                         "label"=>"Delete",
@@ -67,51 +79,53 @@
                     ));?>'; ?>
     </div>
 
-    <div class="btn-group">
-        <?php
-        echo "<?php \$this->widget('bootstrap.widgets.TbButtonGroup', array(
+    <?php
+    $model = new $this->modelClass;
+    if ($model->relations() !== array()):
+        ?>
+        <div class="btn-group">
+            <?php
+            echo "<?php \$this->widget('bootstrap.widgets.TbButtonGroup', array(
         'buttons'=>array(
                 array('label'=>'Relations', 'icon'=>'icon-search', 'items'=>array(";
 
-        // render relation links
-        $model = new $this->modelClass;
-        #echo "<div class='btn-toolbar'>";
-        foreach ($model->relations() AS $key => $relation) {
-            echo "array('label'=>'{$relation[1]}', 'url' =>array('{$this->codeProvider->resolveController($relation)}/admin')),";
-            #Yii::t("app", substr(str_replace("Relation", "", $relation[0]), 1)) . " " .
-        }
+            // render relation links
+            foreach ($model->relations() AS $key => $relation) {
+                echo "array('label'=>'{$relation[1]}', 'url' =>array('{$this->codeProvider->resolveController($relation)}/admin')),";
+            }
 
-        echo "
+            echo "
             )
           ),
         ),
     ));
 ?>";
-        ?>
+            ?>
 
-        <ul class="dropdown-menu">
-            <?php
-// render relation links
-            $model = new $this->modelClass;
-            #echo "<div class='btn-toolbar'>";
-            foreach ($model->relations() AS $key => $relation) {
-                echo "<li>";
-                echo '<?php echo CHtml::link(
+            <ul class="dropdown-menu">
+                <?php
+                // render relation links
+                $model = new $this->modelClass;
+                foreach ($model->relations() AS $key => $relation) {
+                    echo "<li>";
+                    echo '<?php echo CHtml::link(
         Yii::t("app", "' . $relation[1] . '"),
         array("' . $this->codeProvider->resolveController($relation) . '/admin")) ?>';
-                echo " </li>\n";
-                #Yii::t("app", substr(str_replace("Relation", "", $relation[0]), 1)) . " " .
-            }
-            #echo "</div>";
-            ?>
-        </ul>
-    </div>
+                    echo " </li>\n";
+                }
+                ?>
+            </ul>
+        </div>
+
+        <?php endif; ?>
 
     <?php echo "<?php endif; ?>" ?>
 </div>
 
+<?php echo "<?php if(\$this->action->id == 'admin'): ?>" ?>
 <div class="search-form" style="display:none">
     <?php echo "<?php \$this->renderPartial('_search',array(
 	'model'=>\$model,
 )); ?>\n"; ?>
 </div>
+<?php echo "<?php endif; ?>" ?>
