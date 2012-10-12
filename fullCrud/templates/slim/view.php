@@ -56,7 +56,7 @@ echo "?>";
                 // TODO - experimental - move to provider class
                 echo "array(";
                 echo "            'name'=>'{$column->name}',\n";
-                echo "            'type'=>'link',\n";
+                echo "            'type'=>'url',\n";
                 echo "),\n";
             }
             else {
