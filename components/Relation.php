@@ -617,8 +617,8 @@ class Relation extends CWidget
 					array('multiple' => 'multiple'));
 		}
 
-		public function handleAjaxRequest($_POST) {
-			print_r($_POST);
+		public function handleAjaxRequest($post) {
+			print_r($post);
 		}
 
 		public function renderTwoPaneSelection() 
