@@ -14,9 +14,9 @@
         <div class="row">
             <?php echo "<?php echo \$form->label(\$model,'{$column->name}'); ?>\n"; ?>
             <?php if (!$column->isForeignKey): ?>
-                <?php echo "<?php echo " . $this->generateActiveField($this->modelClass, $column) . "; ?>\n"; ?>
+                <?php echo "<?php " . $this->generateActiveField($this->modelClass, $column) . "; ?>\n"; ?>
             <?php else: ?>
-                <?php echo "<?php echo " . $this->codeProvider->generateValueField($this->modelClass, $column, 'search') . "; ?>\n"; ?>
+                <?php echo "<?php " . $this->codeProvider->generateValueField($this->modelClass, $column, 'search') . "; ?>\n"; ?>
             <?php endif; ?>
         </div>
 

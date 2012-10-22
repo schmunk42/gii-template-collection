@@ -55,14 +55,6 @@ class FullModelCode extends ModelCode {
 			$tableName = $this->removePrefix($table->name);
 			$className = $this->generateClassName($table->name);
 
-			if(!$this->identificationColumn)
-				$this->identificationColumn = $this->guessIdentificationColumn(
-						$table->columns);
-
-			if(!$generate_whole_db && !array_key_exists(
-						$this->identificationColumn, $table->columns))
-				$this->addError('identificationColumn', 'The specified column can not be found in the models attributes. <br /> Please specify a valid attribute. If unsure, leave the field empty.'); 
-
 			$params = array(
 					'tableName' => $schema === '' ? $tableName : $schema . '.' . $tableName,
 					'modelClass' => $className,
@@ -210,7 +202,7 @@ class FullModelCode extends ModelCode {
 				return 'null';
 			}
 
-	public function guessIdentificationColumn($columns) {
+	/*public function guessIdentificationColumn($columns) {
 		$found = false;
 		foreach($columns as $name => $column) {
 			if(!$found 
@@ -233,7 +225,7 @@ class FullModelCode extends ModelCode {
 		// first column 
 		if(!$found)
 			return reset($columns)->name; 
-	}
+	}*/
 
 }
 

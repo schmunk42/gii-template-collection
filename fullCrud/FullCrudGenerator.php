@@ -34,7 +34,10 @@ class FullCrudGenerator extends CCodeGenerator
                     $classname = sprintf('%s.%s', $alias, $fileClassName);
                     Yii::import($classname);
                     try {
-                        $model = @new $fileClassName;
+                        if (!class_exists($fileClassName))
+                            throw new Exception('Model '.$fileClassName.' does not exist');
+
+                        $model = new $fileClassName;
                         if (is_object($model) && $model->getMetaData())
                             $models[$classname] = $model->attributes;
                         else
