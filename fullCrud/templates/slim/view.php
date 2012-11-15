@@ -2,7 +2,7 @@
 $label = $this->pluralize($this->class2name($this->modelClass));
 
 echo "<?php\n";
-echo "\$this->breadcrumbs['$label'] = array('index');\n";
+echo "\$this->breadcrumbs['$label'] = array('admin');\n";
 echo "\$this->breadcrumbs[] = \$model->{$this->identificationColumn};\n";
 echo "?>";
 ?>

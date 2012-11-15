@@ -124,6 +124,13 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
                     ));
     }
 
+    public function actionAjaxUpdate()
+    {
+        Yii::import('EditableSaver'); //or you can add import 'ext.editable.*' to config
+        $es = new EditableSaver('<?php echo $this->modelClass; ?>');  // classname of model to be updated
+        $es->update();
+    }
+
     public function actionDelete($id)
     {
         if(Yii::app()->request->isPostRequest)

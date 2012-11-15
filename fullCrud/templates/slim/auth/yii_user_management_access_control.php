@@ -7,7 +7,7 @@ public function filters() {
 public function accessRules() {
 	return array(
 			array('allow',
-				'actions'=>array('create','update','delete','admin','view'),
+				'actions'=>array('create','ajaxUpdate','update','delete','admin','view'),
 				'roles'=>array('<?php echo $rightsPrefix ?>.*'),
 				),
 			array('deny',

@@ -1,3 +1,7 @@
+<p>
+<?php echo '<?php $this->widget("TbBreadcrumbs", array("links"=>$this->breadcrumbs)) ?>'; ?>
+</p>
+
 <div class="btn-toolbar">
     <div class="btn-group">
         <?php
@@ -91,7 +95,7 @@
 
             // render relation links
             foreach ($model->relations() AS $key => $relation) {
-                echo "array('label'=>'{$relation[1]}', 'url' =>array('{$this->codeProvider->resolveController($relation)}/admin')),";
+                echo "array('label'=>'{$key} [{$relation[1]}]', 'url' =>array('{$this->codeProvider->resolveController($relation)}/admin')),";
             }
 
             echo "
@@ -101,20 +105,6 @@
     ));
 ?>";
             ?>
-
-            <ul class="dropdown-menu">
-                <?php
-                // render relation links
-                $model = new $this->modelClass;
-                foreach ($model->relations() AS $key => $relation) {
-                    echo "<li>";
-                    echo '<?php echo CHtml::link(
-        Yii::t("app", "' . $relation[1] . '"),
-        array("' . $this->codeProvider->resolveController($relation) . '/admin")) ?>';
-                    echo " </li>\n";
-                }
-                ?>
-            </ul>
         </div>
 
         <?php endif; ?>
