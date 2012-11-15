@@ -143,7 +143,11 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 
             if(!isset($_GET['ajax']))
             {
+                if (isset($_GET['returnUrl'])) {
+                    $this->redirect($_GET['returnUrl']);
+                } else {
                     $this->redirect(array('admin'));
+                }
             }
         }
         else

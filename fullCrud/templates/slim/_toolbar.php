@@ -43,7 +43,7 @@
                         "type"=>"danger",
                         "icon"=>"icon-remove icon-white",
                         "htmlOptions"=> array(
-                            "submit"=>array("delete","id"=>$model->id),
+                            "submit"=>array("delete","id"=>$model->id, "returnUrl"=>Yii::app()->request->getParam("returnUrl")),
                             "confirm"=>"Do you want to delete this item?")
                          )
                     );
@@ -64,7 +64,7 @@
                         "type"=>"danger",
                         "icon"=>"icon-remove icon-white",
                         "htmlOptions"=> array(
-                            "submit"=>array("delete","id"=>$model->id),
+                            "submit"=>array("delete","id"=>$model->id, "returnUrl"=>Yii::app()->request->getParam("returnUrl")),
                             "confirm"=>"Do you want to delete this item?")
                          )
                     );
