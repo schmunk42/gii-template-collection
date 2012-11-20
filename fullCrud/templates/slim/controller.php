@@ -33,9 +33,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
     public function actionView($id)
     {
         $model = $this->loadModel($id);
-        $this->render('view',array(
-            'model' => $model,
-        ));
+        $this->render('view',array('model' => $model,));
     }
 
     public function actionCreate()
@@ -66,14 +64,14 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
                     if (isset($_GET['returnUrl'])) {
                         $this->redirect($_GET['returnUrl']);
                     } else {
-                        $this->redirect(array('view','id'=>$model->id));
+                        $this->redirect(array('view','id'=>$model-><?php echo CActiveRecord::model($this->modelClass)->tableSchema->primaryKey ?>));
                     }
                 }
             } catch (Exception $e) {
                 $model->addError('<?php echo $this->identificationColumn;?>', $e->getMessage());
             }
         } elseif(isset($_GET['<?php echo $this->modelClass; ?>'])) {
-                $model->attributes = $_GET['<?php echo $this->modelClass; ?>'];
+            $model->attributes = $_GET['<?php echo $this->modelClass; ?>'];
         }
 
         $this->render('create',array( 'model'=>$model));
@@ -111,7 +109,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
                     if (isset($_GET['returnUrl'])) {
                         $this->redirect($_GET['returnUrl']);
                     } else {
-                        $this->redirect(array('view','id'=>$model->id));
+                        $this->redirect(array('view','id'=>$model-><?php echo CActiveRecord::model($this->modelClass)->tableSchema->primaryKey ?>));
                     }
                 }
             } catch (Exception $e) {
@@ -119,9 +117,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
             }
         }
 
-        $this->render('update',array(
-                    'model'=>$model,
-                    ));
+        $this->render('update',array('model'=>$model,));
     }
 
     public function actionAjaxUpdate()
@@ -151,16 +147,13 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
             }
         }
         else
-            throw new CHttpException(400,
-                    Yii::t('app', 'Invalid request. Please do not repeat this request again.'));
+            throw new CHttpException(400,Yii::t('app', 'Invalid request. Please do not repeat this request again.'));
     }
 
     public function actionIndex()
     {
         $dataProvider=new CActiveDataProvider('<?php echo $this->modelClass; ?>');
-        $this->render('index',array(
-            'dataProvider'=>$dataProvider,
-        ));
+        $this->render('index',array('dataProvider'=>$dataProvider,));
     }
 
     public function actionAdmin()
@@ -168,12 +161,11 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
         $model=new <?php echo $this->modelClass; ?>('search');
         $model->unsetAttributes();
 
-        if(isset($_GET['<?php echo $this->modelClass; ?>']))
+        if(isset($_GET['<?php echo $this->modelClass; ?>'])) {
             $model->attributes = $_GET['<?php echo $this->modelClass; ?>'];
+        }
 
-        $this->render('admin',array(
-            'model'=>$model,
-        ));
+        $this->render('admin',array('model'=>$model,));
     }
 
     public function loadModel($id)

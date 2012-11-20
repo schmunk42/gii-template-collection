@@ -31,7 +31,7 @@
                     $this->widget("bootstrap.widgets.TbButton", array(
                         "label"=>"Update",
                         "icon"=>"icon-edit",
-                        "url"=>array("update","id"=>$model->id)
+                        "url"=>array("update","id"=>$model->{$model->tableSchema->primaryKey})
                     ));
                     $this->widget("bootstrap.widgets.TbButton", array(
                         "label"=>"Create",
@@ -43,7 +43,7 @@
                         "type"=>"danger",
                         "icon"=>"icon-remove icon-white",
                         "htmlOptions"=> array(
-                            "submit"=>array("delete","id"=>$model->id, "returnUrl"=>Yii::app()->request->getParam("returnUrl")),
+                            "submit"=>array("delete","id"=>$model->{$model->tableSchema->primaryKey}, "returnUrl"=>Yii::app()->request->getParam("returnUrl")),
                             "confirm"=>"Do you want to delete this item?")
                          )
                     );
@@ -57,14 +57,14 @@
                     $this->widget("bootstrap.widgets.TbButton", array(
                         "label"=>"View",
                         "icon"=>"icon-eye-open",
-                        "url"=>array("view","id"=>$model->id)
+                        "url"=>array("view","id"=>$model->{$model->tableSchema->primaryKey})
                     ));
                     $this->widget("bootstrap.widgets.TbButton", array(
                         "label"=>"Delete",
                         "type"=>"danger",
                         "icon"=>"icon-remove icon-white",
                         "htmlOptions"=> array(
-                            "submit"=>array("delete","id"=>$model->id, "returnUrl"=>Yii::app()->request->getParam("returnUrl")),
+                            "submit"=>array("delete","id"=>$model->{$model->tableSchema->primaryKey}, "returnUrl"=>Yii::app()->request->getParam("returnUrl")),
                             "confirm"=>"Do you want to delete this item?")
                          )
                     );
