@@ -7,6 +7,8 @@ echo "\$this->breadcrumbs[] = \$model->{$this->identificationColumn};\n";
 echo "?>";
 ?>
 
+<?php echo '<?php $this->widget("TbBreadcrumbs", array("links"=>$this->breadcrumbs)) ?>'; ?>
+
 <h1>
     <?php echo "View " . $this->class2name($this->modelClass) . " #<?php echo \$model->" . $this->tableSchema->primaryKey . " ?>"; ?>
 </h1>

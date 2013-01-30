@@ -20,6 +20,8 @@ return false;
 ");
 ?>
 
+<?php echo '<?php $this->widget("TbBreadcrumbs", array("links"=>$this->breadcrumbs)) ?>'; ?>
+
 <h1>
     <?php
     echo "<?php echo Yii::t('app', 'Manage'); ?> ";
@@ -36,8 +38,8 @@ return false;
 'dataProvider'=>$model->search(),
 'filter'=>$model,
 'pager' => array(
-    'class' => 'TbPager',
-    'displayFirstAndLast' => true,
+'class' => 'TbPager',
+'displayFirstAndLast' => true,
 ),
 'columns'=>array(
 
@@ -45,16 +47,19 @@ return false;
 <?php
 $count = 0;
 foreach ($this->tableSchema->columns as $column) {
-    if (++$count == 7)
+    if (++$count == 7) {
         echo "\t\t/*\n";
+    }
 
-    if (strtoupper($column->dbType) == 'TEXT')
+    if (strtoupper($column->dbType) == 'TEXT') {
         echo "#";
+    }
     echo "\t\t" . $this->codeProvider->generateValueField($this->modelClass, $column) . ",\n";
 }
 
-if ($count >= 7)
+if ($count >= 7) {
     echo "\t\t*/\n";
+}
 ?>
 array(
 'class'=>'TbButtonColumn',

@@ -1,7 +1,3 @@
-<p>
-<?php echo '<?php $this->widget("TbBreadcrumbs", array("links"=>$this->breadcrumbs)) ?>'; ?>
-</p>
-
 <div class="btn-toolbar">
     <div class="btn-group">
         <?php

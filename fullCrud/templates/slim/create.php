@@ -6,8 +6,10 @@ echo "\$this->breadcrumbs[] = Yii::t('app', 'Create');\n";
 echo "?>";
 ?>
 
+<?php echo '<?php $this->widget("TbBreadcrumbs", array("links"=>$this->breadcrumbs)) ?>'; ?>
+
 <h1>
-    <?php echo "Create ".$this->class2name($this->modelClass); ?>
+    <?php echo "Create " . $this->class2name($this->modelClass); ?>
 </h1>
 
 <?php echo '<?php $this->renderPartial("_toolbar", array("model"=>$model)); ?>'; ?>

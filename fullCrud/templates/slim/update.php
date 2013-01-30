@@ -7,8 +7,10 @@ echo "\$this->breadcrumbs[] = Yii::t('app', 'Update');\n";
 echo "?>";
 ?>
 
+<?php echo '<?php $this->widget("TbBreadcrumbs", array("links"=>$this->breadcrumbs)) ?>'; ?>
+
 <h1>
-    <?php echo "Update ".$this->class2name($this->modelClass)." #<?php echo \$model->" . $this->tableSchema->primaryKey." ?>"; ?>
+    <?php echo "Update " . $this->class2name($this->modelClass) . " #<?php echo \$model->" . $this->tableSchema->primaryKey . " ?>"; ?>
 </h1>
 
 <?php echo '<?php $this->renderPartial("_toolbar", array("model"=>$model)); ?>'; ?>
