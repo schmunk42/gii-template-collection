@@ -1,8 +1,7 @@
 <?php
 echo "<?php\n";
 $label = $this->pluralize($this->class2name($this->modelClass));
-echo "\$this->breadcrumbs['$label'] = array('admin');\n";
-echo "\$this->breadcrumbs[] = Yii::t('app', 'Admin');\n";
+echo "\$this->breadcrumbs[] = '".$label."';\n";
 ?>
 
 
