@@ -147,7 +147,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
             }
         }
         else
-            throw new CHttpException(400,Yii::t('app', 'Invalid request. Please do not repeat this request again.'));
+            throw new CHttpException(400,Yii::t('<?php echo $this->messageCatalog; ?>', 'Invalid request. Please do not repeat this request again.'));
     }
 
     public function actionIndex()
@@ -172,7 +172,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
     {
         $model=<?php echo $this->modelClass; ?>::model()->findByPk($id);
         if($model===null)
-            throw new CHttpException(404,Yii::t('app', 'The requested page does not exist.'));
+            throw new CHttpException(404,Yii::t('<?php echo $this->messageCatalog; ?>', 'The requested page does not exist.'));
         return $model;
     }
 
