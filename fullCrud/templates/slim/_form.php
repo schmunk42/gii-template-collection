@@ -1,6 +1,6 @@
 <div class="form">
     <p class="note">
-        <?php echo "<?php echo Yii::t('app','Fields with');?> <span class=\"required\">*</span> <?php echo Yii::t('app','are required');?>"; ?>
+        <?php echo "<?php echo Yii::t('".$this->messageCatalog."','Fields with');?> <span class=\"required\">*</span> <?php echo Yii::t('".$this->messageCatalog."','are required');?>"; ?>
         .
     </p>
 
@@ -42,8 +42,10 @@
             echo "<?php echo \$form->error(\$model,'{$column->name}'); ?>\n";
 
             // renders a hint div, but leaves it empty, when the hint is not translated yet
-            $placholder = "hint." . $column->name . "";
-            echo "<div class='hint'><?php if('" . $placholder . "' != \$hint = Yii::t('crud-{$this->modelClass}', '" . $placholder . "')) echo \$hint; ?></div>\n";
+            $placholder = "help." . $column->name . "";
+            echo "<?php if('" . $placholder . "' != \$help = Yii::t('".$this->messageCatalog."', '" . $placholder . "')) { \n";
+            echo '    echo "<span class=\'help-block\'>$help</span>";';
+            echo "\n} ?>";
 
             echo "</div>\n\n";
         }
@@ -55,21 +57,25 @@
             || $relation[0] == 'CManyManyRelation'
         ) {
             echo "<div class=\"row\">\n";
-            /* printf("<label for=\"%s\"><?php echo Yii::t('app', 'Belonging').' '.Yii::t('app', '%s'); ?></label>\n", $relation[1], $relation[1]);
-             */
-            printf("<label for=\"%s\"><?php echo Yii::t('app', '%s'); ?></label>\n", $key, ucfirst($key));
+            printf("<label for=\"%s\"><?php echo Yii::t('".$this->messageCatalog."', '%s'); ?></label>\n", $key, ucfirst($key));
             echo "<?php " . $this->codeProvider->generateRelation($this->modelClass, $key, $relation) . "; ?><br />\n";
             echo "</div>\n\n";
         }
     }
     ?>
 
+</div> <!-- form -->
+<div class="form-actions">
     <?php
     echo "
     <?php
-echo CHtml::Button(Yii::t('app', 'Cancel'), array(
-			'submit' => array('" . strtolower($this->modelClass) . "/admin')));
-echo CHtml::submitButton(Yii::t('app', 'Save'));
+echo CHtml::Button(Yii::t('".$this->messageCatalog."', 'Cancel'), array(
+			'submit' => array('" . strtolower($this->modelClass) . "/admin'),
+			'class' => 'btn'
+			));
+echo ' '.CHtml::submitButton(Yii::t('".$this->messageCatalog."', 'Save'), array(
+            'class' => 'btn btn-primary'
+));
 \$this->endWidget(); ?>\n";
     ?>
-</div> <!-- form -->
+</div>

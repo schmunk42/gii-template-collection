@@ -68,8 +68,8 @@ class CodeProvider
 							'allowEmpty' => {$allowEmpty},
 							'style' => '{$style}',
 							'htmlOptions' => array(
-								'checkAll' => Yii::t('app', 'Choose all'),
-								),)
+								'checkAll' => 'all'),
+							)
 						)");
             }
         }
@@ -94,6 +94,9 @@ class CodeProvider
                     $relation = $value;
                 }
             }
+
+            if (!isset($relation)) return "'".$column->name."'";
+
             $fmodel = CActiveRecord::model($relation[1]);
             $fmodelName = $relation[1];
 
@@ -121,7 +124,7 @@ class CodeProvider
 					)";
             }
             elseif ($view == 'search') {
-                return "echo \$form->dropDownList(\$model,'{$column->name}',CHtml::listData({$fmodelName}::model()->findAll(), '{$fmodel->getTableSchema()->primaryKey}', '{$fcolumns[1]}'),array('prompt'=>Yii::t('app', 'All')))";
+                return "echo \$form->dropDownList(\$model,'{$column->name}',CHtml::listData({$fmodelName}::model()->findAll(), '{$fmodel->getTableSchema()->primaryKey}', '{$fcolumns[1]}'),array('prompt'=>'all'))";
             }
             else {
                 return "array(
@@ -140,14 +143,14 @@ class CodeProvider
                 if ($view) {
                     return "array(
 					'name'=>'{$column->name}',
-					'value'=>\$model->{$column->name}?Yii::t('app', 'Yes'):Yii::t('app', 'No'),
+					'value'=>\$model->{$column->name}?'yes':'no',
 					)";
                 }
                 else {
                     return "array(
 					'name'=>'{$column->name}',
-					'value'=>'\$data->{$column->name}?Yii::t(\\'app\\',\\'Yes\\'):Yii::t(\\'app\\', \\'No\\')',
-							'filter'=>array('0'=>Yii::t('app','No'),'1'=>Yii::t('app','Yes')),
+					'value'=>'\$data->{$column->name}?'yes':'no',
+							'filter'=>array('0'=>'no','1'=>'yes'),
 							)";
                 }
             }

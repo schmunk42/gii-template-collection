@@ -120,7 +120,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
         $this->render('update',array('model'=>$model,));
     }
 
-    public function actionAjaxUpdate()
+    public function actionEditableSaver()
     {
         Yii::import('EditableSaver'); //or you can add import 'ext.editable.*' to config
         $es = new EditableSaver('<?php echo $this->modelClass; ?>');  // classname of model to be updated

@@ -63,6 +63,16 @@
 <?php echo $form->error($model, 'identificationColumn'); ?>
 </div>
 
+<div class="row wide">
+    <?php echo $form->labelEx($model, 'messageCatalog'); ?>
+    <?php echo $form->textField($model, 'messageCatalog', array(
+                                                                     'size' => 65));
+    ?>
+    <div class="tooltip">
+        Message catalog for CRUD hints and labels.
+    </div>
+    <?php echo $form->error($model, 'identificationColumn'); ?>
+</div>
 
 <div class="row">
     <?php

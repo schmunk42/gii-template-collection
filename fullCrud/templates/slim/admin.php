@@ -23,8 +23,8 @@ return false;
 
 <h1>
     <?php
-    echo "<?php echo Yii::t('app', 'Manage'); ?> ";
-    echo "<?php echo Yii::t('app', '" . $this->pluralize($this->class2name($this->modelClass)) . "'); ?> ";
+    echo "<?php echo Yii::t('".$this->messageCatalog."', '" . $this->pluralize($this->class2name($this->modelClass)) . "'); ?> ";
+    echo "<small><?php echo Yii::t('".$this->messageCatalog."', 'Manage'); ?></small>";
     ?>
 </h1>
 

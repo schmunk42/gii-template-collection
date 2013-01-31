@@ -10,8 +10,12 @@ echo "?>";
 <?php echo '<?php $this->widget("TbBreadcrumbs", array("links"=>$this->breadcrumbs)) ?>'; ?>
 
 <h1>
-    <?php echo "View " . $this->class2name($this->modelClass) . " #<?php echo \$model->" . $this->tableSchema->primaryKey . " ?>"; ?>
+    <?php
+    echo $this->class2name($this->modelClass);
+    echo " <small>View #<?php echo \$model->" . $this->tableSchema->primaryKey . " ?></small>";
+    ?>
 </h1>
+
 
 
 <?php echo '<?php $this->renderPartial("_toolbar", array("model"=>$model)); ?>'; ?>

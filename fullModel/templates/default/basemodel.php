@@ -94,7 +94,7 @@ abstract class <?php echo 'Base' . $modelClass; ?> extends <?php echo $this->bas
 		return array(
 <?php
 		foreach($labels as $name=>$label) {
-			echo "\t\t\t'$name' => Yii::t('app', '$label'),\n";
+			echo "\t\t\t'$name' => Yii::t('".$this->messageCatalog."', '$label'),\n";
 		}
 ?>
 		);

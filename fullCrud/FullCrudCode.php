@@ -14,7 +14,8 @@ class FullCrudCode extends CrudCode
     public $identificationColumn = null;
     public $baseControllerClass = 'Controller';
     public $codeProvider;
-    public $authTemplate;
+    public $authTemplate = "yii_user_management_access_control";
+    public $messageCatalog = "crud";
 
     public function prepare()
     {
@@ -23,22 +24,25 @@ class FullCrudCode extends CrudCode
             $this->identificationColumn = $this->tableSchema->primaryKey;
         }
 
-        if (!array_key_exists(
-            $this->identificationColumn, $this->tableSchema->columns)
-        ) {
+        if (!array_key_exists($this->identificationColumn, $this->tableSchema->columns)) {
             $this->addError('identificationColumn',
                             'The specified column can not be found in the models attributes. <br /> Please specify a valid attribute. If unsure, leave the field empty.');
         }
+
         parent::prepare();
     }
 
     public function rules()
     {
-        return array_merge(parent::rules(),
-                           array(
-                                array('validation, authTemplate', 'required'),
-                                array('identificationColumn', 'safe'),
-                           ));
+        return array_merge(
+            parent::rules(),
+            array(
+                 array('validation, authTemplate', 'required'),
+                 array('identificationColumn', 'safe'),
+                 array('messageCatalog', 'match', 'pattern' => '/^[a-zA-Z_][\w.]*$/',
+                       'message' => '{attribute} should only contain word characters.'),
+            )
+        );
     }
 
     public function validateModel($attribute, $params)

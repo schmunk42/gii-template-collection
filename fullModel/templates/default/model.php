@@ -14,7 +14,7 @@
 ?>
 <?php echo "<?php\n"; ?>
 
-// auto-loading fix
+// auto-loading
 Yii::setPathOfAlias('<?php echo $modelClass; ?>', dirname(__FILE__));
 Yii::import('<?php echo $modelClass; ?>.*');
 
@@ -35,9 +35,9 @@ class <?php echo $modelClass; ?> extends <?php echo 'Base' . $modelClass."\n"; ?
 		return (string) $this-><?php
 			$found = false;
 		foreach($columns as $name => $column) {
-			if(!$found 
+			if(!$found
 					&& $column->type != 'datetime'
-					&& $column->type==='string' 
+					&& $column->type==='string'
 					&& !$column->isPrimaryKey) {
 				echo $column->name;
 				$found = true;
@@ -47,12 +47,12 @@ class <?php echo $modelClass; ?> extends <?php echo 'Base' . $modelClass."\n"; ?
 		// if the columns contains no column of type 'string', return the
 		// first column (usually the primary key)
 		if(!$found)
-			echo reset($columns)->name; 
+			echo reset($columns)->name;
 		?>;
 
 	}
 
-	public function behaviors() 
+	public function behaviors()
 	{
 		<?php
 			$behaviors = 'return array_merge(parent::behaviors(),array(';
@@ -103,20 +103,12 @@ class <?php echo $modelClass; ?> extends <?php echo 'Base' . $modelClass."\n"; ?
 
 
 
-	public function rules() 
+	public function rules()
 	{
 		return array_merge(
 				/*array('column1, column2', 'rule'),*/
 				parent::rules()
 				);
 	}
-	
-	/*
-	// customize this function ...
-	public function get_label()
-	{
-		return '#'.$this->id;		
-	}
-	*/
 
 }

@@ -22,7 +22,7 @@
 
     <?php endforeach; ?>
     <div class="row buttons">
-        <?php echo "<?php echo CHtml::submitButton(Yii::t('app', 'Search')); ?>\n"; ?>
+        <?php echo "<?php echo CHtml::submitButton(Yii::t('".$this->messageCatalog."', 'Search')); ?>\n"; ?>
     </div>
 
     <?php echo "<?php \$this->endWidget(); ?>\n"; ?>
