@@ -104,8 +104,12 @@ if ($relations !== array()): ?>
         if (is_array($pk)) {
             continue;
         }
+        if ($relation[0] == 'CBelongsToRelation') {
+            continue;
+        }
 
-        echo "<div class='row'>\n";
+        echo "<div class='well'>\n";
+        echo "    <div class='row'>\n";
 
         #echo CHtml::openTag('div');
         if (($relation[0] == 'CManyManyRelation' || $relation[0] == 'CHasManyRelation')) {
@@ -151,7 +155,8 @@ if ($relations !== array()): ?>
 ?></div>";
         }
         #echo CHtml::closeTag('div');
-        echo "</div>\n";
+        echo "     </div> <!-- row -->\n";
+        echo "</div> <!-- well -->\n";
     }
 
 endif;
