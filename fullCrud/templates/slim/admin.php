@@ -1,7 +1,7 @@
 <?php
 echo "<?php\n";
 $label = $this->pluralize($this->class2name($this->modelClass));
-echo "\$this->breadcrumbs[] = '".$label."';\n";
+echo "\$this->breadcrumbs[] = '" . $label . "';\n";
 ?>
 
 
@@ -23,8 +23,8 @@ return false;
 
 <h1>
     <?php
-    echo "<?php echo Yii::t('".$this->messageCatalog."', '" . $this->pluralize($this->class2name($this->modelClass)) . "'); ?> ";
-    echo "<small><?php echo Yii::t('".$this->messageCatalog."', 'Manage'); ?></small>";
+    echo "<?php echo Yii::t('" . $this->messageCatalog . "', '" . $this->pluralize($this->class2name($this->modelClass)) . "'); ?> ";
+    echo "<small><?php echo Yii::t('" . $this->messageCatalog . "', 'Manage'); ?></small>";
     ?>
 </h1>
 
@@ -46,12 +46,18 @@ return false;
 <?php
 $count = 0;
 foreach ($this->tableSchema->columns as $column) {
-    if (++$count == 7) {
+    if (in_array($column->name, Yii::app()->getModule('gii')->params['crud.skipGridColumns'])) {
+        continue;
+    }
+
+    if ($count == 7) {
         echo "\t\t/*\n";
     }
 
     if (strtoupper($column->dbType) == 'TEXT') {
         echo "#";
+    } else {
+        $count++;
     }
     echo "\t\t" . $this->codeProvider->generateValueField($this->modelClass, $column) . ",\n";
 }

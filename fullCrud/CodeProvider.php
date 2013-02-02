@@ -136,7 +136,7 @@ class CodeProvider
             //{$relname}.{$fcolumns[1]}
         }
         else {
-            if (strtoupper($column->dbType) == 'BOOLEAN'
+            /*if (strtoupper($column->dbType) == 'BOOLEAN'
                 or strtoupper($column->dbType) == 'TINYINT(1)' or
                 strtoupper($column->dbType) == 'BIT'
             ) {
@@ -154,7 +154,7 @@ class CodeProvider
 							)";
                 }
             }
-            else {
+            else {*/
                 if ($column->name == 'createtime'
                     or $column->name == 'updatetime'
                     or $column->name == 'timestamp'
@@ -166,7 +166,7 @@ class CodeProvider
                 else {
                     return ("'" . $column->name . "'");
                 }
-            }
+            #}
         }
     }
 
