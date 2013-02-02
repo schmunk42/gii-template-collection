@@ -4,6 +4,12 @@
         .
     </p>
 
+
+    <?php echo "<?php
+    \$this->widget( 'vendor.ifdattic.EChosen.EChosen',
+        array('target'=>'select')
+    );
+?>"; ?>
     <?php echo '<?php'; ?>
 
     $form=$this->beginWidget('CActiveForm', array(

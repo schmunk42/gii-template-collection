@@ -43,7 +43,7 @@ class CodeProvider
 
             $suggestedfield = FullCrudCode::suggestName($columns);
             $field = current($columns);
-            $style = $relationInfo[0] == 'CManyManyRelation' ? 'checkbox' : 'dropdownlist';
+            $style = $relationInfo[0] == 'CManyManyRelation' ? 'multiselect' : 'dropdownlist';
 
             if (is_object($field)) {
                 if ($relationInfo[0] == 'CManyManyRelation') {
