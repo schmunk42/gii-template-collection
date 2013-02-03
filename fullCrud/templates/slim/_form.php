@@ -76,7 +76,7 @@
     echo "
     <?php
 echo CHtml::Button(Yii::t('".$this->messageCatalog."', 'Cancel'), array(
-			'submit' => array('" . strtolower($this->modelClass) . "/admin'),
+			'submit' => (isset(\$_GET['returnUrl']))?\$_GET['returnUrl']:array('" . strtolower($this->modelClass) . "/admin'),
 			'class' => 'btn'
 			));
 echo ' '.CHtml::submitButton(Yii::t('".$this->messageCatalog."', 'Save'), array(
