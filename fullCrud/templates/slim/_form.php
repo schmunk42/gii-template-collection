@@ -4,6 +4,12 @@
         .
     </p>
 
+
+    <?php echo "<?php
+    \$this->widget( 'vendor.ifdattic.EChosen.EChosen',
+        array('target'=>'select')
+    );
+?>"; ?>
     <?php echo '<?php'; ?>
 
     $form=$this->beginWidget('CActiveForm', array(
@@ -70,7 +76,7 @@
     echo "
     <?php
 echo CHtml::Button(Yii::t('".$this->messageCatalog."', 'Cancel'), array(
-			'submit' => array('" . strtolower($this->modelClass) . "/admin'),
+			'submit' => (isset(\$_GET['returnUrl']))?\$_GET['returnUrl']:array('" . strtolower($this->modelClass) . "/admin'),
 			'class' => 'btn'
 			));
 echo ' '.CHtml::submitButton(Yii::t('".$this->messageCatalog."', 'Save'), array(
