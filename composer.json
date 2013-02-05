@@ -14,7 +14,7 @@
     ],
     "require": {
         "php": ">=5.3.0",
-        "crisu83/yii-bootstap": "1.*",
+        "crisu83/yii-bootstrap": "1.*",
         "ifdattic/echosen": "@dev"
     }
 }
