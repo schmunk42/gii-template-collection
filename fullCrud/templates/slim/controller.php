@@ -6,11 +6,11 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
     public $defaultAction = "admin";
     public $scenario = "crud";
 
-<?php
+    <?php
     $authPath = 'gtc.FullCrud.templates.slim.auth.';
     $rightsPrefix = str_replace(" ",".",ucwords(str_replace("/"," ",$this->controller)));
 	Yii::app()->controller->renderPartial($authPath . $this->authTemplate, array('rightsPrefix'=>$rightsPrefix));
-?>
+    ?>
 
     public function beforeAction($action){
         parent::beforeAction($action);

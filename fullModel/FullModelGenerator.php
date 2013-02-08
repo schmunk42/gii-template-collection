@@ -12,8 +12,8 @@ class FullModelGenerator extends CCodeGenerator {
      * of models for all tables.
      * @return array the names of all tables in the schema, plus an '*'
      */
-    protected function getTables() {
-        $tables = Yii::app()->db->schema->tableNames;
+    protected function getTables($dbConnection) {
+        $tables = Yii::app()->{$dbConnection}->schema->tableNames;
         $tables[] = '*';
         return $tables;
     }

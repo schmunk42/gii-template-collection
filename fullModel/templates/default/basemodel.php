@@ -78,6 +78,17 @@ abstract class <?php echo 'Base' . $modelClass; ?> extends <?php echo $this->bas
 		);
 	}
 
+    public function behaviors() {
+        return array_merge(
+            parent::rules(),
+            array(
+                'savedRelated' => array(
+                'class' => 'vendor.phundament.gii-template-collection.components.CSaveRelationsBehavior'
+            )
+        )
+        );
+    }
+
 	public function relations()
 	{
 		return array(

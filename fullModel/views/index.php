@@ -86,7 +86,7 @@ $form = $this->beginWidget('CCodeForm', array('model' => $model));
     <?php $form->widget('zii.widgets.jui.CJuiAutoComplete', array(
                                                                  'model' => $model,
                                                                  'attribute' => 'tableName',
-                                                                 'source' => $this->getTables(),
+                                                                 'source' => $this->getTables($model->connectionId),
                                                                  'options' => array(
                                                                      'delay' => 100,
                                                                      'focus' => 'js:function(event,ui){
@@ -160,6 +160,14 @@ $form = $this->beginWidget('CCodeForm', array('model' => $model));
     <div class="tooltip">
         This refers to the directory that the new model class file should be generated under.
         It should be specified in the form of a path alias, for example, <code>application.models</code>.
+    </div>
+    <?php echo $form->error($model, 'modelPath'); ?>
+</div>
+<div class="row sticky">
+    <?php echo $form->labelEx($model, 'connectionId'); ?>
+    <?php echo $form->textField($model, 'connectionId', array('size' => 65)); ?>
+    <div class="tooltip">
+        This refers to the database application component to use.
     </div>
     <?php echo $form->error($model, 'modelPath'); ?>
 </div>

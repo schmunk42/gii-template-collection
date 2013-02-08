@@ -26,7 +26,7 @@ class FullModelCode extends ModelCode
             array(
                  array('identificationColumn', 'safe'),
                  array('messageCatalog', 'match', 'pattern' => '/^[a-zA-Z_][\w.]*$/',
-                       'message' => '{attribute} should only contain word characters.'),
+                       'message'                            => '{attribute} should only contain word characters.'),
             ));
     }
 
@@ -35,19 +35,19 @@ class FullModelCode extends ModelCode
         parent::prepare();
 
         $generate_whole_db = false;
-        $templatePath = $this->templatePath;
+        $templatePath      = $this->templatePath;
 
         if (($pos = strrpos($this->tableName, '.')) !== false) {
-            $schema = substr($this->tableName, 0, $pos);
+            $schema    = substr($this->tableName, 0, $pos);
             $tableName = substr($this->tableName, $pos + 1);
         }
         else {
-            $schema = '';
+            $schema    = '';
             $tableName = $this->tableName;
         }
         if ($tableName[strlen($tableName) - 1] === '*') {
             $generate_whole_db = true;
-            $this->tables = Yii::app()->db->schema->getTables($schema);
+            $this->tables      = Yii::app()->{$this->connectionId}->schema->getTables($schema);
             if ($this->tablePrefix != '') {
                 foreach ($this->tables as $i => $table) {
                     if (strpos($table->name, $this->tablePrefix) !== 0) {
@@ -67,12 +67,12 @@ class FullModelCode extends ModelCode
             $className = $this->generateClassName($table->name);
 
             $params = array(
-                'tableName' => $schema === '' ? $tableName : $schema . '.' . $tableName,
+                'tableName'  => $schema === '' ? $tableName : $schema . '.' . $tableName,
                 'modelClass' => $className,
-                'columns' => $table->columns,
-                'labels' => $this->generateLabels($table),
-                'rules' => $this->generateRules($table),
-                'relations' => isset($this->relations[$className]) ? $this->relations[$className] : array(),
+                'columns'    => $table->columns,
+                'labels'     => $this->generateLabels($table),
+                'rules'      => $this->generateRules($table),
+                'relations'  => isset($this->relations[$className]) ? $this->relations[$className] : array(),
             );
 
             if ($this->template != 'singlefile') {
@@ -147,18 +147,19 @@ class FullModelCode extends ModelCode
 
 
         $behaviors .= "\n);\n";
+
         return $behaviors;
     }
 
     public function generateRules($table)
     {
-        $rules = array();
-        $required = array();
-        $null = array();
-        $integers = array();
+        $rules     = array();
+        $required  = array();
+        $null      = array();
+        $integers  = array();
         $numerical = array();
-        $length = array();
-        $safe = array();
+        $length    = array();
+        $safe      = array();
         foreach ($table->columns as $column) {
             if ($column->isPrimaryKey && $table->sequenceName !== null) {
                 continue;

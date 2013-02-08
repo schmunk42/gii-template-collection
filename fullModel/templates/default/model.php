@@ -106,8 +106,8 @@ class <?php echo $modelClass; ?> extends <?php echo 'Base' . $modelClass."\n"; ?
 	public function rules()
 	{
 		return array_merge(
-				/*array('column1, column2', 'rule'),*/
 				parent::rules()
+                /*,array('column1, column2', 'rule')*/
 				);
 	}
 
