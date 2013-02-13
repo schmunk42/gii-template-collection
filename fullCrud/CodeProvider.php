@@ -8,14 +8,15 @@ class CodeProvider
 
     public function resolveController($relation)
     {
-        $model = new $relation[1];
+        $model      = new $relation[1];
         $reflection = new ReflectionClass($model);
-        $module = preg_match("/\/modules\/([a-zA-Z0-9]+)\//", $reflection->getFileName(), $matches);
+        $module     = preg_match("/\/modules\/([a-zA-Z0-9]+)\//", $reflection->getFileName(), $matches);
 
         #$modulePrefix = (isset($matches[$module])) ? "/" . $matches[$module] . "/" : "";
         $modulePrefix = "";
 
         $controller = $modulePrefix . strtolower(substr($relation[1], 0, 1)) . substr($relation[1], 1);
+
         return $controller;
     }
 
@@ -42,8 +43,8 @@ class CodeProvider
         if ($columns = CActiveRecord::model($relationInfo[1])->tableSchema->columns) {
 
             $suggestedfield = FullCrudCode::suggestName($columns);
-            $field = current($columns);
-            $style = $relationInfo[0] == 'CManyManyRelation' ? 'multiselect' : 'dropdownlist';
+            $field          = current($columns);
+            $style          = $relationInfo[0] == 'CManyManyRelation' ? 'multiselect' : 'dropdownlist';
 
             if (is_object($field)) {
                 if ($relationInfo[0] == 'CManyManyRelation') {
@@ -52,6 +53,7 @@ class CodeProvider
                 elseif ($relationInfo[0] == 'CHasOneRelation') {
                     $allowEmpty = (CActiveRecord::model($relationInfo[1])->tableSchema->columns[$relationInfo[2]]->allowNull ?
                         'true' : 'false');
+
                     return "if (\$model->{$relationName} !== null) echo \$model->{$relationName}->{$suggestedfield};";
                 }
                 else {
@@ -76,7 +78,7 @@ class CodeProvider
     }
 
     /**
-     * @param CActiveRecord $modelClass
+     * @param CActiveRecord   $modelClass
      * @param CDbColumnSchema $column
      */
     public function generateValueField($modelClass, $column, $view = false)
@@ -85,7 +87,7 @@ class CodeProvider
 
             $model = CActiveRecord::model($modelClass);
             $table = $model->getTableSchema();
-            $fk = $table->foreignKeys[$column->name];
+            $fk    = $table->foreignKeys[$column->name];
 
             // We have to look into relations to find the correct model class (i.e. if models are generated with table prefix)
             // TODO: do not repeat yourself (foreach) - this is a hotfix
@@ -95,13 +97,15 @@ class CodeProvider
                 }
             }
 
-            if (!isset($relation)) return "'".$column->name."'";
+            if (!isset($relation)) {
+                return "'" . $column->name . "'";
+            }
 
-            $fmodel = CActiveRecord::model($relation[1]);
+            $fmodel     = CActiveRecord::model($relation[1]);
             $fmodelName = $relation[1];
 
             $modelTable = ucfirst($fmodel->tableName());
-            $fcolumns = $fmodel->attributeNames();
+            $fcolumns   = $fmodel->attributeNames();
 
             /* if (method_exists($fmodel,'get_label')) {
               $fcolumns[1] = "_label";
@@ -155,17 +159,17 @@ class CodeProvider
                 }
             }
             else {*/
-                if ($column->name == 'createtime'
-                    or $column->name == 'updatetime'
-                    or $column->name == 'timestamp'
-                ) {
-                    return "array(
+            if ($column->name == 'createtime'
+                or $column->name == 'updatetime'
+                or $column->name == 'timestamp'
+            ) {
+                return "array(
 				'name'=>'{$column->name}',
 				'value' =>'date(\"Y. m. d G:i:s\", \$data->{$column->name})')";
-                }
-                else {
-                    return ("'" . $column->name . "'");
-                }
+            }
+            else {
+                return ("'" . $column->name . "'");
+            }
             #}
         }
     }
