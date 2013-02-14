@@ -26,23 +26,22 @@ return false;
     echo "<?php echo Yii::t('" . $this->messageCatalog . "', '" . $this->pluralize($this->class2name($this->modelClass)) . "'); ?> ";
     echo "<small><?php echo Yii::t('" . $this->messageCatalog . "', 'Manage'); ?></small>";
     ?>
+
 </h1>
 
 <?php echo '<?php $this->renderPartial("_toolbar", array("model"=>$model)); ?>'; ?>
 
-<?php echo "<?php
-\$locale = CLocale::getInstance(Yii::app()->language);\n
-"; ?> $this->widget('TbGridView', array(
-'id'=>'<?php echo $this->class2id($this->modelClass); ?>-grid',
-'dataProvider'=>$model->search(),
-'filter'=>$model,
-'pager' => array(
-'class' => 'TbPager',
-'displayFirstAndLast' => true,
-),
-'columns'=>array(
-
-
+<?php echo '<?php ' ?>
+$this->widget('TbGridView',
+    array(
+        'id'=>'<?php echo $this->class2id($this->modelClass); ?>-grid',
+        'dataProvider'=>$model->search(),
+        'filter'=>$model,
+        'pager' => array(
+        'class' => 'TbPager',
+        'displayFirstAndLast' => true,
+    ),
+    'columns'=>array(
 <?php
 $count = 0;
 foreach ($this->tableSchema->columns as $column) {
@@ -52,22 +51,22 @@ foreach ($this->tableSchema->columns as $column) {
 
     if (strtoupper($column->dbType) == 'TEXT') {
         echo "#";
-    } else {
+    }
+    else {
         $count++;
     }
     echo "\t\t" . $this->codeProvider->generateValueField($this->modelClass, $column) . ",\n";
 }
 
-if ($count >= 7) {
+if ($count >= 8) {
     echo "\t\t*/\n";
 }
 ?>
-array(
-'class'=>'TbButtonColumn',
-'viewButtonUrl' => "Yii::app()->controller->createUrl('view', array('<?php echo $this->tableSchema->primaryKey; ?>' => \$data-><?php echo $this->tableSchema->primaryKey; ?>))",
-'updateButtonUrl' => "Yii::app()->controller->createUrl('update', array('<?php echo $this->tableSchema->primaryKey; ?>' => \$data-><?php echo $this->tableSchema->primaryKey; ?>))",
-'deleteButtonUrl' => "Yii::app()->controller->createUrl('delete', array('<?php echo $this->tableSchema->primaryKey; ?>' => \$data-><?php echo $this->tableSchema->primaryKey; ?>))",
-
-),
-),
+        array(
+            'class'=>'TbButtonColumn',
+            'viewButtonUrl' => "Yii::app()->controller->createUrl('view', array('<?php echo $this->tableSchema->primaryKey; ?>' => \$data-><?php echo $this->tableSchema->primaryKey; ?>))",
+            'updateButtonUrl' => "Yii::app()->controller->createUrl('update', array('<?php echo $this->tableSchema->primaryKey; ?>' => \$data-><?php echo $this->tableSchema->primaryKey; ?>))",
+            'deleteButtonUrl' => "Yii::app()->controller->createUrl('delete', array('<?php echo $this->tableSchema->primaryKey; ?>' => \$data-><?php echo $this->tableSchema->primaryKey; ?>))",
+        ),
+    ),
 )); ?>
