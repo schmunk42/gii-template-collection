@@ -23,7 +23,7 @@
 
     <?php
     foreach ($this->tableSchema->columns as $column) {
-        if ($column->isPrimaryKey) {
+        if ($column->autoIncrement) {
             continue;
         }
 
