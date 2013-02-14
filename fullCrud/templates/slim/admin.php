@@ -46,10 +46,6 @@ return false;
 <?php
 $count = 0;
 foreach ($this->tableSchema->columns as $column) {
-    if (in_array($column->name, Yii::app()->getModule('gii')->params['crud.skipGridColumns'])) {
-        continue;
-    }
-
     if ($count == 7) {
         echo "\t\t/*\n";
     }
