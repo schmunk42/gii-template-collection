@@ -83,7 +83,7 @@ abstract class <?php echo 'Base' . $modelClass; ?> extends <?php echo $this->bas
             parent::rules(),
             array(
                 'savedRelated' => array(
-                'class' => 'vendor.phundament.gii-template-collection.components.CSaveRelationsBehavior'
+                'class' => 'gii-template-collection.components.CSaveRelationsBehavior'
             )
         )
         );

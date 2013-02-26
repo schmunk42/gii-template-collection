@@ -6,7 +6,7 @@
 
 
     <?php echo "<?php
-    \$this->widget( 'vendor.ifdattic.EChosen.EChosen',
+    \$this->widget('echosen.EChosen',
         array('target'=>'select')
     );
 ?>"; ?>
