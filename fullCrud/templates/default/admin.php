@@ -34,7 +34,7 @@ echo "<ul>";
 foreach ($model->relations() AS $key => $relation) {
     echo "<li>" .
     Yii::t("app", substr(str_replace("Relation", "", $relation[0]), 1)) . " " .
-    CHtml::link(Yii::t("app", $relation[1]), array($this->codeProvider->resolveController($relation) . '/admin')) .
+    "<?php echo CHtml::link('" . Yii::t("app", $relation[1]) . "', array('" . $this->codeProvider->resolveController($relation) . "/admin')); ?>" .
     " </li>";
 }
 echo "</ul>";
