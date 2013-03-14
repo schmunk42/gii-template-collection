@@ -78,16 +78,16 @@ abstract class <?php echo 'Base' . $modelClass; ?> extends <?php echo $this->bas
 		);
 	}
 
-    public function behaviors() {
-        return array_merge(
-            parent::rules(),
-            array(
-                'savedRelated' => array(
-                'class' => 'gii-template-collection.components.CSaveRelationsBehavior'
-            )
-        )
-        );
-    }
+	public function behaviors()
+	{
+		return array_merge(
+		    parent::behaviors(), array(
+			'savedRelated' => array(
+				'class' => 'gii-template-collection.components.CSaveRelationsBehavior'
+			)
+		    )
+		);
+	}
 
 	public function relations()
 	{
