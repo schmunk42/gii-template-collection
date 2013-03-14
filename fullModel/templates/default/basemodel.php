@@ -68,26 +68,28 @@ abstract class <?php echo 'Base' . $modelClass; ?> extends <?php echo $this->bas
 
 	public function rules()
 	{
-		return array(
+		return array_merge(
+		    parent::rules(), array(
 <?php
 		foreach($rules as $rule) {
 			echo "\t\t\t$rule,\n";
 		}
 ?>
 			array('<?php echo implode(', ', array_keys($columns)); ?>', 'safe', 'on'=>'search'),
+		    )
 		);
 	}
 
-    public function behaviors() {
-        return array_merge(
-            parent::rules(),
-            array(
-                'savedRelated' => array(
-                'class' => 'gii-template-collection.components.CSaveRelationsBehavior'
-            )
-        )
-        );
-    }
+	public function behaviors()
+	{
+		return array_merge(
+		    parent::behaviors(), array(
+			'savedRelated' => array(
+				'class' => 'gii-template-collection.components.CSaveRelationsBehavior'
+			)
+		    )
+		);
+	}
 
 	public function relations()
 	{
