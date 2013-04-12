@@ -1,7 +1,6 @@
 <div class="form">
     <p class="note">
-        <?php echo "<?php echo Yii::t('".$this->messageCatalog."','Fields with');?> <span class=\"required\">*</span> <?php echo Yii::t('".$this->messageCatalog."','are required');?>"; ?>
-        .
+        <?php echo "<?php echo Yii::t('" . $this->messageCatalog . "','Fields with <span class=\"required\">*</span> are required.');?>"; ?>
     </p>
 
 
