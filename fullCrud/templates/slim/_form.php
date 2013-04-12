@@ -49,7 +49,7 @@
 
             // renders a hint div, but leaves it empty, when the hint is not translated yet
             $placholder = "help." . $column->name . "";
-            echo "<?php if('" . $placholder . "' != \$help = Yii::t('".$this->messageCatalog."', '" . $placholder . "')) { \n";
+            echo "<?php if('" . $placholder . "' != \$help = Yii::t('" . $this->messageCatalog . "', '" . $placholder . "')) { \n";
             echo '    echo "<span class=\'help-block\'>$help</span>";';
             echo "\n} ?>";
 
@@ -63,25 +63,27 @@
             || $relation[0] == 'CManyManyRelation'
         ) {
             echo "<div class=\"row\">\n";
-            printf("<label for=\"%s\"><?php echo Yii::t('".$this->messageCatalog."', '%s'); ?></label>\n", $key, ucfirst($key));
+            printf("<label for=\"%s\"><?php echo Yii::t('" . $this->messageCatalog . "', '%s'); ?></label>\n", $key, ucfirst($key));
             echo "<?php " . $this->codeProvider->generateRelation($this->modelClass, $key, $relation) . "; ?><br />\n";
             echo "</div>\n\n";
         }
     }
     ?>
 
-</div> <!-- form -->
-<div class="form-actions">
+    <div class="form-actions">
+        <?php
+        echo "
     <?php
-    echo "
-    <?php
-echo CHtml::Button(Yii::t('".$this->messageCatalog."', 'Cancel'), array(
+echo CHtml::Button(Yii::t('" . $this->messageCatalog . "', 'Cancel'), array(
 			'submit' => (isset(\$_GET['returnUrl']))?\$_GET['returnUrl']:array('" . strtolower($this->modelClass) . "/admin'),
 			'class' => 'btn'
 			));
-echo ' '.CHtml::submitButton(Yii::t('".$this->messageCatalog."', 'Save'), array(
+echo ' '.CHtml::submitButton(Yii::t('" . $this->messageCatalog . "', 'Save'), array(
             'class' => 'btn btn-primary'
-));
-\$this->endWidget(); ?>\n";
-    ?>
-</div>
+)); ?>\n";
+        ?>
+    </div>
+
+    <?php echo "<?php \$this->endWidget() ?>"; ?>
+
+</div> <!-- form -->
