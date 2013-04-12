@@ -27,6 +27,8 @@
 
     <?php
     foreach ($this->tableSchema->columns as $column) {
+
+        // omit pk
         if ($column->autoIncrement) {
             continue;
         }
@@ -38,6 +40,13 @@
             }
         }
 
+        // render a view file if present in destination folder
+        if ($columnView = $this->resolveColumnViewFile($column)) {
+            echo "<?php      \$this->renderPartial('{$columnView}', array('model'=>\$model)) ?>";
+            continue;
+        }
+
+        // render input
         if (!$column->isForeignKey
             && $column->name != 'create_time'
             && $column->name != 'update_time'
@@ -46,7 +55,7 @@
             && $column->name != 'timestamp'
         ) {
             echo "\n";
-            echo "    <div class=\"row-fluid input-block-level-form\">\n";
+            echo "    <div class=\"row-fluid input-block-level-container\">\n";
             echo "        <div class=\"span12\">\n";
             echo "            <?php " . $this->generateActiveLabel($this->modelClass, $column) . "; ?>\n";
             echo "            <?php " . $this->generateActiveField($this->modelClass, $column) . "; ?>\n";
@@ -55,19 +64,25 @@
             // renders a hint div, but leaves it empty, when the hint is not translated yet
             $placholder = "help." . $column->name . "";
             echo "            <?php if('" . $placholder . "' != \$help = Yii::t('" . $this->messageCatalog . "', '" . $placholder . "')) { \n";
-            echo '                echo "<span class=\'help-block\'>$help</span>";';
+            echo '                echo "<span class=\'help-block\'>{$help}</span>";';
             echo "            \n} ?>\n";
             echo "        </div>\n";
             echo "    </div>\n\n";
         }
     }
 
+    // render relation inputs
     foreach ($this->getRelations() as $key => $relation) {
         if ($relation[0] == 'CBelongsToRelation'
             || $relation[0] == 'CHasOneRelation'
             || $relation[0] == 'CManyManyRelation'
         ) {
-            echo "    <div class=\"row-fluid input-block-level-form\">\n";
+            if ($relationView = $this->resolveRelationViewFile($relation)) {
+                echo "      <?php \$this->renderPartial('{$relationView}', array('model'=>\$model)) ?>";
+                continue;
+            }
+
+            echo "    <div class=\"row-fluid input-block-level-container\">\n";
             echo "        <div class=\"span12\">\n";
             printf("        <label for=\"%s\"><?php echo Yii::t('" . $this->messageCatalog . "', '%s'); ?></label>\n", $key, ucfirst($key));
             echo "                <?php\n";
