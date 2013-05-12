@@ -31,7 +31,7 @@ class <?php echo $modelClass; ?> extends <?php echo 'Base' . $modelClass."\n"; ?
 		return parent::init();
 	}
 
-	public function __toString() {
+	public function get_label() {
 		return (string) $this-><?php
 			$found = false;
 		foreach($columns as $name => $column) {
@@ -55,7 +55,9 @@ class <?php echo $modelClass; ?> extends <?php echo 'Base' . $modelClass."\n"; ?
 	public function behaviors()
 	{
 		<?php
-			$behaviors = 'return array_merge(parent::behaviors(),array(';
+			$behaviors = 'return array_merge(
+			parent::behaviors(),
+			array(';
 					foreach($columns as $name => $column) {
 					if(in_array($column->name, array(
 								'create_time',
@@ -95,18 +97,17 @@ class <?php echo $modelClass; ?> extends <?php echo 'Base' . $modelClass."\n"; ?
 					}
 
 
-					$behaviors .= "\n));\n";
+					$behaviors .= "\n            ));\n";
 					echo $behaviors;
 					?>
 	}
 
 
-
-
 	public function rules()
 	{
 		return array_merge(
-		    parent::rules()/*, array(
+		    parent::rules()
+            /*, array(
 			array('column1, column2', 'rule1'),
 			array('column3', 'rule2'),
 		    )*/
