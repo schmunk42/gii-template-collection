@@ -1,7 +1,7 @@
 <?php
 echo "<?php\n";
 $label = $this->pluralize($this->class2name($this->modelClass));
-echo "\$this->breadcrumbs['$label'] = array('admin');\n";
+echo "\$this->breadcrumbs[Yii::t('".$this->messageCatalog."','$label')] = array('admin');\n";
 echo "\$this->breadcrumbs[\$model->{\$model->tableSchema->primaryKey}] = array('view','id'=>\$model->{\$model->tableSchema->primaryKey});\n";
 echo "\$this->breadcrumbs[] = Yii::t('".$this->messageCatalog."', 'Update');\n";
 echo "?>";
@@ -11,8 +11,8 @@ echo "?>";
 
 <h1>
     <?php
-    echo $this->class2name($this->modelClass);
-    echo " <small>Update #<?php echo \$model->" . $this->tableSchema->primaryKey . " ?></small>";
+    echo "<?php echo Yii::t('".$this->messageCatalog."','".$this->class2name($this->modelClass)."')?>";
+    echo " <small><?php echo Yii::t('".$this->messageCatalog."','Update')?> #<?php echo \$model->" . $this->tableSchema->primaryKey . " ?></small>";
     ?>
 </h1>
 

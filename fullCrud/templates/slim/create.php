@@ -1,7 +1,7 @@
 <?php
 echo "<?php\n";
 $label = $this->pluralize($this->class2name($this->modelClass));
-echo "\$this->breadcrumbs['$label'] = array('admin');\n";
+echo "\$this->breadcrumbs[Yii::t('".$this->messageCatalog."','$label')] = array('admin');\n";
 echo "\$this->breadcrumbs[] = Yii::t('".$this->messageCatalog."', 'Create');\n";
 echo "?>";
 ?>
@@ -10,8 +10,8 @@ echo "?>";
 
 <h1>
     <?php
-    echo "<?php echo Yii::t('".$this->messageCatalog."', '" . $this->class2name($this->modelClass) . "'); ?> ";
-    echo "<small><?php echo Yii::t('".$this->messageCatalog."', 'Create'); ?></small>";
+    echo "<?php echo Yii::t('".$this->messageCatalog."','".$this->class2name($this->modelClass)."')?>";
+    echo " <small><?php echo Yii::t('".$this->messageCatalog."','Create')?>";
     ?>
 </h1>
 
