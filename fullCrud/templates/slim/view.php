@@ -2,7 +2,7 @@
 $label = $this->pluralize($this->class2name($this->modelClass));
 
 echo "<?php\n";
-echo "\$this->breadcrumbs['$label'] = array('admin');\n";
+echo "\$this->breadcrumbs[Yii::t('".$this->messageCatalog."','$label')] = array('admin');\n";
 echo "\$this->breadcrumbs[] = \$model->{$this->identificationColumn};\n";
 echo "?>";
 ?>
@@ -11,8 +11,8 @@ echo "?>";
 
 <h1>
     <?php
-    echo $this->class2name($this->modelClass);
-    echo " <small>View #<?php echo \$model->" . $this->tableSchema->primaryKey . " ?></small>";
+    echo "<?php echo Yii::t('".$this->messageCatalog."','".$this->class2name($this->modelClass)."')?>";
+    echo " <small><?php echo Yii::t('".$this->messageCatalog."','View')?> #<?php echo \$model->" . $this->tableSchema->primaryKey . " ?></small>";
     ?>
 </h1>
 
@@ -22,7 +22,7 @@ echo "?>";
 
 
 <h2>
-    Data
+    <?php echo "<?php echo Yii::t('".$this->messageCatalog."','Data')?>";?>
 </h2>
 
 <p>
@@ -90,7 +90,7 @@ $relations = CActiveRecord::model(Yii::import($this->model))->relations();
 if ($relations !== array()): ?>
 
 <h2>
-    Relations
+    <?php echo "<?php echo Yii::t('".$this->messageCatalog."','Relations')?>";?>
 </h2>
 
 <?php
