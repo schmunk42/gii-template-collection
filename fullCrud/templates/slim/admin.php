@@ -1,7 +1,7 @@
 <?php
 echo "<?php\n";
 $label = $this->pluralize($this->class2name($this->modelClass));
-echo "\$this->breadcrumbs[] = '" . $label . "';\n";
+echo "\$this->breadcrumbs[] = Yii::t('" . $this->messageCatalog . "','" . $label . "');\n";
 ?>
 
 
