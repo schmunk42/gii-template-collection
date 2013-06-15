@@ -33,10 +33,6 @@ echo "?>";
 $relations = CActiveRecord::model(Yii::import($this->model))->relations();
 if ($relations !== array()): ?>
 
-<h2>
-    <?php echo "<?php echo Yii::t('".$this->messageCatalog."','Relations')?>";?>
-</h2>
-
 <?php
     foreach ($relations as $key => $relation) {
         $controller = $this->codeProvider->resolveController($relation);
