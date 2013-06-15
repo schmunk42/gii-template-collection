@@ -18,6 +18,17 @@ echo "?>";
 
 <?php echo '<?php $this->renderPartial("_toolbar", array("model"=>$model)); ?>'; ?>
 
+<h2>
+    <?php echo "<?php echo Yii::t('".$this->messageCatalog."','Editable Detail View')?>";?>
+</h2>
+
+<?php echo "<?php
+\$this->widget('EditableDetailView', array(
+	'data' => \$model,
+	'url' => \$this->createUrl('editableSaver'),
+));
+?>\n"; ?>
+
 <?php
 $relations = CActiveRecord::model(Yii::import($this->model))->relations();
 if ($relations !== array()): ?>
