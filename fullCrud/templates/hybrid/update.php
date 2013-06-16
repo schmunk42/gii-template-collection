@@ -36,7 +36,9 @@ if ($relations !== array()): ?>
 <?php
     foreach ($relations as $key => $relation) {
         $controller = $this->codeProvider->resolveController($relation);
-        $relatedModel = CActiveRecord::model($relation[1]);
+        $relatedModelClass = $relation[1];
+        $relatedModel = CActiveRecord::model($relatedModelClass);
+        $fk = $relation[2];
         $pk = $relatedModel->tableSchema->primaryKey;
         $suggestedfield = $this->suggestName($relatedModel->tableSchema->columns);
 
@@ -48,11 +50,77 @@ if ($relations !== array()): ?>
             continue;
         }
 
+?>
+
+<h2>
+    <?php
+    echo "<?php echo Yii::t('" . $this->messageCatalog . "', '" . $this->pluralize($this->class2name($relatedModelClass)) . "'); ?> ";
+    ?>
+</h2>
+
+<div class="btn-group">
+    <?php
+    echo "<?php \$this->widget('bootstrap.widgets.TbButtonGroup', array(
+	'type' => '', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
+	'buttons'=>array(
+		array('label'=>Yii::t('" . $this->messageCatalog . "','Create'), 'icon'=>'icon-plus', 'url' => array('{$controller}/create','{$pk}'=>\$model->{$pk}), array('class'=>''))
+	),
+));
+?>";
+
+?>
+</div>
+
+<?php echo "<?php\n"; ?>
+$relatedSearchModel = $model->getRelatedSearchModel('<?php echo $key; ?>');
+$this->widget('TbGridView',
+    array(
+        'id'=>'<?php echo $key; ?>-grid',
+        'dataProvider'=>$relatedSearchModel->search(),
+        'filter'=>$relatedSearchModel,
+        'pager' => array(
+            'class' => 'TbPager',
+            'displayFirstAndLast' => true,
+        ),
+    'columns'=>array(
+	<?php
+	$count = 0;
+	foreach ($relatedModel->tableSchema->columns as $column) {
+
+            // Skip the foreign key
+            if ($column->name === $fk) {
+                continue;
+            }
+
+	    if ($count == 7) {
+		echo "\t\t/*\n";
+	    }
+
+	    $count++;
+
+	    echo "\t\t" . $this->codeProvider->generateEditableField($relatedModelClass, $column, $controller) . ",\n";
+	}
+
+	if ($count >= 8) {
+	    echo "\t\t*/\n";
+	}
+	?>
+        array(
+            'class'=>'TbButtonColumn',
+            'viewButtonUrl' => "Yii::app()->controller->createUrl('<?php echo $controller; ?>/view', array('<?php echo $pk; ?>' => \$data-><?php echo $pk; ?>))",
+            'updateButtonUrl' => "Yii::app()->controller->createUrl('<?php echo $controller; ?>/update', array('<?php echo $pk; ?>' => \$data-><?php echo $pk; ?>))",
+            'deleteButtonUrl' => "Yii::app()->controller->createUrl('<?php echo $controller; ?>/delete', array('<?php echo $pk; ?>' => \$data-><?php echo $pk; ?>))",
+        ),
+    ),
+)); ?>
+
+<?php
+
         echo "<div class='well'>\n";
         echo "    <div class='row'>\n";
 
         #echo CHtml::openTag('div');
-        if (($relation[0] == 'CManyManyRelation' || $relation[0] == 'CHasManyRelation')) {
+        if (($relation[0] == 'CManyManyRelation')) {
             echo "<div class='span3'><?php " . $this->codeProvider->generateRelationHeader($relatedModel, $key, $relation) . " ?></div>";
             echo "<div class='span8'>
 <?php
