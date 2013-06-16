@@ -50,7 +50,7 @@ if ($relations !== array()): ?>
             continue;
         }
 
-?>
+	if ($relation[0] == 'CHasManyRelation'): ?>
 
 <h2>
     <?php
@@ -59,7 +59,7 @@ if ($relations !== array()): ?>
 </h2>
 
 <div class="btn-group">
-    <?php
+<?php
     echo "<?php \$this->widget('bootstrap.widgets.TbButtonGroup', array(
 	'type' => '', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
 	'buttons'=>array(
@@ -75,7 +75,7 @@ if ($relations !== array()): ?>
 $relatedSearchModel = $model->getRelatedSearchModel('<?php echo $key; ?>');
 $this->widget('TbGridView',
     array(
-        'id'=>'<?php echo $key; ?>-grid',
+        'id'=>'<?php echo $controller; ?>-grid',
         'dataProvider'=>$relatedSearchModel->search(),
         'filter'=>$relatedSearchModel,
         'pager' => array(
@@ -83,9 +83,15 @@ $this->widget('TbGridView',
             'displayFirstAndLast' => true,
         ),
     'columns'=>array(
-	<?php
+        '<?php echo $pk; ?>',
+        <?php
 	$count = 0;
 	foreach ($relatedModel->tableSchema->columns as $column) {
+
+            // Primary key is not editable
+            if ($column->name === $pk) {
+                continue;
+            }
 
             // Skip the foreign key
             if ($column->name === $fk) {
@@ -112,15 +118,17 @@ $this->widget('TbGridView',
             'deleteButtonUrl' => "Yii::app()->controller->createUrl('<?php echo $controller; ?>/delete', array('<?php echo $pk; ?>' => \$data-><?php echo $pk; ?>))",
         ),
     ),
-)); ?>
+));
+?>
 
 <?php
-
-        echo "<div class='well'>\n";
-        echo "    <div class='row'>\n";
-
-        #echo CHtml::openTag('div');
+	endif;
+	
         if (($relation[0] == 'CManyManyRelation')) {
+
+            echo "<div class='well'>\n";
+            echo "    <div class='row'>\n";
+
             echo "<div class='span3'><?php " . $this->codeProvider->generateRelationHeader($relatedModel, $key, $relation) . " ?></div>";
             echo "<div class='span8'>
 <?php
@@ -136,10 +144,18 @@ $this->widget('TbGridView',
     }
 ?></div>";
             echo "\n";
+
+            #echo CHtml::closeTag('div');
+            echo "     </div> <!-- row -->\n";
+            echo "</div> <!-- well -->\n";
+
         }
 
-
         if ($relation[0] == 'CHasOneRelation') {
+
+            echo "<div class='well'>\n";
+            echo "    <div class='row'>\n";
+
             $relatedModel = CActiveRecord::model($relation[1]);
             if (!$pk = $relatedModel->tableSchema->primaryKey) {
                 $pk = 'id';
@@ -161,14 +177,15 @@ $this->widget('TbGridView',
         echo CHtml::closeTag('ul');
     }
 ?></div>";
+
+            #echo CHtml::closeTag('div');
+            echo "     </div> <!-- row -->\n";
+            echo "</div> <!-- well -->\n";
+
         }
-        #echo CHtml::closeTag('div');
-        echo "     </div> <!-- row -->\n";
-        echo "</div> <!-- well -->\n";
     }
 
-endif;
-?>
+endif; ?>
 
 <h2>
     <?php echo "<?php echo Yii::t('".$this->messageCatalog."','Update Form')?>";?>
