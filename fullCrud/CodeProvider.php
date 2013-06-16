@@ -174,6 +174,29 @@ class CodeProvider
         }
     }
 
+    /**
+     * @param CActiveRecord   $modelClass
+     * @param CDbColumnSchema $column
+     */
+    public function generateEditableField($modelClass, $column, $controller, $view = false)
+    {
+        if ($column->isForeignKey) {
+
+            return $this->generateValueField($modelClass, $column, $view);
+
+        }
+        else {
+                return "array(
+			'class' => 'editable.EditableColumn',
+			'name' => '{$column->name}',
+			'editable' => array(
+				'url' => \$this->createUrl('{$controller}/editableSaver'),
+				'placement' => 'right',
+			)
+		)";
+        }
+    }
+
 }
 
 ?>
