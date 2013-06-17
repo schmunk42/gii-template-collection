@@ -77,7 +77,7 @@ $this->widget('TbGridView',
     array(
         'id'=>'<?php echo $controller; ?>-grid',
         'dataProvider'=>$relatedSearchModel->search(),
-        'filter'=>$relatedSearchModel,
+        'filter' => count($model-><?php echo $key; ?>) > 1 ? $relatedSearchModel : null,
         'pager' => array(
             'class' => 'TbPager',
             'displayFirstAndLast' => true,
