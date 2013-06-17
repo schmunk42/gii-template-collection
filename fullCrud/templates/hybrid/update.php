@@ -63,7 +63,7 @@ if ($relations !== array()): ?>
     echo "<?php \$this->widget('bootstrap.widgets.TbButtonGroup', array(
 	'type' => '', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
 	'buttons'=>array(
-		array('label'=>Yii::t('" . $this->messageCatalog . "','Create'), 'icon'=>'icon-plus', 'url' => array('{$controller}/create','{$fk}'=>\$model->{$pk}), array('class'=>''))
+		array('label'=>Yii::t('" . $this->messageCatalog . "','Create'), 'icon'=>'icon-plus', 'url' => array('{$controller}/create','{$relatedModelClass}' => array('{$fk}'=>\$model->{$pk}), array('class'=>''))
 	),
 ));
 ?>";
