@@ -1,6 +1,6 @@
 {
     "name": "phundament/gii-template-collection",
-    "description": "Gii Template Collection",
+    "description": "Gii Template Collection, Model and CRUD templates with Boostrap UI",
     "keywords": ["package", "dependency", "autoload"],
     "homepage": "http://phundament.com/",
     "type": "library",
@@ -14,8 +14,7 @@
     ],
     "require": {
         "php": ">=5.3.0",
-        "crisu83/yii-bootstrap": "1.*",
-        "vitalets/yii-bootstrap-editable": "@dev",
+        "clevertech/yiibooster": "1.*",
         "ifdattic/echosen": "@dev"
     }
 }
