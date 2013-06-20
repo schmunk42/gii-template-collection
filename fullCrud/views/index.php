@@ -49,5 +49,17 @@ if (isset($_POST['preview']) && !$model->hasErrors())
         'model' => $model,
         'form' => $form));
 
+if (isset($_POST['preview']) && !$model->hasErrors()) {
+
+    switch ($this->_widgetStack[0]->model->template) {
+        case "hybrid":
+
+            $this->renderPartial('hybrid_template_deps');
+
+        break;
+    }
+
+}
+
 $this->endWidget();
 ?>
