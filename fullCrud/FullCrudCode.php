@@ -78,7 +78,7 @@ class FullCrudCode extends CrudCode
             if ($column->isPrimaryKey) {
                 $fallbackName = $column->name;
             }
-            // It may be the first non-numeric column.
+            // Use the first non-numeric column as a fallback
             if (!$column->isForeignKey
                 && !$column->isPrimaryKey
                 && $column->type != 'BIGINT'
@@ -90,10 +90,11 @@ class FullCrudCode extends CrudCode
                 $fallbackName = $column->name;
                 $nonNumericFound = true;
             }
-            // It may be the first title or name column
+            // Return the first title, name, label column, if found
             if (in_array($column->name, array(
                 "title",
                 "name",
+                "label",
             ))) {
                 return $column->name;
                 break;
