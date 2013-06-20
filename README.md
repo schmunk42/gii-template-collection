@@ -50,6 +50,11 @@ Full CRUD
 
 Requires yii-bootstrap and echosen.
 
+### Template hybrid
+
+An enhanced hybrid between the default and slim templates.
+
+Requires yii-bootstrap, x-editable-yii and echosen.
 
 #### Experimental
 
