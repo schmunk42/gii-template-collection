@@ -73,12 +73,12 @@ class FullCrudCode extends CrudCode
     // a model ? 
     public static function suggestName($columns)
     {
+        $nonNumericFound = false;
         foreach ($columns as $column) {
             if ($column->isPrimaryKey) {
                 $fallbackName = $column->name;
             }
             // It may be the first non-numeric column.
-            $nonNumericFound = false;
             if (!$column->isForeignKey
                 && !$column->isPrimaryKey
                 && $column->type != 'BIGINT'
