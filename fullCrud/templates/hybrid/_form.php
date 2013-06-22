@@ -47,14 +47,22 @@
             continue;
         }
 
+        // assume timestamp attribute is automated
+        $automatedAttributes = array(
+            'timestamp',
+        );
+
+        // check for CTimestampBehavior to determine automated attributes
+        $model = new $this->modelClass();
+        $behaviors = $model->behaviors();
+        if (isset($behaviors['CTimestampBehavior'])) {
+            $behaviorObject = $model->asa('CTimestampBehavior');
+            $automatedAttributes[] = $behaviorObject->createAttribute;
+            $automatedAttributes[] = $behaviorObject->updateAttribute;
+        }
+
         // render input
-        if (!$column->isForeignKey
-            && $column->name != 'create_time'
-            && $column->name != 'update_time'
-            && $column->name != 'createtime'
-            && $column->name != 'updatetime'
-            && $column->name != 'timestamp'
-        ) {
+        if (!in_array($column->name, $automatedAttributes)) {
             echo "\n";
             echo "    <?php echo " . $this->generateActiveRow($this->modelClass, $column) . "; ?>\n";
         }
