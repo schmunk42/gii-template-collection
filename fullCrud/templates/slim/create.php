@@ -11,7 +11,7 @@ echo "?>";
 <h1>
     <?php
     echo "<?php echo Yii::t('".$this->messageCatalog."','".$this->class2name($this->modelClass)."')?>";
-    echo " <small><?php echo Yii::t('".$this->messageCatalog."','Create')?>";
+    echo " <small><?php echo Yii::t('".$this->messageCatalog."','Create')?></small>";
     ?>
 </h1>
 
