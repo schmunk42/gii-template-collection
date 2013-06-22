@@ -12,7 +12,7 @@
 
     <?php echo '<?php'; ?>
 
-    $form=$this->beginWidget('CActiveForm', array(
+    $form=$this->beginWidget('bootstrap.widgets.TbActiveForm', array(
     'id'=>'<?php echo $this->class2id($this->modelClass); ?>-form',
     'enableAjaxValidation'=><?php echo $this->validation == 1 || $this->validation == 3 ? 'true' : 'false'; ?>,
     'enableClientValidation'=><?php echo $this->validation == 2 || $this->validation == 3 ? 'true' : 'false'; ?>,
@@ -55,19 +55,7 @@
             && $column->name != 'timestamp'
         ) {
             echo "\n";
-            echo "    <div class=\"row-fluid input-block-level-container\">\n";
-            echo "        <div class=\"span12\">\n";
-            echo "            <?php " . $this->generateActiveLabel($this->modelClass, $column) . "; ?>\n";
-            echo "            <?php " . $this->generateActiveField($this->modelClass, $column) . "; ?>\n";
-            echo "            <?php echo \$form->error(\$model,'{$column->name}'); ?>\n";
-
-            // renders a hint div, but leaves it empty, when the hint is not translated yet
-            $placholder = "help." . $column->name . "";
-            echo "            <?php if('" . $placholder . "' != \$help = Yii::t('" . $this->messageCatalog . "', '" . $placholder . "')) { \n";
-            echo '                echo "<span class=\'help-block\'>{$help}</span>";';
-            echo "            \n} ?>\n";
-            echo "        </div>\n";
-            echo "    </div>\n\n";
+            echo "    <?php echo " . $this->generateActiveRow($this->modelClass, $column) . "; ?>\n";
         }
     }
 
