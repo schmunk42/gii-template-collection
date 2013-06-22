@@ -17,6 +17,7 @@ class FullCrudCode extends CrudCode
     public $authTemplate = "yii_user_management_access_control";
     public $messageCatalog = "crud";
     public $template = "slim";
+    public $formOrientation = "horizontal";
 
     public function prepare()
     {

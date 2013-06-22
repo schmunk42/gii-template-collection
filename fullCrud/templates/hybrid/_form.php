@@ -16,6 +16,7 @@
     'id'=>'<?php echo $this->class2id($this->modelClass); ?>-form',
     'enableAjaxValidation'=><?php echo $this->validation == 1 || $this->validation == 3 ? 'true' : 'false'; ?>,
     'enableClientValidation'=><?php echo $this->validation == 2 || $this->validation == 3 ? 'true' : 'false'; ?>,
+    'type' => '<?php echo $this->formOrientation; ?>',
     ));
 
     echo $form->errorSummary($model);
