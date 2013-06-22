@@ -52,7 +52,7 @@ Requires yii-bootstrap and echosen.
 
 ### Template hybrid
 
-An enhanced hybrid between the default and slim templates.
+An enhanced hybrid between the default/slim templates and the bootstrap crud generator.
 
 Requires yii-bootstrap, x-editable-yii and echosen.
 
