@@ -208,6 +208,13 @@ class FullCrudCode extends CrudCode
          * and CrudFieldProviders from gtc together.
          */
 
+        // detect relation column
+        foreach ($this->getRelations() as $key => $relation) {
+            if ($relation[2] == $column->name) {
+                return $this->generateRelationRow($modelClass, $column, $key, $relation);
+            }
+        }
+
         if ($column->type === 'boolean')
             return "\$form->checkBoxRow(\$model,'{$column->name}')";
         else if (stripos($column->dbType,'text') !== false)
@@ -225,6 +232,41 @@ class FullCrudCode extends CrudCode
                 return "\$form->{$inputField}(\$model,'{$column->name}',array('class'=>'span5','maxlength'=>$column->size))";
         }
     }
+
+    public function generateRelationRow($modelClass, $column, $relationName, $relationInfo) {
+
+        if ($columns = CActiveRecord::model($relationInfo[1])->tableSchema->columns) {
+
+            $suggestedfield = FullCrudCode::suggestName($columns);
+            $field          = current($columns);
+            $style          = $relationInfo[0] == 'CManyManyRelation' ? 'multiselect' : 'dropdownlist';
+
+            if (is_object($field)) {
+                if ($relationInfo[0] == 'CManyManyRelation') {
+                    return $this->codeProvider->generateRelation($model=$modelClass, $relationName, $relationInfo);
+                }
+                elseif ($relationInfo[0] == 'CHasOneRelation') {
+                    return $this->codeProvider->generateRelation($model=$modelClass, $relationName, $relationInfo);
+                }
+
+                $allowEmpty = (CActiveRecord::model($modelClass)->tableSchema->columns[$relationInfo[2]]->allowNull ?
+                    'true' : 'false');
+
+                $inputField = 'relationRow';
+                return "\$form->{$inputField}(\$model,'{$column->name}',array(
+							'model' => \$model,
+							'relation' => '{$relationName}',
+							'fields' => '{$suggestedfield}',
+							'allowEmpty' => {$allowEmpty},
+							'style' => '{$style}',
+							'htmlOptions' => array(
+								'checkAll' => 'all',
+							),
+						),array('class'=>'span5'))";
+            }
+        }
+    }
+
 }
 
 ?>

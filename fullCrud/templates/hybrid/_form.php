@@ -36,8 +36,8 @@
 
         // omit relations, they are rendered below
         foreach ($this->getRelations() as $key => $relation) {
-            if ($relation[2] == $column->name) {
-                continue 2;
+            if ($relation[2] == $column->name && $relation[0] !== 'CBelongsToRelation') {
+                 continue 2;
             }
         }
 
@@ -70,8 +70,7 @@
 
     // render relation inputs
     foreach ($this->getRelations() as $key => $relation) {
-        if ($relation[0] == 'CBelongsToRelation'
-            || $relation[0] == 'CHasOneRelation'
+        if ($relation[0] == 'CHasOneRelation'
             || $relation[0] == 'CManyManyRelation'
         ) {
             if ($relationView = $this->resolveRelationViewFile($relation)) {
