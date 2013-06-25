@@ -11,7 +11,7 @@ public function accessRules() {
 				'users'=>array('*'),
 				),
 			array('allow',
-				'actions'=>array('create','update','editableSaver'),
+				'actions'=>array('create','update','editableSaver','editableCreator'),
 				'users'=>array('@'),
 				),
 			array('allow',
