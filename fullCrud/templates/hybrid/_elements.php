@@ -9,10 +9,15 @@
             continue;
         }
 
-        // omit relations, they are rendered below
+        // omit hasmany and manymany relations, they are rendered further below
+        $columnRelation = array();
         foreach ($this->getRelations() as $key => $relation) {
-            if ($relation[2] == $column->name && $relation[0] !== 'CBelongsToRelation') {
-                 continue 2;
+            if ($relation[2] == $column->name) {
+                if ($relation[0] !== 'CBelongsToRelation') {
+                    continue 2;
+                } else {
+                    $columnRelation = compact("key","relation");
+                }
             }
         }
 
@@ -39,7 +44,14 @@
         // render input
         if (!in_array($column->name, $automatedAttributes)) {
             echo "\n";
-            echo "    <?php echo " . $this->generateActiveRow($this->modelClass, $column) . "; ?>\n";
+
+            if (isset($columnRelation["relation"]) && $columnRelation["relation"][0] === 'CBelongsToRelation') {
+                // render belongsTo relation
+                echo "    <?php echo " . $this->generateRelationRow($this->modelClass, $column, $columnRelation["key"], $columnRelation["relation"]) . "; ?>\n";
+            } else {
+                // render ordinary input row
+                echo "    <?php echo " . $this->generateActiveRow($this->modelClass, $column) . "; ?>\n";
+            }
         }
     }
 

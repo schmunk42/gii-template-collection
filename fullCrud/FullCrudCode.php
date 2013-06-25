@@ -208,13 +208,6 @@ class FullCrudCode extends CrudCode
          * and CrudFieldProviders from gtc together.
          */
 
-        // detect relation column
-        foreach ($this->getRelations() as $key => $relation) {
-            if ($relation[2] == $column->name) {
-                return $this->generateRelationRow($modelClass, $column, $key, $relation);
-            }
-        }
-
         if ($column->type === 'boolean')
             return "\$form->checkBoxRow(\$model,'{$column->name}')";
         else if (stripos($column->dbType,'text') !== false)
