@@ -227,9 +227,9 @@ class FullCrudCode extends CrudCode
                 $inputField='textFieldRow';
 
             if ($column->type!=='string' || $column->size===null)
-                return "\$form->{$inputField}(\$model,'{$column->name}',array('class'=>'span5'))";
+                return "\$form->{$inputField}(\$model,'{$column->name}')";
             else
-                return "\$form->{$inputField}(\$model,'{$column->name}',array('class'=>'span5','maxlength'=>$column->size))";
+                return "\$form->{$inputField}(\$model,'{$column->name}',array('maxlength'=>$column->size))";
         }
     }
 
@@ -262,7 +262,7 @@ class FullCrudCode extends CrudCode
 							'htmlOptions' => array(
 								'checkAll' => 'all',
 							),
-						),array('class'=>'span5'))";
+						))";
             }
         }
     }
