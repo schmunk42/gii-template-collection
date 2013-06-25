@@ -4,7 +4,9 @@
     </p>
 
 
-    <?php echo "<?php
+    <?php
+    // EChosen selects does not currently update when new options are added
+    if (false) echo "<?php
     \$this->widget('echosen.EChosen',
         array('target'=>'select')
     );
@@ -45,3 +47,8 @@
 <?php echo "<?php \$this->endWidget() ?>"; ?>
 
 </div> <!-- form -->
+
+<?php echo "<?php if (isset(\$this->clips['modal_forms'])): ?>"; ?>
+    <!-- Modal create-forms referenced to from elements create buttons -->
+    <?php echo "<?php echo \$this->clips['modal_forms']; ?>"; ?>
+<?php echo "<?php endif; ?>"; ?>

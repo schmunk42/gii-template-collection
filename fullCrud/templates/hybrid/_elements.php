@@ -48,6 +48,26 @@
             if (isset($columnRelation["relation"]) && $columnRelation["relation"][0] === 'CBelongsToRelation') {
                 // render belongsTo relation
                 echo "    <?php echo " . $this->generateRelationRow($this->modelClass, $column, $columnRelation["key"], $columnRelation["relation"]) . "; ?>\n";
+                $controller = $this->codeProvider->resolveController($columnRelation["relation"]);
+                $relatedModelClass = $columnRelation["relation"][1];
+                ?>
+
+                    <div class="control-group">
+                        <div class="controls">
+                            <?php echo "<?php\n"; ?>
+                            echo $this->widget('bootstrap.widgets.TbButton', array(
+                                'label' => <?php echo "Yii::t('" . $this->messageCatalog . "', 'Create {model}', array('{model}' => Yii::t('" . $this->messageCatalog . "', '" . $this->class2name($relatedModelClass) . "')))"; ?>,
+                                'icon' => 'icon-plus',
+                                'htmlOptions' => array(
+                                    'data-toggle' => 'modal',
+                                    'data-target' => '#<?php echo $this->class2id($relatedModelClass); ?>-form-modal',
+                                ),
+                                ), true);
+                            ?>
+                        </div>
+                    </div>
+
+            <?php
             } else {
                 // render ordinary input row
                 echo "    <?php echo " . $this->generateActiveRow($this->modelClass, $column) . "; ?>\n";
@@ -83,3 +103,31 @@
 
     </div> <!-- sub inputs -->
 </div>
+
+<?php
+
+// render modal create-forms into modal_forms clip (rendered by parent view outside active form elements)
+foreach ($this->getRelations() as $key => $relation) {
+    $controller = $this->codeProvider->resolveController($relation);
+    $relatedModelClass = $relation[1];
+    $relatedModel = CActiveRecord::model($relatedModelClass);
+    $fk = $relation[2];
+    $pk = $relatedModel->tableSchema->primaryKey;
+    $suggestedfield = $this->suggestName($relatedModel->tableSchema->columns);
+    if ($relation[0] == 'CBelongsToRelation') {
+        
+        echo "<?php
+\$this->appendClip('modal_forms');
+\$this->renderPartial('/{$controller}/_modal_form', array(
+	'inputSelector' => '#{$this->modelClass}_{$fk}',
+	'model' => new {$relatedModelClass},
+	'pk' => '{$pk}',
+	'field' => '{$suggestedfield}',
+));
+\$this->endClip();
+?>
+";
+
+    }
+}
+?>
