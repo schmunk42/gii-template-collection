@@ -7,7 +7,16 @@ public function filters() {
 public function accessRules() {
 	return array(
 			array('allow',
-				'actions'=>array('index','view','create','update','editableSaver','editableCreator','delete','admin'),
+				'actions'=>array(
+					'index',
+					'view',
+					'create',
+					'update',
+					'editableSaver',
+					'editableCreator',
+					'admin',
+					'delete',
+				),
 				'users'=>array('admin'),
 				),
 			array('deny',
