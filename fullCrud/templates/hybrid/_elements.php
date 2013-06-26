@@ -46,11 +46,22 @@
             echo "\n";
 
             if (isset($columnRelation["relation"]) && $columnRelation["relation"][0] === 'CBelongsToRelation') {
-                // render belongsTo relation
+                // render belongsTo relation input
                 echo "    <?php echo " . $this->generateRelationRow($this->modelClass, $column, $columnRelation["key"], $columnRelation["relation"]) . "; ?>\n";
+
+                // render create button
                 $controller = $this->codeProvider->resolveController($columnRelation["relation"]);
                 $relatedModelClass = $columnRelation["relation"][1];
+                $relatedModel = CActiveRecord::model($relatedModelClass);
+                $fk = $columnRelation["relation"][2];
+                $pk = $relatedModel->tableSchema->primaryKey;
+                $suggestedfield = $this->suggestName($relatedModel->tableSchema->columns);
+
+                echo "
+                <?php
+                \$formId = '{$this->class2id($this->modelClass)}-{$fk}-'.\uniqid().'-form';
                 ?>
+                ";?>
 
                     <div class="control-group">
                         <div class="controls">
@@ -60,12 +71,30 @@
                                 'icon' => 'icon-plus',
                                 'htmlOptions' => array(
                                     'data-toggle' => 'modal',
-                                    'data-target' => '#<?php echo $this->class2id($relatedModelClass); ?>-form-modal',
+                                    'data-target' => '#'.<?php echo '$formId'; ?>.'-modal',
                                 ),
                                 ), true);
                             ?>
                         </div>
                     </div>
+
+                <?php
+
+                // render modal create-forms into modal_forms clip (rendered by parent view outside active form elements)
+                echo "<?php
+                \$this->beginClip('modal:'.\$formId.'-modal');
+                \$this->renderPartial('/{$controller}/_modal_form', array(
+                    'formId' => \$formId,
+                	'inputSelector' => '#{$this->modelClass}_{$fk}',
+                    'model' => new {$relatedModelClass},
+                    'pk' => '{$pk}',
+                    'field' => '{$suggestedfield}',
+                ));
+                \$this->endClip();
+                ?>
+                ";
+
+                ?>
 
             <?php
             } else {
@@ -103,31 +132,3 @@
 
     </div> <!-- sub inputs -->
 </div>
-
-<?php
-
-// render modal create-forms into modal_forms clip (rendered by parent view outside active form elements)
-foreach ($this->getRelations() as $key => $relation) {
-    $controller = $this->codeProvider->resolveController($relation);
-    $relatedModelClass = $relation[1];
-    $relatedModel = CActiveRecord::model($relatedModelClass);
-    $fk = $relation[2];
-    $pk = $relatedModel->tableSchema->primaryKey;
-    $suggestedfield = $this->suggestName($relatedModel->tableSchema->columns);
-    if ($relation[0] == 'CBelongsToRelation') {
-        
-        echo "<?php
-\$this->appendClip('modal_forms');
-\$this->renderPartial('/{$controller}/_modal_form', array(
-	'inputSelector' => '#{$this->modelClass}_{$fk}',
-	'model' => new {$relatedModelClass},
-	'pk' => '{$pk}',
-	'field' => '{$suggestedfield}',
-));
-\$this->endClip();
-?>
-";
-
-    }
-}
-?>

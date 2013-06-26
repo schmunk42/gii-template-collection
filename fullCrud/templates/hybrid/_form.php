@@ -12,7 +12,7 @@
     );
     ?>"; ?>
 
-    <?php echo '<?php'; ?>
+    <?php echo "<?php\n"; ?>
 
     $form=$this->beginWidget('bootstrap.widgets.TbActiveForm', array(
     'id'=>'<?php echo $this->class2id($this->modelClass); ?>-form',
@@ -48,7 +48,11 @@
 
 </div> <!-- form -->
 
-<?php echo "<?php if (isset(\$this->clips['modal_forms'])): ?>"; ?>
-    <!-- Modal create-forms referenced to from elements create buttons -->
-    <?php echo "<?php echo \$this->clips['modal_forms']; ?>"; ?>
-<?php echo "<?php endif; ?>"; ?>
+<!-- Modal create-forms referenced to from create buttons (if any) -->
+<?php echo "<?php\n"; ?>
+foreach ($this->clips as $key=>$clip) {
+    if (strpos($key, "modal:") === 0) {
+        echo $clip;
+    }
+}
+?>
