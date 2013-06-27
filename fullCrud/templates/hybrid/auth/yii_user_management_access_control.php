@@ -7,7 +7,16 @@ public function filters() {
 public function accessRules() {
 	return array(
 			array('allow',
-				'actions'=>array('create','editableSaver','update','delete','admin','index','view'),
+				'actions'=>array(
+					'index',
+					'view',
+					'create',
+					'update',
+					'editableSaver',
+					'editableCreator',
+					'admin',
+					'delete',
+				),
 				'roles'=>array('<?php echo $rightsPrefix ?>.*'),
 				),
 			array('deny',

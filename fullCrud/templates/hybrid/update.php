@@ -18,6 +18,16 @@ echo "?>";
 
 <?php echo '<?php $this->renderPartial("_toolbar", array("model"=>$model)); ?>'; ?>
 
+<?php echo "<?php\n"; ?>
+$this->renderPartial('_form', array(
+'model'=>$model));
+?>
+
+<?php echo "<?php\n"; ?>
+
+/*
+Code example to include an editable detail view:
+
 <h2>
     <?php echo "<?php echo Yii::t('".$this->messageCatalog."','Editable Detail View')?>";?>
 </h2>
@@ -28,6 +38,9 @@ echo "?>";
 	'url' => \$this->createUrl('editableSaver'),
 ));
 ?>\n"; ?>
+
+*/
+?>
 
 <?php
 $relations = CActiveRecord::model(Yii::import($this->model))->relations();
@@ -186,12 +199,3 @@ $this->widget('TbGridView',
     }
 
 endif; ?>
-
-<h2>
-    <?php echo "<?php echo Yii::t('".$this->messageCatalog."','Update Form')?>";?>
-</h2>
-
-<?php echo "<?php\n"; ?>
-$this->renderPartial('_form', array(
-'model'=>$model));
-?>

@@ -117,6 +117,20 @@
 <?php echo $form->error($model, 'baseControllerClass'); ?>
 </div>
 
+<div class="row">
+    <?php echo $form->labelEx($model, 'formOrientation'); ?>
+    <?php
+    echo $form->dropDownList($model, 'formOrientation', array(
+        'horizontal' => 'Horizontal',
+        'vertical' => 'Vertical',
+    ));
+    ?>
+    <div class="tooltip">
+        Valid for "Hybrid" template only. Determines the "type" attribute for the update forms. See <?php CHtml::link('http://yiibooster.clevertech.biz/components.html#forms'); ?> for an example.
+    </div>
+    <?php echo $form->error($model, 'validation'); ?>
+</div>
+
 <style>
     input.radio { display: inline !important; }
 </style>

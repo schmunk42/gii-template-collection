@@ -2,7 +2,7 @@
 
     <?php
     echo "\t<b><?php echo CHtml::encode(\$data->getAttributeLabel('{$this->identificationColumn}')); ?>:</b>\n";
-    echo "\t<?php echo CHtml::link(CHtml::encode(\$data->{$this->identificationColumn}), array('view', '{$this->identificationColumn}'=>\$data->{$this->identificationColumn})); ?>\n\t<br />\n\n";
+    echo "\t<?php echo CHtml::link(CHtml::encode(\$data->{$this->identificationColumn}), array('{$this->controller}/view', '{$this->identificationColumn}'=>\$data->{$this->identificationColumn})); ?>\n\t<br />\n\n";
     $count = 0;
     foreach ($this->tableSchema->columns as $column) {
         if ($column->isPrimaryKey)

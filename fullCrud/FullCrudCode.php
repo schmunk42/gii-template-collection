@@ -17,6 +17,7 @@ class FullCrudCode extends CrudCode
     public $authTemplate = "yii_user_management_access_control";
     public $messageCatalog = "crud";
     public $template = "slim";
+    public $formOrientation = "horizontal";
 
     public function prepare()
     {
@@ -198,6 +199,67 @@ class FullCrudCode extends CrudCode
             }
         }
     }
+
+    public function generateActiveRow($modelClass, $column, $relation = false)
+    {
+
+        /*
+         * TODO: Evaluate how to utilize the best from TbActiveForm (using type attribute + TbFormInputElement::$tbActiveFormMethods)
+         * and CrudFieldProviders from gtc together.
+         */
+
+        if ($column->type === 'boolean')
+            return "\$form->checkBoxRow(\$model,'{$column->name}')";
+        else if (stripos($column->dbType,'text') !== false)
+            return "\$form->textAreaRow(\$model,'{$column->name}',array('rows'=>6, 'cols'=>50, 'class'=>'span8'))";
+        else
+        {
+            if (preg_match('/^(password|pass|passwd|passcode)$/i',$column->name))
+                $inputField='passwordFieldRow';
+            else
+                $inputField='textFieldRow';
+
+            if ($column->type!=='string' || $column->size===null)
+                return "\$form->{$inputField}(\$model,'{$column->name}')";
+            else
+                return "\$form->{$inputField}(\$model,'{$column->name}',array('maxlength'=>$column->size))";
+        }
+    }
+
+    public function generateRelationRow($modelClass, $column, $relationName, $relationInfo) {
+
+        if ($columns = CActiveRecord::model($relationInfo[1])->tableSchema->columns) {
+
+            $suggestedfield = FullCrudCode::suggestName($columns);
+            $field          = current($columns);
+            $style          = $relationInfo[0] == 'CManyManyRelation' ? 'multiselect' : 'dropdownlist';
+
+            if (is_object($field)) {
+                if ($relationInfo[0] == 'CManyManyRelation') {
+                    return $this->codeProvider->generateRelation($model=$modelClass, $relationName, $relationInfo);
+                }
+                elseif ($relationInfo[0] == 'CHasOneRelation') {
+                    return $this->codeProvider->generateRelation($model=$modelClass, $relationName, $relationInfo);
+                }
+
+                $allowEmpty = (CActiveRecord::model($modelClass)->tableSchema->columns[$relationInfo[2]]->allowNull ?
+                    'true' : 'false');
+
+                $inputField = 'relationRow';
+                return "\$form->{$inputField}(\$model,'{$column->name}',array(
+							'model' => \$model,
+							'relation' => '{$relationName}',
+							'fields' => '{$suggestedfield}',
+							'allowEmpty' => {$allowEmpty},
+							'style' => '{$style}',
+							'htmlOptions' => array(
+								'checkAll' => 'all',
+							),
+						))";
+            }
+        }
+    }
+
 }
 
 ?>

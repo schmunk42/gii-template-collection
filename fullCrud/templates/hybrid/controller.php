@@ -127,6 +127,28 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
         $es->update();
     }
 
+	public function actionEditableCreator()
+	{
+		if (isset($_POST['<?php echo $this->modelClass; ?>']))
+		{
+			$model = new <?php echo $this->modelClass; ?>;
+			$model->attributes = $_POST['<?php echo $this->modelClass; ?>'];
+			if ($model->save())
+			{
+				echo CJSON::encode($model->getAttributes());
+			} else
+			{
+				$errors = array_map(function($v) {
+					    return join(', ', $v);
+				    }, $model->getErrors());
+				echo CJSON::encode(array('errors' => $errors));
+			}
+		} else
+		{
+			throw new CHttpException(400, 'Invalid request');
+		}
+	}
+
     public function actionDelete($id)
     {
         if(Yii::app()->request->isPostRequest)
@@ -184,4 +206,5 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
             Yii::app()->end();
         }
     }
+
 }
