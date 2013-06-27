@@ -50,7 +50,7 @@
 
 <!-- Modal create-forms referenced to from create buttons (if any) -->
 <?php echo "<?php\n"; ?>
-foreach (array_reverse($this->clips, true) as $key=>$clip) { // Reverse order for recursive modals to render properly
+foreach (array_reverse($this->clips->toArray(), true) as $key=>$clip) { // Reverse order for recursive modals to render properly
     if (strpos($key, "modal:") === 0) {
         echo $clip;
     }
