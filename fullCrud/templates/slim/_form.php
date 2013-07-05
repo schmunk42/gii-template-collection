@@ -42,7 +42,7 @@
 
         // render a view file if present in destination folder
         if ($columnView = $this->resolveColumnViewFile($column)) {
-            echo "<?php      \$this->renderPartial('{$columnView}', array('model'=>\$model)) ?>";
+            echo "<?php      \$this->renderPartial('{$columnView}', array('model'=>\$model, 'form' => \$form)) ?>\n";
             continue;
         }
 
@@ -78,7 +78,7 @@
             || $relation[0] == 'CManyManyRelation'
         ) {
             if ($relationView = $this->resolveRelationViewFile($relation)) {
-                echo "      <?php \$this->renderPartial('{$relationView}', array('model'=>\$model)) ?>";
+                echo "      <?php \$this->renderPartial('{$relationView}', array('model'=>\$model, 'form' => \$form)) ?>\n";
                 continue;
             }
 
