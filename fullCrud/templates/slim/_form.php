@@ -3,13 +3,6 @@
         <?php echo "<?php echo Yii::t('" . $this->messageCatalog . "','Fields with <span class=\"required\">*</span> are required.');?> \n"; ?>
     </p>
 
-
-    <?php echo "<?php
-    \$this->widget('echosen.EChosen',
-        array('target'=>'select')
-    );
-    ?>"; ?>
-
     <?php echo '<?php'; ?>
 
     $form=$this->beginWidget('CActiveForm', array(
