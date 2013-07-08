@@ -97,7 +97,7 @@ class FullCrudCode extends CrudCode
                 "name",
                 "label",
             ))) {
-                return $column->name;
+                $fallbackName = $column->name;
                 break;
             }
         }
