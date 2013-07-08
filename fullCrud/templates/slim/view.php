@@ -39,9 +39,15 @@ echo "?>";
             foreach ($this->relations as $key => $relation) {
                 if ((($relation[0] == "CHasOneRelation") || ($relation[0] == "CBelongsToRelation")) && $relation[2] == $column->name) {
                     $relatedModel = CActiveRecord::model($relation[1]);
-                    $columns = $relatedModel->tableSchema->columns;
 
-                    $suggestedfield = $this->suggestName($columns);
+                    // TODO: dnry
+                    if (is_callable(array($relatedModel, 'getItemLabel'))) {
+                        $suggestedfield = "itemLabel";
+                    } else {
+                        $columns = $relatedModel->tableSchema->columns;
+                        $suggestedfield = $this->suggestName($columns);
+                    }
+
 
                     $controller = $this->codeProvider->resolveController($relation);
                     $value = "(\$model->{$key} !== null)?";
@@ -98,7 +104,14 @@ if ($relations !== array()): ?>
         $controller = $this->codeProvider->resolveController($relation);
         $relatedModel = CActiveRecord::model($relation[1]);
         $pk = $relatedModel->tableSchema->primaryKey;
-        $suggestedfield = $this->suggestName($relatedModel->tableSchema->columns);
+
+        // TODO: dnry
+        if (is_callable(array($relatedModel, 'getItemLabel'))) {
+            $suggestedfield = "itemLabel";
+        } else {
+            $columns = $relatedModel->tableSchema->columns;
+            $suggestedfield = $this->suggestName($columns);
+        }
 
         // TODO: currently composite PKs are omitted
         if (is_array($pk)) {
