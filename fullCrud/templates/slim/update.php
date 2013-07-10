@@ -1,6 +1,6 @@
 <?php
-echo "<?php\n";
 $label = $this->pluralize($this->class2name($this->modelClass));
+echo "<?php\n";
 echo "\$this->breadcrumbs[Yii::t('".$this->messageCatalog."','$label')] = array('admin');\n";
 echo "\$this->breadcrumbs[\$model->{\$model->tableSchema->primaryKey}] = array('view','id'=>\$model->{\$model->tableSchema->primaryKey});\n";
 echo "\$this->breadcrumbs[] = Yii::t('".$this->messageCatalog."', 'Update');\n";
