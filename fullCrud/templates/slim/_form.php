@@ -1,9 +1,13 @@
-<div class="">
+<div class="crud-form">
     <p class="alert">
         <?php echo "<?php echo Yii::t('" . $this->messageCatalog . "','Fields with <span class=\"required\">*</span> are required.');?> \n"; ?>
     </p>
 
     <?php echo '<?php'; ?>
+
+    Yii::app()->bootstrap->registerAssetCss('select2.css');
+    Yii::app()->bootstrap->registerAssetJs('select2.js');
+    Yii::app()->clientScript->registerScript('crud/variant/update','$(".crud-form select").select2();');
 
     $form=$this->beginWidget('CActiveForm', array(
     'id'=>'<?php echo $this->class2id($this->modelClass); ?>-form',
