@@ -55,7 +55,7 @@
                 // render belongsTo relation input
 				echo "                <?php\n";
 				echo "                \$input = ".$this->codeProvider->generateRelation($this->modelClass, $columnRelation["key"], $columnRelation["relation"], true).";\n";
-				echo "                echo \$form->customRow(\$model, 'processed_media_id', \$input);\n";
+				echo "                echo \$form->customRow(\$model, '{$column->name}', \$input);\n";
 				echo "                ?>\n";
 
                 // render create button
