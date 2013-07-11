@@ -18,6 +18,7 @@ class FullCrudCode extends CrudCode
     public $messageCatalog = "crud";
     public $template = "slim";
     public $formOrientation = "horizontal";
+    public $textEditor = "html5Editor";
 
     public function prepare()
     {
@@ -210,8 +211,33 @@ class FullCrudCode extends CrudCode
 
         if ($column->type === 'boolean')
             return "\$form->checkBoxRow(\$model,'{$column->name}')";
-        else if (stripos($column->dbType,'text') !== false)
-            return "\$form->textAreaRow(\$model,'{$column->name}',array('rows'=>6, 'cols'=>50, 'class'=>'span8'))";
+		else if (stripos($column->dbType,'text') !== false) {
+
+			switch ($this->textEditor) {
+				default:
+				case "textarea":
+		            return "\$form->textAreaRow(\$model,'{$column->name}',array('rows'=>6, 'cols'=>50, 'class'=>'span8'))";
+					break;
+				case "redactor":
+					return "\$form->redactorRow(\$model, '{$column->name}', array('rows'=>6, 'cols'=>50, 'class'=>'span8'))";
+					break;
+				case "html5Editor":
+					return "\$form->html5EditorRow(\$model, '{$column->name}', array('rows'=>6, 'cols'=>50, 'class'=>'span8', 'options' => array(
+					'link' => true,
+					'image' => false,
+					'color' => false,
+					'html' => true,
+			)))";
+					break;
+				case "ckEditor":
+					return "\$form->ckEditorRow(\$model, '{$column->name}', array('options'=>array('fullpage'=>'js:true', 'width'=>'640', 'resize_maxWidth'=>'640','resize_minWidth'=>'320')))";
+					break;
+				case "markdownEditor":
+					return "\$form->markdownEditorRow(\$model, '{$column->name}', array('rows'=>6, 'cols'=>50, 'class'=>'span8'))";
+					break;
+			}
+
+		}
         else
         {
             if (preg_match('/^(password|pass|passwd|passcode)$/i',$column->name))

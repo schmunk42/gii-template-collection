@@ -131,6 +131,23 @@
     <?php echo $form->error($model, 'validation'); ?>
 </div>
 
+<div class="row">
+    <?php echo $form->labelEx($model, 'textEditor'); ?>
+    <?php
+    echo $form->dropDownList($model, 'textEditor', array(
+        'textarea' => 'Plain Text Area',
+        'redactor' => 'Redactor WYSIWYG',
+        'html5Editor' => 'Bootstrap WYSIHTML5',
+        'ckEditor' => 'CKEditor WYSIWYG',
+        'markdownEditor' => 'Markdown Editor',
+    ));
+    ?>
+    <div class="tooltip">
+        Valid for "Hybrid" template only. Determines the type of field used for TEXT-type fields. See <?php CHtml::link('http://yiibooster.clevertech.biz/components.html#forms'); ?> for a demo of the different editors.
+    </div>
+    <?php echo $form->error($model, 'textEditor'); ?>
+</div>
+
 <style>
     input.radio { display: inline !important; }
 </style>
