@@ -74,7 +74,7 @@ You also have the ability to add custom field providers by config.
 Please enjoy this extension and give your feedback at the github
 Repository, thank you.
 
-Of course, any templates are appreciated and just leave a comment or mail: schmunk@usrbin.de or thyseus@gmail.com.
+Of course, any templates are appreciated and just leave a comment or mail: schmunk@usrbin.de, fredrik@neam.se or thyseus@gmail.com.
 
 
 Links
