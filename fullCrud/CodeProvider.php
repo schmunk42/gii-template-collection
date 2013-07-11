@@ -38,7 +38,7 @@ class CodeProvider
         return $code;
     }
 
-    public function generateRelation($model, $relationName, $relationInfo)
+    public function generateRelation($model, $relationName, $relationInfo, $captureOutput = false)
     {
         if ($columns = CActiveRecord::model($relationInfo[1])->tableSchema->columns) {
 
@@ -72,7 +72,7 @@ class CodeProvider
 							'htmlOptions' => array(
 								'checkAll' => 'all'),
 							)
-						)");
+						".($captureOutput ? ", true" : "").")");
             }
         }
     }

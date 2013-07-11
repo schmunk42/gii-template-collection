@@ -5,6 +5,18 @@
     <pre>
     "repositories":[
         {
+            "type": "package",
+            "package": {
+                "name": "clevertech/yiibooster",
+                "version": "dev-master",
+                "source": {
+                        "url": "https://github.com/motin/YiiBooster.git",
+                    "type": "git",
+                "reference": "ed6453edd0dc92b5044ee923d71c9e0742b8723f"
+                }
+            }
+        },
+        {
             "type":"composer",
             "url":"http://packages.phundament.com"
         },

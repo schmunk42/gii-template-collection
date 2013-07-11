@@ -47,7 +47,10 @@
 
             if (isset($columnRelation["relation"]) && $columnRelation["relation"][0] === 'CBelongsToRelation') {
                 // render belongsTo relation input
-                echo "    <?php echo " . $this->generateRelationRow($this->modelClass, $column, $columnRelation["key"], $columnRelation["relation"]) . "; ?>\n";
+				echo "                <?php\n";
+				echo "                \$input = ".$this->codeProvider->generateRelation($this->modelClass, $columnRelation["key"], $columnRelation["relation"], true).";\n";
+				echo "                echo \$form->customRow(\$model, 'processed_media_id', \$input);\n";
+				echo "                ?>\n";
 
                 // render create button
                 $controller = $this->codeProvider->resolveController($columnRelation["relation"]);

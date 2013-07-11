@@ -226,40 +226,6 @@ class FullCrudCode extends CrudCode
         }
     }
 
-    public function generateRelationRow($modelClass, $column, $relationName, $relationInfo) {
-
-        if ($columns = CActiveRecord::model($relationInfo[1])->tableSchema->columns) {
-
-            $suggestedfield = FullCrudCode::suggestName($columns);
-            $field          = current($columns);
-            $style          = $relationInfo[0] == 'CManyManyRelation' ? 'multiselect' : 'dropdownlist';
-
-            if (is_object($field)) {
-                if ($relationInfo[0] == 'CManyManyRelation') {
-                    return $this->codeProvider->generateRelation($model=$modelClass, $relationName, $relationInfo);
-                }
-                elseif ($relationInfo[0] == 'CHasOneRelation') {
-                    return $this->codeProvider->generateRelation($model=$modelClass, $relationName, $relationInfo);
-                }
-
-                $allowEmpty = (CActiveRecord::model($modelClass)->tableSchema->columns[$relationInfo[2]]->allowNull ?
-                    'true' : 'false');
-
-                $inputField = 'relationRow';
-                return "\$form->{$inputField}(\$model,'{$column->name}',array(
-							'model' => \$model,
-							'relation' => '{$relationName}',
-							'fields' => '{$suggestedfield}',
-							'allowEmpty' => {$allowEmpty},
-							'style' => '{$style}',
-							'htmlOptions' => array(
-								'checkAll' => 'all',
-							),
-						))";
-            }
-        }
-    }
-
 }
 
 ?>
