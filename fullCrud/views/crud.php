@@ -128,7 +128,7 @@
     <div class="tooltip">
         Valid for "Hybrid" template only. Determines the "type" attribute for the update forms. See <?php CHtml::link('http://yiibooster.clevertech.biz/components.html#forms'); ?> for an example.
     </div>
-    <?php echo $form->error($model, 'validation'); ?>
+    <?php echo $form->error($model, 'formOrientation'); ?>
 </div>
 
 <div class="row">
