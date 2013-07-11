@@ -46,6 +46,12 @@
             echo "\n";
 
             if (isset($columnRelation["relation"]) && $columnRelation["relation"][0] === 'CBelongsToRelation') {
+
+				if ($relationView = $this->resolveRelationViewFile($relation)) {
+					echo "      <?php \$this->renderPartial('{$relationView}', array('model'=>\$model)) ?>";
+					continue;
+				}
+
                 // render belongsTo relation input
 				echo "                <?php\n";
 				echo "                \$input = ".$this->codeProvider->generateRelation($this->modelClass, $columnRelation["key"], $columnRelation["relation"], true).";\n";
