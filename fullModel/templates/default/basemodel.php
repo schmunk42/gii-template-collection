@@ -114,9 +114,11 @@ abstract class <?php echo 'Base' . $modelClass; ?> extends <?php echo $this->bas
 	}
 
 
-	public function search()
+	public function search($criteria = null)
 	{
-		$criteria=new CDbCriteria;
+        if (is_null($criteria)) {
+    		$criteria=new CDbCriteria;
+        }
 
 <?php
 		foreach($columns as $name=>$column)
