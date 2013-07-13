@@ -33,7 +33,7 @@ class CodeProvider
         $relatedModel = CActiveRecord::model($relationInfo[1]);
         if ($columns = $relatedModel->tableSchema->columns) {
 
-            $suggestedfield = FullCrudCode::suggestIdentifier($relatedModel);
+            $suggestedfield = self::suggestIdentifier($relatedModel);
             $field          = current($columns);
             $style          = $relationInfo[0] == 'CManyManyRelation' ? 'multiselect' : 'dropdownlist';
 
@@ -115,7 +115,7 @@ class CodeProvider
             if ($view === true) {
                 return "array(
 					'name'=>'{$column->name}',
-					'value'=>CHtml::value(\$model,'{$relname}.{$fcolumns[1]}'),
+					'value'=>CHtml::value(\$model,'{$relname}.".self::suggestIdentifier($relatedModel)."'),
 					)";
             }
             elseif ($view == 'search') {

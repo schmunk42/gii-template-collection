@@ -44,6 +44,7 @@ $this->widget('TbGridView',
     'columns'=>array(
 <?php
 $count = 0;
+echo "\t\tarray('header'=>'','value'=>'\$data[\"" . CodeProvider::suggestIdentifier($this->modelClass) . "\"]'),\n";
 foreach ($this->tableSchema->columns as $column) {
     if ($count == 7) {
         echo "\t\t/*\n";

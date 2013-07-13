@@ -39,7 +39,7 @@ echo "?>";
                 foreach ($this->relations as $key => $relation) {
                     if ((($relation[0] == "CHasOneRelation") || ($relation[0] == "CBelongsToRelation")) && $relation[2] == $column->name) {
                         $relatedModel   = CActiveRecord::model($relation[1]);
-                        $suggestedfield = $this->suggestIdentifier($relatedModel);
+                        $suggestedfield = CodeProvider::suggestIdentifier($relatedModel);
                         $controller     = $this->codeProvider->resolveController($relation);
                         $value          = "(\$model->{$key} !== null)?";
                         $value .= "'<span class=label>" . $relation[0] . "</span><br/>'.";
@@ -87,20 +87,29 @@ if ($relations !== array()): ?>
         <?php echo "<?php echo Yii::t('" . $this->messageCatalog . "','Relations')?>"; ?>
     </h2>
 
-    <?php
-    foreach ($relations as $key => $relation) {
-        $controller     = $this->codeProvider->resolveController($relation);
-        $relatedModel   = CActiveRecord::model($relation[1]);
-        $pk             = $relatedModel->tableSchema->primaryKey;
-        $suggestedfield = $this->suggestIdentifier($relatedModel);
+        <?php
+        $relations = CActiveRecord::model(Yii::import($this->model))->relations();
+        if (!empty($relations)):
+            ?>
 
-        // TODO: currently composite PKs are omitted
-        if (is_array($pk)) {
-            continue;
-        }
-        if ($relation[0] == 'CBelongsToRelation') {
-            continue;
-        }
+            <h2>
+                <?php echo "<?php echo Yii::t('" . $this->messageCatalog . "','Relations')?>"; ?>
+            </h2>
+
+            <?php
+            foreach ($relations as $key => $relation) {
+                $controller     = $this->codeProvider->resolveController($relation);
+                $relatedModel   = CActiveRecord::model($relation[1]);
+                $pk             = $relatedModel->tableSchema->primaryKey;
+                $suggestedfield = CodeProvider::suggestIdentifier($relatedModel);
+
+                // TODO: currently composite PKs are omitted
+                if (is_array($pk)) {
+                    continue;
+                }
+                if ($relation[0] == 'CBelongsToRelation') {
+                    continue;
+                }
 
         echo "<div class='well'>\n";
         echo "    <div class='row'>\n";
