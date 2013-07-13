@@ -19,6 +19,32 @@ class FullCrudCode extends CrudCode
     public $template = "slim";
     public $formOrientation = "horizontal";
     public $textEditor = "html5Editor";
+    public $moduleName;
+    // updated for $moduleName handling
+    public function getModule(){
+        if (!empty($this->moduleName)) {
+            if(($module=Yii::app()->getModule($this->moduleName))!==null) {
+                return $module;
+            }
+        }
+        return parent::getModule();
+    }
+
+    // updated for $moduleName handling
+    public function getControllerID()
+    {
+        if($this->getModule()!==Yii::app() && !empty($this->moduleName))
+            return $this->controller;
+        else
+            return parent::getControllerID();
+    }
+
+    // updated for $moduleName handling
+    public function successMessage()
+    {
+        $link=CHtml::link('try it now', Yii::app()->createUrl($this->moduleName.'/'.$this->controller), array('target'=>'_blank'));
+        return "The controller has been generated successfully. You may $link.";
+    }
 
     public function prepare()
     {

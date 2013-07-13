@@ -24,6 +24,13 @@
         Note that if the former, the class must be auto-loadable.
     </div>
 <?php echo $form->error($model, 'model'); ?>
+<div class="row sticky">
+    <?php echo $form->labelEx($model, 'moduleName'); ?>
+    <?php echo $form->dropDownList($model, 'moduleName', array_combine(array_keys(Yii::app()->getModules()),array_keys(Yii::app()->getModules())), array('empty'=>'none')); ?>
+    <div class="tooltip">
+        Just a prefix for your controllers eg. 'crud'.
+    </div>
+    <?php echo $form->error($model, 'moduleName'); ?>
 </div>
 
 <div class="row">
