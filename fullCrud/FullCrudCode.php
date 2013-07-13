@@ -116,18 +116,7 @@ class FullCrudCode extends CrudCode
     }
 
 
-    // Which column will most probably be the one that gets used to list
-    // a model ?
-    public static function suggestIdentifier($model)
-    {
-        if (is_callable(array($model, 'getItemLabel')))
-            return 'itemLabel';
-        else
-            return self::suggestName($model->tableSchema->columns);
-    }
-
-
-    // TODO: this should be deprecated
+    // TODO: this should be deprecated --> moved to CodeProvider
     public static function suggestName($columns)
     {
         $nonNumericFound = false;

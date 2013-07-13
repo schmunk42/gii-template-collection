@@ -8,30 +8,20 @@ class CodeProvider
 
     public function resolveController($relation)
     {
-        $model      = new $relation[1];
-        $reflection = new ReflectionClass($model);
-        $module     = preg_match("/\/modules\/([a-zA-Z0-9]+)\//", $reflection->getFileName(), $matches);
-
-        #$modulePrefix = (isset($matches[$module])) ? "/" . $matches[$module] . "/" : "";
-        $modulePrefix = "";
-
-        $controller = $modulePrefix . strtolower(substr($relation[1], 0, 1)) . substr($relation[1], 1);
-
-        return $controller;
+        return strtolower(substr($relation[1], 0, 1)) . substr($relation[1], 1);
     }
 
     public function generateRelationHeader($model, $relationName, $relationInfo)
     {
         $controller = $this->resolveController($relationInfo); // TODO
-
         $code = "";
-        #$code .= "echo '<span class=label>" . $relationInfo[0] . "</span>';";
-
         $code .= "\$this->widget('bootstrap.widgets.TbButtonGroup', array(
         'type'=>'', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
         'buttons'=>array(
-            array('label'=>'{$relationName}', 'icon'=>'icon-list-alt', 'url'=> array('{$controller}/admin')),
-                array('icon'=>'icon-plus', 'url'=>array('" . $controller . "/create', '$relationInfo[1]' => array('$relationInfo[2]'=>\$model->{\$model->tableSchema->primaryKey}))),
+            array('label'=>'".ucfirst($relationName)."', 'icon'=>'icon-list-alt', 'url'=> array('{$controller}/admin')),
+                array(
+                    'icon'=>'icon-plus',
+                    'url'=>array('" . $controller . "/create', '$relationInfo[1]' => array('$relationInfo[2]'=>\$model->{\$model->tableSchema->primaryKey}))),
         ),
     ));";
 
@@ -196,6 +186,49 @@ class CodeProvider
 			)
 		)";
         }
+    }
+
+    // Which column will most probably be the one that gets used to list
+    // KEEP THIS CODE it can be called statically
+    public static function suggestIdentifier($model)
+    {
+        if(!$model instanceof CActiveRecord) {
+            $model = CActiveRecord::model($model);
+        }
+
+        if (is_callable(array($model, 'getItemLabel')))
+            return 'itemLabel';
+
+        $nonNumericFound = false;
+        $columns = $model->tableSchema->columns;
+
+        foreach ($columns as $column) {
+            if ($column->isPrimaryKey) {
+                $fallbackName = $column->name;
+            }
+            // Use the first non-numeric column as a fallback
+            if (!$column->isForeignKey
+                && !$column->isPrimaryKey
+                && $column->type != 'BIGINT'
+                && $column->type != 'INT'
+                && $column->type != 'INTEGER'
+                && $column->type != 'BOOLEAN'
+                && !$nonNumericFound
+            ) {
+                $fallbackName = $column->name;
+                $nonNumericFound = true;
+            }
+            // Return the first title, name, label column, if found
+            if (in_array($column->name, array(
+                                             "title",
+                                             "name",
+                                             "label",
+                                        ))) {
+                $fallbackName = $column->name;
+                break;
+            }
+        }
+        return $fallbackName;
     }
 
 }
