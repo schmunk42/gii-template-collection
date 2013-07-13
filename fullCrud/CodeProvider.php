@@ -40,9 +40,10 @@ class CodeProvider
 
     public function generateRelation($model, $relationName, $relationInfo, $captureOutput = false)
     {
-        if ($columns = CActiveRecord::model($relationInfo[1])->tableSchema->columns) {
+        $relatedModel = CActiveRecord::model($relationInfo[1]);
+        if ($columns = $relatedModel->tableSchema->columns) {
 
-            $suggestedfield = FullCrudCode::suggestName($columns);
+            $suggestedfield = FullCrudCode::suggestIdentifier($relatedModel);
             $field          = current($columns);
             $style          = $relationInfo[0] == 'CManyManyRelation' ? 'multiselect' : 'dropdownlist';
 
@@ -51,7 +52,7 @@ class CodeProvider
                     $allowEmpty = 'false';
                 }
                 elseif ($relationInfo[0] == 'CHasOneRelation') {
-                    $allowEmpty = (CActiveRecord::model($relationInfo[1])->tableSchema->columns[$relationInfo[2]]->allowNull ?
+                    $allowEmpty = ($relatedModel->tableSchema->columns[$relationInfo[2]]->allowNull ?
                         'true' : 'false');
 
                     return "if (\$model->{$relationName} !== null) echo \$model->{$relationName}->{$suggestedfield};";

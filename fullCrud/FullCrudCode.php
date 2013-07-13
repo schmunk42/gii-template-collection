@@ -67,12 +67,18 @@ class FullCrudCode extends CrudCode
     }
 
     public function init()
+    // Which column will most probably be the one that gets used to list
+    // a model ?
+    public static function suggestIdentifier($model)
     {
-        parent::init();
+        if (is_callable(array($model, 'getItemLabel')))
+            return 'itemLabel';
+        else
+            return self::suggestName($model->tableSchema->columns);
     }
 
-    // Which column will most probably be the one that gets used to list
-    // a model ? 
+
+    // TODO: this should be deprecated
     public static function suggestName($columns)
     {
         $nonNumericFound = false;
