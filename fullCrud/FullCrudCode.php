@@ -20,6 +20,29 @@ class FullCrudCode extends CrudCode
     public $formOrientation = "horizontal";
     public $textEditor = "html5Editor";
     public $moduleName;
+
+    public function rules()
+    {
+        return array_merge(
+            parent::rules(),
+            array(
+                 array('validation, authTemplate', 'required'),
+                 array('identificationColumn', 'safe'),
+                 array('messageCatalog, moduleName', 'match', 'pattern' => '/^[a-zA-Z_][\w.]*$/',
+                       'message' => '{attribute} should only contain word characters.'),
+                 array('moduleName', 'sticky'),
+            )
+        );
+    }
+
+    public function attributeLabels()
+    {
+        return array_merge(parent::attributeLabels(),
+            array(
+                 'validation' => 'Validation method',
+            ));
+    }
+
     // updated for $moduleName handling
     public function getModule(){
         if (!empty($this->moduleName)) {
@@ -46,6 +69,26 @@ class FullCrudCode extends CrudCode
         return "The controller has been generated successfully. You may $link.";
     }
 
+    /**
+     * Returns relations of current model
+     *
+     * @return array
+     */
+    public function getRelations()
+    {
+        return CActiveRecord::model($this->modelClass)->relations();
+    }
+
+
+
+    private function getOutputViewDirectory(){
+        $controllerDir = dirname($this->files[0]->path);
+        $controllerName = strtolower(basename(str_replace('Controller','',$this->files[0]->path), ".php"));
+        $viewDir = str_replace('controllers','views/'.$controllerName, $controllerDir);
+        return $viewDir;
+    }
+
+
     public function prepare()
     {
         $this->codeProvider = new CodeProvider;
@@ -61,18 +104,6 @@ class FullCrudCode extends CrudCode
         parent::prepare();
     }
 
-    public function rules()
-    {
-        return array_merge(
-            parent::rules(),
-            array(
-                 array('validation, authTemplate', 'required'),
-                 array('identificationColumn', 'safe'),
-                 array('messageCatalog', 'match', 'pattern' => '/^[a-zA-Z_][\w.]*$/',
-                       'message' => '{attribute} should only contain word characters.'),
-            )
-        );
-    }
 
     public function validateModel($attribute, $params)
     {
@@ -84,15 +115,7 @@ class FullCrudCode extends CrudCode
         parent::validateModel($attribute, $params);
     }
 
-    public function attributeLabels()
-    {
-        return array_merge(parent::attributeLabels(),
-                           array(
-                                'validation' => 'Validation method',
-                           ));
-    }
 
-    public function init()
     // Which column will most probably be the one that gets used to list
     // a model ?
     public static function suggestIdentifier($model)
@@ -137,24 +160,6 @@ class FullCrudCode extends CrudCode
         return $fallbackName;
     }
 
-    /**
-     * Returns relations of current model
-     *
-     * @return array
-     */
-    public function getRelations()
-    {
-        return CActiveRecord::model($this->modelClass)->relations();
-    }
-
-
-
-    private function getOutputViewDirectory(){
-        $controllerDir = dirname($this->files[0]->path);
-        $controllerName = strtolower(basename(str_replace('Controller','',$this->files[0]->path), ".php"));
-        $viewDir = str_replace('controllers','views/'.$controllerName, $controllerDir);
-        return $viewDir;
-    }
 
     /**
      * Returns the viewFile for the column if exists otherwise it returns null
@@ -238,6 +243,7 @@ class FullCrudCode extends CrudCode
 
         /*
          * TODO: Evaluate how to utilize the best from TbActiveForm (using type attribute + TbFormInputElement::$tbActiveFormMethods)
+         * TODO: This should be moved to providers, see @link generateActiveField
          * and CrudFieldProviders from gtc together.
          */
 
