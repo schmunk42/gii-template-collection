@@ -87,11 +87,16 @@
             <?php
             echo "<?php \$this->widget('bootstrap.widgets.TbButtonGroup', array(
         'buttons'=>array(
-                array('label'=>Yii::t('" . $this->messageCatalog . "','Relations'), 'icon'=>'icon-search', 'items'=>array(";
+                array('label'=>Yii::t('" . $this->messageCatalog . "','Relations'), 'icon'=>'icon-random', 'items'=>array(";
 
             // render relation links
             foreach ($model->relations() AS $key => $relation) {
-                echo "array('label'=>'{$key} - {$relation[1]}', 'url' =>array('{$this->codeProvider->resolveController($relation)}/admin')),";
+                $replace = array(
+                    'CBelongsToRelation' => 'circle-arrow-left',
+                    'CManyManyRelation'=> 'resize-horizontal',
+                    'CHasManyRelation'=> 'arrow-right',
+                    'CHasOneRelation'=> 'circle-arrow-right',);
+                echo "array('icon'=>'".strtr($relation[0], $replace)."','label'=>'".ucfirst($key)."', 'url' =>array('{$this->codeProvider->resolveController($relation)}/admin')),";
             }
 
             echo "

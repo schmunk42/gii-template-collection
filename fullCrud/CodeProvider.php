@@ -40,14 +40,9 @@ class CodeProvider
             if (is_object($field)) {
                 if ($relationInfo[0] == 'CManyManyRelation') {
                     $allowEmpty = 'false';
-                }
-                elseif ($relationInfo[0] == 'CHasOneRelation') {
-                    $allowEmpty = ($relatedModel->tableSchema->columns[$relationInfo[2]]->allowNull ?
-                        'true' : 'false');
-
+                } elseif ($relationInfo[0] == 'CHasOneRelation') {
                     return "if (\$model->{$relationName} !== null) echo \$model->{$relationName}->{$suggestedfield};";
-                }
-                else {
+                } else {
                     $allowEmpty = (CActiveRecord::model($model)->tableSchema->columns[$relationInfo[2]]->allowNull ?
                         'true' : 'false');
                 }
@@ -63,7 +58,7 @@ class CodeProvider
 							'htmlOptions' => array(
 								'checkAll' => 'all'),
 							)
-						".($captureOutput ? ", true" : "").")");
+						" . ($captureOutput ? ", true" : "") . ")");
             }
         }
     }
@@ -92,15 +87,9 @@ class CodeProvider
                 return "'" . $column->name . "'";
             }
 
-            $fmodel     = CActiveRecord::model($relation[1]);
-            $fmodelName = $relation[1];
-
-            $modelTable = ucfirst($fmodel->tableName());
-            $fcolumns   = $fmodel->attributeNames();
-
-            /* if (method_exists($fmodel,'get_label')) {
-              $fcolumns[1] = "_label";
-              } */
+            $relatedModel     = CActiveRecord::model($relation[1]);
+            $relatedModelName = $relation[1];
+            $fcolumns   = $relatedModel->attributeNames();
 
             //$rel = $model->getActiveRelation($column->name);
             $relname = strtolower($fk[0]);
@@ -117,20 +106,18 @@ class CodeProvider
 					'name'=>'{$column->name}',
 					'value'=>CHtml::value(\$model,'{$relname}.".self::suggestIdentifier($relatedModel)."'),
 					)";
-            }
-            elseif ($view == 'search') {
-                return "echo \$form->dropDownList(\$model,'{$column->name}',CHtml::listData({$fmodelName}::model()->findAll(), '{$fmodel->getTableSchema()->primaryKey}', '{$fcolumns[1]}'),array('prompt'=>'all'))";
-            }
-            else {
+            } elseif ($view == 'search') {
+                return "echo \$form->dropDownList(\$model,'{$column->name}',CHtml::listData({$relatedModelName}::model()->findAll(),
+                '{$fcolumns[0]}', '{$fcolumns[1]}'),array('prompt'=>'all'))";
+            } else {
                 return "array(
 					'name'=>'{$column->name}',
-					'value'=>'CHtml::value(\$data,\\'{$relname}.{$fcolumns[1]}\\')',
-							'filter'=>CHtml::listData({$fmodelName}::model()->findAll(), '{$fcolumns[0]}', '{$fcolumns[1]}'),
+					'value'=>'CHtml::value(\$data,\\'{$relname}.".self::suggestIdentifier($relatedModel)."\\')',
+							'filter'=>CHtml::listData({$relatedModelName}::model()->findAll(), '{$fcolumns[0]}', '".self::suggestIdentifier($relatedModel)."'),
 							)";
             }
             //{$relname}.{$fcolumns[1]}
-        }
-        else {
+        } else {
             /*if (strtoupper($column->dbType) == 'BOOLEAN'
                 or strtoupper($column->dbType) == 'TINYINT(1)' or
                 strtoupper($column->dbType) == 'BIT'
@@ -157,8 +144,7 @@ class CodeProvider
                 return "array(
 				'name'=>'{$column->name}',
 				'value' =>'date(\"Y. m. d G:i:s\", \$data->{$column->name})')";
-            }
-            else {
+            } else {
                 return ("'" . $column->name . "'");
             }
             #}
@@ -175,9 +161,8 @@ class CodeProvider
 
             return $this->generateValueField($modelClass, $column, $view);
 
-        }
-        else {
-                return "array(
+        } else {
+            return "array(
 			'class' => 'editable.EditableColumn',
 			'name' => '{$column->name}',
 			'editable' => array(

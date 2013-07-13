@@ -9,23 +9,32 @@ echo "?>";
 
 <?php echo '<?php $this->widget("TbBreadcrumbs", array("links"=>$this->breadcrumbs)) ?>'; ?>
 
-    <h1>
-        <?php
-        echo "<?php echo Yii::t('" . $this->messageCatalog . "','" . $this->class2name($this->modelClass) . "')?>";
-        echo " <small><?php echo Yii::t('" . $this->messageCatalog . "','View')?> #<?php echo \$model->" . $this->tableSchema->primaryKey . " ?></small>";
-        ?>
-    </h1>
+<h1>
+    <?php
+    echo "<?php echo Yii::t('" . $this->messageCatalog . "','" . $this->class2name($this->modelClass) . "')?>";
+    echo " <small><?php echo Yii::t('" . $this->messageCatalog . "','View')?> #<?php echo \$model->" . $this->tableSchema->primaryKey . " ?></small>";
+    ?>
+</h1>
 
 
 
 <?php echo '<?php $this->renderPartial("_toolbar", array("model"=>$model)); ?>'; ?>
 
 
-    <h2>
-        <?php echo "<?php echo Yii::t('" . $this->messageCatalog . "','Data')?>"; ?>
-    </h2>
 
-    <p>
+<div class="row">
+    <div class="span8">
+        <h2>
+            <?php echo "<?php echo Yii::t('" . $this->messageCatalog . "','Data')?>"; ?>
+        </h2>
+
+        <h3>
+            <?php echo "<?php echo \$model->" . CodeProvider::suggestIdentifier(
+                    CActiveRecord::model(Yii::import($this->model))
+                ) . "?>"; ?>
+        </h3>
+
+
         <?php
         echo "<?php
     \$this->widget('TbDetailView', array(
@@ -41,11 +50,18 @@ echo "?>";
                         $relatedModel   = CActiveRecord::model($relation[1]);
                         $suggestedfield = CodeProvider::suggestIdentifier($relatedModel);
                         $controller     = $this->codeProvider->resolveController($relation);
-                        $value          = "(\$model->{$key} !== null)?";
-                        $value .= "'<span class=label>" . $relation[0] . "</span><br/>'.";
-                        $value .= "CHtml::link(\$model->{$key}->{$suggestedfield}, array('{$controller}/view','{$relatedModel->tableSchema->primaryKey}'=>\$model->{$key}->{$relatedModel->tableSchema->primaryKey}), array('class'=>'btn'))";
-                        #$value .= "' '.";
-                        #$value .= "CHtml::link(Yii::t('app','Update'), array('{$controller}/update','{$relatedModel->tableSchema->primaryKey}'=>\$model->{$key}->{$relatedModel->tableSchema->primaryKey}), array('class'=>'btn'))";
+
+                        $value = "(\$model->{$key} !== null)?";
+                        $value .= "CHtml::link(
+                            '<i class=\"icon icon-circle-arrow-left\"></i> '.\$model->{$key}->{$suggestedfield},
+                            array('{$controller}/view','{$relatedModel->tableSchema->primaryKey}'=>\$model->{$key}->{$relatedModel->tableSchema->primaryKey}),
+                            array('class'=>'')).";
+                        $value .= "' '.";
+                        $value .= "CHtml::link(
+                            '<i class=\"icon icon-pencil\"></i> ',
+                            array('{$controller}/update','{$relatedModel->tableSchema->primaryKey}'=>\$model->{$key}->{$relatedModel->tableSchema->primaryKey}),
+                            array('class'=>''))";
+
                         $value .= ":'n/a'";
 
                         echo "            'value'=>{$value},\n";
@@ -77,15 +93,10 @@ echo "?>";
         echo "),
         )); ?>";
         ?>
-    </p>
 
-<?php
-$relations = CActiveRecord::model(Yii::import($this->model))->relations();
-if ($relations !== array()): ?>
+    </div>
 
-    <h2>
-        <?php echo "<?php echo Yii::t('" . $this->messageCatalog . "','Relations')?>"; ?>
-    </h2>
+    <div class="span4">
 
         <?php
         $relations = CActiveRecord::model(Yii::import($this->model))->relations();
@@ -111,47 +122,52 @@ if ($relations !== array()): ?>
                     continue;
                 }
 
-        echo "<div class='well'>\n";
-        echo "    <div class='row'>\n";
+                echo "<div class=''>\n";
+                echo "    <div class='control-group'>\n";
 
-        #echo CHtml::openTag('div');
-        if (($relation[0] == 'CManyManyRelation' || $relation[0] == 'CHasManyRelation')) {
-            echo "<div class='span3'><?php " . $this->codeProvider->generateRelationHeader(
-                    $relatedModel,
-                    $key,
-                    $relation
-                ) . " ?></div>";
-            echo "<div class='span8'>
+                #echo CHtml::openTag('div');
+                if (($relation[0] == 'CManyManyRelation' || $relation[0] == 'CHasManyRelation')) {
+                    echo "<p><?php " . $this->codeProvider->generateRelationHeader(
+                            $relatedModel,
+                            $key,
+                            $relation
+                        ) . " ?></p>";
+                    echo "<p>
 <?php
-    echo '<span class=label>{$relation[0]}</span>';
     if (is_array(\$model->{$key})) {\n
-        echo CHtml::openTag('ul');
+        echo CHtml::openTag('ul', array('class'=>'relations'));
             foreach(\$model->{$key} as \$relatedModel) {\n
                 echo '<li>';
-                echo CHtml::link(\$relatedModel->{$suggestedfield}, array('{$controller}/view','{$pk}'=>\$relatedModel->{$pk}), array('class'=>''));\n
+                echo CHtml::link(
+                    '<i class=\"icon icon-arrow-right\"></i> '.\$relatedModel->{$suggestedfield},
+                    array('{$controller}/view','{$pk}'=>\$relatedModel->{$pk}), array('class'=>'')
+                );\n
+                echo CHtml::link(
+                    ' <i class=\"icon icon-pencil\"></i>',
+                    array('{$controller}/update','{$pk}'=>\$relatedModel->{$pk}), array('class'=>'')
+                );\n
                 echo '</li>';
             }
         echo CHtml::closeTag('ul');
     }
 ?></div>";
-            echo "\n";
-        }
+                    echo "\n";
+                }
 
 
-        if ($relation[0] == 'CHasOneRelation') {
-            $relatedModel = CActiveRecord::model($relation[1]);
-            if (!$pk = $relatedModel->tableSchema->primaryKey) {
-                $pk = 'id';
-            }
+                if ($relation[0] == 'CHasOneRelation') {
+                    $relatedModel = CActiveRecord::model($relation[1]);
+                    if (!$pk = $relatedModel->tableSchema->primaryKey) {
+                        $pk = 'id';
+                    }
 
-            echo "<div class='span3'><?php " . $this->codeProvider->generateRelationHeader(
-                    $relatedModel,
-                    $key,
-                    $relation
-                ) . " ?></div>";
-            echo "<div class='span8'>
+                    echo "<div class='span3'><?php " . $this->codeProvider->generateRelationHeader(
+                            $relatedModel,
+                            $key,
+                            $relation
+                        ) . " ?></div>";
+                    echo "<div class='span8'>
 <?php
-    echo '<span class=label>{$relation[0]}</span>';
     \$relatedModel = \$model->{$key}; \n
     if (\$relatedModel !== null) {
         echo CHtml::openTag('ul');
@@ -164,11 +180,13 @@ if ($relations !== array()): ?>
         echo CHtml::closeTag('ul');
     }
 ?></div>";
-        }
-        #echo CHtml::closeTag('div');
-        echo "     </div> <!-- row -->\n";
-        echo "</div> <!-- well -->\n";
-    }
+                }
+                #echo CHtml::closeTag('div');
+                echo "     </p> <!-- p -->\n";
+                echo "</div> <!-- well -->\n";
+            }
 
-endif;
-?>
+        endif;
+        ?>
+    </div>
+</div>
