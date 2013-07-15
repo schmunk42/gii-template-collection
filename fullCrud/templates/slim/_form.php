@@ -62,8 +62,10 @@
                         echo "    <div class=\"control-group\">\n";
                         #echo "        <div class=\"span12\">\n";
                         echo "            <div class='control-label'><?php " . $this->generateActiveLabel($this->modelClass, $column) . "; ?></div>\n";
-                        echo "            <div class='controls'><?php " . $this->generateActiveField($this->modelClass, $column) . "; ?></div>\n";
-                        echo "            <?php echo \$form->error(\$model,'{$column->name}'); ?>\n";
+                        echo "            <div class='controls'>";
+                        echo "                <?php " . $this->generateActiveField($this->modelClass, $column) . "; ?>";
+                        echo "                <?php echo \$form->error(\$model,'{$column->name}'); ?>\n";
+                        echo "            </div>\n";
 
                         // renders a hint div, but leaves it empty, when the hint is not translated yet
                         $placholder = "help." . $column->name . "";
@@ -95,8 +97,6 @@
                         continue;
                     }
 
-                    echo "    <div class=\"row-fluid input-block-level-container\">\n";
-                    echo "        <div class=\"span12\">\n";
                     printf(
                         "        <label for=\"%s\"><?php echo Yii::t('" . $this->messageCatalog . "', '%s'); ?></label>\n",
                         $key,
@@ -105,8 +105,6 @@
                     echo "                <?php\n";
                     echo "                " . $this->codeProvider->generateRelation($this->modelClass, $key, $relation);
                     echo "\n              ?>\n";
-                    echo "        </div>\n";
-                    echo "    </div>\n\n";
                 }
             }
             ?>
