@@ -38,14 +38,12 @@ class CodeProvider
             $style          = $relationInfo[0] == 'CManyManyRelation' ? 'multiselect' : 'dropdownlist';
 
             if (is_object($field)) {
-                if ($relationInfo[0] == 'CManyManyRelation') {
-                    $allowEmpty = 'false';
-                } elseif ($relationInfo[0] == 'CHasOneRelation') {
+                if ($relationInfo[0] == 'CHasOneRelation') {
                     return "if (\$model->{$relationName} !== null) echo \$model->{$relationName}->{$suggestedfield};";
-                } else {
-                    $allowEmpty = (CActiveRecord::model($model)->tableSchema->columns[$relationInfo[2]]->allowNull ?
-                        'true' : 'false');
                 }
+
+                // we always allow empty, so the does not accidentally select the first value
+                $allowEmpty = true;
 
                 return ("\$this->widget(
 					'Relation',
