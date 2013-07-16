@@ -104,41 +104,6 @@ class FullCrudCode extends CrudCode
         parent::validateModel($attribute, $params);
     }
 
-
-    /* TODO: this should be deprecated --> moved to CodeProvider
-    public static function suggestName($columns)
-    {
-        $nonNumericFound = false;
-        foreach ($columns as $column) {
-            if ($column->isPrimaryKey) {
-                $fallbackName = $column->name;
-            }
-            // Use the first non-numeric column as a fallback
-            if (!$column->isForeignKey
-                && !$column->isPrimaryKey
-                && $column->type != 'BIGINT'
-                && $column->type != 'INT'
-                && $column->type != 'INTEGER'
-                && $column->type != 'BOOLEAN'
-                && !$nonNumericFound
-            ) {
-                $fallbackName = $column->name;
-                $nonNumericFound = true;
-            }
-            // Return the first title, name, label column, if found
-            if (in_array($column->name, array(
-                "title",
-                "name",
-                "label",
-            ))) {
-                $fallbackName = $column->name;
-                break;
-            }
-        }
-        return $fallbackName;
-    } */
-
-
     /**
      * Returns the viewFile for the column if exists otherwise it returns null
      *
