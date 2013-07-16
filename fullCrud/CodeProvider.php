@@ -31,15 +31,25 @@ class CodeProvider
     {
         $controller = $this->resolveController($relationInfo); // TODO
         $code = "";
-        $code .= "\$this->widget('bootstrap.widgets.TbButtonGroup', array(
+        $code .= "
+    \$this->widget('bootstrap.widgets.TbButtonGroup', array(
         'type'=>'', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
         'buttons'=>array(
-            array('label'=>'".ucfirst($relationName)."', 'icon'=>'icon-list-alt', 'url'=> array('{$controller}/admin')),
-                array(
-                    'icon'=>'icon-plus',
-                    'url'=>array('" . $controller . "/create', '$relationInfo[1]' => array('$relationInfo[2]'=>\$model->{\$model->tableSchema->primaryKey}))),
-        ),
-    ));";
+            array(
+                'label'=>'".ucfirst($relationName)."',
+                'icon'=>'icon-list-alt',
+                'url'=> array('{$controller}/admin')
+            ),
+            array(
+                'icon'=>'icon-plus',
+                'url'=>array(
+                    '{$controller}/create',
+                    '{$relationInfo[1]}' => array('{$relationInfo[2]}'=>\$model->{\$model->tableSchema->primaryKey})
+                    )
+                ),
+            ),
+        )
+    );";
 
         return $code;
     }
