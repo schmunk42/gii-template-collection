@@ -42,6 +42,23 @@ Full Model
 Full CRUD
 ---------
 
+### Shorthands
+
+    <?php php() ?>
+    $form=$this->beginWidget('CActiveForm', array(
+            'action'=>Yii::app()->createUrl($this->route),
+            'method'=>'get',
+    ));
+    <?php endphp() ?>
+
+
+    <?php php() ?>
+    Yii::t('" . $this->messageCatalog . "','Relations')");
+    <?php endphp() ?>
+
+
+    <?php php("echo Yii::t('" . $this->messageCatalog . "','Relations')");") ?>
+
 ### Template default
 
 *tbd*

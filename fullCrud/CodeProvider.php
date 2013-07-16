@@ -1,4 +1,20 @@
 <?php
+/**
+ * Global shorthands
+ */
+
+function php($code = null){
+    if ($code === null) {
+        echo "<?php ";
+    } else {
+        echo "<?php ".$code." ?>";
+    }
+}
+
+function endphp(){
+    echo " ?>";
+}
+
 
 /**
  * Class to provide code snippets for CRUD generation
