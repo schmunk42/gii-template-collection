@@ -53,10 +53,10 @@ PHP;
                         ?>
                         <div class="control-group">
                             <div class='control-label'>
-                                <?= "<?php ".$this->generateActiveLabel($this->modelClass, $column)." ?>" ?>
+                                <?= "<?php " . $this->generateActiveLabel($this->modelClass, $column) . " ?>" ?>
                             </div>
                             <div class='controls'>
-                                <?= "<?php ".$this->generateActiveField($this->modelClass, $column).";" ?>
+                                <?= "<?php " . $this->generateActiveField($this->modelClass, $column) . ";" ?>
                                 <?= "echo \$form->error(\$model,'{$column->name}'); ?>" ?>
                                 <?= $this->generateHelpText($column) ?>
                             </div>
@@ -75,24 +75,29 @@ PHP;
             </h2>
             <?
             // render relation inputs
-            foreach ($this->getRelations() as $key => $relation) {
+            foreach ($this->getRelations() as $key => $relation) :
                 if ($relation[0] == 'CBelongsToRelation'
                     || $relation[0] == 'CHasOneRelation'
                     || $relation[0] == 'CManyManyRelation'
-                ) {
+                ) :
                     if ($relationView = $this->resolveRelationViewFile($relation)) {
                         echo "      <?php \$this->renderPartial('{$relationView}', array('model'=>\$model, 'form' => \$form)) ?>\n";
                         continue;
                     }
+                    ?>
 
-                    echo "        <label for=\"{$key}\"><?php echo Yii::t('" . $this->messageCatalog . "', '" . ucfirst(
-                            $key
-                        ) . "'); ?></label>\n";
-                    echo "                <?php\n";
-                    echo "                " . FullCrudHelper::generateRelation($this->modelClass, $key, $relation);
-                    echo "\n              ?>\n";
-                }
-            }
+                    <?=
+                    <<<PHP
+                    <label for='{$key}'>
+                        <?php echo Yii::t('{$this->messageCatalog}', '{$key}'); ?>
+                    </label>
+PHP;
+                    ?>
+                    <?= "<?php " . FullCrudHelper::generateRelation($this->modelClass, $key, $relation) . " ?>" ?>
+
+                <?
+                endif;
+            endforeach;
             ?>
 
 
