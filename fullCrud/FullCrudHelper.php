@@ -35,7 +35,7 @@ class FullCrudHelper
     static public function suggestIdentifier($model)
     {
         if (!$model instanceof CActiveRecord) {
-            $model = CActiveRecord::model($model);
+            $model = CActiveRecord::model(Yii::import($model));
         }
 
         if (is_callable(array($model, 'getItemLabel'))) {
