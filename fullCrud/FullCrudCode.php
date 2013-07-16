@@ -61,6 +61,18 @@ class FullCrudCode extends CrudCode
             return parent::getControllerID();
     }
 
+    //
+    public function getEnableAjaxValidation()
+    {
+        return ($this->validation == 1 || $this->validation == 3) ? 'true' : 'false';
+    }
+
+    //
+    public function getEnableClientValidation()
+    {
+        return ($this->validation == 2 || $this->validation == 3) ? 'true' : 'false';
+    }
+
     // updated for $moduleName handling
     public function successMessage()
     {
