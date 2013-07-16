@@ -45,10 +45,10 @@ if ($count >= 7)
 <?php
 foreach (CActiveRecord::model(Yii::import($this->model))->relations() as $key => $relation) {
 
-    $controller = $this->codeProvider->resolveController($relation);
+    $controller = FullCrudHelper::resolveController($relation);
     $relatedModel = CActiveRecord::model($relation[1]);
     $pk = $relatedModel->tableSchema->primaryKey;
-    $suggestedfield = $this->suggestName($relatedModel->tableSchema->columns);
+    $suggestedfield = FullCrudHelper::suggestIdentifier($relatedModel);
 
     // TODO: currently composite PKs are omitted
     if (is_array($pk))
@@ -58,7 +58,7 @@ foreach (CActiveRecord::model(Yii::import($this->model))->relations() as $key =>
         #$model = CActiveRecord::model($relation[1]);
         #if (!$pk = $model->tableSchema->primaryKey)
         #	$pk = 'id';
-        #$suggestedtitle = $this->suggestName($model->tableSchema->columns);
+        #$suggestedtitle = FullCrudHelper::suggestName($model->tableSchema->columns);
         echo '<h2>';
         echo "<?php echo CHtml::link(Yii::t('app','" . ucfirst($key) . "'), array('" . $controller . "/admin'));?>";
         echo "</h2>\n";
@@ -82,7 +82,7 @@ foreach (CActiveRecord::model(Yii::import($this->model))->relations() as $key =>
         if (!$pk = $relatedModel->tableSchema->primaryKey)
             $pk = 'id';
 
-#$suggestedtitle = $this->suggestName($model->tableSchema->columns);
+#$suggestedtitle = FullCrudHelper::suggestName($model->tableSchema->columns);
         echo '<h2>';
         echo "<?php echo CHtml::link(Yii::t('app','" . $relation[1] . "'), array('" . $controller . "/admin'));?>";
         echo "</h2>\n";
@@ -126,9 +126,8 @@ foreach (CActiveRecord::model(Yii::import($this->model))->relations() as $key =>
                     $relatedModel = CActiveRecord::model($relation[1]);
                     $columns = $relatedModel->tableSchema->columns;
 
-                    $suggestedfield = $this->suggestName($columns);
-
-                    $controller = $this->codeProvider->resolveController($relation);
+                    $suggestedfield = FullCrudHelper::suggestIdentifier($relatedModel);
+                    $controller = FullCrudHelper::resolveController($relation);
                     $value = "(\$model->{$key} !== null)?";
                     $value .= "'<span class=label>" . $relation[0] . "</span><br/>'.";
                     $value .= "CHtml::link(\$model->{$key}->{$suggestedfield}, array('{$controller}/view','{$relatedModel->tableSchema->primaryKey}'=>\$model->{$key}->{$relatedModel->tableSchema->primaryKey}), array('class'=>'btn'))";

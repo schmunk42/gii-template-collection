@@ -19,17 +19,17 @@ function endphp(){
 /**
  * Class to provide code snippets for CRUD generation
  */
-class CodeProvider
+class FullCrudHelper
 {
 
-    public function resolveController($relation)
+    static public function resolveController($relation)
     {
         return strtolower(substr($relation[1], 0, 1)) . substr($relation[1], 1);
     }
 
-    public function generateRelationHeader($model, $relationName, $relationInfo)
+    static public function generateRelationHeader($model, $relationName, $relationInfo)
     {
-        $controller = $this->resolveController($relationInfo); // TODO
+        $controller = self::resolveController($relationInfo); // TODO
         $code = "";
         $code .= "
     \$this->widget('bootstrap.widgets.TbButtonGroup', array(
@@ -54,7 +54,7 @@ class CodeProvider
         return $code;
     }
 
-    public function generateRelation($model, $relationName, $relationInfo, $captureOutput = false)
+    static public function generateRelation($model, $relationName, $relationInfo, $captureOutput = false)
     {
         $relatedModel = CActiveRecord::model($relationInfo[1]);
         if ($columns = $relatedModel->tableSchema->columns) {
@@ -91,7 +91,7 @@ class CodeProvider
      * @param CActiveRecord   $modelClass
      * @param CDbColumnSchema $column
      */
-    public function generateValueField($modelClass, $column, $view = false)
+    static public function generateValueField($modelClass, $column, $view = false)
     {
         if ($column->isForeignKey) {
 
@@ -179,11 +179,11 @@ class CodeProvider
      * @param CActiveRecord   $modelClass
      * @param CDbColumnSchema $column
      */
-    public function generateEditableField($modelClass, $column, $controller, $view = false)
+    static public function generateEditableField($modelClass, $column, $controller, $view = false)
     {
         if ($column->isForeignKey) {
 
-            return $this->generateValueField($modelClass, $column, $view);
+            return self::generateValueField($modelClass, $column, $view);
 
         } else {
             return "array(
@@ -199,7 +199,7 @@ class CodeProvider
 
     // Which column will most probably be the one that gets used to list
     // KEEP THIS CODE it can be called statically
-    public static function suggestIdentifier($model)
+    static public function suggestIdentifier($model)
     {
         if(!$model instanceof CActiveRecord) {
             $model = CActiveRecord::model($model);

@@ -33,9 +33,9 @@ foreach ($this->tableSchema->columns as $column) {
                 $relatedModel = CActiveRecord::model($relation[1]);
                 $columns = $relatedModel->tableSchema->columns;
 
-                $suggestedfield = $this->suggestName($columns);
+                $suggestedfield = FullCrudHelper::suggestIdentifier($relatedModel);
 
-                $controller = $this->codeProvider->resolveController($relation);
+                $controller = FullCrudHelper::resolveController($relation);
                 $value = "(\$model->{$key} !== null)?";
                 $value .= "CHtml::link(\$model->{$key}->{$suggestedfield}, array('{$controller}/view','{$relatedModel->tableSchema->primaryKey}'=>\$model->{$key}->{$relatedModel->tableSchema->primaryKey})).' '.";
                 $value .= "CHtml::link(Yii::t('app','Update'), array('{$controller}/update','{$relatedModel->tableSchema->primaryKey}'=>\$model->{$key}->{$relatedModel->tableSchema->primaryKey}), array('class'=>'edit'))";
@@ -69,7 +69,7 @@ foreach ($this->tableSchema->columns as $column) {
 <?php
 foreach (CActiveRecord::model(Yii::import($this->model))->relations() as $key => $relation) {
 
-    $controller = $this->codeProvider->resolveController($relation);
+    $controller = FullCrudHelper::resolveController($relation);
     $relatedModel = CActiveRecord::model($relation[1]);
     $pk = $relatedModel->tableSchema->primaryKey;
     $suggestedfield = $this->suggestName($relatedModel->tableSchema->columns);

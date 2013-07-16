@@ -9,10 +9,10 @@ if (!empty($relations)) :
 
     <?php
     foreach ($relations as $key => $relation) {
-        $controller     = $this->codeProvider->resolveController($relation);
+        $controller     = FullCrudHelper::resolveController($relation);
         $relatedModel   = CActiveRecord::model($relation[1]);
         $pk             = $relatedModel->tableSchema->primaryKey;
-        $suggestedfield = CodeProvider::suggestIdentifier($relatedModel);
+        $suggestedfield = FullCrudHelper::suggestIdentifier($relatedModel);
 
         // TODO: currently composite PKs are omitted
         if (is_array($pk)) {
@@ -34,9 +34,7 @@ if (!empty($relations)) :
         if (($relation[0] == 'CManyManyRelation' || $relation[0] == 'CHasManyRelation')) {
             echo "
             <p>
-<?php
-{$this->codeProvider->generateRelationHeader($relatedModel, $key, $relation)}
-?>
+<?php ".FullCrudHelper::generateRelationHeader($relatedModel, $key, $relation)." ?>
             </p>
             <ul class='relations'>
 <?php
@@ -67,9 +65,7 @@ if (!empty($relations)) :
 
             echo "
             <p>
-<?php
-{$this->codeProvider->generateRelationHeader($relatedModel, $key, $relation)}
-?>
+<?php ".FullCrudHelper::generateRelationHeader($relatedModel, $key, $relation)."?>
             </p>";
 
             echo "

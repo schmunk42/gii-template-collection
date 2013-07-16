@@ -55,7 +55,7 @@ foreach ($this->tableSchema->columns as $column) {
     else {
         $count++;
     }
-    echo "\t\t" . $this->codeProvider->generateValueField($this->modelClass, $column) . ",\n";
+    echo "\t\t" . FullCrudHelper::generateValueField($this->modelClass, $column) . ",\n";
 }
 
 if ($count >= 8) {

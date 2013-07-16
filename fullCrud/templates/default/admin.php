@@ -34,7 +34,7 @@ echo "<ul>";
 foreach ($model->relations() AS $key => $relation) {
     echo "<li>" .
     Yii::t("app", substr(str_replace("Relation", "", $relation[0]), 1)) . " " .
-    "<?php echo CHtml::link('" . Yii::t("app", $relation[1]) . "', array('" . $this->codeProvider->resolveController($relation) . "/admin')); ?>" .
+    "<?php echo CHtml::link('" . Yii::t("app", $relation[1]) . "', array('" . FullCrudHelper::resolveController($relation) . "/admin')); ?>" .
     " </li>";
 }
 echo "</ul>";
@@ -64,7 +64,7 @@ foreach ($this->tableSchema->columns as $column) {
 
     if (strtoupper($column->dbType) == 'TEXT')
         echo "#";
-    echo "\t\t" . $this->codeProvider->generateValueField($this->modelClass, $column) . ",\n";
+    echo "\t\t" . FullCrudHelper::generateValueField($this->modelClass, $column) . ",\n";
 }
 
 if ($count >= 7)

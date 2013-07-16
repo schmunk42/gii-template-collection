@@ -4,7 +4,7 @@ Yii::import('system.gii.generators.crud.CrudCode');
 
 Yii::setPathOfAlias("gtc", dirname(__FILE__) . DIRECTORY_SEPARATOR . '..');
 Yii::import('gtc.components.*');
-Yii::import('gtc.fullCrud.CodeProvider');
+Yii::import('gtc.fullCrud.FullCrudHelper');
 Yii::import('gtc.fullCrud.providers.*');
 
 class FullCrudCode extends CrudCode
@@ -13,7 +13,6 @@ class FullCrudCode extends CrudCode
     public $validation = 3;
     public $identificationColumn = null;
     public $baseControllerClass = 'Controller';
-    public $codeProvider;
     public $authTemplate = "yii_user_management_access_control";
     public $messageCatalog = "crud";
     public $template = "slim";
@@ -80,18 +79,8 @@ class FullCrudCode extends CrudCode
     }
 
 
-
-    private function getOutputViewDirectory(){
-        $controllerDir = dirname($this->files[0]->path);
-        $controllerName = strtolower(basename(str_replace('Controller','',$this->files[0]->path), ".php"));
-        $viewDir = str_replace('controllers','views/'.$controllerName, $controllerDir);
-        return $viewDir;
-    }
-
-
     public function prepare()
     {
-        $this->codeProvider = new CodeProvider;
         if (!$this->identificationColumn) {
             $this->identificationColumn = $this->tableSchema->primaryKey;
         }
@@ -116,7 +105,7 @@ class FullCrudCode extends CrudCode
     }
 
 
-    // TODO: this should be deprecated --> moved to CodeProvider
+    /* TODO: this should be deprecated --> moved to CodeProvider
     public static function suggestName($columns)
     {
         $nonNumericFound = false;
@@ -147,7 +136,7 @@ class FullCrudCode extends CrudCode
             }
         }
         return $fallbackName;
-    }
+    } */
 
 
     /**
@@ -277,6 +266,14 @@ class FullCrudCode extends CrudCode
             else
                 return "\$form->{$inputField}(\$model,'{$column->name}',array('maxlength'=>$column->size))";
         }
+    }
+
+
+    private function getOutputViewDirectory(){
+        $controllerDir = dirname($this->files[0]->path);
+        $controllerName = strtolower(basename(str_replace('Controller','',$this->files[0]->path), ".php"));
+        $viewDir = str_replace('controllers','views/'.$controllerName, $controllerDir);
+        return $viewDir;
     }
 
 }

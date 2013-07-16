@@ -23,7 +23,7 @@
             </h2>
 
             <h3>
-                <?php echo "<?php echo \$model->" . CodeProvider::suggestIdentifier(
+                <?php echo "<?php echo \$model->" . FullCrudHelper::suggestIdentifier(
                         CActiveRecord::model(Yii::import($this->model))
                     ) . "?>"; ?>
             </h3>
@@ -103,7 +103,7 @@
                         ucfirst($key)
                     );
                     echo "                <?php\n";
-                    echo "                " . $this->codeProvider->generateRelation($this->modelClass, $key, $relation);
+                    echo "                " . FullCrudHelper::generateRelation($this->modelClass, $key, $relation);
                     echo "\n              ?>\n";
                 }
             }
