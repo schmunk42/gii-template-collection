@@ -2,6 +2,9 @@
 
 Yii::setPathOfAlias("gtc", dirname(__FILE__) . DIRECTORY_SEPARATOR . '..');
 
+// import global helpers
+Yii::import('gtc.fullCrud.FullCrudHelper',true);
+
 class FullCrudGenerator extends CCodeGenerator
 {
 

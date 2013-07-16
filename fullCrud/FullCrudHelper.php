@@ -5,14 +5,14 @@
 
 function php($code = null){
     if ($code === null) {
-        echo "<?php ";
+        echo "<?php\n";
     } else {
         echo "<?php ".$code." ?>";
     }
 }
 
 function endphp(){
-    echo " ?>";
+    echo "\n?>";
 }
 
 
