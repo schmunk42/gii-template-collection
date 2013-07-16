@@ -1,42 +1,41 @@
 <div class="crud-form">
 
-    <?php echo '<?php'; ?>
+    <?=
+    <<<PHP
+    <?php
+        Yii::app()->bootstrap->registerAssetCss('select2.css');
+        Yii::app()->bootstrap->registerAssetJs('select2.js');
+        Yii::app()->clientScript->registerScript('crud/variant/update','$(".crud-form select").select2();');
 
-    Yii::app()->bootstrap->registerAssetCss('select2.css');
-    Yii::app()->bootstrap->registerAssetJs('select2.js');
-    Yii::app()->clientScript->registerScript('crud/variant/update','$(".crud-form select").select2();');
+        \$form=\$this->beginWidget('CActiveForm', array(
+            'id'=>'{$this->class2id($this->modelClass)}-form',
+            'enableAjaxValidation'=>{$this->enableAjaxValidation},
+            'enableClientValidation'=>{$this->enableClientValidation},
+        ));
 
-    $form=$this->beginWidget('CActiveForm', array(
-    'id'=>'<?php echo $this->class2id($this->modelClass); ?>-form',
-    'enableAjaxValidation'=><?php echo $this->validation == 1 || $this->validation == 3 ? 'true' : 'false'; ?>,
-    'enableClientValidation'=><?php echo $this->validation == 2 || $this->validation == 3 ? 'true' : 'false'; ?>,
-    ));
-
-    echo $form->errorSummary($model);
-
-    <?php echo '?>'; ?>
+        echo \$form->errorSummary(\$model);
+    ?>
+PHP;
+    ?>
 
     <div class="row">
         <div class="span8"> <!-- main inputs -->
             <h2>
-                <?php echo "<?php echo Yii::t('" . $this->messageCatalog . "','Data')?>"; ?>
+                <?= "<?php echo Yii::t('" . $this->messageCatalog . "','Data')?>"; ?>
             </h2>
 
             <h3>
-                <?php echo "<?php echo \$model->" . FullCrudHelper::suggestIdentifier(
-                        CActiveRecord::model(Yii::import($this->model))
-                    ) . "?>"; ?>
+                <?= "<?php echo \$model->" . FullCrudHelper::suggestIdentifier($this->model) . "?>"; ?>
             </h3>
 
             <div class="form-horizontal">
                 <?php
-                foreach ($this->tableSchema->columns as $column) {
+                foreach ($this->tableSchema->columns as $column):
 
                     // omit pk
                     if ($column->autoIncrement) {
                         continue;
                     }
-
                     // omit relations, they are rendered below
                     foreach ($this->getRelations() as $key => $relation) {
                         if ($relation[2] == $column->name) {
@@ -49,33 +48,22 @@
                         echo "<?php      \$this->renderPartial('{$columnView}', array('model'=>\$model, 'form' => \$form)) ?>\n";
                         continue;
                     }
-
                     // render input
-                    if (!$column->isForeignKey
-                        && $column->name != 'create_time'
-                        && $column->name != 'update_time'
-                        && $column->name != 'createtime'
-                        && $column->name != 'updatetime'
-                        && $column->name != 'timestamp'
-                    ) {
-                        echo "\n";
-                        echo "    <div class=\"control-group\">\n";
-                        #echo "        <div class=\"span12\">\n";
-                        echo "            <div class='control-label'><?php " . $this->generateActiveLabel($this->modelClass, $column) . "; ?></div>\n";
-                        echo "            <div class='controls'>";
-                        echo "                <?php " . $this->generateActiveField($this->modelClass, $column) . "; ?>";
-                        echo "                <?php echo \$form->error(\$model,'{$column->name}'); ?>\n";
-                        echo "            </div>\n";
-
-                        // renders a hint div, but leaves it empty, when the hint is not translated yet
-                        $placholder = "help." . $column->name . "";
-                        echo "            <?php if('" . $placholder . "' != \$help = Yii::t('" . $this->messageCatalog . "', '" . $placholder . "')) { \n";
-                        echo '                echo "<span class=\'help-block\'>{$help}</span>";';
-                        echo "            \n} ?>\n";
-                        #echo "        </div>\n";
-                        echo "    </div>\n\n";
-                    }
-                }
+                    if (!$column->isForeignKey):
+                        ?>
+                        <div class="control-group">
+                            <div class='control-label'>
+                                <?= "<?php ".$this->generateActiveLabel($this->modelClass, $column)." ?>" ?>
+                            </div>
+                            <div class='controls'>
+                                <?= "<?php ".$this->generateActiveField($this->modelClass, $column).";" ?>
+                                <?= "echo \$form->error(\$model,'{$column->name}'); ?>" ?>
+                                <?= $this->generateHelpText($column) ?>
+                            </div>
+                        </div>
+                    <?php
+                    endif;
+                endforeach;
                 ?>
             </div>
         </div>
@@ -83,7 +71,7 @@
 
         <div class="span4"> <!-- sub inputs -->
             <h2>
-                <?php echo "<?php echo Yii::t('" . $this->messageCatalog . "','Relations')?>"; ?>
+                <?= "<?php echo Yii::t('" . $this->messageCatalog . "','Relations')?>"; ?>
             </h2>
             <?
             // render relation inputs
@@ -97,11 +85,9 @@
                         continue;
                     }
 
-                    printf(
-                        "        <label for=\"%s\"><?php echo Yii::t('" . $this->messageCatalog . "', '%s'); ?></label>\n",
-                        $key,
-                        ucfirst($key)
-                    );
+                    echo "        <label for=\"{$key}\"><?php echo Yii::t('" . $this->messageCatalog . "', '" . ucfirst(
+                            $key
+                        ) . "'); ?></label>\n";
                     echo "                <?php\n";
                     echo "                " . FullCrudHelper::generateRelation($this->modelClass, $key, $relation);
                     echo "\n              ?>\n";
@@ -115,24 +101,27 @@
     </div>
 
     <p class="alert">
-        <?php echo "<?php echo Yii::t('" . $this->messageCatalog . "','Fields with <span class=\"required\">*</span> are required.');?> \n"; ?>
+        <?= "<?php echo Yii::t('" . $this->messageCatalog . "','Fields with <span class=\"required\">*</span> are required.');?> \n"; ?>
     </p>
 
     <div class="form-actions">
+        <?=
+        <<<PHP
         <?php
-        echo "
-    <?php
-        echo CHtml::Button(Yii::t('" . $this->messageCatalog . "', 'Cancel'), array(
-			'submit' => (isset(\$_GET['returnUrl']))?\$_GET['returnUrl']:array('" . strtolower($this->modelClass) . "/admin'),
-			'class' => 'btn'
-			));
-        echo ' '.CHtml::submitButton(Yii::t('" . $this->messageCatalog . "', 'Save'), array(
-            'class' => 'btn btn-primary'
+            echo CHtml::Button(
+            Yii::t('{$this->messageCatalog}', 'Cancel'), array(
+                'submit' => (isset(\$_GET['returnUrl']))?\$_GET['returnUrl']:array('{$this->modelClass}/admin'),
+                'class' => 'btn'
             ));
-    ?>\n";
+            echo ' '.CHtml::submitButton(Yii::t('{$this->messageCatalog}', 'Save'), array(
+                'class' => 'btn btn-primary'
+            ));
+            ?>\n";
+        ?>
+PHP;
         ?>
     </div>
 
-    <?php echo "<?php \$this->endWidget() ?>"; ?>
+    <?= "<?php \$this->endWidget() ?>"; ?>
 
 </div> <!-- form -->

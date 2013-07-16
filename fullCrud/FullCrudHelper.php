@@ -3,15 +3,17 @@
  * Global shorthands
  */
 
-function php($code = null){
+function php($code = null)
+{
     if ($code === null) {
         echo "<?php\n";
     } else {
-        echo "<?php ".$code." ?>";
+        echo "<?php " . $code . " ?>";
     }
 }
 
-function endphp(){
+function endphp()
+{
     echo "\n?>";
 }
 
@@ -27,16 +29,65 @@ class FullCrudHelper
         return strtolower(substr($relation[1], 0, 1)) . substr($relation[1], 1);
     }
 
+
+    // Which column will most probably be the one that gets used to list
+    // KEEP THIS CODE it can be called statically
+    static public function suggestIdentifier($model)
+    {
+        if (!$model instanceof CActiveRecord) {
+            $model = CActiveRecord::model($model);
+        }
+
+        if (is_callable(array($model, 'getItemLabel'))) {
+            return 'itemLabel';
+        }
+
+        $nonNumericFound = false;
+        $columns         = $model->tableSchema->columns;
+
+        foreach ($columns as $column) {
+            if ($column->isPrimaryKey) {
+                $fallbackName = $column->name;
+            }
+            // Use the first non-numeric column as a fallback
+            if (!$column->isForeignKey
+                && !$column->isPrimaryKey
+                && $column->type != 'BIGINT'
+                && $column->type != 'INT'
+                && $column->type != 'INTEGER'
+                && $column->type != 'BOOLEAN'
+                && !$nonNumericFound
+            ) {
+                $fallbackName    = $column->name;
+                $nonNumericFound = true;
+            }
+            // Return the first title, name, label column, if found
+            if (in_array(
+                $column->name,
+                array(
+                     "title",
+                     "name",
+                     "label",
+                )
+            )
+            ) {
+                $fallbackName = $column->name;
+                break;
+            }
+        }
+        return $fallbackName;
+    }
+
     static public function generateRelationHeader($model, $relationName, $relationInfo)
     {
         $controller = self::resolveController($relationInfo); // TODO
-        $code = "";
+        $code       = "";
         $code .= "
     \$this->widget('bootstrap.widgets.TbButtonGroup', array(
         'type'=>'', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
         'buttons'=>array(
             array(
-                'label'=>'".ucfirst($relationName)."',
+                'label'=>'" . ucfirst($relationName) . "',
                 'icon'=>'icon-list-alt',
                 'url'=> array('{$controller}/admin')
             ),
@@ -113,7 +164,7 @@ class FullCrudHelper
 
             $relatedModel     = CActiveRecord::model($relation[1]);
             $relatedModelName = $relation[1];
-            $fcolumns   = $relatedModel->attributeNames();
+            $fcolumns         = $relatedModel->attributeNames();
 
             //$rel = $model->getActiveRelation($column->name);
             $relname = strtolower($fk[0]);
@@ -128,7 +179,7 @@ class FullCrudHelper
             if ($view === true) {
                 return "array(
 					'name'=>'{$column->name}',
-					'value'=>CHtml::value(\$model,'{$relname}.".self::suggestIdentifier($relatedModel)."'),
+					'value'=>CHtml::value(\$model,'{$relname}." . self::suggestIdentifier($relatedModel) . "'),
 					)";
             } elseif ($view == 'search') {
                 return "echo \$form->dropDownList(\$model,'{$column->name}',CHtml::listData({$relatedModelName}::model()->findAll(),
@@ -136,8 +187,10 @@ class FullCrudHelper
             } else {
                 return "array(
 					'name'=>'{$column->name}',
-					'value'=>'CHtml::value(\$data,\\'{$relname}.".self::suggestIdentifier($relatedModel)."\\')',
-							'filter'=>CHtml::listData({$relatedModelName}::model()->findAll(), '{$fcolumns[0]}', '".self::suggestIdentifier($relatedModel)."'),
+					'value'=>'CHtml::value(\$data,\\'{$relname}." . self::suggestIdentifier($relatedModel) . "\\')',
+							'filter'=>CHtml::listData({$relatedModelName}::model()->findAll(), '{$fcolumns[0]}', '" . self::suggestIdentifier(
+                    $relatedModel
+                ) . "'),
 							)";
             }
             //{$relname}.{$fcolumns[1]}
@@ -197,48 +250,6 @@ class FullCrudHelper
         }
     }
 
-    // Which column will most probably be the one that gets used to list
-    // KEEP THIS CODE it can be called statically
-    static public function suggestIdentifier($model)
-    {
-        if(!$model instanceof CActiveRecord) {
-            $model = CActiveRecord::model($model);
-        }
-
-        if (is_callable(array($model, 'getItemLabel')))
-            return 'itemLabel';
-
-        $nonNumericFound = false;
-        $columns = $model->tableSchema->columns;
-
-        foreach ($columns as $column) {
-            if ($column->isPrimaryKey) {
-                $fallbackName = $column->name;
-            }
-            // Use the first non-numeric column as a fallback
-            if (!$column->isForeignKey
-                && !$column->isPrimaryKey
-                && $column->type != 'BIGINT'
-                && $column->type != 'INT'
-                && $column->type != 'INTEGER'
-                && $column->type != 'BOOLEAN'
-                && !$nonNumericFound
-            ) {
-                $fallbackName = $column->name;
-                $nonNumericFound = true;
-            }
-            // Return the first title, name, label column, if found
-            if (in_array($column->name, array(
-                                             "title",
-                                             "name",
-                                             "label",
-                                        ))) {
-                $fallbackName = $column->name;
-                break;
-            }
-        }
-        return $fallbackName;
-    }
 
 }
 
