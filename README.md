@@ -96,10 +96,10 @@ Of course, any templates are appreciated and just leave a comment or mail: schmu
 
 ### GTC Coding Standards
 
-* Write PHP code wrapped in short-open-echo tags and double quotes `<?="<?php     and      ?>"; ?>`
+* Write PHP code wrapped in short-open-echo tags and double quotes `<?="<?php ...code... ?>"?>`
 * Use brackets `{}` to insert variables for generated code
 
-We call this template style **`<?=""?>` BobsleiPHP**.
+We call this template style **`<?=""?>` Bobsled Coding Style**.
 
 
 Links
