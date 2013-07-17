@@ -183,7 +183,7 @@ class FullCrudHelper
             } else {
                 return "array(
 					'name'=>'{$column->name}',
-					'value'=>'CHtml::value(\$data,'{$relname}." . self::suggestIdentifier($relatedModel) . "')',
+					'value'=>'CHtml::value(\$data,\'{$relname}." . self::suggestIdentifier($relatedModel) . "\')',
 							'filter'=>CHtml::listData({$relatedModelName}::model()->findAll(), '{$fcolumns[0]}', '" . self::suggestIdentifier(
                     $relatedModel
                 ) . "'),
