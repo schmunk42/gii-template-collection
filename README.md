@@ -94,6 +94,14 @@ Repository, thank you.
 Of course, any templates are appreciated and just leave a comment or mail: schmunk@usrbin.de, fredrik@neam.se or thyseus@gmail.com.
 
 
+### GTC Coding Standards
+
+* Write PHP code wrapped in short-open-echo tags and double quotes `<?="<?php     and      ?>"; ?>`
+* Use brackets `{}` to insert variables for generated code
+
+We call this template style **`<?=""?>` BobsleiPHP**.
+
+
 Links
 -----
 
