@@ -21,14 +21,17 @@ PHP;
     <div class="row">
         <div class="span8"> <!-- main inputs -->
             <h2>
-                <?= "<?php echo Yii::t('" . $this->messageCatalog . "','Data')?>"; ?>
+                <?= "<?php echo Yii::t('{$this->messageCatalog}','Data')?>"; ?>
+
             </h2>
 
             <h3>
-                <?= "<?php echo \$model->" . FullCrudHelper::suggestIdentifier($this->model) . "?>"; ?>
+                <?= "<?php echo \$model->{$this->itemLabel} ?>"; ?>
+
             </h3>
 
             <div class="form-horizontal">
+
                 <?php
                 foreach ($this->tableSchema->columns as $column):
 
@@ -45,20 +48,30 @@ PHP;
 
                     // render a view file if present in destination folder
                     if ($columnView = $this->resolveColumnViewFile($column)) {
-                        echo "<?php      \$this->renderPartial('{$columnView}', array('model'=>\$model, 'form' => \$form)) ?>\n";
+                        echo "<?php      \$this->renderPartial('{$columnView}', array('model'=>\$model, 'form' => \$form)) ?>";
                         continue;
                     }
                     // render input
                     if (!$column->isForeignKey):
                         ?>
+
                         <div class="control-group">
                             <div class='control-label'>
-                                <?= "<?php " . $this->generateActiveLabel($this->modelClass, $column) . " ?>" ?>
+                                <?= "<?php {$this->generateActiveLabel($this->modelClass, $column)} ?>" ?>
+
                             </div>
                             <div class='controls'>
-                                <?= "<?php " . $this->generateActiveField($this->modelClass, $column) . ";" ?>
-                                <?= "echo \$form->error(\$model,'{$column->name}'); ?>" ?>
-                                <?= $this->generateHelpText($column) ?>
+                                <?=
+                                <<<PHP
+                               <?php {$this->generateActiveField($this->modelClass, $column)} ?>
+                               <?php echo \$form->error(\$model,'{$column->name}') ?>
+PHP;
+                                ?>
+
+                                <span class="help-block">
+                                    <?= "<?php echo (\$t = Yii::t('{$this->messageCatalog}', '{$this->modelClass}.{$column->name }') != '{$this->modelClass}.{$column->name }')?\$t:'' ?>" ?>
+
+                                </span>
                             </div>
                         </div>
                     <?php
@@ -72,6 +85,7 @@ PHP;
         <div class="span4"> <!-- sub inputs -->
             <h2>
                 <?= "<?php echo Yii::t('" . $this->messageCatalog . "','Relations')?>"; ?>
+
             </h2>
             <?
             // render relation inputs
@@ -88,11 +102,12 @@ PHP;
 
                     <?=
                     <<<PHP
-                    <label for='{$key}'>
+                    <h3>
                         <?php echo Yii::t('{$this->messageCatalog}', '{$key}'); ?>
-                    </label>
+                    </h3>
 PHP;
                     ?>
+
                     <?= "<?php " . FullCrudHelper::generateRelation($this->modelClass, $key, $relation) . " ?>" ?>
 
                 <?
@@ -106,7 +121,7 @@ PHP;
     </div>
 
     <p class="alert">
-        <?= "<?php echo Yii::t('" . $this->messageCatalog . "','Fields with <span class=\"required\">*</span> are required.');?> \n"; ?>
+        <?= "<?php echo Yii::t('{$this->messageCatalog}','Fields with <span class=\"required\">*</span> are required.');?> \n"; ?>
     </p>
 
     <div class="form-actions">
@@ -115,16 +130,16 @@ PHP;
         <?php
             echo CHtml::Button(
             Yii::t('{$this->messageCatalog}', 'Cancel'), array(
-                'submit' => (isset(\$_GET['returnUrl']))?\$_GET['returnUrl']:array('{$this->modelClass}/admin'),
+                'submit' => (isset(\$_GET['returnUrl']))?\$_GET['returnUrl']:array('{$this->controllerID}/admin'),
                 'class' => 'btn'
             ));
             echo ' '.CHtml::submitButton(Yii::t('{$this->messageCatalog}', 'Save'), array(
                 'class' => 'btn btn-primary'
             ));
-            ?>\n";
         ?>
 PHP;
         ?>
+
     </div>
 
     <?= "<?php \$this->endWidget() ?>"; ?>

@@ -259,14 +259,15 @@ class FullCrudCode extends CrudCode
         }
     }
 
-    public function generateHelpText($column)
+    public function getItemLabel($model = null)
     {
-        $placholder = "help." . $column->name . "";
-        $code       = "            <?php if('" . $placholder . "' != \$help = Yii::t('" . $this->messageCatalog . "', '" . $placholder . "')) { \n";
-        $code .= '                echo "<span class=\'help-block\'>{$help}</span>";';
-        $code .= "            \n} ?>\n";
-        return $code;
+        if ($model === null) {
+            $model = $this->model;
+        }
+        return FullCrudHelper::suggestIdentifier($model);
     }
+
+
 
     private function getOutputViewDirectory()
     {

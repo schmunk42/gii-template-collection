@@ -166,16 +166,12 @@ class FullCrudHelper
             $relatedModelName = $relation[1];
             $fcolumns         = $relatedModel->attributeNames();
 
-            //$rel = $model->getActiveRelation($column->name);
             $relname = strtolower($fk[0]);
             foreach ($model->relations() as $key => $value) {
                 if (strcasecmp($value[2], $column->name) == 0) {
                     $relname = $key;
                 }
             }
-            //return("\$model->{$relname}->{$fcolumns[1]}");
-            //return("CHtml::value(\$model,\"{$relname}.{$fcolumns[1]}\")");
-            //return("{$relname}.{$fcolumns[1]}");
             if ($view === true) {
                 return "array(
 					'name'=>'{$column->name}',
@@ -187,13 +183,12 @@ class FullCrudHelper
             } else {
                 return "array(
 					'name'=>'{$column->name}',
-					'value'=>'CHtml::value(\$data,\\'{$relname}." . self::suggestIdentifier($relatedModel) . "\\')',
+					'value'=>'CHtml::value(\$data,'{$relname}." . self::suggestIdentifier($relatedModel) . "')',
 							'filter'=>CHtml::listData({$relatedModelName}::model()->findAll(), '{$fcolumns[0]}', '" . self::suggestIdentifier(
                     $relatedModel
                 ) . "'),
 							)";
             }
-            //{$relname}.{$fcolumns[1]}
         } else {
             /*if (strtoupper($column->dbType) == 'BOOLEAN'
                 or strtoupper($column->dbType) == 'TINYINT(1)' or
@@ -235,9 +230,7 @@ class FullCrudHelper
     static public function generateEditableField($modelClass, $column, $controller, $view = false)
     {
         if ($column->isForeignKey) {
-
             return self::generateValueField($modelClass, $column, $view);
-
         } else {
             return "array(
 			'class' => 'editable.EditableColumn',
