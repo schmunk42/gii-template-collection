@@ -128,7 +128,7 @@ class FullCrudHelper
 							'model' => \$model,
 							'relation' => '{$relationName}',
 							'fields' => '{$suggestedfield}',
-							'allowEmpty' => {$allowEmpty},
+							'allowEmpty' => " . ($allowEmpty ? "true" : "false") . ",
 							'style' => '{$style}',
 							'htmlOptions' => array(
 								'checkAll' => 'all'),
