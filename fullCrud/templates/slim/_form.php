@@ -1,11 +1,10 @@
 <div class="crud-form">
 
     <?=
-    <<<PHP
-    <?php
-        Yii::app()->bootstrap->registerAssetCss('select2.css');
-        Yii::app()->bootstrap->registerAssetJs('select2.js');
-        Yii::app()->clientScript->registerScript('crud/variant/update','$(".crud-form select").select2();');
+    "<?php
+            Yii::app()->bootstrap->registerAssetCss('select2.css');
+            Yii::app()->bootstrap->registerAssetJs('select2.js');
+            Yii::app()->clientScript->registerScript('crud/variant/update','$(" . crud - form select").select2();');
 
         \$form=\$this->beginWidget('CActiveForm', array(
             'id'=>'{$this->class2id($this->modelClass)}-form',
@@ -14,8 +13,7 @@
         ));
 
         echo \$form->errorSummary(\$model);
-    ?>
-PHP;
+    ?>";
     ?>
 
     <div class="row">
@@ -121,12 +119,16 @@ PHP;
     </div>
 
     <p class="alert">
-        <?= "<?php echo Yii::t('{$this->messageCatalog}','Fields with <span class=\"required\">*</span> are required.');?> \n"; ?>
+        <?=
+        "
+        <?php
+            echo Yii::t('{$this->messageCatalog}','Fields with <span class=\"required\">*</span> are required.');?>"; ?>
+
     </p>
 
     <div class="form-actions">
         <?=
-        <<<PHP
+        "
         <?php
             echo CHtml::Button(
             Yii::t('{$this->messageCatalog}', 'Cancel'), array(
@@ -136,8 +138,8 @@ PHP;
             echo ' '.CHtml::submitButton(Yii::t('{$this->messageCatalog}', 'Save'), array(
                 'class' => 'btn btn-primary'
             ));
-        ?>
-PHP;
+        ?>";
+
         ?>
 
     </div>
