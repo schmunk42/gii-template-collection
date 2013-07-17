@@ -34,40 +34,22 @@ the needed components can be found by the application:
 	),
 
 
-Full Model
-----------
+Usage
+-----
+
+### Full Model
 
 *tbd*
 
-Full CRUD
----------
+### Full CRUD
 
-### Shorthands
+Requires `clevertech/yiibooster`
 
-    <?php php() ?>
-    $form=$this->beginWidget('CActiveForm', array(
-            'action'=>Yii::app()->createUrl($this->route),
-            'method'=>'get',
-    ));
-    <?php endphp() ?>
-
-
-    <?php php() ?>
-    Yii::t('" . $this->messageCatalog . "','Relations')");
-    <?php endphp() ?>
-
-
-    <?php php("echo Yii::t('" . $this->messageCatalog . "','Relations')");") ?>
-
-### Template default
+#### Template slim
 
 *tbd*
 
-### Template slim
-
-Requires yii-bootstrap and echosen.
-
-### Template hybrid
+#### Template hybrid
 
 An enhanced hybrid between the default/slim templates and the bootstrap crud generator.
 
@@ -96,18 +78,26 @@ Of course, any templates are appreciated and just leave a comment or mail: schmu
 
 ### GTC Coding Standards
 
+GTC is using **`<?=""?>` Bobsled Coding Style**.
+
 * Write PHP code wrapped in short-open-echo tags and double quotes `<?="<?php ...code... ?>"?>`
 * Use brackets `{}` to insert variables for generated code
 
-We call this template style **`<?=""?>` Bobsled Coding Style**.
+
+#### Examples
+
+*tbd*
 
 
-Links
------
+Ressources
+----------
+
+### Links
+
+* [extension page](http://www.yiiframework.com/extension/gii-template-collection)
 
 ### History
 
-* extension page - http://www.yiiframework.com/extension/gii-template-collection
-* up version 0.6 - http://code.google.com/p/gii-template-collection/
+* [Project page up to version 0.6](http://code.google.com/p/gii-template-collection/)
 
 
