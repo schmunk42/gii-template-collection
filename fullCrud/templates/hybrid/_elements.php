@@ -54,17 +54,17 @@
 
                 // render belongsTo relation input
 				echo "                <?php\n";
-				echo "                \$input = ".$this->codeProvider->generateRelation($this->modelClass, $columnRelation["key"], $columnRelation["relation"], true).";\n";
+				echo "                \$input = ".FullCrudHelper::generateRelation($this->modelClass, $columnRelation["key"], $columnRelation["relation"], true).";\n";
 				echo "                echo \$form->customRow(\$model, '{$column->name}', \$input);\n";
 				echo "                ?>\n";
 
                 // render create button
-                $controller = $this->codeProvider->resolveController($columnRelation["relation"]);
+                $controller = FullCrudHelper::resolveController($columnRelation["relation"]);
                 $relatedModelClass = $columnRelation["relation"][1];
                 $relatedModel = CActiveRecord::model($relatedModelClass);
                 $fk = $columnRelation["relation"][2];
                 $pk = $relatedModel->tableSchema->primaryKey;
-                $suggestedfield = $this->suggestName($relatedModel->tableSchema->columns);
+                $suggestedfield = FullCrudHelper::suggestIdentifier($relatedModel);
 
                 echo "
                 <?php
@@ -127,7 +127,7 @@
             echo "        <div class=\"span12\">\n";
             printf("        <label for=\"%s\"><?php echo Yii::t('" . $this->messageCatalog . "', '%s'); ?></label>\n", $key, ucfirst($key));
             echo "                <?php\n";
-            echo "                ".$this->codeProvider->generateRelation($this->modelClass, $key, $relation);
+            echo "                ".FullCrudHelper::generateRelation($this->modelClass, $key, $relation);
             echo "\n              ?>\n";
             echo "        </div>\n";
             echo "    </div>\n\n";

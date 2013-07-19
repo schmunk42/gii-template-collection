@@ -48,12 +48,12 @@ if ($relations !== array()): ?>
 
 <?php
     foreach ($relations as $key => $relation) {
-        $controller = $this->codeProvider->resolveController($relation);
+        $controller = FullCrudHelper::resolveController($relation);
         $relatedModelClass = $relation[1];
         $relatedModel = CActiveRecord::model($relatedModelClass);
         $fk = $relation[2];
         $pk = $relatedModel->tableSchema->primaryKey;
-        $suggestedfield = $this->suggestName($relatedModel->tableSchema->columns);
+        $suggestedfield = FullCrudHelper::suggestIdentifier($relatedModel);
 
         // TODO: currently composite PKs are omitted
         if (is_array($pk)) {
@@ -117,7 +117,7 @@ $this->widget('TbGridView',
 
 	    $count++;
 
-	    echo "\t\t" . $this->codeProvider->generateEditableField($relatedModelClass, $column, $controller) . ",\n";
+	    echo "\t\t" . FullCrudHelper::generateEditableField($relatedModelClass, $column, $controller) . ",\n";
 	}
 
 	if ($count >= 8) {
@@ -142,7 +142,7 @@ $this->widget('TbGridView',
             echo "<div class='well'>\n";
             echo "    <div class='row'>\n";
 
-            echo "<div class='span3'><?php " . $this->codeProvider->generateRelationHeader($relatedModel, $key, $relation) . " ?></div>";
+            echo "<div class='span3'><?php " . FullCrudHelper::generateRelationHeader($relatedModel, $key, $relation) . " ?></div>";
             echo "<div class='span8'>
 <?php
     echo '<span class=label>{$relation[0]}</span>';
@@ -174,7 +174,7 @@ $this->widget('TbGridView',
                 $pk = 'id';
             }
 
-            echo "<div class='span3'><?php " . $this->codeProvider->generateRelationHeader($relatedModel, $key, $relation) . " ?></div>";
+            echo "<div class='span3'><?php " . FullCrudHelper::generateRelationHeader($relatedModel, $key, $relation) . " ?></div>";
             echo "<div class='span8'>
 <?php
     echo '<span class=label>{$relation[0]}</span>';

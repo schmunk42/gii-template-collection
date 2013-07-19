@@ -691,7 +691,7 @@ class Relation extends CWidget
         else {
             $this->renderBelongsToSelection();
         }
-
+        echo CHtml::error($this->model, $this->model->getActiveRelation($this->relation)->foreignKey);
     }
 
     protected function renderAddButton()

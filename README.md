@@ -34,23 +34,22 @@ the needed components can be found by the application:
 	),
 
 
-Full Model
-----------
+Usage
+-----
+
+### Full Model
 
 *tbd*
 
-Full CRUD
----------
+### Full CRUD
 
-### Template default
+Requires `clevertech/yiibooster`
+
+#### Template slim
 
 *tbd*
 
-### Template slim
-
-Requires yii-bootstrap and echosen.
-
-### Template hybrid
+#### Template hybrid
 
 An enhanced hybrid between the default/slim templates and the bootstrap crud generator.
 
@@ -77,12 +76,28 @@ Repository, thank you.
 Of course, any templates are appreciated and just leave a comment or mail: schmunk@usrbin.de, fredrik@neam.se or thyseus@gmail.com.
 
 
-Links
------
+### GTC Coding Standards
+
+GTC is using **`<?=""?>` Bobsled Coding Style**.
+
+* Write PHP code wrapped in short-open-echo tags and double quotes `<?="<?php ...code... ?>"?>`
+* Use brackets `{}` to insert variables for generated code
+
+
+#### Examples
+
+*tbd*
+
+
+Ressources
+----------
+
+### Links
+
+* [extension page](http://www.yiiframework.com/extension/gii-template-collection)
 
 ### History
 
-* extension page - http://www.yiiframework.com/extension/gii-template-collection
-* up version 0.6 - http://code.google.com/p/gii-template-collection/
+* [Project page up to version 0.6](http://code.google.com/p/gii-template-collection/)
 
 
