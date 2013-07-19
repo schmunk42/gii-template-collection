@@ -181,7 +181,7 @@ class CodeProvider
             $model = CActiveRecord::model($model);
         }
 
-        if (is_callable(array($model, 'getItemLabel')))
+        if (method_exists($model, 'getItemLabel'))
             return 'itemLabel';
 
         $nonNumericFound = false;
