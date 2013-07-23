@@ -29,7 +29,7 @@
 <?php endif; ?>
 <?php foreach($relations as $name=>$relation): ?>
  * @property <?php
-	if (preg_match("~^array\(self::([^,]+), '([^']+)', '([^']+)'\)$~", $relation, $matches))
+    if (preg_match("~^array\(self::([^,]+), '([^']+)', '([^']+)'\)$~", $relation, $matches))
     {
         $relationType = $matches[1];
         $relationModel = $matches[2];
@@ -50,150 +50,150 @@
             default:
                 echo 'mixed $'.$name."\n";
         }
-	}
+    }
     ?>
 <?php endforeach; ?>
  */
 abstract class <?php echo 'Base' . $modelClass; ?> extends <?php echo $this->baseClass; ?>
 {
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
+    public static function model($className=__CLASS__)
+    {
+        return parent::model($className);
+    }
 
-	public function tableName()
-	{
-		return '<?php echo $tableName; ?>';
-	}
+    public function tableName()
+    {
+        return '<?php echo $tableName; ?>';
+    }
 
-	public function rules()
-	{
-		return array_merge(
-		    parent::rules(), array(
+    public function rules()
+    {
+        return array_merge(
+            parent::rules(), array(
 <?php
-		foreach($rules as $rule) {
-			echo "\t\t\t$rule,\n";
-		}
+        foreach($rules as $rule) {
+            echo "\t\t\t$rule,\n";
+        }
 ?>
-			array('<?php echo implode(', ', array_keys($columns)); ?>', 'safe', 'on'=>'search'),
-		    )
-		);
-	}
+            array('<?php echo implode(', ', array_keys($columns)); ?>', 'safe', 'on'=>'search'),
+            )
+        );
+    }
 
-	public function getItemLabel() {
-		return (string) $this-><?php
-			$found = false;
-		foreach($columns as $name => $column) {
-			if(!$found
-					&& $column->type != 'datetime'
-					&& $column->type==='string'
-					&& !$column->isPrimaryKey) {
-				echo $column->name;
-				$found = true;
-			}
-		}
+    public function getItemLabel() {
+        return (string) $this-><?php
+            $found = false;
+        foreach($columns as $name => $column) {
+            if(!$found
+                    && $column->type != 'datetime'
+                    && $column->type==='string'
+                    && !$column->isPrimaryKey) {
+                echo $column->name;
+                $found = true;
+            }
+        }
 
-		// if the columns contains no column of type 'string', return the
-		// first column (usually the primary key)
-		if(!$found)
-			echo reset($columns)->name;
-		?>;
+        // if the columns contains no column of type 'string', return the
+        // first column (usually the primary key)
+        if(!$found)
+            echo reset($columns)->name;
+        ?>;
 
-	}
+    }
 
-	public function behaviors()
-	{
-		return array_merge(
-		    parent::behaviors(), array(
-			'savedRelated' => array(
-				'class' => 'gii-template-collection.components.CSaveRelationsBehavior'
-			)
-		    )
-		);
-	}
+    public function behaviors()
+    {
+        return array_merge(
+            parent::behaviors(), array(
+            'savedRelated' => array(
+                'class' => 'gii-template-collection.components.CSaveRelationsBehavior'
+            )
+            )
+        );
+    }
 
-	public function relations()
-	{
-		return array(
+    public function relations()
+    {
+        return array(
 <?php
-		foreach($relations as $name=>$relation) {
-			echo "\t\t\t'$name' => $relation,\n";
-		}
+        foreach($relations as $name=>$relation) {
+            echo "\t\t\t'$name' => $relation,\n";
+        }
 ?>
-		);
-	}
+        );
+    }
 
-	public function attributeLabels()
-	{
-		return array(
+    public function attributeLabels()
+    {
+        return array(
 <?php
-		foreach($labels as $name=>$label) {
-			echo "\t\t\t'$name' => Yii::t('".$this->messageCatalog."', '$label'),\n";
-		}
+        foreach($labels as $name=>$label) {
+            echo "\t\t\t'$name' => Yii::t('".$this->messageCatalog."', '$label'),\n";
+        }
 ?>
-		);
-	}
+        );
+    }
 
 
-	public function search($criteria = null)
-	{
+    public function search($criteria = null)
+    {
         if (is_null($criteria)) {
-    		$criteria=new CDbCriteria;
+            $criteria=new CDbCriteria;
         }
 
 <?php
-		foreach($columns as $name=>$column)
-		{
-			if($column->type==='string' and !$column->isForeignKey)
-			{
-				echo "\t\t\$criteria->compare('t.$name', \$this->$name, true);\n";
-			}
-			else
-			{
-				echo "\t\t\$criteria->compare('t.$name', \$this->$name);\n";
-			}
-		}
-		echo "\n";
+        foreach($columns as $name=>$column)
+        {
+            if($column->type==='string' and !$column->isForeignKey)
+            {
+                echo "\t\t\$criteria->compare('t.$name', \$this->$name, true);\n";
+            }
+            else
+            {
+                echo "\t\t\$criteria->compare('t.$name', \$this->$name);\n";
+            }
+        }
+        echo "\n";
 ?>
-		return new CActiveDataProvider(get_class($this), array(
-			'criteria'=>$criteria,
-		));
-	}
+        return new CActiveDataProvider(get_class($this), array(
+            'criteria'=>$criteria,
+        ));
+    }
 
-	/**
-	 * Returns a model used to populate a filterable, searchable
-	 * and sortable CGridView with the records found by a model relation.
-	 *
-	 * Usage:
-	 * $relatedSearchModel = $model->getRelatedSearchModel('relationName');
-	 *
-	 * Then, when invoking CGridView:
-	 * 	...
-	 * 		'dataProvider' => $relatedSearchModel->search(),
-	 * 		'filter' => $relatedSearchModel,
-	 * 	...
-	 * @returns CActiveRecord
-	 */
-	public function getRelatedSearchModel($name)
-	{
+    /**
+     * Returns a model used to populate a filterable, searchable
+     * and sortable CGridView with the records found by a model relation.
+     *
+     * Usage:
+     * $relatedSearchModel = $model->getRelatedSearchModel('relationName');
+     *
+     * Then, when invoking CGridView:
+     *     ...
+     *         'dataProvider' => $relatedSearchModel->search(),
+     *         'filter' => $relatedSearchModel,
+     *     ...
+     * @returns CActiveRecord
+     */
+    public function getRelatedSearchModel($name)
+    {
 
-		$md = $this->getMetaData();
-		if (!isset($md->relations[$name]))
-			throw new CDbException(Yii::t('yii', '{class} does not have relation "{name}".', array('{class}' => get_class($this), '{name}' => $name)));
+        $md = $this->getMetaData();
+        if (!isset($md->relations[$name]))
+            throw new CDbException(Yii::t('yii', '{class} does not have relation "{name}".', array('{class}' => get_class($this), '{name}' => $name)));
 
-		$relation = $md->relations[$name];
-		if (!($relation instanceof CHasManyRelation))
-			throw new CException("Currently works with HAS_MANY relations only");
+        $relation = $md->relations[$name];
+        if (!($relation instanceof CHasManyRelation))
+            throw new CException("Currently works with HAS_MANY relations only");
 
-		$className = $relation->className;
-		$related = new $className('search');
-		$related->unsetAttributes();
-		$related->{$relation->foreignKey} = $this->primaryKey;
-		if (isset($_GET[$className]))
-		{
-			$related->attributes = $_GET[$className];
-		}
-		return $related;
-	}
+        $className = $relation->className;
+        $related = new $className('search');
+        $related->unsetAttributes();
+        $related->{$relation->foreignKey} = $this->primaryKey;
+        if (isset($_GET[$className]))
+        {
+            $related->attributes = $_GET[$className];
+        }
+        return $related;
+    }
 
 }

@@ -1,75 +1,75 @@
 <?php
 /*
-	 The Relation widget is used in forms, where the User can choose
-	 between a selection of model elements, that this models belongs to.
+     The Relation widget is used in forms, where the User can choose
+     between a selection of model elements, that this models belongs to.
 
-	 It is able to handle BELONGS_TO, HAS_ONE and MANY_MANY Relations. The Relation 
-	 type is detected automatically from the Model 'relations()' section. 
+     It is able to handle BELONGS_TO, HAS_ONE and MANY_MANY Relations. The Relation 
+     type is detected automatically from the Model 'relations()' section. 
 
-	 The Widget has different styles in which it can render the possible choices.
-	 Use the 'style' option to set the appropriate style.
+     The Widget has different styles in which it can render the possible choices.
+     Use the 'style' option to set the appropriate style.
 
-	 The following example shows how to use Relation with a minimal config, 
-	 assuming we have a Model "Post" and "User", where one User belongs 
-	 to a Post:
+     The following example shows how to use Relation with a minimal config, 
+     assuming we have a Model "Post" and "User", where one User belongs 
+     to a Post:
 
-	 <pre>
-	 $this->widget('application.components.Relation', array(
-	 'model' => 'Post',
-	 'relation' => 'user'
-	 'fields' => 'username' // show the field "username" of the parent element
-	 ));
-	 </pre>
+     <pre>
+     $this->widget('application.components.Relation', array(
+     'model' => 'Post',
+     'relation' => 'user'
+     'fields' => 'username' // show the field "username" of the parent element
+     ));
+     </pre>
 
-	 Results in a drop down list in which the user can choose between
-	 all available Users in the Database. The shown field of the
-	 Table "User" is "username" in this example. 
+     Results in a drop down list in which the user can choose between
+     all available Users in the Database. The shown field of the
+     Table "User" is "username" in this example. 
 
-	 You can choose the Style of your Widget in the 'style' option.
-	 Note that a Many_Many Relation always gets rendered as a Listbox,
-	 since you can select multiple Elements.
+     You can choose the Style of your Widget in the 'style' option.
+     Note that a Many_Many Relation always gets rendered as a Listbox,
+     since you can select multiple Elements.
 
-	 'fields' can be an array or an string.
-	 If you pass an array to 'fields', the Widget will display every field in
-	 this array. If you want to show further sub-relations, separate the values
-	 with '.', for example: 'fields' => 'array('parent.grandparent.description')
+     'fields' can be an array or an string.
+     If you pass an array to 'fields', the Widget will display every field in
+     this array. If you want to show further sub-relations, separate the values
+     with '.', for example: 'fields' => 'array('parent.grandparent.description')
 
-	 Optional Parameters:
+     Optional Parameters:
 
-	 You can use 'field' => 'post_userid' if the field in the model
-	 that represents the foreign model is called different than in the
-	 relation
+     You can use 'field' => 'post_userid' if the field in the model
+     that represents the foreign model is called different than in the
+     relation
 
-	 Use 'relatedPk' => 'id_of_user' if the primary Key of the Foreign
-	 Model differs from the one given in the relation.
+     Use 'relatedPk' => 'id_of_user' if the primary Key of the Foreign
+     Model differs from the one given in the relation.
 
-	 Normally you shouldn´t use this fields cause the Widget get the relations
-	 automatically from the relation.
+     Normally you shouldn´t use this fields cause the Widget get the relations
+     automatically from the relation.
 
-	 Use 'allowEmpty' to let the user be able to choose no parent. If you 
-	 set this to a string, this string will be displayed with the available
-	 choices.
+     Use 'allowEmpty' to let the user be able to choose no parent. If you 
+     set this to a string, this string will be displayed with the available
+     choices.
 
-	 With 'showAddButton' => 'false' you can disable the 'create new Foreignkey'
-	 Button generated beside the Selectbox.
+     With 'showAddButton' => 'false' you can disable the 'create new Foreignkey'
+     Button generated beside the Selectbox.
 
-	 Define the AddButtonString with 'addButtonString' => 'Add...'. This string
-	 is set default to '+'
+     Define the AddButtonString with 'addButtonString' => 'Add...'. This string
+     is set default to '+'
 
-	 When using the '+' button you most likely want to return to where you came.
-	 To accomplish this, we pass a 'returnTo' parameter by $_GET.
-	 The Controller can send the user back to where he came from this way:
+     When using the '+' button you most likely want to return to where you came.
+     To accomplish this, we pass a 'returnTo' parameter by $_GET.
+     The Controller can send the user back to where he came from this way:
 
-	 <pre>
-	 if($model->save())
-	 if(isset($_GET['returnTo'])) 
-	 $this->redirect(array(urldecode($_GET['returnTo'])));
-	 </pre>
+     <pre>
+     if($model->save())
+     if(isset($_GET['returnTo'])) 
+     $this->redirect(array(urldecode($_GET['returnTo'])));
+     </pre>
 
-	 Using the 'style' option we can configure how our Widget gets rendered.
-	 The following styles are available:
-	 Selectbox (default), Listbox, Checkbox and in MANY_MANY relations 'twopane'
-	 The style is case insensitive so one can use dropdownlist or dropDownList.
+     Using the 'style' option we can configure how our Widget gets rendered.
+     The following styles are available:
+     Selectbox (default), Listbox, Checkbox and in MANY_MANY relations 'twopane'
+     The style is case insensitive so one can use dropdownlist or dropDownList.
 
 Use the option 'createAction' if the action to add additional foreign Model
 options differs from 'create'.
@@ -87,21 +87,21 @@ Selectbox/Listbox form element.
 Full Example:
 <pre>
 $this->widget('application.components.Relation', array(
-			'model' => 'Post',
-			'field' => 'Userid',
-			'style' => 'ListBox',
-			'criteria' => new CDBCriteria(array('condition' => 'id_of_user IN (1,8,20)')),
-			'parentObjects' => Parentmodel::model()->findAll('userid = 17'),
-			'groupParentsBy' => 'city',
-			'relation' => 'user',
-			'relatedPk' => 'id_of_user',
-			'fields' => array( 'username', 'username.group.groupid' ),
-			'delimiter' => ' -> ', // default: ' | '
-			'returnTo' => 'model/create',
-			'addButtonUrl' => 'othercontroller/otheraction', // default: ''
-			'showAddButton' => 'click here to add a new User', // default: ''
-			'htmlOptions' => array('style' => 'width: 100px;')
-			));
+            'model' => 'Post',
+            'field' => 'Userid',
+            'style' => 'ListBox',
+            'criteria' => new CDBCriteria(array('condition' => 'id_of_user IN (1,8,20)')),
+            'parentObjects' => Parentmodel::model()->findAll('userid = 17'),
+            'groupParentsBy' => 'city',
+            'relation' => 'user',
+            'relatedPk' => 'id_of_user',
+            'fields' => array( 'username', 'username.group.groupid' ),
+            'delimiter' => ' -> ', // default: ' | '
+            'returnTo' => 'model/create',
+            'addButtonUrl' => 'othercontroller/otheraction', // default: ''
+            'showAddButton' => 'click here to add a new User', // default: ''
+            'htmlOptions' => array('style' => 'width: 100px;')
+            ));
 </pre>
 
 
@@ -166,7 +166,7 @@ class Relation extends CWidget
     //
     // 'template' => '#{id} : {fields} ({title}) Allowed other Models: {func0} {func1} {preferredWay}',
     // 'functions' => array(
-    //		"CHtml::checkBoxList('parent{id}', '', CHtml::listData(Othermodel::model()->findAll(), 'id', 'title'));",
+    //        "CHtml::checkBoxList('parent{id}', '', CHtml::listData(Othermodel::model()->findAll(), 'id', 'title'));",
     //      '$this->funcThatReturnsText();'
     //      'preferredWay' => '$this->instructMe();'
     // ),
@@ -568,19 +568,19 @@ class Relation extends CWidget
                                                           $i)));
             echo CHtml::closeTag('div');
             $jsadd = '
-					$(\'#add_' . $uniqueid . '\').click(function() {
-							$(\'#div_' . $uniqueid . '_\' + i' . $this->num . ').show();
-							if(i' . $this->num . ' <= maxi' . $this->num . ') i' . $this->num . '++;
-							});
-				';
+                    $(\'#add_' . $uniqueid . '\').click(function() {
+                            $(\'#div_' . $uniqueid . '_\' + i' . $this->num . ').show();
+                            if(i' . $this->num . ' <= maxi' . $this->num . ') i' . $this->num . '++;
+                            });
+                ';
 
             $jssub = '
-					$(\'#sub_' . $uniqueid . '_' . $i . '\').click(function() {
-							$(\'#div_' . $uniqueid . '_' . $i . '\').hide();
-							$("select[name=\'' . $this->getListBoxName() . '[' . $i . ']\']").val(\'\');
-							if(i' . $this->num . ' >= 1) i--;
-							});
-				';
+                    $(\'#sub_' . $uniqueid . '_' . $i . '\').click(function() {
+                            $(\'#div_' . $uniqueid . '_' . $i . '\').hide();
+                            $("select[name=\'' . $this->getListBoxName() . '[' . $i . ']\']").val(\'\');
+                            if(i' . $this->num . ' >= 1) i--;
+                            });
+                ';
 
             Yii::app()->clientScript->registerScript('addbutton_' . $uniqueid, $jsadd);
             Yii::app()->clientScript->registerScript('subbutton_' . $uniqueid, $jssub);
@@ -740,30 +740,30 @@ class Relation extends CWidget
             $link,
             array(
                  'success' => "function(html) {
-								jQuery('#" . $this->relation . "_dialog').html(html);
-								$('#" . $this->relation . "_dialog').dialog('open');
-							}"),
+                                jQuery('#" . $this->relation . "_dialog').html(html);
+                                $('#" . $this->relation . "_dialog').dialog('open');
+                            }"),
             array('id' => $this->relation . '_create')
         );
 
         // prepare the Submit button that is not loaded into the DOM yet
         Yii::app()->clientScript->registerScript($this->relation . '_submit',
                                                  "jQuery('body').delegate('#submit_" . $this->relation . "','click',function(){
-				jQuery.ajax({'url':'" . $link . "',
-						'cache':false,
-						'type':'POST',
-						'data':jQuery(this).parents('form').serialize(),
-						'success':function(html){
-						jQuery('#" . $this->relation . "_dialog').html(html)}});
-			return false;});");
+                jQuery.ajax({'url':'" . $link . "',
+                        'cache':false,
+                        'type':'POST',
+                        'data':jQuery(this).parents('form').serialize(),
+                        'success':function(html){
+                        jQuery('#" . $this->relation . "_dialog').html(html)}});
+            return false;});");
 
         Yii::app()->clientScript->registerScript($this->relation . '_done',
                                                  "jQuery('body').delegate('#" . $this->relation . "_done','click',function(){
-					jQuery.ajax({'url':'" . $this->addButtonRefreshUrl . "',
-							'cache':false,
-							'success':function(html){
-							jQuery('#" . $this->relation . "_options').html(html)}});
-						$('#" . $this->relation . "_dialog').dialog('close');
-				return false;});");
+                    jQuery.ajax({'url':'" . $this->addButtonRefreshUrl . "',
+                            'cache':false,
+                            'success':function(html){
+                            jQuery('#" . $this->relation . "_options').html(html)}});
+                        $('#" . $this->relation . "_dialog').dialog('close');
+                return false;});");
     }
 }

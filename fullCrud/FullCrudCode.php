@@ -229,11 +229,11 @@ class FullCrudCode extends CrudCode
                         break;
                     case "html5Editor":
                         return "\$form->html5EditorRow(\$model, '{$column->name}', array('rows'=>6, 'cols'=>50, 'class'=>'span8', 'options' => array(
-					'link' => true,
-					'image' => false,
-					'color' => false,
-					'html' => true,
-			)))";
+                    'link' => true,
+                    'image' => false,
+                    'color' => false,
+                    'html' => true,
+            )))";
                         break;
                     case "ckEditor":
                         return "\$form->ckEditorRow(\$model, '{$column->name}', array('options'=>array('fullpage'=>'js:true', 'width'=>'640', 'resize_maxWidth'=>'640','resize_minWidth'=>'320')))";

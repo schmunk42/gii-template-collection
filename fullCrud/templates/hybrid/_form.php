@@ -23,10 +23,10 @@
 
     echo $form->errorSummary($model);
 
-	$this->renderPartial('_elements', array(
-		'model' => $model,
-		'form' => $form,
-	));
+    $this->renderPartial('_elements', array(
+        'model' => $model,
+        'form' => $form,
+    ));
     <?php echo '?>'; ?>
 
     <div class="form-actions">
@@ -34,9 +34,9 @@
         echo "
     <?php
         echo CHtml::Button(Yii::t('" . $this->messageCatalog . "', 'Cancel'), array(
-			'submit' => (isset(\$_GET['returnUrl']))?\$_GET['returnUrl']:array('" . strtolower($this->modelClass) . "/admin'),
-			'class' => 'btn'
-			));
+            'submit' => (isset(\$_GET['returnUrl']))?\$_GET['returnUrl']:array('" . strtolower($this->modelClass) . "/admin'),
+            'class' => 'btn'
+            ));
         echo ' '.CHtml::submitButton(Yii::t('" . $this->messageCatalog . "', 'Save'), array(
             'class' => 'btn btn-primary'
             ));

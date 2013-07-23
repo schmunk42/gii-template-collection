@@ -102,7 +102,7 @@ class FullModelCode extends ModelCode
         $behaviors = 'return array(';
         if (count($this->relations) > 0) {
             $behaviors .= "'CSaveRelationsBehavior', array(
-				'class' => 'CSaveRelationsBehavior'),";
+                'class' => 'CSaveRelationsBehavior'),";
         }
 
         foreach ($columns as $name => $column) {
@@ -118,10 +118,10 @@ class FullModelCode extends ModelCode
                                              'timestamp'))
             ) {
                 $behaviors .= sprintf("\n\t\t'CTimestampBehavior' => array(
-				'class' => 'zii.behaviors.CTimestampBehavior',
-				'createAttribute' => %s,
-				'updateAttribute' => %s,
-				\t),\n", $this->getCreatetimeAttribute($columns),
+                'class' => 'zii.behaviors.CTimestampBehavior',
+                'createAttribute' => %s,
+                'updateAttribute' => %s,
+                \t),\n", $this->getCreatetimeAttribute($columns),
                                       $this->getUpdatetimeAttribute($columns));
                 break; // once a column is found, we are done
             }
@@ -137,9 +137,9 @@ class FullModelCode extends ModelCode
                                              'create_user'))
             ) {
                 $behaviors .= sprintf("\n\t\t'OwnerBehavior' => array(
-								'class' => 'OwnerBehavior',
-							'ownerColumn' => '%s',
-							\t),\n", $column->name);
+                                'class' => 'OwnerBehavior',
+                            'ownerColumn' => '%s',
+                            \t),\n", $column->name);
                 break; // once a column is found, we are done
 
             }

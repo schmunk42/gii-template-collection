@@ -44,7 +44,7 @@ echo "</ul>";
 <?php echo "<?php echo CHtml::link(Yii::t('app', 'Advanced Search'),'#',array('class'=>'search-button')); ?>"; ?>
 <div class="search-form" style="display:none">
     <?php echo "<?php \$this->renderPartial('_search',array(
-	'model'=>\$model,
+    'model'=>\$model,
 )); ?>\n"; ?>
 </div>
 <?php echo "<?php

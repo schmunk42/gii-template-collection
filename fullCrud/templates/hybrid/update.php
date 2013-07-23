@@ -34,8 +34,8 @@ Code example to include an editable detail view:
 
 <?php echo "<?php
 \$this->widget('EditableDetailView', array(
-	'data' => \$model,
-	'url' => \$this->createUrl('editableSaver'),
+    'data' => \$model,
+    'url' => \$this->createUrl('editableSaver'),
 ));
 ?>\n"; ?>
 
@@ -63,7 +63,7 @@ if ($relations !== array()): ?>
             continue;
         }
 
-	if ($relation[0] == 'CHasManyRelation'): ?>
+    if ($relation[0] == 'CHasManyRelation'): ?>
 
 <h2>
     <?php
@@ -74,10 +74,10 @@ if ($relations !== array()): ?>
 <div class="btn-group">
 <?php
     echo "<?php \$this->widget('bootstrap.widgets.TbButtonGroup', array(
-	'type' => '', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
-	'buttons'=>array(
-		array('label'=>Yii::t('" . $this->messageCatalog . "','Create'), 'icon'=>'icon-plus', 'url' => array('{$controller}/create','{$relatedModelClass}' => array('{$fk}'=>\$model->{$pk}), 'returnUrl' => Yii::app()->request->url), array('class'=>''))
-	),
+    'type' => '', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
+    'buttons'=>array(
+        array('label'=>Yii::t('" . $this->messageCatalog . "','Create'), 'icon'=>'icon-plus', 'url' => array('{$controller}/create','{$relatedModelClass}' => array('{$fk}'=>\$model->{$pk}), 'returnUrl' => Yii::app()->request->url), array('class'=>''))
+    ),
 ));
 ?>";
 
@@ -98,8 +98,8 @@ $this->widget('TbGridView',
     'columns'=>array(
         '<?php echo $pk; ?>',
         <?php
-	$count = 0;
-	foreach ($relatedModel->tableSchema->columns as $column) {
+    $count = 0;
+    foreach ($relatedModel->tableSchema->columns as $column) {
 
             // Primary key is not editable
             if ($column->name === $pk) {
@@ -111,19 +111,19 @@ $this->widget('TbGridView',
                 continue;
             }
 
-	    if ($count == 7) {
-		echo "\t\t/*\n";
-	    }
+        if ($count == 7) {
+        echo "\t\t/*\n";
+        }
 
-	    $count++;
+        $count++;
 
-	    echo "\t\t" . FullCrudHelper::generateEditableField($relatedModelClass, $column, $controller) . ",\n";
-	}
+        echo "\t\t" . FullCrudHelper::generateEditableField($relatedModelClass, $column, $controller) . ",\n";
+    }
 
-	if ($count >= 8) {
-	    echo "\t\t*/\n";
-	}
-	?>
+    if ($count >= 8) {
+        echo "\t\t*/\n";
+    }
+    ?>
         array(
             'class'=>'TbButtonColumn',
             'viewButtonUrl' => "Yii::app()->controller->createUrl('<?php echo $controller; ?>/view', array('<?php echo $pk; ?>' => \$data-><?php echo $pk; ?>))",
@@ -135,8 +135,8 @@ $this->widget('TbGridView',
 ?>
 
 <?php
-	endif;
-	
+    endif;
+    
         if (($relation[0] == 'CManyManyRelation')) {
 
             echo "<div class='well'>\n";

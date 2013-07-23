@@ -8,32 +8,32 @@
 
 
 class OwnerBehavior extends CActiveRecordBehavior {
-	/**
-	 * The field that stores the pk of the owner
-	 */
-	public $ownerColumn = 'owner_id';
+    /**
+     * The field that stores the pk of the owner
+     */
+    public $ownerColumn = 'owner_id';
 
-	/**
-	 * The field that stores the pk of user that did the the last change
-	 */
-	public $lastChangeColumn = 'last_change_by';
+    /**
+     * The field that stores the pk of user that did the the last change
+     */
+    public $lastChangeColumn = 'last_change_by';
 
-	public function beforeValidate($on) {
-		if(isset($this->owner->tableSchema->columns[$this->ownerColumn]))
-			if ($this->owner->isNewRecord)
-				$this->owner->{$this->ownerColumn} = Yii::app()->user->id;
+    public function beforeValidate($on) {
+        if(isset($this->owner->tableSchema->columns[$this->ownerColumn]))
+            if ($this->owner->isNewRecord)
+                $this->owner->{$this->ownerColumn} = Yii::app()->user->id;
 
 
-		return true;
-	}
+        return true;
+    }
 
-	public function beforeSave($on) {
+    public function beforeSave($on) {
 
-		if(isset($this->owner->tableSchema->columns[$this->lastChangeColumn]))
-			$this->owner->{$this->lastChangeColumn} = Yii::app()->user->id;
+        if(isset($this->owner->tableSchema->columns[$this->lastChangeColumn]))
+            $this->owner->{$this->lastChangeColumn} = Yii::app()->user->id;
 
-		return true;
-	}
+        return true;
+    }
 
 }
 

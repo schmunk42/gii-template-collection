@@ -9,7 +9,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
     <?php
     $authPath = 'gtc.fullCrud.templates.hybrid.auth.';
     $rightsPrefix = str_replace(" ",".",ucwords(str_replace("/"," ",$this->controller)));
-	Yii::app()->controller->renderPartial($authPath . $this->authTemplate, array('rightsPrefix'=>$rightsPrefix));
+    Yii::app()->controller->renderPartial($authPath . $this->authTemplate, array('rightsPrefix'=>$rightsPrefix));
     ?>
 
     public function beforeAction($action){
@@ -127,27 +127,27 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
         $es->update();
     }
 
-	public function actionEditableCreator()
-	{
-		if (isset($_POST['<?php echo $this->modelClass; ?>']))
-		{
-			$model = new <?php echo $this->modelClass; ?>;
-			$model->attributes = $_POST['<?php echo $this->modelClass; ?>'];
-			if ($model->save())
-			{
-				echo CJSON::encode($model->getAttributes());
-			} else
-			{
-				$errors = array_map(function($v) {
-					    return join(', ', $v);
-				    }, $model->getErrors());
-				echo CJSON::encode(array('errors' => $errors));
-			}
-		} else
-		{
-			throw new CHttpException(400, 'Invalid request');
-		}
-	}
+    public function actionEditableCreator()
+    {
+        if (isset($_POST['<?php echo $this->modelClass; ?>']))
+        {
+            $model = new <?php echo $this->modelClass; ?>;
+            $model->attributes = $_POST['<?php echo $this->modelClass; ?>'];
+            if ($model->save())
+            {
+                echo CJSON::encode($model->getAttributes());
+            } else
+            {
+                $errors = array_map(function($v) {
+                        return join(', ', $v);
+                    }, $model->getErrors());
+                echo CJSON::encode(array('errors' => $errors));
+            }
+        } else
+        {
+            throw new CHttpException(400, 'Invalid request');
+        }
+    }
 
     public function actionDelete($id)
     {

@@ -22,9 +22,9 @@
         echo "\t*/ ?>\n";
    
     echo "\t<?php if (Yii::app()->user->checkAccess('{$this->modelClass}.*')): ?>
-		<div class=\"admin-container show\">
-			<?php echo CHtml::link('<i class=\"icon-edit\"></i> '.Yii::t('" . $this->messageCatalog . "', 'Update {model}', array('{model}' => Yii::t('" . $this->messageCatalog . "', '" . $this->class2name($this->modelClass) . "'))), array('{$this->controller}/update', 'id' => \$data->id, 'returnUrl' => Yii::app()->request->url), array('class' => 'btn')); ?>
-		</div>
-	<?php endif; ?>\n";?>
+        <div class=\"admin-container show\">
+            <?php echo CHtml::link('<i class=\"icon-edit\"></i> '.Yii::t('" . $this->messageCatalog . "', 'Update {model}', array('{model}' => Yii::t('" . $this->messageCatalog . "', '" . $this->class2name($this->modelClass) . "'))), array('{$this->controller}/update', 'id' => \$data->id, 'returnUrl' => Yii::app()->request->url), array('class' => 'btn')); ?>
+        </div>
+    <?php endif; ?>\n";?>
 
 </div>

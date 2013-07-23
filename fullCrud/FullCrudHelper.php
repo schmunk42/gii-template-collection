@@ -123,17 +123,17 @@ class FullCrudHelper
                 $allowEmpty = true;
 
                 return ("\$this->widget(
-					'Relation',
-					array(
-							'model' => \$model,
-							'relation' => '{$relationName}',
-							'fields' => '{$suggestedfield}',
-							'allowEmpty' => " . ($allowEmpty ? "true" : "false") . ",
-							'style' => '{$style}',
-							'htmlOptions' => array(
-								'checkAll' => 'all'),
-							)
-						" . ($captureOutput ? ", true" : "") . ")");
+                    'Relation',
+                    array(
+                            'model' => \$model,
+                            'relation' => '{$relationName}',
+                            'fields' => '{$suggestedfield}',
+                            'allowEmpty' => " . ($allowEmpty ? "true" : "false") . ",
+                            'style' => '{$style}',
+                            'htmlOptions' => array(
+                                'checkAll' => 'all'),
+                            )
+                        " . ($captureOutput ? ", true" : "") . ")");
             }
         }
     }
@@ -174,20 +174,20 @@ class FullCrudHelper
             }
             if ($view === true) {
                 return "array(
-					'name'=>'{$column->name}',
-					'value'=>CHtml::value(\$model,'{$relname}." . self::suggestIdentifier($relatedModel) . "'),
-					)";
+                    'name'=>'{$column->name}',
+                    'value'=>CHtml::value(\$model,'{$relname}." . self::suggestIdentifier($relatedModel) . "'),
+                    )";
             } elseif ($view == 'search') {
                 return "echo \$form->dropDownList(\$model,'{$column->name}',CHtml::listData({$relatedModelName}::model()->findAll(),
                 '{$fcolumns[0]}', '{$fcolumns[1]}'),array('prompt'=>'all'))";
             } else {
                 return "array(
-					'name'=>'{$column->name}',
-					'value'=>'CHtml::value(\$data,\'{$relname}." . self::suggestIdentifier($relatedModel) . "\')',
-							'filter'=>CHtml::listData({$relatedModelName}::model()->findAll(), '{$fcolumns[0]}', '" . self::suggestIdentifier(
+                    'name'=>'{$column->name}',
+                    'value'=>'CHtml::value(\$data,\'{$relname}." . self::suggestIdentifier($relatedModel) . "\')',
+                            'filter'=>CHtml::listData({$relatedModelName}::model()->findAll(), '{$fcolumns[0]}', '" . self::suggestIdentifier(
                     $relatedModel
                 ) . "'),
-							)";
+                            )";
             }
         } else {
             /*if (strtoupper($column->dbType) == 'BOOLEAN'
@@ -196,16 +196,16 @@ class FullCrudHelper
             ) {
                 if ($view) {
                     return "array(
-					'name'=>'{$column->name}',
-					'value'=>\$model->{$column->name}?'yes':'no',
-					)";
+                    'name'=>'{$column->name}',
+                    'value'=>\$model->{$column->name}?'yes':'no',
+                    )";
                 }
                 else {
                     return "array(
-					'name'=>'{$column->name}',
-					'value'=>'\$data->{$column->name}?'yes':'no',
-							'filter'=>array('0'=>'no','1'=>'yes'),
-							)";
+                    'name'=>'{$column->name}',
+                    'value'=>'\$data->{$column->name}?'yes':'no',
+                            'filter'=>array('0'=>'no','1'=>'yes'),
+                            )";
                 }
             }
             else {*/
@@ -214,8 +214,8 @@ class FullCrudHelper
                 or $column->name == 'timestamp'
             ) {
                 return "array(
-				'name'=>'{$column->name}',
-				'value' =>'date(\"Y. m. d G:i:s\", \$data->{$column->name})')";
+                'name'=>'{$column->name}',
+                'value' =>'date(\"Y. m. d G:i:s\", \$data->{$column->name})')";
             } else {
                 return ("'" . $column->name . "'");
             }
@@ -233,13 +233,13 @@ class FullCrudHelper
             return self::generateValueField($modelClass, $column, $view);
         } else {
             return "array(
-			'class' => 'editable.EditableColumn',
-			'name' => '{$column->name}',
-			'editable' => array(
-				'url' => \$this->createUrl('{$controller}/editableSaver'),
-				'placement' => 'right',
-			)
-		)";
+            'class' => 'editable.EditableColumn',
+            'name' => '{$column->name}',
+            'editable' => array(
+                'url' => \$this->createUrl('{$controller}/editableSaver'),
+                'placement' => 'right',
+            )
+        )";
         }
     }
 
