@@ -39,7 +39,7 @@ class FullCrudFieldProvider
 
             foreach ($enum_values as $value) {
                 $value = trim($value, "()'");
-                $string .= "\t\t\t'$value' => '" . $value . "' ,\n";
+                $string .= "            '$value' => '" . $value . "' ,\n";
             }
             $string .= '))';
 

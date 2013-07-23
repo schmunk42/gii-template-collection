@@ -117,11 +117,11 @@ class FullModelCode extends ModelCode
                                              'update_time',
                                              'timestamp'))
             ) {
-                $behaviors .= sprintf("\n\t\t'CTimestampBehavior' => array(
+                $behaviors .= sprintf("\n        'CTimestampBehavior' => array(
                 'class' => 'zii.behaviors.CTimestampBehavior',
                 'createAttribute' => %s,
                 'updateAttribute' => %s,
-                \t),\n", $this->getCreatetimeAttribute($columns),
+                    ),\n", $this->getCreatetimeAttribute($columns),
                                       $this->getUpdatetimeAttribute($columns));
                 break; // once a column is found, we are done
             }
@@ -136,10 +136,10 @@ class FullModelCode extends ModelCode
                                              'createdby',
                                              'create_user'))
             ) {
-                $behaviors .= sprintf("\n\t\t'OwnerBehavior' => array(
+                $behaviors .= sprintf("\n        'OwnerBehavior' => array(
                                 'class' => 'OwnerBehavior',
                             'ownerColumn' => '%s',
-                            \t),\n", $column->name);
+                                ),\n", $column->name);
                 break; // once a column is found, we are done
 
             }

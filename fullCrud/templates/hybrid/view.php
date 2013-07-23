@@ -21,25 +21,25 @@ echo "?>";
 <?php echo '<?php $this->renderPartial("_toolbar", array("model"=>$model)); ?>'; ?>
 
 <?php
-echo "\t<b><?php echo CHtml::encode(\$model->getAttributeLabel('{$this->identificationColumn}')); ?>:</b>\n";
-echo "\t<?php echo CHtml::link(CHtml::encode(\$model->{$this->identificationColumn}), array('view', '{$this->identificationColumn}'=>\$model->{$this->identificationColumn})); ?>\n\t<br />\n\n";
+echo "    <b><?php echo CHtml::encode(\$model->getAttributeLabel('{$this->identificationColumn}')); ?>:</b>\n";
+echo "    <?php echo CHtml::link(CHtml::encode(\$model->{$this->identificationColumn}), array('view', '{$this->identificationColumn}'=>\$model->{$this->identificationColumn})); ?>\n    <br />\n\n";
 $count = 0;
 foreach ($this->tableSchema->columns as $column) {
     if ($column->isPrimaryKey)
     continue;
     if (++$count == 7)
-    echo "\t<?php /*\n";
-    echo "\t<b><?php echo CHtml::encode(\$model->getAttributeLabel('{$column->name}')); ?>:</b>\n";
+    echo "    <?php /*\n";
+    echo "    <b><?php echo CHtml::encode(\$model->getAttributeLabel('{$column->name}')); ?>:</b>\n";
     if ($column->name == 'createtime'
     or $column->name == 'updatetime'
     or $column->name == 'timestamp') {
-    echo "\techo Yii::app()->getDateFormatter()->formatDateTime(\$model->{$column->name}, 'medium', 'medium'); ?>\n\t<br />\n\n";
+    echo "    echo Yii::app()->getDateFormatter()->formatDateTime(\$model->{$column->name}, 'medium', 'medium'); ?>\n    <br />\n\n";
     } else {
-    echo "\t<?php echo CHtml::encode(\$model->{$column->name}); ?>\n\t<br />\n\n";
+    echo "    <?php echo CHtml::encode(\$model->{$column->name}); ?>\n    <br />\n\n";
     }
 }
 if ($count >= 7)
-    echo "\t*/ ?>\n";
+    echo "    */ ?>\n";
 ?>
 
 <?php

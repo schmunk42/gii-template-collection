@@ -71,7 +71,7 @@ class <?php echo $modelClass; ?> extends <?php echo $this->baseClass; ?>
         return array(
                 <?php
                 foreach($rules as $rule) {
-                echo "\t\t\t$rule,\n";
+                echo "            $rule,\n";
                 }
                 ?>
                 array('<?php echo implode(', ', array_keys($columns)); ?>', 'safe', 'on'=>'search'),
@@ -83,7 +83,7 @@ class <?php echo $modelClass; ?> extends <?php echo $this->baseClass; ?>
         return array(
                 <?php
                 foreach($relations as $name=>$relation) {
-                echo "\t\t\t'$name' => $relation,\n";
+                echo "            '$name' => $relation,\n";
                 }
                 ?>
                 );
@@ -94,7 +94,7 @@ class <?php echo $modelClass; ?> extends <?php echo $this->baseClass; ?>
         return array(
                 <?php
                 foreach($labels as $name=>$label) {
-                echo "\t\t\t'$name' => Yii::t('app', '$label'),\n";
+                echo "            '$name' => Yii::t('app', '$label'),\n";
                 }
                 ?>
                 );
@@ -109,11 +109,11 @@ class <?php echo $modelClass; ?> extends <?php echo $this->baseClass; ?>
             {
                 if($column->type==='string' and !$column->isForeignKey)
                 {
-                    echo "\t\t\$criteria->compare('$name', \$this->$name, true);\n";
+                    echo "        \$criteria->compare('$name', \$this->$name, true);\n";
                 }
                 else
                 {
-                    echo "\t\t\$criteria->compare('$name', \$this->$name);\n";
+                    echo "        \$criteria->compare('$name', \$this->$name);\n";
                 }
             }
         echo "\n";

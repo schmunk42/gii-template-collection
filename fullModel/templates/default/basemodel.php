@@ -56,7 +56,7 @@
  */
 abstract class <?php echo 'Base' . $modelClass; ?> extends <?php echo $this->baseClass; ?>
 {
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }
@@ -72,7 +72,7 @@ abstract class <?php echo 'Base' . $modelClass; ?> extends <?php echo $this->bas
             parent::rules(), array(
 <?php
         foreach($rules as $rule) {
-            echo "\t\t\t$rule,\n";
+            echo "            $rule,\n";
         }
 ?>
             array('<?php echo implode(', ', array_keys($columns)); ?>', 'safe', 'on'=>'search'),
@@ -117,7 +117,7 @@ abstract class <?php echo 'Base' . $modelClass; ?> extends <?php echo $this->bas
         return array(
 <?php
         foreach($relations as $name=>$relation) {
-            echo "\t\t\t'$name' => $relation,\n";
+            echo "            '$name' => $relation,\n";
         }
 ?>
         );
@@ -128,7 +128,7 @@ abstract class <?php echo 'Base' . $modelClass; ?> extends <?php echo $this->bas
         return array(
 <?php
         foreach($labels as $name=>$label) {
-            echo "\t\t\t'$name' => Yii::t('".$this->messageCatalog."', '$label'),\n";
+            echo "            '$name' => Yii::t('".$this->messageCatalog."', '$label'),\n";
         }
 ?>
         );
@@ -146,11 +146,11 @@ abstract class <?php echo 'Base' . $modelClass; ?> extends <?php echo $this->bas
         {
             if($column->type==='string' and !$column->isForeignKey)
             {
-                echo "\t\t\$criteria->compare('t.$name', \$this->$name, true);\n";
+                echo "        \$criteria->compare('t.$name', \$this->$name, true);\n";
             }
             else
             {
-                echo "\t\t\$criteria->compare('t.$name', \$this->$name);\n";
+                echo "        \$criteria->compare('t.$name', \$this->$name);\n";
             }
         }
         echo "\n";

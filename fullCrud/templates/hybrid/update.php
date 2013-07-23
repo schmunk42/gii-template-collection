@@ -112,16 +112,16 @@ $this->widget('TbGridView',
             }
 
         if ($count == 7) {
-        echo "\t\t/*\n";
+        echo "        /*\n";
         }
 
         $count++;
 
-        echo "\t\t" . FullCrudHelper::generateEditableField($relatedModelClass, $column, $controller) . ",\n";
+        echo "        " . FullCrudHelper::generateEditableField($relatedModelClass, $column, $controller) . ",\n";
     }
 
     if ($count >= 8) {
-        echo "\t\t*/\n";
+        echo "        */\n";
     }
     ?>
         array(

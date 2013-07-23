@@ -60,15 +60,15 @@ echo "</ul>";
 $count = 0;
 foreach ($this->tableSchema->columns as $column) {
     if (++$count == 7)
-        echo "\t\t/*\n";
+        echo "        /*\n";
 
     if (strtoupper($column->dbType) == 'TEXT')
         echo "#";
-    echo "\t\t" . FullCrudHelper::generateValueField($this->modelClass, $column) . ",\n";
+    echo "        " . FullCrudHelper::generateValueField($this->modelClass, $column) . ",\n";
 }
 
 if ($count >= 7)
-    echo "\t\t*/\n";
+    echo "        */\n";
 ?>
 array(
 'class'=>'CButtonColumn',

@@ -26,8 +26,8 @@ $this->widget('zii.widgets.CDetailView', array(
 <?php
 foreach ($this->tableSchema->columns as $column) {
     if ($column->isForeignKey) {
-        echo "\t\tarray(\n";
-        echo "\t\t\t'name'=>'{$column->name}',\n";
+        echo "        array(\n";
+        echo "            'name'=>'{$column->name}',\n";
         foreach ($this->relations as $key => $relation) {
             if ((($relation[0] == "CHasOneRelation") || ($relation[0] == "CBelongsToRelation")) && $relation[2] == $column->name) {
                 $relatedModel = CActiveRecord::model($relation[1]);
@@ -41,16 +41,16 @@ foreach ($this->tableSchema->columns as $column) {
                 $value .= "CHtml::link(Yii::t('app','Update'), array('{$controller}/update','{$relatedModel->tableSchema->primaryKey}'=>\$model->{$key}->{$relatedModel->tableSchema->primaryKey}), array('class'=>'edit'))";
                 $value .= ":'n/a'";
 
-                echo "\t\t\t'value'=>{$value},\n";
-                echo "\t\t\t'type'=>'html',\n";
+                echo "            'value'=>{$value},\n";
+                echo "            'type'=>'html',\n";
             }
         }
-        echo "\t\t),\n";
+        echo "        ),\n";
     } else if (stristr($column->name, 'url')) {
         // TODO - experimental - move to provider class
         echo "array(";
-        echo "\t\t\t'name'=>'{$column->name}',\n";
-        echo "\t\t\t'type'=>'link',\n";
+        echo "            'name'=>'{$column->name}',\n";
+        echo "            'type'=>'link',\n";
         echo "),\n";
     } else if ($column->name == 'createtime'
         or $column->name == 'updatetime'
@@ -59,7 +59,7 @@ foreach ($this->tableSchema->columns as $column) {
                     'name'=>'{$column->name}',
                     'value' =>\$locale->getDateFormatter()->formatDateTime(\$model->{$column->name}, 'medium', 'medium')),\n";
     } else
-        echo "\t\t'" . $column->name . "',\n";
+        echo "        '" . $column->name . "',\n";
 }
 ?>
 ),
