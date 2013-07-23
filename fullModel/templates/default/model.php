@@ -20,8 +20,9 @@ Yii::import('<?php echo $modelClass; ?>.*');
 
 class <?php echo $modelClass; ?> extends <?php echo 'Base' . $modelClass."\n"; ?>
 {
+
     // Add your model-specific methods here. This file will not be overriden by gtc except you force it.
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }
@@ -40,8 +41,7 @@ class <?php echo $modelClass; ?> extends <?php echo 'Base' . $modelClass."\n"; ?
     {
         <?php
             $behaviors = 'return array_merge(
-            parent::behaviors(),
-            array(';
+            parent::behaviors(), array(';
                     foreach($columns as $name => $column) {
                     if(in_array($column->name, array(
                                 'create_time',
@@ -73,7 +73,7 @@ class <?php echo $modelClass; ?> extends <?php echo 'Base' . $modelClass."\n"; ?
                                         'create_user'))) {
                             $behaviors .= sprintf("\n        'OwnerBehavior' => array(
                                 'class' => 'OwnerBehavior',
-                            'ownerColumn' => '%s',
+                                'ownerColumn' => '%s',
                                 ),\n", $column->name);
                             break; // once a column is found, we are done
 
@@ -81,20 +81,19 @@ class <?php echo $modelClass; ?> extends <?php echo 'Base' . $modelClass."\n"; ?
                     }
 
 
-                    $behaviors .= "\n            ));\n";
+                    $behaviors .= "\n        ));\n";
                     echo $behaviors;
                     ?>
     }
-
 
     public function rules()
     {
         return array_merge(
             parent::rules()
-            /*, array(
-            array('column1, column2', 'rule1'),
-            array('column3', 'rule2'),
-            )*/
+            /* , array(
+              array('column1, column2', 'rule1'),
+              array('column3', 'rule2'),
+              ) */
         );
     }
 
