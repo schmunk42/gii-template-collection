@@ -202,14 +202,14 @@ class FullModelCode extends ModelCode
             $rules[] = "array('" . implode(', ', $null) . "', 'default', 'setOnEmpty' => true, 'value' => null)";
         }
         if ($integers !== array()) {
-            $rules[] = "array('" . implode(', ', $integers) . "', 'numerical', 'integerOnly'=>true)";
+            $rules[] = "array('" . implode(', ', $integers) . "', 'numerical', 'integerOnly' => true)";
         }
         if ($numerical !== array()) {
             $rules[] = "array('" . implode(', ', $numerical) . "', 'numerical')";
         }
         if ($length !== array()) {
             foreach ($length as $len => $cols)
-                $rules[] = "array('" . implode(', ', $cols) . "', 'length', 'max'=>$len)";
+                $rules[] = "array('" . implode(', ', $cols) . "', 'length', 'max' => $len)";
         }
         if ($safe !== array()) {
             $rules[] = "array('" . implode(', ', $safe) . "', 'safe')";

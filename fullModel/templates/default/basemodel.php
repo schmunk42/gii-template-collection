@@ -54,8 +54,9 @@
     ?>
 <?php endforeach; ?>
  */
-abstract class <?php echo 'Base' . $modelClass; ?> extends <?php echo $this->baseClass; ?>
+abstract class <?php echo 'Base' . $modelClass; ?> extends <?php echo $this->baseClass."\n"; ?>
 {
+
     public static function model($className = __CLASS__)
     {
         return parent::model($className);
@@ -75,12 +76,13 @@ abstract class <?php echo 'Base' . $modelClass; ?> extends <?php echo $this->bas
             echo "            $rule,\n";
         }
 ?>
-            array('<?php echo implode(', ', array_keys($columns)); ?>', 'safe', 'on'=>'search'),
+            array('<?php echo implode(', ', array_keys($columns)); ?>', 'safe', 'on' => 'search'),
             )
         );
     }
 
-    public function getItemLabel() {
+    public function getItemLabel()
+    {
         return (string) $this-><?php
             $found = false;
         foreach($columns as $name => $column) {
@@ -98,7 +100,6 @@ abstract class <?php echo 'Base' . $modelClass; ?> extends <?php echo $this->bas
         if(!$found)
             echo reset($columns)->name;
         ?>;
-
     }
 
     public function behaviors()
@@ -134,11 +135,10 @@ abstract class <?php echo 'Base' . $modelClass; ?> extends <?php echo $this->bas
         );
     }
 
-
     public function search($criteria = null)
     {
         if (is_null($criteria)) {
-            $criteria=new CDbCriteria;
+            $criteria = new CDbCriteria;
         }
 
 <?php
@@ -156,7 +156,7 @@ abstract class <?php echo 'Base' . $modelClass; ?> extends <?php echo $this->bas
         echo "\n";
 ?>
         return new CActiveDataProvider(get_class($this), array(
-            'criteria'=>$criteria,
+            'criteria' => $criteria,
         ));
     }
 
@@ -168,10 +168,10 @@ abstract class <?php echo 'Base' . $modelClass; ?> extends <?php echo $this->bas
      * $relatedSearchModel = $model->getRelatedSearchModel('relationName');
      *
      * Then, when invoking CGridView:
-     *     ...
-     *         'dataProvider' => $relatedSearchModel->search(),
-     *         'filter' => $relatedSearchModel,
-     *     ...
+     * 	...
+     * 		'dataProvider' => $relatedSearchModel->search(),
+     * 		'filter' => $relatedSearchModel,
+     * 	...
      * @returns CActiveRecord
      */
     public function getRelatedSearchModel($name)
@@ -189,8 +189,7 @@ abstract class <?php echo 'Base' . $modelClass; ?> extends <?php echo $this->bas
         $related = new $className('search');
         $related->unsetAttributes();
         $related->{$relation->foreignKey} = $this->primaryKey;
-        if (isset($_GET[$className]))
-        {
+        if (isset($_GET[$className])) {
             $related->attributes = $_GET[$className];
         }
         return $related;
