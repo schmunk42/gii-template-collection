@@ -1,13 +1,16 @@
-public function filters() {
-    return array(
+    public function filters()
+    {
+        return array(
             'accessControl',
-            );
-}
+        );
+    }
 
-public function accessRules() {
-    return array(
-            array('allow',
-                'actions'=>array(
+    public function accessRules()
+    {
+        return array(
+            array(
+                'allow',
+                'actions' => array(
                     'index',
                     'view',
                     'create',
@@ -17,10 +20,11 @@ public function accessRules() {
                     'admin',
                     'delete',
                 ),
-                'users'=>array('admin'),
-                ),
-            array('deny',
-                'users'=>array('*'),
-                ),
-            );
-}
+                'users' => array('admin'),
+            ),
+            array(
+                'deny',
+                'users' => array('*'),
+            ),
+        );
+    }
