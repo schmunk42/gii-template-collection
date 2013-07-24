@@ -61,7 +61,7 @@
 
     <?php echo "<?php
 echo CHtml::Button(Yii::t('app', 'Cancel'), array(
-			'submit' => array('" . strtolower($this->modelClass) . "/admin')));
+            'submit' => array('" . strtolower($this->modelClass) . "/admin')));
 echo CHtml::submitButton(Yii::t('app', 'Save'));
 \$this->endWidget(); ?>\n"; ?>
 </div> <!-- form -->

@@ -82,8 +82,8 @@ echo "?>";
                         or $column->name == 'timestamp'
                     ) {
                         echo "array(
-					'name'=>'{$column->name}',
-					'value' =>\$locale->getDateFormatter()->formatDateTime(\$model->{$column->name}, 'medium', 'medium')),\n";
+                    'name'=>'{$column->name}',
+                    'value' =>\$locale->getDateFormatter()->formatDateTime(\$model->{$column->name}, 'medium', 'medium')),\n";
                     } else {
                         echo "        '" . $column->name . "',\n";
                     }

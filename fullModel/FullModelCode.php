@@ -102,7 +102,7 @@ class FullModelCode extends ModelCode
         $behaviors = 'return array(';
         if (count($this->relations) > 0) {
             $behaviors .= "'CSaveRelationsBehavior', array(
-				'class' => 'CSaveRelationsBehavior'),";
+                'class' => 'CSaveRelationsBehavior'),";
         }
 
         foreach ($columns as $name => $column) {
@@ -117,11 +117,11 @@ class FullModelCode extends ModelCode
                                              'update_time',
                                              'timestamp'))
             ) {
-                $behaviors .= sprintf("\n\t\t'CTimestampBehavior' => array(
-				'class' => 'zii.behaviors.CTimestampBehavior',
-				'createAttribute' => %s,
-				'updateAttribute' => %s,
-				\t),\n", $this->getCreatetimeAttribute($columns),
+                $behaviors .= sprintf("\n        'CTimestampBehavior' => array(
+                'class' => 'zii.behaviors.CTimestampBehavior',
+                'createAttribute' => %s,
+                'updateAttribute' => %s,
+                    ),\n", $this->getCreatetimeAttribute($columns),
                                       $this->getUpdatetimeAttribute($columns));
                 break; // once a column is found, we are done
             }
@@ -136,10 +136,10 @@ class FullModelCode extends ModelCode
                                              'createdby',
                                              'create_user'))
             ) {
-                $behaviors .= sprintf("\n\t\t'OwnerBehavior' => array(
-								'class' => 'OwnerBehavior',
-							'ownerColumn' => '%s',
-							\t),\n", $column->name);
+                $behaviors .= sprintf("\n        'OwnerBehavior' => array(
+                                'class' => 'OwnerBehavior',
+                            'ownerColumn' => '%s',
+                                ),\n", $column->name);
                 break; // once a column is found, we are done
 
             }
@@ -202,14 +202,14 @@ class FullModelCode extends ModelCode
             $rules[] = "array('" . implode(', ', $null) . "', 'default', 'setOnEmpty' => true, 'value' => null)";
         }
         if ($integers !== array()) {
-            $rules[] = "array('" . implode(', ', $integers) . "', 'numerical', 'integerOnly'=>true)";
+            $rules[] = "array('" . implode(', ', $integers) . "', 'numerical', 'integerOnly' => true)";
         }
         if ($numerical !== array()) {
             $rules[] = "array('" . implode(', ', $numerical) . "', 'numerical')";
         }
         if ($length !== array()) {
             foreach ($length as $len => $cols)
-                $rules[] = "array('" . implode(', ', $cols) . "', 'length', 'max'=>$len)";
+                $rules[] = "array('" . implode(', ', $cols) . "', 'length', 'max' => $len)";
         }
         if ($safe !== array()) {
             $rules[] = "array('" . implode(', ', $safe) . "', 'safe')";

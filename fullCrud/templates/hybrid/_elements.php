@@ -47,16 +47,16 @@
 
             if (isset($columnRelation["relation"]) && $columnRelation["relation"][0] === 'CBelongsToRelation') {
 
-				if ($relationView = $this->resolveRelationViewFile($relation)) {
-					echo "      <?php \$this->renderPartial('{$relationView}', array('model'=>\$model)) ?>";
-					continue;
-				}
+                if ($relationView = $this->resolveRelationViewFile($relation)) {
+                    echo "      <?php \$this->renderPartial('{$relationView}', array('model'=>\$model)) ?>";
+                    continue;
+                }
 
                 // render belongsTo relation input
-				echo "                <?php\n";
-				echo "                \$input = ".FullCrudHelper::generateRelation($this->modelClass, $columnRelation["key"], $columnRelation["relation"], true).";\n";
-				echo "                echo \$form->customRow(\$model, '{$column->name}', \$input);\n";
-				echo "                ?>\n";
+                echo "                <?php\n";
+                echo "                \$input = ".FullCrudHelper::generateRelation($this->modelClass, $columnRelation["key"], $columnRelation["relation"], true).";\n";
+                echo "                echo \$form->customRow(\$model, '{$column->name}', \$input);\n";
+                echo "                ?>\n";
 
                 // render create button
                 $controller = FullCrudHelper::resolveController($columnRelation["relation"]);
@@ -94,7 +94,7 @@
                 \$this->beginClip('modal:'.\$formId.'-modal');
                 \$this->renderPartial('/{$controller}/_modal_form', array(
                     'formId' => \$formId,
-                	'inputSelector' => '#{$this->modelClass}_{$fk}',
+                    'inputSelector' => '#{$this->modelClass}_{$fk}',
                     'model' => new {$relatedModelClass},
                     'pk' => '{$pk}',
                     'field' => '{$suggestedfield}',

@@ -2,32 +2,32 @@
 $class = get_class($model);
 Yii::app()->clientScript->registerScript('gii.model', "
 $('#{$class}_modelClass').change(function(){
-	$(this).data('changed',$(this).val()!='');
+    $(this).data('changed',$(this).val()!='');
 });
 $('#{$class}_tableName').bind('keyup change', function(){
-	var model=$('#{$class}_modelClass');
+    var model=$('#{$class}_modelClass');
     var tableName=$(this).val();
-	if(tableName.substring(tableName.length-1)!='*') {
-		$('.form .row.model-class').show();
-	}
-	else {
-		$('#{$class}_modelClass').val('');
-		$('.form .row.model-class').hide();
-	}
-	if(!model.data('changed')) {
-		var i=tableName.lastIndexOf('.');
-		if(i>=0)
-			tableName=tableName.substring(i+1);
-		var tablePrefix=$('#{$class}_tablePrefix').val();
-		if(tablePrefix!='' && tableName.indexOf(tablePrefix)==0)
-			tableName=tableName.substring(tablePrefix.length);
-		var modelClass='';
-		$.each(tableName.split('_'), function() {
-			if(this.length>0)
-				modelClass+=this.substring(0,1).toUpperCase()+this.substring(1);
-		});
-		model.val(modelClass);
-	}
+    if(tableName.substring(tableName.length-1)!='*') {
+        $('.form .row.model-class').show();
+    }
+    else {
+        $('#{$class}_modelClass').val('');
+        $('.form .row.model-class').hide();
+    }
+    if(!model.data('changed')) {
+        var i=tableName.lastIndexOf('.');
+        if(i>=0)
+            tableName=tableName.substring(i+1);
+        var tablePrefix=$('#{$class}_tablePrefix').val();
+        if(tablePrefix!='' && tableName.indexOf(tablePrefix)==0)
+            tableName=tableName.substring(tablePrefix.length);
+        var modelClass='';
+        $.each(tableName.split('_'), function() {
+            if(this.length>0)
+                modelClass+=this.substring(0,1).toUpperCase()+this.substring(1);
+        });
+        model.val(modelClass);
+    }
 });
 $('.form .row.model-class').toggle($('#{$class}_tableName').val().substring($('#{$class}_tableName').val().length-1)!='*');
 ");

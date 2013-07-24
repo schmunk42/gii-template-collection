@@ -116,7 +116,7 @@
 <?php echo "<?php if(\$this->action->id == 'admin'): ?>" ?>
 <div class="search-form" style="display:none">
     <?php echo "<?php \$this->renderPartial('_search',array(
-	'model'=>\$model,
+    'model'=>\$model,
 )); ?>\n"; ?>
 </div>
 <?php echo "<?php endif; ?>" ?>

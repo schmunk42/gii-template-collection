@@ -46,7 +46,7 @@ $this->widget('TbGridView',
 $count = 0;
 foreach ($this->tableSchema->columns as $column) {
     if ($count == 7) {
-        echo "\t\t/*\n";
+        echo "        /*\n";
     }
 
     if (strtoupper($column->dbType) == 'TEXT') {
@@ -55,11 +55,11 @@ foreach ($this->tableSchema->columns as $column) {
     else {
         $count++;
     }
-    echo "\t\t" . FullCrudHelper::generateValueField($this->modelClass, $column) . ",\n";
+    echo "        " . FullCrudHelper::generateValueField($this->modelClass, $column) . ",\n";
 }
 
 if ($count >= 8) {
-    echo "\t\t*/\n";
+    echo "        */\n";
 }
 ?>
         array(

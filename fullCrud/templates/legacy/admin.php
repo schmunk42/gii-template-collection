@@ -44,7 +44,7 @@ echo "</ul>";
 <?php echo "<?php echo CHtml::link(Yii::t('app', 'Advanced Search'),'#',array('class'=>'search-button')); ?>"; ?>
 <div class="search-form" style="display:none">
     <?php echo "<?php \$this->renderPartial('_search',array(
-	'model'=>\$model,
+    'model'=>\$model,
 )); ?>\n"; ?>
 </div>
 <?php echo "<?php
@@ -60,15 +60,15 @@ echo "</ul>";
 $count = 0;
 foreach ($this->tableSchema->columns as $column) {
     if (++$count == 7)
-        echo "\t\t/*\n";
+        echo "        /*\n";
 
     if (strtoupper($column->dbType) == 'TEXT')
         echo "#";
-    echo "\t\t" . FullCrudHelper::generateValueField($this->modelClass, $column) . ",\n";
+    echo "        " . FullCrudHelper::generateValueField($this->modelClass, $column) . ",\n";
 }
 
 if ($count >= 7)
-    echo "\t\t*/\n";
+    echo "        */\n";
 ?>
 array(
 'class'=>'CButtonColumn',

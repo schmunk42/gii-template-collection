@@ -18,23 +18,23 @@
  */
 class IdentificationColumnValidator extends CValidator 
 {
-	protected function validateAttribute($object,$attribute) {
-		if(isset($object->$attribute)) {
-			if($object->$attribute) {
-				if(substr($object->$attribute, 0, -1) == '.')
-					$object->addError($attribute, Yii::t('app',
-								'Please do not use a . (dot) as the last character for this column')); 
+    protected function validateAttribute($object,$attribute) {
+        if(isset($object->$attribute)) {
+            if($object->$attribute) {
+                if(substr($object->$attribute, 0, -1) == '.')
+                    $object->addError($attribute, Yii::t('app',
+                                'Please do not use a . (dot) as the last character for this column')); 
 
-				if(strpos($object->$attribute, '/') !== false)
-					$object->addError($attribute, Yii::t('app',
-								'Please do not use a / (slash) for this column'));
-			}
-		}
-	}
+                if(strpos($object->$attribute, '/') !== false)
+                    $object->addError($attribute, Yii::t('app',
+                                'Please do not use a / (slash) for this column'));
+            }
+        }
+    }
 
-	public function clientValidateAttribute($object,$attribute)
-	{
-	}
+    public function clientValidateAttribute($object,$attribute)
+    {
+    }
 
 }
 

@@ -56,101 +56,101 @@
  */
 class <?php echo $modelClass; ?> extends <?php echo $this->baseClass; ?>
 {
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
+    public static function model($className=__CLASS__)
+    {
+        return parent::model($className);
+    }
 
-	public function tableName()
-	{
-		return '<?php echo $tableName; ?>';
-	}
+    public function tableName()
+    {
+        return '<?php echo $tableName; ?>';
+    }
 
-	public function rules()
-	{
-		return array(
-				<?php
-				foreach($rules as $rule) {
-				echo "\t\t\t$rule,\n";
-				}
-				?>
-				array('<?php echo implode(', ', array_keys($columns)); ?>', 'safe', 'on'=>'search'),
-				);
-	}
+    public function rules()
+    {
+        return array(
+                <?php
+                foreach($rules as $rule) {
+                echo "            $rule,\n";
+                }
+                ?>
+                array('<?php echo implode(', ', array_keys($columns)); ?>', 'safe', 'on'=>'search'),
+                );
+    }
 
-	public function relations()
-	{
-		return array(
-				<?php
-				foreach($relations as $name=>$relation) {
-				echo "\t\t\t'$name' => $relation,\n";
-				}
-				?>
-				);
-	}
+    public function relations()
+    {
+        return array(
+                <?php
+                foreach($relations as $name=>$relation) {
+                echo "            '$name' => $relation,\n";
+                }
+                ?>
+                );
+    }
 
-	public function attributeLabels()
-	{
-		return array(
-				<?php
-				foreach($labels as $name=>$label) {
-				echo "\t\t\t'$name' => Yii::t('app', '$label'),\n";
-				}
-				?>
-				);
-	}
+    public function attributeLabels()
+    {
+        return array(
+                <?php
+                foreach($labels as $name=>$label) {
+                echo "            '$name' => Yii::t('app', '$label'),\n";
+                }
+                ?>
+                );
+    }
 
-	public function search()
-	{
-		$criteria=new CDbCriteria;
+    public function search()
+    {
+        $criteria=new CDbCriteria;
 
-		<?php
-			foreach($columns as $name=>$column)
-			{
-				if($column->type==='string' and !$column->isForeignKey)
-				{
-					echo "\t\t\$criteria->compare('$name', \$this->$name, true);\n";
-				}
-				else
-				{
-					echo "\t\t\$criteria->compare('$name', \$this->$name);\n";
-				}
-			}
-		echo "\n";
-		?>
-			return new CActiveDataProvider(get_class($this), array(
-						'criteria'=>$criteria,
-						));
-	}
+        <?php
+            foreach($columns as $name=>$column)
+            {
+                if($column->type==='string' and !$column->isForeignKey)
+                {
+                    echo "        \$criteria->compare('$name', \$this->$name, true);\n";
+                }
+                else
+                {
+                    echo "        \$criteria->compare('$name', \$this->$name);\n";
+                }
+            }
+        echo "\n";
+        ?>
+            return new CActiveDataProvider(get_class($this), array(
+                        'criteria'=>$criteria,
+                        ));
+    }
 
-	public function behaviors() 
-	{
-		<?php echo $this->getBehaviors($columns); ?>
+    public function behaviors() 
+    {
+        <?php echo $this->getBehaviors($columns); ?>
   }
 
-	public function beforeValidate() 
-	{
-		return parent::beforeValidate();	
-	}
+    public function beforeValidate() 
+    {
+        return parent::beforeValidate();    
+    }
 
-	public function afterValidate() 
-	{
-		return parent::afterValidate();	
-	}
+    public function afterValidate() 
+    {
+        return parent::afterValidate();    
+    }
 
-	public function beforeSave() 
-	{
-		return parent::beforeSave();	
-	}
+    public function beforeSave() 
+    {
+        return parent::beforeSave();    
+    }
 
-	public function afterSave() 
-	{
-		return parent::afterSave();	
-	}
+    public function afterSave() 
+    {
+        return parent::afterSave();    
+    }
 
-	public function __toString() {
-		return (string) $this-><?php echo $this->identificationColumn; ?>;
-		}
+    public function __toString() {
+        return (string) $this-><?php echo $this->identificationColumn; ?>;
+        }
 
 
 

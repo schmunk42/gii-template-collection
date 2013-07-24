@@ -44,10 +44,10 @@ $this->widget('TbGridView',
     'columns'=>array(
 <?php
 $count = 0;
-echo "\t\tarray('header'=>'','value'=>'\$data[\"" . FullCrudHelper::suggestIdentifier($this->modelClass) . "\"]'),\n";
+echo "        array('header'=>'','value'=>'\$data[\"" . FullCrudHelper::suggestIdentifier($this->modelClass) . "\"]'),\n";
 foreach ($this->tableSchema->columns as $column) {
     if ($count == 7) {
-        echo "\t\t/*\n";
+        echo "        /*\n";
     }
 
     if (strtoupper($column->dbType) == 'TEXT') {
@@ -56,11 +56,11 @@ foreach ($this->tableSchema->columns as $column) {
     else {
         $count++;
     }
-    echo "\t\t" . FullCrudHelper::generateValueField($this->modelClass, $column) . ",\n";
+    echo "        " . FullCrudHelper::generateValueField($this->modelClass, $column) . ",\n";
 }
 
 if ($count >= 8) {
-    echo "\t\t*/\n";
+    echo "        */\n";
 }
 ?>
         array(

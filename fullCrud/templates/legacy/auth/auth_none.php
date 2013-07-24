@@ -1,4 +1,4 @@
-public function filters()
-{
-	return array();
-}
+    public function filters()
+    {
+        return array();
+    }

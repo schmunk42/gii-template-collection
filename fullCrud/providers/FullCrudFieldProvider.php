@@ -18,20 +18,20 @@ class FullCrudFieldProvider
             return "echo \$form->checkBox(\$model,'{$column->name}')";
         } else if (strtoupper($column->dbType) == 'DATE') {
             return ("\$this->widget('zii.widgets.jui.CJuiDatePicker',
-						 array(
-								 'model'=>\$model,
-								 'attribute'=>'{$column->name}',
-								 'language'=> substr(Yii::app()->language,0,strpos(Yii::app()->language,'_')),
-								 'htmlOptions'=>array('size'=>10),
-								 'options'=>array(
-									 'showButtonPanel'=>true,
-									 'changeYear'=>true,
-									 'changeYear'=>true,
-									 'dateFormat'=>'yy-mm-dd',
-									 ),
-								 )
-							 );
-					");
+                         array(
+                                 'model'=>\$model,
+                                 'attribute'=>'{$column->name}',
+                                 'language'=> substr(Yii::app()->language,0,strpos(Yii::app()->language,'_')),
+                                 'htmlOptions'=>array('size'=>10),
+                                 'options'=>array(
+                                     'showButtonPanel'=>true,
+                                     'changeYear'=>true,
+                                     'changeYear'=>true,
+                                     'dateFormat'=>'yy-mm-dd',
+                                     ),
+                                 )
+                             );
+                    ");
         } else if (substr(strtoupper($column->dbType), 0, 4) == 'ENUM') {
             $string = sprintf("echo CHtml::activeDropDownList(\$model, '%s', array(\n", $column->name);
 
@@ -39,7 +39,7 @@ class FullCrudFieldProvider
 
             foreach ($enum_values as $value) {
                 $value = trim($value, "()'");
-                $string .= "\t\t\t'$value' => '" . $value . "' ,\n";
+                $string .= "            '$value' => '" . $value . "' ,\n";
             }
             $string .= '))';
 
