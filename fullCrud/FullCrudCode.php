@@ -17,7 +17,7 @@ class FullCrudCode extends CrudCode
     public $messageCatalog = "crud";
     public $template = "slim";
     public $formOrientation = "horizontal";
-    public $textEditor = "html5Editor";
+    public $textEditor = "textarea";
     public $moduleName;
 
     public function rules()
@@ -26,7 +26,7 @@ class FullCrudCode extends CrudCode
             parent::rules(),
             array(
                  array('validation, authTemplate', 'required'),
-                 array('identificationColumn', 'safe'),
+                 array('identificationColumn, formOrientation, textEditor', 'safe'),
                  array(
                      'messageCatalog, moduleName',
                      'match',
