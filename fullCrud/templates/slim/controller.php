@@ -3,21 +3,27 @@
 class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseControllerClass."\n"; ?>
 {
     #public $layout='//layouts/column2';
+
     public $defaultAction = "admin";
     public $scenario = "crud";
 
-    <?php
+<?php
     $authPath = 'gtc.fullCrud.templates.slim.auth.';
     $rightsPrefix = str_replace(" ",".",ucwords(str_replace("/"," ",$this->getModule()->id.'/'.$this->getControllerID())));
     Yii::app()->controller->renderPartial($authPath . $this->authTemplate, array('rightsPrefix'=>$rightsPrefix));
     ?>
 
-    public function beforeAction($action){
+    public function beforeAction($action)
+    {
         parent::beforeAction($action);
         // map identifcationColumn to id
         if (!isset($_GET['id']) && isset($_GET['<?php echo $this->identificationColumn; ?>'])) {
-            $model=<?php echo $this->modelClass; ?>::model()->find('<?php echo $this->identificationColumn; ?> = :<?php echo $this->identificationColumn; ?>', array(
-            ':<?php echo $this->identificationColumn; ?>' => $_GET['<?php echo $this->identificationColumn; ?>']));
+            $model = <?php echo $this->modelClass; ?>::model()->find(
+                '<?php echo $this->identificationColumn; ?> = :<?php echo $this->identificationColumn; ?>',
+                array(
+                    ':<?php echo $this->identificationColumn; ?>' => $_GET['<?php echo $this->identificationColumn; ?>']
+                )
+            );
             if ($model !== null) {
                 $_GET['id'] = $model-><?php echo CActiveRecord::model($this->modelClass)->tableSchema->primaryKey ?>;
             } else {
@@ -25,7 +31,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
             }
         }
         if ($this->module !== null) {
-            $this->breadcrumbs[$this->module->Id] = array('/'.$this->module->Id);
+            $this->breadcrumbs[$this->module->Id] = array('/' . $this->module->Id);
         }
         return true;
     }
@@ -33,7 +39,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
     public function actionView($id)
     {
         $model = $this->loadModel($id);
-        $this->render('view',array('model' => $model,));
+        $this->render('view', array('model' => $model,));
     }
 
     public function actionCreate()
@@ -41,11 +47,10 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
         $model = new <?php echo $this->modelClass; ?>;
         $model->scenario = $this->scenario;
 
-        <?php if($this->validation == 1 || $this->validation == 3) { ?>
-        $this->performAjaxValidation($model, '<?php echo $this->class2id($this->modelClass)?>-form');
-    <?php } ?>
+        <?php if($this->validation == 1 || $this->validation == 3) { ?>$this->performAjaxValidation($model, '<?php echo $this->class2id($this->modelClass)?>-form');
+<?php } ?>
 
-        if(isset($_POST['<?php echo $this->modelClass; ?>'])) {
+        if (isset($_POST['<?php echo $this->modelClass; ?>'])) {
             $model->attributes = $_POST['<?php echo $this->modelClass; ?>'];
 
 <?php
@@ -60,35 +65,32 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
             }
 ?>
             try {
-                if($model->save()) {
+                if ($model->save()) {
                     if (isset($_GET['returnUrl'])) {
                         $this->redirect($_GET['returnUrl']);
                     } else {
-                        $this->redirect(array('view','id'=>$model-><?php echo CActiveRecord::model($this->modelClass)->tableSchema->primaryKey ?>));
+                        $this->redirect(array('view', 'id' => $model-><?php echo CActiveRecord::model($this->modelClass)->tableSchema->primaryKey ?>));
                     }
                 }
             } catch (Exception $e) {
                 $model->addError('<?php echo $this->identificationColumn;?>', $e->getMessage());
             }
-        } elseif(isset($_GET['<?php echo $this->modelClass; ?>'])) {
+        } elseif (isset($_GET['<?php echo $this->modelClass; ?>'])) {
             $model->attributes = $_GET['<?php echo $this->modelClass; ?>'];
         }
 
-        $this->render('create',array( 'model'=>$model));
+        $this->render('create', array('model' => $model));
     }
-
 
     public function actionUpdate($id)
     {
         $model = $this->loadModel($id);
         $model->scenario = $this->scenario;
 
-        <?php if($this->validation == 1 || $this->validation == 3) { ?>
-        $this->performAjaxValidation($model, '<?php echo $this->class2id($this->modelClass)?>-form');
-        <?php } ?>
+        <?php if($this->validation == 1 || $this->validation == 3) { ?>$this->performAjaxValidation($model, '<?php echo $this->class2id($this->modelClass)?>-form');
+<?php } ?>
 
-        if(isset($_POST['<?php echo $this->modelClass; ?>']))
-        {
+        if (isset($_POST['<?php echo $this->modelClass; ?>'])) {
             $model->attributes = $_POST['<?php echo $this->modelClass; ?>'];
 
 <?php
@@ -105,11 +107,11 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 ?>
 
             try {
-                if($model->save()) {
+                if ($model->save()) {
                     if (isset($_GET['returnUrl'])) {
                         $this->redirect($_GET['returnUrl']);
                     } else {
-                        $this->redirect(array('view','id'=>$model-><?php echo CActiveRecord::model($this->modelClass)->tableSchema->primaryKey ?>));
+                        $this->redirect(array('view', 'id' => $model-><?php echo CActiveRecord::model($this->modelClass)->tableSchema->primaryKey ?>));
                     }
                 }
             } catch (Exception $e) {
@@ -117,71 +119,70 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
             }
         }
 
-        $this->render('update',array('model'=>$model,));
+        $this->render('update', array('model' => $model,));
     }
 
     public function actionEditableSaver()
     {
         Yii::import('EditableSaver'); //or you can add import 'ext.editable.*' to config
-        $es = new EditableSaver('<?php echo $this->modelClass; ?>');  // classname of model to be updated
+        $es = new EditableSaver('<?php echo $this->modelClass; ?>'); // classname of model to be updated
         $es->update();
     }
 
     public function actionDelete($id)
     {
-        if(Yii::app()->request->isPostRequest)
-        {
+        if (Yii::app()->request->isPostRequest) {
             try {
                 $this->loadModel($id)->delete();
             } catch (Exception $e) {
-                throw new CHttpException(500,$e->getMessage());
+                throw new CHttpException(500, $e->getMessage());
             }
 
-            if(!isset($_GET['ajax']))
-            {
+            if (!isset($_GET['ajax'])) {
                 if (isset($_GET['returnUrl'])) {
                     $this->redirect($_GET['returnUrl']);
                 } else {
                     $this->redirect(array('admin'));
                 }
             }
+        } else {
+            throw new CHttpException(400, Yii::t('<?php echo $this->messageCatalog; ?>', 'Invalid request. Please do not repeat this request again.'));
         }
-        else
-            throw new CHttpException(400,Yii::t('<?php echo $this->messageCatalog; ?>', 'Invalid request. Please do not repeat this request again.'));
     }
 
     public function actionIndex()
     {
-        $dataProvider=new CActiveDataProvider('<?php echo $this->modelClass; ?>');
-        $this->render('index',array('dataProvider'=>$dataProvider,));
+        $dataProvider = new CActiveDataProvider('<?php echo $this->modelClass; ?>');
+        $this->render('index', array('dataProvider' => $dataProvider,));
     }
 
     public function actionAdmin()
     {
-        $model=new <?php echo $this->modelClass; ?>('search');
+        $model = new <?php echo $this->modelClass; ?>('search');
         $model->unsetAttributes();
 
-        if(isset($_GET['<?php echo $this->modelClass; ?>'])) {
+        if (isset($_GET['<?php echo $this->modelClass; ?>'])) {
             $model->attributes = $_GET['<?php echo $this->modelClass; ?>'];
         }
 
-        $this->render('admin',array('model'=>$model,));
+        $this->render('admin', array('model' => $model,));
     }
 
     public function loadModel($id)
     {
-        $model=<?php echo $this->modelClass; ?>::model()->findByPk($id);
-        if($model===null)
-            throw new CHttpException(404,Yii::t('<?php echo $this->messageCatalog; ?>', 'The requested page does not exist.'));
+        $model = <?php echo $this->modelClass; ?>::model()->findByPk($id);
+        if ($model === null) {
+            throw new CHttpException(404, Yii::t('<?php echo $this->messageCatalog; ?>', 'The requested page does not exist.'));
+        }
         return $model;
     }
 
     protected function performAjaxValidation($model)
     {
-        if(isset($_POST['ajax']) && $_POST['ajax']==='<?php echo $this->class2id($this->modelClass); ?>-form')
-        {
+        if (isset($_POST['ajax']) && $_POST['ajax'] === '<?php echo $this->class2id($this->modelClass); ?>-form') {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
     }
+
 }
