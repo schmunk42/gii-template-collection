@@ -40,60 +40,61 @@ class <?php echo $modelClass; ?> extends <?php echo 'Base' . $modelClass."\n"; ?
     public function behaviors()
     {
         <?php
-            $behaviors = 'return array_merge(
+        $behaviors = 'return array_merge(
             parent::behaviors(), array(';
-                    foreach($columns as $name => $column) {
-                    if(in_array($column->name, array(
-                                'create_time',
-                                'createtime',
-                                'created_at',
-                                'createdat',
-                                'changed',
-                                'changed_at',
-                                'updatetime',
-                                'update_time',
-                                'timestamp'))) {
-                    $behaviors .= sprintf("\n        'CTimestampBehavior' => array(
+        foreach ($columns as $name => $column) {
+            if (in_array($column->name, array(
+                'create_time',
+                'createtime',
+                'created_at',
+                'createdat',
+                'changed',
+                'changed_at',
+                'updatetime',
+                'update_time',
+                'timestamp'))
+            ) {
+                $behaviors .= sprintf("\n            'CTimestampBehavior' => array(
                 'class' => 'zii.behaviors.CTimestampBehavior',
                 'createAttribute' => %s,
                 'updateAttribute' => %s,
-                    ),\n", $this->getCreatetimeAttribute($columns),
-                        $this->getUpdatetimeAttribute($columns));
-                    break; // once a column is found, we are done
-                    }
-                    }
-                    foreach($columns as $name => $column) {
-                        if(in_array($column->name, array(
-                                        'user_id',
-                                        'userid',
-                                        'ownerid',
-                                        'owner_id',
-                                        'created_by',
-                                        'createdby',
-                                        'create_user'))) {
-                            $behaviors .= sprintf("\n        'OwnerBehavior' => array(
-                                'class' => 'OwnerBehavior',
-                                'ownerColumn' => '%s',
-                                ),\n", $column->name);
-                            break; // once a column is found, we are done
+            ),\n", $this->getCreatetimeAttribute($columns),
+                    $this->getUpdatetimeAttribute($columns));
+                break; // once a column is found, we are done
+            }
+        }
+        foreach ($columns as $name => $column) {
+            if (in_array($column->name, array(
+                'user_id',
+                'userid',
+                'ownerid',
+                'owner_id',
+                'created_by',
+                'createdby',
+                'create_user'))
+            ) {
+                $behaviors .= sprintf("\n            'OwnerBehavior' => array(
+                'class' => 'OwnerBehavior',
+                'ownerColumn' => '%s',
+            ),\n", $column->name);
+                break; // once a column is found, we are done
 
-                        }
-                    }
+            }
+        }
 
-
-                    $behaviors .= "\n        ));\n";
-                    echo $behaviors;
-                    ?>
+        $behaviors .= "));\n";
+        echo $behaviors;
+        ?>
     }
 
     public function rules()
     {
         return array_merge(
             parent::rules()
-            /* , array(
-              array('column1, column2', 'rule1'),
-              array('column3', 'rule2'),
-              ) */
+        /* , array(
+          array('column1, column2', 'rule1'),
+          array('column3', 'rule2'),
+          ) */
         );
     }
 

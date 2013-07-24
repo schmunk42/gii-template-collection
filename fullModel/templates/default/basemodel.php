@@ -73,10 +73,10 @@ abstract class <?php echo 'Base' . $modelClass; ?> extends <?php echo $this->bas
             parent::rules(), array(
 <?php
         foreach($rules as $rule) {
-            echo "            $rule,\n";
+            echo "                $rule,\n";
         }
 ?>
-            array('<?php echo implode(', ', array_keys($columns)); ?>', 'safe', 'on' => 'search'),
+                array('<?php echo implode(', ', array_keys($columns)); ?>', 'safe', 'on' => 'search'),
             )
         );
     }
@@ -106,9 +106,9 @@ abstract class <?php echo 'Base' . $modelClass; ?> extends <?php echo $this->bas
     {
         return array_merge(
             parent::behaviors(), array(
-            'savedRelated' => array(
-                'class' => 'gii-template-collection.components.CSaveRelationsBehavior'
-            )
+                'savedRelated' => array(
+                    'class' => 'gii-template-collection.components.CSaveRelationsBehavior'
+                )
             )
         );
     }
@@ -168,22 +168,24 @@ abstract class <?php echo 'Base' . $modelClass; ?> extends <?php echo $this->bas
      * $relatedSearchModel = $model->getRelatedSearchModel('relationName');
      *
      * Then, when invoking CGridView:
-     * 	...
-     * 		'dataProvider' => $relatedSearchModel->search(),
-     * 		'filter' => $relatedSearchModel,
-     * 	...
+     *    ...
+     *        'dataProvider' => $relatedSearchModel->search(),
+     *        'filter' => $relatedSearchModel,
+     *    ...
      * @returns CActiveRecord
      */
     public function getRelatedSearchModel($name)
     {
 
         $md = $this->getMetaData();
-        if (!isset($md->relations[$name]))
+        if (!isset($md->relations[$name])) {
             throw new CDbException(Yii::t('yii', '{class} does not have relation "{name}".', array('{class}' => get_class($this), '{name}' => $name)));
+        }
 
         $relation = $md->relations[$name];
-        if (!($relation instanceof CHasManyRelation))
+        if (!($relation instanceof CHasManyRelation)) {
             throw new CException("Currently works with HAS_MANY relations only");
+        }
 
         $className = $relation->className;
         $related = new $className('search');
