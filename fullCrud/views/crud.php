@@ -39,15 +39,6 @@
     <?php echo $form->error($model, 'baseControllerClass'); ?>
 </div>
 
-<div class="row sticky">
-    <?php echo $form->labelEx($model, 'moduleName'); ?>
-    <?php echo $form->dropDownList($model, 'moduleName', array_combine(array_keys(Yii::app()->getModules()),array_keys(Yii::app()->getModules())), array('empty'=>'none')); ?>
-    <div class="tooltip">
-        Just a prefix for your controllers eg. 'crud'.
-    </div>
-    <?php echo $form->error($model, 'moduleName'); ?>
-</div>
-
 <div class="row">
     <?php echo $form->labelEx($model, 'controller'); ?>
     <?php echo $form->textField($model, 'controller', array('size' => 65)); ?>

@@ -45,7 +45,7 @@ if ($count >= 7)
 <?php
 foreach (CActiveRecord::model(Yii::import($this->model))->relations() as $key => $relation) {
 
-    $controller = FullCrudHelper::resolveController($relation);
+    $controller = $this->resolveController($relation);
     $relatedModel = CActiveRecord::model($relation[1]);
     $pk = $relatedModel->tableSchema->primaryKey;
     $suggestedfield = FullCrudHelper::suggestIdentifier($relatedModel);
@@ -127,7 +127,7 @@ foreach (CActiveRecord::model(Yii::import($this->model))->relations() as $key =>
                     $columns = $relatedModel->tableSchema->columns;
 
                     $suggestedfield = FullCrudHelper::suggestIdentifier($relatedModel);
-                    $controller = FullCrudHelper::resolveController($relation);
+                    $controller = $this->resolveController($relation);
                     $value = "(\$model->{$key} !== null)?";
                     $value .= "'<span class=label>" . $relation[0] . "</span><br/>'.";
                     $value .= "CHtml::link(\$model->{$key}->{$suggestedfield}, array('{$controller}/view','{$relatedModel->tableSchema->primaryKey}'=>\$model->{$key}->{$relatedModel->tableSchema->primaryKey}), array('class'=>'btn'))";

@@ -61,7 +61,7 @@
                             echo "                ?>\n";
 
                             // render create button
-                            $controller = FullCrudHelper::resolveController($columnRelation["relation"]);
+                            $controller = $this->resolveController($columnRelation["relation"]);
                             $relatedModelClass = $columnRelation["relation"][1];
                             $relatedModel = CActiveRecord::model($relatedModelClass);
                             $fk = $columnRelation["relation"][2];

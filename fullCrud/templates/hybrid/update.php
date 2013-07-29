@@ -48,7 +48,7 @@ if ($relations !== array()): ?>
 
 <?php
     foreach ($relations as $key => $relation) {
-        $controller = FullCrudHelper::resolveController($relation);
+        $controller = $this->resolveController($relation);
         $relatedModelClass = $relation[1];
         $relatedModel = CActiveRecord::model($relatedModelClass);
         $fk = $relation[2];
@@ -142,7 +142,7 @@ $this->widget('TbGridView',
             echo "<div class='well'>\n";
             echo "    <div class='row'>\n";
 
-            echo "<div class='span3'><?php " . FullCrudHelper::generateRelationHeader($relatedModel, $key, $relation) . " ?></div>";
+            echo "<div class='span3'><?php " . $this->generateRelationHeader($relatedModel, $key, $relation) . " ?></div>";
             echo "<div class='span8'>
 <?php
     echo '<span class=label>{$relation[0]}</span>';
@@ -174,7 +174,7 @@ $this->widget('TbGridView',
                 $pk = 'id';
             }
 
-            echo "<div class='span3'><?php " . FullCrudHelper::generateRelationHeader($relatedModel, $key, $relation) . " ?></div>";
+            echo "<div class='span3'><?php " . $this->generateRelationHeader($relatedModel, $key, $relation) . " ?></div>";
             echo "<div class='span8'>
 <?php
     echo '<span class=label>{$relation[0]}</span>';

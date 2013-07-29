@@ -49,7 +49,7 @@ echo "?>";
                     if ((($relation[0] == "CHasOneRelation") || ($relation[0] == "CBelongsToRelation")) && $relation[2] == $column->name) {
                         $relatedModel   = CActiveRecord::model($relation[1]);
                         $suggestedfield = FullCrudHelper::suggestIdentifier($relatedModel);
-                        $controller     = FullCrudHelper::resolveController($relation);
+                        $controller     = $this->resolveController($relation);
 
                         $value = "(\$model->{$key} !== null)?";
                         $value .= "CHtml::link(

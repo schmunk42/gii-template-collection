@@ -96,7 +96,7 @@
                     'CManyManyRelation'=> 'resize-horizontal',
                     'CHasManyRelation'=> 'arrow-right',
                     'CHasOneRelation'=> 'circle-arrow-right',);
-                echo "array('icon'=>'".strtr($relation[0], $replace)."','label'=>'".ucfirst($key)."', 'url' =>array('".FullCrudHelper::resolveController($relation)."/admin')),";
+                echo "array('icon'=>'".strtr($relation[0], $replace)."','label'=>'".ucfirst($key)."', 'url' =>array('".$this->resolveController($relation)."/admin')),";
             }
 
             echo "

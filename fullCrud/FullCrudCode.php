@@ -15,7 +15,6 @@ class FullCrudCode extends CrudCode
     public $baseControllerClass = 'Controller';
     public $messageCatalog = "crud";
     public $template = "slim";
-    public $moduleName;
     // Slim template
     public $authTemplateSlim = "yii_user_management_access_control";
     // Hybrid template
@@ -32,13 +31,6 @@ class FullCrudCode extends CrudCode
             array(
                  array('validation', 'required'),
                  array('authTemplateSlim, authTemplateHybrid, authTemplate, identificationColumn, formOrientation, textEditor', 'safe'),
-                 array(
-                     'messageCatalog, moduleName',
-                     'match',
-                     'pattern' => '/^[a-zA-Z_][\w.]*$/',
-                     'message' => '{attribute} should only contain word characters.'
-                 ),
-                 array('moduleName', 'sticky'),
             )
         );
     }
@@ -65,25 +57,47 @@ class FullCrudCode extends CrudCode
         return ($this->validation == 2 || $this->validation == 3) ? 'true' : 'false';
     }
 
-    // updated for $moduleName handling
-    public function getModule()
+    /**
+     * Returns relations of current model
+     * @return array
+     */
+    public function getRelations()
     {
-        if (!empty($this->moduleName)) {
-            if (($module = Yii::app()->getModule($this->moduleName)) !== null) {
-                return $module;
-            }
-        }
-        return parent::getModule();
+        return CActiveRecord::model($this->modelClass)->relations();
     }
 
-    // updated for $moduleName handling
-    public function getControllerID()
+    public function getItemLabel($model = null)
     {
-        if ($this->getModule() !== Yii::app() && !empty($this->moduleName)) {
-            return $this->controller;
-        } else {
-            return parent::getControllerID();
+        if ($model === null) {
+            $model = $this->model;
         }
+        return FullCrudHelper::suggestIdentifier($model);
+    }
+
+    public function prepare()
+    {
+        if (!$this->identificationColumn) {
+            $this->identificationColumn = $this->tableSchema->primaryKey;
+        }
+
+        if (!array_key_exists($this->identificationColumn, $this->tableSchema->columns)) {
+            $this->addError(
+                'identificationColumn',
+                'The specified column can not be found in the models attributes. <br /> Please specify a valid attribute. If unsure, leave the field empty.'
+            );
+        }
+
+        parent::prepare();
+        }
+
+    public function validateModel($attribute, $params)
+    {
+        // check your import paths, if you get an error here
+        // PHP error can't be catched as an exception
+        if ($this->model) {
+            Yii::import($this->model, true);
+        }
+        parent::validateModel($attribute, $params);
     }
 
     // updated for $moduleName handling
@@ -91,7 +105,7 @@ class FullCrudCode extends CrudCode
     {
         $link = CHtml::link(
             'try it now',
-            Yii::app()->createUrl($this->moduleName . '/' . $this->controller),
+            Yii::app()->createUrl($this->controller),
             array('target' => '_blank')
         );
         return "The controller has been generated successfully. You may $link.";
@@ -110,42 +124,23 @@ class FullCrudCode extends CrudCode
         }
     }
 
-    /**
-     * Returns relations of current model
-     * @return array
-     */
-    public function getRelations()
+
+
+    public function resolveController($relation)
     {
-        return CActiveRecord::model($this->modelClass)->relations();
+        $relatedController = strtolower(substr($relation[1], 0, 1)) . substr($relation[1], 1);
+        $controllerName = (strrchr($this->controller,"/")) ? strrchr($this->controller,"/") : $this->controller;
+        $return = "/".str_replace($controllerName,'/'.$relatedController,$this->controller);
+        return $return;
     }
 
 
-    public function prepare()
-    {
-        if (!$this->identificationColumn) {
-            $this->identificationColumn = $this->tableSchema->primaryKey;
-        }
-
-        if (!array_key_exists($this->identificationColumn, $this->tableSchema->columns)) {
-            $this->addError(
-                'identificationColumn',
-                'The specified column can not be found in the models attributes. <br /> Please specify a valid attribute. If unsure, leave the field empty.'
-            );
-        }
-
-        parent::prepare();
-        }
 
 
-    public function validateModel($attribute, $params)
-    {
-        // check your import paths, if you get an error here
-        // PHP error can't be catched as an exception
-        if ($this->model) {
-            Yii::import($this->model, true);
-        }
-        parent::validateModel($attribute, $params);
-    }
+
+    // ==========================================
+    // TODO: move code below to "providers"
+    // ==========================================
 
     /**
      * Returns the viewFile for the column if exists otherwise it returns null
@@ -179,6 +174,7 @@ class FullCrudCode extends CrudCode
         $viewFile  = $viewDir . DIRECTORY_SEPARATOR . $viewAlias . '.php';
         return (file_exists($viewFile)) ? $viewAlias : null;
     }
+
 
     /**
      * Prepend code fragments from parent class with an echo
@@ -277,12 +273,31 @@ class FullCrudCode extends CrudCode
         }
     }
 
-    public function getItemLabel($model = null)
+    public function generateRelationHeader($model, $relationName, $relationInfo)
     {
-        if ($model === null) {
-            $model = $this->model;
-        }
-        return FullCrudHelper::suggestIdentifier($model);
+        $controller = self::resolveController($relationInfo); // TODO
+        $code       = "";
+        $code .= "
+    \$this->widget('bootstrap.widgets.TbButtonGroup', array(
+        'type'=>'', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
+        'buttons'=>array(
+            array(
+                'label'=>'" . ucfirst($relationName) . "',
+                'icon'=>'icon-list-alt',
+                'url'=> array('/{$controller}/admin')
+            ),
+            array(
+                'icon'=>'icon-plus',
+                'url'=>array(
+                    '/{$controller}/create',
+                    '{$relationInfo[1]}' => array('{$relationInfo[2]}'=>\$model->{\$model->tableSchema->primaryKey})
+                    )
+                ),
+            ),
+        )
+    );";
+
+        return $code;
     }
 
 

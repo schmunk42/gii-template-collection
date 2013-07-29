@@ -9,7 +9,7 @@ if (!empty($relations)) :
 
     <?php
     foreach ($relations as $key => $relation) {
-        $controller     = FullCrudHelper::resolveController($relation);
+        $controller     = $this->resolveController($relation);
         $relatedModel   = CActiveRecord::model($relation[1]);
         $pk             = $relatedModel->tableSchema->primaryKey;
         $suggestedfield = FullCrudHelper::suggestIdentifier($relatedModel);
@@ -34,7 +34,7 @@ if (!empty($relations)) :
         if (($relation[0] == 'CManyManyRelation' || $relation[0] == 'CHasManyRelation')) {
             echo "
             <p>
-<?php ".FullCrudHelper::generateRelationHeader($relatedModel, $key, $relation)." ?>
+<?php ".$this->generateRelationHeader($relatedModel, $key, $relation)." ?>
             </p>
             <ul class='relations'>
 <?php

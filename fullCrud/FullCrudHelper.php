@@ -1,16 +1,12 @@
 <?php
 
+
+
 /**
  * Class to provide code snippets for CRUD generation
  */
 class FullCrudHelper
 {
-
-    static public function resolveController($relation)
-    {
-        return strtolower(substr($relation[1], 0, 1)) . substr($relation[1], 1);
-    }
-
 
     // Which column will most probably be the one that gets used to list
     // KEEP THIS CODE it can be called statically
@@ -60,32 +56,7 @@ class FullCrudHelper
         return $fallbackName;
     }
 
-    static public function generateRelationHeader($model, $relationName, $relationInfo)
-    {
-        $controller = self::resolveController($relationInfo); // TODO
-        $code       = "";
-        $code .= "
-    \$this->widget('bootstrap.widgets.TbButtonGroup', array(
-        'type'=>'', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
-        'buttons'=>array(
-            array(
-                'label'=>'" . ucfirst($relationName) . "',
-                'icon'=>'icon-list-alt',
-                'url'=> array('{$controller}/admin')
-            ),
-            array(
-                'icon'=>'icon-plus',
-                'url'=>array(
-                    '{$controller}/create',
-                    '{$relationInfo[1]}' => array('{$relationInfo[2]}'=>\$model->{\$model->tableSchema->primaryKey})
-                    )
-                ),
-            ),
-        )
-    );";
 
-        return $code;
-    }
 
     static public function generateRelation($model, $relationName, $relationInfo, $captureOutput = false)
     {
