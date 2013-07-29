@@ -107,30 +107,16 @@
 </div>
 
 <div class="row">
-    <?php
-    echo $form->labelEx($model, 'authTemplate');
-    echo $form->dropDownList($model, 'authTemplate', $this->getAuthTemplates());
-    ?>
-    <div class="tooltip">
-        The Authentication method to be used in the Controller. Yii access Control is the
-        default accessControl of Yii using the Controller accessRules() method. No access
-        Control provides no Access control.
-    </div>
-    <?php echo $form->error($model, 'authTemplate'); ?>
-</div>
-
-
-<div class="row">
     <?php echo $form->labelEx($model, 'validation'); ?>
     <?php
     echo $form->dropDownList(
         $model,
         'validation',
         array(
-             3 => 'Enable Ajax and Client-side Validation',
-             2 => 'Enable Client Validation',
-             1 => 'Enable Ajax Validation',
-             0 => 'Disable ajax Validation'
+            3 => 'Enable Ajax and Client-side Validation',
+            2 => 'Enable Client Validation',
+            1 => 'Enable Ajax Validation',
+            0 => 'Disable ajax Validation'
         )
     );
     ?>
@@ -142,6 +128,42 @@
     <?php echo $form->error($model, 'validation'); ?>
 </div>
 
+<h3>Slim Code Template specific</h3>
+
+<fieldset>
+
+    <div class="row">
+        <?php
+        echo $form->labelEx($model, 'authTemplateSlim');
+        echo $form->dropDownList($model, 'authTemplateSlim', $this->getAuthTemplates('slim'));
+        ?>
+        <div class="tooltip">
+            The Authentication method to be used in the Controller. Yii access Control is the
+            default accessControl of Yii using the Controller accessRules() method. No access
+            Control provides no Access control.
+        </div>
+        <?php echo $form->error($model, 'authTemplateSlim'); ?>
+    </div>
+
+</fieldset>
+
+<h3>Hybrid Code Template specific</h3>
+
+<fieldset>
+
+<div class="row">
+    <?php
+    echo $form->labelEx($model, 'authTemplateHybrid');
+    echo $form->dropDownList($model, 'authTemplateHybrid', $this->getAuthTemplates('hybrid'));
+    ?>
+    <div class="tooltip">
+        The Authentication method to be used in the Controller. Yii access Control is the
+        default accessControl of Yii using the Controller accessRules() method. No access
+        Control provides no Access control.
+    </div>
+    <?php echo $form->error($model, 'authTemplateHybrid'); ?>
+</div>
+
 <div class="row">
     <?php echo $form->labelEx($model, 'formOrientation'); ?>
     <?php
@@ -149,8 +171,8 @@
         $model,
         'formOrientation',
         array(
-             'horizontal' => 'Horizontal',
-             'vertical'   => 'Vertical',
+            'horizontal' => 'Horizontal',
+            'vertical'   => 'Vertical',
         )
     );
     ?>
@@ -169,11 +191,11 @@
         $model,
         'textEditor',
         array(
-             'textarea'       => 'Plain Text Area',
-             'redactor'       => 'Redactor WYSIWYG',
-             'html5Editor'    => 'Bootstrap WYSIHTML5',
-             'ckEditor'       => 'CKEditor WYSIWYG',
-             'markdownEditor' => 'Markdown Editor',
+            'textarea'       => 'Plain Text Area',
+            'redactor'       => 'Redactor WYSIWYG',
+            'html5Editor'    => 'Bootstrap WYSIHTML5',
+            'ckEditor'       => 'CKEditor WYSIWYG',
+            'markdownEditor' => 'Markdown Editor',
         )
     );
     ?>
@@ -184,6 +206,47 @@
     </div>
     <?php echo $form->error($model, 'textEditor'); ?>
 </div>
+
+<div class="row sticky">
+    <?php echo $form->labelEx($model, 'backendThemeViewPath'); ?>
+    <?php echo $form->textField($model, 'backendThemeViewPath', array('size' => 65)); ?>
+    <div class="tooltip">
+        This refers to the directory that the backend views should be generated under.
+        It should be specified in the form of a path alias, for example, <code>application.themes.backend.views</code>.
+    </div>
+    <?php echo $form->error($model, 'backendThemeViewPath'); ?>
+</div>
+
+<div class="row sticky">
+    <?php echo $form->labelEx($model, 'frontendThemeViewPath'); ?>
+    <?php echo $form->textField($model, 'frontendThemeViewPath', array('size' => 65)); ?>
+    <div class="tooltip">
+        This refers to the directory that the frontend views should be generated under.
+        It should be specified in the form of a path alias, for example, <code>application.themes.frontend.views</code>.
+    </div>
+    <?php echo $form->error($model, 'frontendThemeViewPath'); ?>
+</div>
+
+</fieldset>
+
+<h3>Legacy Code Template specific</h3>
+
+<fieldset>
+
+<div class="row">
+    <?php
+    echo $form->labelEx($model, 'authTemplate');
+    echo $form->dropDownList($model, 'authTemplate', $this->getAuthTemplates('legacy'));
+    ?>
+    <div class="tooltip">
+        The Authentication method to be used in the Controller. Yii access Control is the
+        default accessControl of Yii using the Controller accessRules() method. No access
+        Control provides no Access control.
+    </div>
+    <?php echo $form->error($model, 'authTemplate'); ?>
+</div>
+
+</fieldset>
 
 <style>
     input.radio {

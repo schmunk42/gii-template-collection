@@ -8,9 +8,9 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
     public $scenario = "crud";
 
 <?php
-    $authPath = 'gtc.fullCrud.templates.slim.auth.';
-    $rightsPrefix = str_replace(" ",".",ucwords(str_replace("/"," ",$this->getModule()->id.'/'.$this->getControllerID())));
-    Yii::app()->controller->renderPartial($authPath . $this->authTemplate, array('rightsPrefix'=>$rightsPrefix));
+    $authPath = 'gtc.fullCrud.templates.hybrid.controller.auth.';
+    $rightsPrefix = str_replace(" ",".",ucwords(str_replace("/"," ",$this->controller)));
+    Yii::app()->controller->renderPartial($authPath . $this->authTemplateHybrid, array('rightsPrefix'=>$rightsPrefix));
     ?>
 
     public function beforeAction($action)
@@ -59,8 +59,9 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
             {
                 if($relation[0] == 'CManyManyRelation')
                 {
-                    printf("            if(isset(\$_POST['%s']['%s']))\n", $this->modelClass, $relation[1]);
+                    printf("            if (isset(\$_POST['%s']['%s'])) {\n", $this->modelClass, $relation[1]);
                     printf("                \$model->setRelationRecords('%s', \$_POST['%s']['%s']);\n", $key, $this->modelClass, $relation[1]);
+                    print("            }\n");
                 }
             }
 ?>
@@ -98,10 +99,11 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
             {
                 if($relation[0] == 'CManyManyRelation')
                 {
-                    printf("            if(isset(\$_POST['%s']['%s']))\n", $this->modelClass, $relation[1]);
+                    printf("            if (isset(\$_POST['%s']['%s'])) {\n", $this->modelClass, $relation[1]);
                     printf("                \$model->setRelationRecords('%s', \$_POST['%s']['%s']);\n", $key, $this->modelClass, $relation[1]);
-                    echo "else\n";
-                    echo "\$model->setRelationRecords('{$key}',array());\n";
+                    print("            } else {\n");
+                    print("                \$model->setRelationRecords('{$key}', array());\n");
+                    print("            }\n");
                 }
             }
 ?>
@@ -127,6 +129,27 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
         Yii::import('EditableSaver'); //or you can add import 'ext.editable.*' to config
         $es = new EditableSaver('<?php echo $this->modelClass; ?>'); // classname of model to be updated
         $es->update();
+    }
+
+    public function actionEditableCreator()
+    {
+        if (isset($_POST['<?php echo $this->modelClass; ?>'])) {
+            $model = new <?php echo $this->modelClass; ?>;
+            $model->attributes = $_POST['<?php echo $this->modelClass; ?>'];
+            if ($model->save()) {
+                echo CJSON::encode($model->getAttributes());
+            } else {
+                $errors = array_map(
+                    function ($v) {
+                        return join(', ', $v);
+                    },
+                    $model->getErrors()
+                );
+                echo CJSON::encode(array('errors' => $errors));
+            }
+        } else {
+            throw new CHttpException(400, 'Invalid request');
+        }
     }
 
     public function actionDelete($id)
