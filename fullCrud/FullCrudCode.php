@@ -115,8 +115,30 @@ class FullCrudCode extends CrudCode
         );
     }
 
+    protected function defaultControllerId($model)
+    {
+        // Return default controller Id
+        // Based on javascript code from gii frontend
+        preg_match('/^\w* /', $model, $matches);
+        $module = isset($matches[0]) ? $matches[0] : null;
+        preg_match('/\w*$/', $model, $matches);
+        $id = isset($matches[0]) ? $matches[0] : null;
+        if (strlen($id) > 0) {
+            $id = strtolower(substr($id, 0, 1)) . substr($id, 1);
+        }
+        if (strpos($model, ".") !== false && strpos($model, "application.") === false) {
+            $id = $module . "/" . $id;
+        }
+        return $id;
+
+    }
+
     public function prepare()
     {
+        if (!$this->controller) {
+            $this->controller = $this->defaultControllerId($this->model);
+        }
+
         if (!$this->identificationColumn) {
             $this->identificationColumn = $this->tableSchema->primaryKey;
         }
