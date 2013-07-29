@@ -22,6 +22,8 @@ class FullCrudCode extends CrudCode
     public $authTemplateHybrid = "yii_user_management_access_control";
     public $formOrientation = "horizontal";
     public $textEditor = "textarea";
+    public $backendThemeViewPath = "application.themes.backend.views";
+    public $frontendThemeViewPath = "application.themes.frontend.views";
     // Legacy template
     public $authTemplate = "auth_filter_default";
 
@@ -31,7 +33,7 @@ class FullCrudCode extends CrudCode
             parent::rules(),
             array(
                  array('validation', 'required'),
-                 array('authTemplateSlim, authTemplateHybrid, authTemplate, identificationColumn, formOrientation, textEditor', 'safe'),
+                 array('authTemplateSlim, authTemplateHybrid, authTemplate, identificationColumn, formOrientation, textEditor, backendThemeViewPath, frontendThemeViewPath', 'safe'),
                  array(
                      'messageCatalog, moduleName',
                      'match',
@@ -170,7 +172,15 @@ class FullCrudCode extends CrudCode
 
             } elseif ($file !== "." && $file !== ".." && $file !== "controller" && is_dir($filePath)) {
 
+                // Decide the target path alias of the directory
+                if ($file == "_backend") {
+                    $viewPathAlias = $this->backendThemeViewPath;
+                } elseif ($file == "_frontend") {
+                    $viewPathAlias = $this->frontendThemeViewPath;
+                } else {
                     $viewPathAlias = (is_null($viewPathAlias) ? '' : $viewPathAlias . ".") . $file;
+                }
+
                 $this->addFilesFromPath($filePath, $viewPathAlias);
             }
         }
