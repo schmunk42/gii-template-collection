@@ -154,17 +154,20 @@ class FullCrudCode extends CrudCode
 
         $models = array();
         $this->files=array();
+        $originalModel = $this->model;
 
         if (strpos($this->model, '*') === 0) {
-            $models = array_keys($this->getModels());
+            foreach (array_keys($this->getModels()) as $model) {
+                if (strpos($model, "application.") === false) {
+                    continue;
+                }
+                $models[] = $model;
+            }
         } else {
             $models[] = $this->model;
         }
 
         foreach ($models as $model) {
-            if (strpos($model, "application.") === false) {
-                continue;
-            }
             $this->model = $model;
             $this->controller = $this->defaultControllerId($this->model);
             $this->validateModel('model', array());
@@ -172,7 +175,7 @@ class FullCrudCode extends CrudCode
                 continue;
             };
             $this->prepareSingle();
-            $this->model = '*';
+            $this->model = $originalModel;
         }
 
     }
@@ -220,10 +223,11 @@ class FullCrudCode extends CrudCode
     protected function addFilesFromPath($templatePath, $viewPathAlias)
     {
         // Default target view path for view files in the template root directory
+        $viewPath = null;
         if (is_null($viewPathAlias)) {
             $viewPath = $this->getViewPath();
         } else {
-            $viewPath = Yii::getPathOfAlias($viewPathAlias);
+            $viewPath = Yii::getPathOfAlias($viewPathAlias) ? Yii::getPathOfAlias($viewPathAlias) : Yii::getPathOfAlias("application." . $viewPathAlias);
         }
 
         $files = scandir($templatePath);
