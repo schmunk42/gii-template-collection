@@ -132,7 +132,7 @@ class FullCrudCode extends CrudCode
     {
         // Return default controller Id
         // Based on javascript code from gii frontend
-        preg_match('/^\w* /', $model, $matches);
+        preg_match('/^\w*/', $model, $matches);
         $module = isset($matches[0]) ? $matches[0] : null;
         preg_match('/\w*$/', $model, $matches);
         $id = isset($matches[0]) ? $matches[0] : null;
