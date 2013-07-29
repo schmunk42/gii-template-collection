@@ -106,6 +106,12 @@ class FullCrudCode extends CrudCode
         return CActiveRecord::model($this->modelClass)->relations();
     }
 
+    public function requiredTemplates()
+    {
+        return array(
+            'controller/controller.php',
+        );
+    }
 
     public function prepare()
     {
@@ -120,9 +126,65 @@ class FullCrudCode extends CrudCode
             );
         }
 
-        parent::prepare();
+        // Adapted code from original CrudCode->prepare() to support a more flexible template structure
+        $this->files=array();
+        $templatePath=$this->templatePath;
+
+        // Add the controller view manually
+        $controllerTemplateFile=$templatePath.DIRECTORY_SEPARATOR.'controller'.DIRECTORY_SEPARATOR.'controller.php';
+        $this->files[]=new CCodeFile(
+            $this->controllerFile,
+            $this->render($controllerTemplateFile)
+        );
+
+        // Add remaining files recursively
+        $this->addFilesFromPath($templatePath, null);
+
+    }
+
+    /**
+     * Add files from the specified path
+     * One exception: We ignore the controller directory since it is
+     * already rendered manually
+     * @param $templatePath
+     * @param $viewPath
+     */
+    protected function addFilesFromPath($templatePath, $viewPathAlias)
+    {
+        // Default target view path for view files in the template root directory
+        if (is_null($viewPathAlias)) {
+            $viewPath = $this->getViewPath();
+        } else {
+            $viewPath = Yii::getPathOfAlias($viewPathAlias);
         }
 
+        $files = scandir($templatePath);
+        foreach ($files as $file) {
+            $filePath = $templatePath . DIRECTORY_SEPARATOR . $file;
+            if (is_file($filePath) && CFileHelper::getExtension($file) === 'php') {
+
+                $this->files[] = new CCodeFile(
+                    $viewPath . DIRECTORY_SEPARATOR . $this->getControllerID() . DIRECTORY_SEPARATOR . $file,
+                    $this->render($filePath)
+                );
+
+            } elseif ($file !== "." && $file !== ".." && $file !== "controller" && is_dir($filePath)) {
+
+                    $viewPathAlias = (is_null($viewPathAlias) ? '' : $viewPathAlias . ".") . $file;
+                $this->addFilesFromPath($filePath, $viewPathAlias);
+            }
+        }
+
+        }
+
+    /**
+     * Overridden not to supply controller id, which we do manually
+     * @return string
+     */
+    public function getViewPath()
+    {
+        return $this->getModule()->getViewPath();
+    }
 
     public function validateModel($attribute, $params)
     {
