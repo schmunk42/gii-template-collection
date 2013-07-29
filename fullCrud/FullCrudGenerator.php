@@ -59,9 +59,9 @@ class FullCrudGenerator extends CCodeGenerator
         return $models;
     }
 
-    protected function getAuthTemplates()
+    protected function getAuthTemplates($template)
     {
-        foreach(scandir(Yii::getPathOfAlias('gtc.fullCrud.templates.slim.auth')) AS $file){
+        foreach(scandir(Yii::getPathOfAlias("gtc.fullCrud.templates.$template.controllers.auth")) AS $file){
             if (substr($file,0,1) === ".") {
                 continue;
             }

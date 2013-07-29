@@ -13,20 +13,25 @@ class FullCrudCode extends CrudCode
     public $validation = 3;
     public $identificationColumn = null;
     public $baseControllerClass = 'Controller';
-    public $authTemplate = "yii_user_management_access_control";
     public $messageCatalog = "crud";
     public $template = "slim";
+    public $moduleName;
+    // Slim template
+    public $authTemplateSlim = "yii_user_management_access_control";
+    // Hybrid template
+    public $authTemplateHybrid = "yii_user_management_access_control";
     public $formOrientation = "horizontal";
     public $textEditor = "textarea";
-    public $moduleName;
+    // Legacy template
+    public $authTemplate = "auth_filter_default";
 
     public function rules()
     {
         return array_merge(
             parent::rules(),
             array(
-                 array('validation, authTemplate', 'required'),
-                 array('identificationColumn, formOrientation, textEditor', 'safe'),
+                 array('validation', 'required'),
+                 array('authTemplateSlim, authTemplateHybrid, authTemplate, identificationColumn, formOrientation, textEditor', 'safe'),
                  array(
                      'messageCatalog, moduleName',
                      'match',
@@ -116,7 +121,7 @@ class FullCrudCode extends CrudCode
         }
 
         parent::prepare();
-    }
+        }
 
 
     public function validateModel($attribute, $params)
