@@ -241,6 +241,19 @@ class FullModelCode extends ModelCode
         return 'null';
     }
 
+    /**
+     * @param CCodeFile $file whether the code file should be saved
+     * @todo Don't use a constant
+     */
+    public function confirmed($file)
+    {
+        if (defined('GIIC_ALL_CONFIRMED') && GIIC_ALL_CONFIRMED === true) {
+            return true;
+        } else {
+            return parent::confirmed($file);
+        }
+    }
+
     /*public function guessIdentificationColumn($columns) {
         $found = false;
         foreach($columns as $name => $column) {
