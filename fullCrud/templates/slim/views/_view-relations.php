@@ -4,7 +4,7 @@ if (!empty($relations)) :
     ?>
 
     <h2>
-        <?= php("echo Yii::t('" . $this->messageCatalog . "','Relations')"); ?>
+        <?= "<?php echo Yii::t('{$this->messageCatalog}','Relations') ?>"; ?>
     </h2>
 
     <?php

@@ -1,22 +1,4 @@
 <?php
-/**
- * Global shorthands
- */
-
-function php($code = null)
-{
-    if ($code === null) {
-        echo "<?php\n";
-    } else {
-        echo "<?php " . $code . " ?>";
-    }
-}
-
-function endphp()
-{
-    echo "\n?>";
-}
-
 
 /**
  * Class to provide code snippets for CRUD generation
