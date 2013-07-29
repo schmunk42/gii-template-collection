@@ -98,6 +98,19 @@ class FullCrudCode extends CrudCode
     }
 
     /**
+     * @param CCodeFile $file whether the code file should be saved
+     * @todo Don't use a constant
+     */
+    public function confirmed($file)
+    {
+        if (defined('GIIC_ALL_CONFIRMED') && GIIC_ALL_CONFIRMED === true) {
+            return true;
+        } else {
+            return parent::confirmed($file);
+        }
+    }
+
+    /**
      * Returns relations of current model
      * @return array
      */
