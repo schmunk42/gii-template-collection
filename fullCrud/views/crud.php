@@ -80,7 +80,7 @@
         traditional identification via PK.
         For example, entering <code>title</code> as identification Column, a
         post would be associated with <code>index.php/post/title-of-the-post</code>
-        instead of <code>index.php?r=post/view&id=5</code>.
+        instead of <code>index.php?r=post/view&amp;id=5</code>.
         Ready to use url rules for Yii's CUrlManager will be generated and shown
         after the generation.
         Please make sure that identificationColumnValidator is applied to the
