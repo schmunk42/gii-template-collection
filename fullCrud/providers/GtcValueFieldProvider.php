@@ -1,6 +1,6 @@
 <?php
 
-class ValueFieldProvider extends GtcCodeProvider
+class GtcValueFieldProvider extends GtcCodeProvider
 {
     /**
      * @param CActiveRecord   $modelClass

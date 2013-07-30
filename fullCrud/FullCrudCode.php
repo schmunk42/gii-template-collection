@@ -24,13 +24,13 @@ class FullCrudCode extends CrudCode
     public $authTemplate = "auth_filter_default";
     public $providers = array(
         "gtc.fullCrud.providers.IdentifierProvider",
-        "gtc.fullCrud.providers.EditableProvider",
-        "gtc.fullCrud.providers.RelationProvider",
-        "gtc.fullCrud.providers.HybridFieldProvider",
-        "gtc.fullCrud.providers.P3CrudFieldProvider",
         "gtc.fullCrud.providers.PartialViewProvider",
-        "gtc.fullCrud.providers.FullCrudFieldProvider",
-        "gtc.fullCrud.providers.ValueFieldProvider",
+        "gtc.fullCrud.providers.RelationProvider",
+        "gtc.fullCrud.providers.EditableFieldProvider",
+        "gtc.fullCrud.providers.HybridFieldProvider",
+        "gtc.fullCrud.providers.PhActiveFieldProvider",
+        "gtc.fullCrud.providers.GtcActiveFieldProvider",
+        "gtc.fullCrud.providers.GtcValueFieldProvider",
         "gtc.fullCrud.FullCrudCode",
     );
 

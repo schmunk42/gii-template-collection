@@ -3,7 +3,7 @@
 /*
  */
 
-class P3CrudFieldProvider extends GtcCodeProvider
+class PhActiveFieldProvider extends GtcCodeProvider
 {
 
     static public function generateActiveField($model, $column)

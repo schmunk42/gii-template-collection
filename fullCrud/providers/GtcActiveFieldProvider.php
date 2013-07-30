@@ -5,7 +5,7 @@
  * and open the template in the editor.
  */
 
-class FullCrudFieldProvider extends GtcCodeProvider
+class GtcActiveFieldProvider extends GtcCodeProvider
 {
 
     static public function generateActiveField($model, $column)

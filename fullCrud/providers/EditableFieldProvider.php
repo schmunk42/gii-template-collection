@@ -1,6 +1,6 @@
 <?php
 
-class EditableProvider extends GtcCodeProvider
+class EditableFieldProvider extends GtcCodeProvider
 {
     /**
      * @param CActiveRecord   $modelClass
