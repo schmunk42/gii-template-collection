@@ -55,7 +55,7 @@ foreach ($this->tableSchema->columns as $column) {
     else {
         $count++;
     }
-    echo "        " . FullCrudHelper::generateValueField($this->modelClass, $column) . ",\n";
+    echo "        " . $this->generateValueField($this->modelClass, $column) . ",\n"; // TODO  "itemLabel"
 }
 
 if ($count >= 8) {

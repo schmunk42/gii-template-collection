@@ -20,7 +20,7 @@
             <?php if (!$column->isForeignKey): ?>
                 <?= "<?php " . $this->generateActiveField($this->modelClass, $column) . "; ?>"; ?>
             <?php else: ?>
-                <?= "<?php " . $this->generateValueField($this->modelClass, $column, 'search', 'itemLabel') . "; ?>"; // TODO: itemLabel ?>
+                <?= "<?php " . $this->generateValueField($this->modelClass, $column, 'search') . "; ?>"; // TODO: itemLabel ?>
             <?php endif; ?>
 
         </div>

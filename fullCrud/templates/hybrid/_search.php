@@ -16,7 +16,7 @@
             <?php if (!$column->isForeignKey): ?>
                 <?php echo "<?php " . $this->generateActiveField($this->modelClass, $column) . "; ?>\n"; ?>
             <?php else: ?>
-                <?php echo "<?php " . FullCrudHelper::generateValueField($this->modelClass, $column, 'search') . "; ?>\n"; ?>
+                <?php echo "<?php " . $this->generateValueField($this->modelClass, $column, 'search') . "; ?>\n"; ?> // TODO: itemLabel
             <?php endif; ?>
         </div>
 

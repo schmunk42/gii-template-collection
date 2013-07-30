@@ -48,7 +48,7 @@ foreach (CActiveRecord::model(Yii::import($this->model))->relations() as $key =>
     $controller = $this->resolveController($relation);
     $relatedModel = CActiveRecord::model($relation[1]);
     $pk = $relatedModel->tableSchema->primaryKey;
-    $suggestedfield = FullCrudHelper::suggestIdentifier($relatedModel);
+    $suggestedfield = $this->suggestIdentifier($relatedModel);
 
     // TODO: currently composite PKs are omitted
     if (is_array($pk))
@@ -58,7 +58,7 @@ foreach (CActiveRecord::model(Yii::import($this->model))->relations() as $key =>
         #$model = CActiveRecord::model($relation[1]);
         #if (!$pk = $model->tableSchema->primaryKey)
         #    $pk = 'id';
-        #$suggestedtitle = FullCrudHelper::suggestName($model->tableSchema->columns);
+        #$suggestedtitle = $this->suggestName($model->tableSchema->columns);
         echo '<h2>';
         echo "<?php echo CHtml::link(Yii::t('app','" . ucfirst($key) . "'), array('" . $controller . "/admin'));?>";
         echo "</h2>\n";
@@ -82,7 +82,7 @@ foreach (CActiveRecord::model(Yii::import($this->model))->relations() as $key =>
         if (!$pk = $relatedModel->tableSchema->primaryKey)
             $pk = 'id';
 
-#$suggestedtitle = FullCrudHelper::suggestName($model->tableSchema->columns);
+#$suggestedtitle = $this->suggestName($model->tableSchema->columns);
         echo '<h2>';
         echo "<?php echo CHtml::link(Yii::t('app','" . $relation[1] . "'), array('" . $controller . "/admin'));?>";
         echo "</h2>\n";
@@ -126,7 +126,7 @@ foreach (CActiveRecord::model(Yii::import($this->model))->relations() as $key =>
                     $relatedModel = CActiveRecord::model($relation[1]);
                     $columns = $relatedModel->tableSchema->columns;
 
-                    $suggestedfield = FullCrudHelper::suggestIdentifier($relatedModel);
+                    $suggestedfield = $this->suggestIdentifier($relatedModel);
                     $controller = $this->resolveController($relation);
                     $value = "(\$model->{$key} !== null)?";
                     $value .= "'<span class=label>" . $relation[0] . "</span><br/>'.";

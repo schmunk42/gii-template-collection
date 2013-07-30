@@ -105,7 +105,7 @@
                     </h3>
                     "
                     ?>
-                    <?= "<?php " . $this->generateRelation($this->modelClass, $key, $relation, false, "itemLabel") . " ?>" // TODO ?>
+                    <?= "<?php " . $this->generateRelation($this->modelClass, $key, $relation) . " ?>" // TODO "itemLabel" ?>
 
                 <?
                 endif;

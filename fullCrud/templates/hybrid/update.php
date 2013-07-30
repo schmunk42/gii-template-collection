@@ -53,7 +53,7 @@ if ($relations !== array()): ?>
         $relatedModel = CActiveRecord::model($relatedModelClass);
         $fk = $relation[2];
         $pk = $relatedModel->tableSchema->primaryKey;
-        $suggestedfield = FullCrudHelper::suggestIdentifier($relatedModel);
+        $suggestedfield = $this->suggestIdentifier($relatedModel);
 
         // TODO: currently composite PKs are omitted
         if (is_array($pk)) {
@@ -117,7 +117,7 @@ $this->widget('TbGridView',
 
         $count++;
 
-        echo "        " . FullCrudHelper::generateEditableField($relatedModelClass, $column, $controller) . ",\n";
+        echo "        " . $this->generateEditableField($relatedModelClass, $column, $controller) . ",\n";
     }
 
     if ($count >= 8) {
@@ -142,7 +142,7 @@ $this->widget('TbGridView',
             echo "<div class='well'>\n";
             echo "    <div class='row'>\n";
 
-            echo "<div class='span3'><?php " . $this->generateRelationHeader($relatedModel, $key, $relation) . " ?></div>";
+            echo "<div class='span3'><?php " . $this->generateRelationHeader($key, $relation, $controller) . " ?></div>";
             echo "<div class='span8'>
 <?php
     echo '<span class=label>{$relation[0]}</span>';
