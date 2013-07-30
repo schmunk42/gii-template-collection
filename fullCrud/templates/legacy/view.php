@@ -35,7 +35,7 @@ foreach ($this->tableSchema->columns as $column) {
 
                 $suggestedfield = FullCrudHelper::suggestIdentifier($relatedModel);
 
-                $controller = FullCrudHelper::resolveController($relation);
+                $controller = $this->resolveController($relation);
                 $value = "(\$model->{$key} !== null)?";
                 $value .= "CHtml::link(\$model->{$key}->{$suggestedfield}, array('{$controller}/view','{$relatedModel->tableSchema->primaryKey}'=>\$model->{$key}->{$relatedModel->tableSchema->primaryKey})).' '.";
                 $value .= "CHtml::link(Yii::t('app','Update'), array('{$controller}/update','{$relatedModel->tableSchema->primaryKey}'=>\$model->{$key}->{$relatedModel->tableSchema->primaryKey}), array('class'=>'edit'))";
@@ -69,10 +69,10 @@ foreach ($this->tableSchema->columns as $column) {
 <?php
 foreach (CActiveRecord::model(Yii::import($this->model))->relations() as $key => $relation) {
 
-    $controller = FullCrudHelper::resolveController($relation);
+    $controller = $this->resolveController($relation);
     $relatedModel = CActiveRecord::model($relation[1]);
     $pk = $relatedModel->tableSchema->primaryKey;
-    $suggestedfield = $this->suggestName($relatedModel->tableSchema->columns);
+    $suggestedfield = FullCrudHelper::suggestIdentifier($relatedModel);
 
     // TODO: currently composite PKs are omitted
     if (is_array($pk))
@@ -82,7 +82,7 @@ foreach (CActiveRecord::model(Yii::import($this->model))->relations() as $key =>
         #$model = CActiveRecord::model($relation[1]);
         #if (!$pk = $model->tableSchema->primaryKey)
         #    $pk = 'id';
-        #$suggestedtitle = $this->suggestName($model->tableSchema->columns);
+        #$suggestedtitle = FullCrudHelper::suggestIdentifier($model->tableSchema->columns);
         echo '<h2>';
         echo "<?php echo CHtml::link(Yii::t('app','" . ucfirst($key) . "'), array('" . $controller . "/admin'));?>";
         echo "</h2>\n";
@@ -106,7 +106,7 @@ foreach (CActiveRecord::model(Yii::import($this->model))->relations() as $key =>
         if (!$pk = $relatedModel->tableSchema->primaryKey)
             $pk = 'id';
 
-#$suggestedtitle = $this->suggestName($model->tableSchema->columns);
+#$suggestedtitle = FullCrudHelper::suggestIdentifier($model->tableSchema->columns);
         echo '<h2>';
         echo "<?php echo CHtml::link(Yii::t('app','" . $relation[1] . "'), array('" . $controller . "/admin'));?>";
         echo "</h2>\n";
