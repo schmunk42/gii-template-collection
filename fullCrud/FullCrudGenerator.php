@@ -76,7 +76,6 @@ class FullCrudGenerator extends CCodeGenerator
         if (substr($file, 0, 1) !== '.'
             && substr($file, 0, 2) !== '..'
             && substr($file, 0, 4) !== 'Base'
-            && $file != 'GActiveRecord'
             && strtolower(substr($file, -4)) === '.php') {
             $fileClassName = substr($file, 0, strpos($file, '.'));
             if (class_exists($fileClassName)
