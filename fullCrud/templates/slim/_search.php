@@ -8,7 +8,7 @@
 
     <?php foreach ($this->tableSchema->columns as $column): ?>
         <?php
-        $field = $this->generateInputField($this->modelClass, $column);
+        $field = $this->provider()->generateInputField($this->modelClass, $column);
         if (strpos($field, 'password') !== false) {
             continue;
         }
@@ -18,9 +18,9 @@
             <?= "<?php echo \$form->label(\$model,'{$column->name}'); ?>"; ?>
             <?= "\n"; ?>
             <?php if (!$column->isForeignKey): ?>
-                <?= "<?php " . $this->generateActiveField($this->modelClass, $column) . "; ?>"; ?>
+                <?= "<?php " . $this->provider()->generateActiveField($this->modelClass, $column) . "; ?>"; ?>
             <?php else: ?>
-                <?= "<?php " . $this->generateValueField($this->modelClass, $column, 'search') . "; ?>"; // TODO: itemLabel ?>
+                <?= "<?php " . $this->provider()->generateValueField($this->modelClass, $column, 'search') . "; ?>"; // TODO: itemLabel ?>
             <?php endif; ?>
 
         </div>

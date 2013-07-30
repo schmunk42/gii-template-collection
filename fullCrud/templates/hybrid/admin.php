@@ -55,7 +55,7 @@ foreach ($this->tableSchema->columns as $column) {
     else {
         $count++;
     }
-    echo "        " . $this->generateValueField($this->modelClass, $column) . ",\n"; // TODO  "itemLabel"
+    echo "        " . $this->provider()->generateValueField($this->modelClass, $column) . ",\n"; // TODO  "itemLabel"
 }
 
 if ($count >= 8) {

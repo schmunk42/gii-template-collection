@@ -7,16 +7,16 @@
 
     <?php foreach ($this->tableSchema->columns as $column): ?>
         <?php
-        $field = $this->generateInputField($this->modelClass, $column);
+        $field = $this->provider()->generateInputField($this->modelClass, $column);
         if (strpos($field, 'password') !== false)
             continue;
         ?>
         <div class="row">
             <?php echo "<?php echo \$form->label(\$model,'{$column->name}'); ?>\n"; ?>
             <?php if (!$column->isForeignKey): ?>
-                <?php echo "<?php " . $this->generateActiveField($this->modelClass, $column) . "; ?>\n"; ?>
+                <?php echo "<?php " . $this->provider()->generateActiveField($this->modelClass, $column) . "; ?>\n"; ?>
             <?php else: ?>
-                <?php echo "<?php " . $this->generateValueField($this->modelClass, $column, 'search') . "; ?>\n"; ?> // TODO: itemLabel
+                <?php echo "<?php " . $this->provider()->generateValueField($this->modelClass, $column, 'search') . "; ?>\n"; ?> // TODO: itemLabel
             <?php endif; ?>
         </div>
 

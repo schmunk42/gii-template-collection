@@ -12,7 +12,7 @@ if (!empty($relations)) :
         $controller     = $this->resolveController($relation);
         $relatedModel   = CActiveRecord::model($relation[1]);
         $pk             = $relatedModel->tableSchema->primaryKey;
-        $suggestedfield = $this->suggestIdentifier($relatedModel);
+        $suggestedfield = $this->provider()->suggestIdentifier($relatedModel);
 
         // TODO: currently composite PKs are omitted
         if (is_array($pk)) {
@@ -34,7 +34,7 @@ if (!empty($relations)) :
         if (($relation[0] == 'CManyManyRelation' || $relation[0] == 'CHasManyRelation')) {
             echo "
             <p>
-<?php ".$this->generateRelationHeader($key, $relation, $controller)." ?>
+<?php ".$this->provider()->generateRelationHeader($key, $relation, $controller)." ?>
             </p>
             <ul class='relations'>
 <?php
@@ -65,7 +65,7 @@ if (!empty($relations)) :
 
             echo "
             <p>
-<?php ".$this->generateRelationHeader($key, $relation, $controller)."?>
+<?php ".$this->provider()->generateRelationHeader($key, $relation, $controller)."?>
             </p>";
 
             echo "

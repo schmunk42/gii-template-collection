@@ -3,7 +3,6 @@
 class IdentifierProvider
 {
 
-
     // Which column will most probably be the one that gets used to list
     // KEEP THIS CODE it can be called statically
     static public function suggestIdentifier($model)

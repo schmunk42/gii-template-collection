@@ -24,7 +24,7 @@
                     }
 
                     // render a view file if present in destination folder
-                    if ($columnView = $this->resolveColumnViewFile($column, $this)) {
+                    if ($columnView = $this->provider()->resolveColumnViewFile($column, $this)) {
                         echo "<?php      \$this->renderPartial('{$columnView}', array('model'=>\$model)) ?>";
                         continue;
                     }
@@ -49,14 +49,14 @@
 
                         if (isset($columnRelation["relation"]) && $columnRelation["relation"][0] === 'CBelongsToRelation') {
 
-                            if ($relationView = $this->resolveRelationViewFile($relation, $this)) {
+                            if ($relationView = $this->provider()->resolveRelationViewFile($relation, $this)) {
                                 echo "      <?php \$this->renderPartial('{$relationView}', array('model'=>\$model)) ?>";
                                 continue;
                             }
 
                             // render belongsTo relation input
                             echo "                <?php\n";
-                            echo "                \$input = ".$this->generateRelation($this->modelClass, $columnRelation["key"], $columnRelation["relation"], true, 'itemLabel').";\n"; // TODO
+                            echo "                \$input = ".$this->provider()->generateRelation($this->modelClass, $columnRelation["key"], $columnRelation["relation"], true, 'itemLabel').";\n"; // TODO
                             echo "                echo \$form->customRow(\$model, '{$column->name}', \$input);\n";
                             echo "                ?>\n";
 
@@ -66,7 +66,7 @@
                             $relatedModel = CActiveRecord::model($relatedModelClass);
                             $fk = $columnRelation["relation"][2];
                             $pk = $relatedModel->tableSchema->primaryKey;
-                            $suggestedfield = $this->suggestIdentifier($relatedModel);
+                            $suggestedfield = $this->provider()->suggestIdentifier($relatedModel);
 
                             echo "
                             <?php
@@ -110,7 +110,7 @@
                         <?php
                         } else {
                             // render ordinary input row
-                            echo "    <?php echo " . $this->generateActiveRow($this->modelClass, $column, false, $this) . "; ?>\n";
+                            echo "    <?php echo " . $this->provider()->generateActiveRow($this->modelClass, $column, false, $this) . "; ?>\n";
                         }
                     }
                 endforeach;
@@ -127,7 +127,7 @@
                 if ($relation[0] == 'CHasOneRelation'
                     || $relation[0] == 'CManyManyRelation'
                 ) :
-                    if ($relationView = $this->resolveRelationViewFile($relation, $this)) {
+                    if ($relationView = $this->provider()->resolveRelationViewFile($relation, $this)) {
                         echo "      <?php \$this->renderPartial('{$relationView}', array('model'=>\$model, 'form' => \$form)) ?>\n";
                         continue;
                     }
@@ -141,7 +141,7 @@
 PHP;
                     ?>
 
-                    <?= "<?php " . $this->generateRelation($this->modelClass, $key, $relation) . " ?>" ?>
+                    <?= "<?php " . $this->provider()->generateRelation($this->modelClass, $key, $relation) . " ?>" ?>
 
                 <?
                 endif;

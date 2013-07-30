@@ -9,8 +9,10 @@ class EditableProvider
     static public function generateEditableField($modelClass, $column, $controller, $view = false)
     {
         $codeModel = new FullCrudCode();
+        $provider = $codeModel->provider();
+
         if ($column->isForeignKey) {
-            return $codeModel->generateValueField($modelClass, $column, $view);
+            return $provider->generateValueField($modelClass, $column, $view);
         } else {
             return "array(
             'class' => 'editable.EditableColumn',

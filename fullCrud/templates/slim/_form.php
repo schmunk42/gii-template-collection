@@ -24,7 +24,7 @@
             </h2>
 
             <h3>
-                <?= "<?php echo \$model->{$this->itemLabel} ?>"; ?>
+                <?= "<?php echo \$model->{$this->provider()->suggestIdentifier($this->modelClass)} ?>"; ?>
 
             </h3>
 
@@ -45,7 +45,7 @@
                     }
 
                     // render a view file if present in destination folder
-                    if ($columnView = $this->resolveColumnViewFile($column, $this)) {
+                    if ($columnView = $this->provider()->resolveColumnViewFile($column, $this)) {
                         echo "<?php      \$this->renderPartial('{$columnView}', array('model'=>\$model, 'form' => \$form)) ?>";
                         continue;
                     }
@@ -55,13 +55,13 @@
 
                         <div class="control-group">
                             <div class='control-label'>
-                                <?= "<?php {$this->generateActiveLabel($this->modelClass, $column)} ?>" ?>
+                                <?= "<?php {$this->provider()->generateActiveLabel($this->modelClass, $column)} ?>" ?>
 
                             </div>
                             <div class='controls'>
                                 <?=
                                 "
-                               <?php {$this->generateActiveField($this->modelClass, $column)} ?>
+                               <?php {$this->provider()->generateActiveField($this->modelClass, $column)} ?>
                                <?php echo \$form->error(\$model,'{$column->name}') ?>
                                 "
                                 ?>
@@ -92,7 +92,7 @@
                     || $relation[0] == 'CHasOneRelation'
                     || $relation[0] == 'CManyManyRelation'
                 ) :
-                    if ($relationView = $this->resolveRelationViewFile($relation, $this)) {
+                    if ($relationView = $this->provider()->resolveRelationViewFile($relation, $this)) {
                         echo "      <?php \$this->renderPartial('{$relationView}', array('model'=>\$model, 'form' => \$form)) ?>\n";
                         continue;
                     }
@@ -105,7 +105,7 @@
                     </h3>
                     "
                     ?>
-                    <?= "<?php " . $this->generateRelation($this->modelClass, $key, $relation) . " ?>" // TODO "itemLabel" ?>
+                    <?= "<?php " . $this->provider()->generateRelation($this->modelClass, $key, $relation) . " ?>" // TODO "itemLabel" ?>
 
                 <?
                 endif;

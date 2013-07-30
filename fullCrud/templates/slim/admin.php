@@ -44,7 +44,7 @@ $this->widget('TbGridView',
     'columns'=>array(
 <?php
 $count = 0;
-echo "        array('header'=>'','value'=>'\$data[\"" . $this->suggestIdentifier($this->modelClass) . "\"]'),\n";
+echo "        array('header'=>'','value'=>'\$data[\"" . $this->provider()->suggestIdentifier($this->modelClass) . "\"]'),\n";
 foreach ($this->tableSchema->columns as $column) {
     if ($count == 7) {
         echo "        /*\n";
@@ -56,7 +56,7 @@ foreach ($this->tableSchema->columns as $column) {
     else {
         $count++;
     }
-    echo "        " . $this->generateValueField($this->modelClass, $column) . ",\n"; // TODO: itemLabel
+    echo "        " . $this->provider()->generateValueField($this->modelClass, $column) . ",\n"; // TODO: itemLabel
 }
 
 if ($count >= 8) {

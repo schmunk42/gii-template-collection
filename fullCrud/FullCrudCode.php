@@ -31,6 +31,7 @@ class FullCrudCode extends CrudCode
         "gtc.fullCrud.providers.PartialViewProvider",
         "gtc.fullCrud.providers.FullCrudFieldProvider",
         "gtc.fullCrud.providers.ValueFieldProvider",
+        "gtc.fullCrud.FullCrudCode",
     );
 
     /**
@@ -70,24 +71,15 @@ class FullCrudCode extends CrudCode
      *
      * @return mixed
      */
-    public function __call($name, $args)
+    public function provider()
     {
-        // walk through providers
-        foreach ($this->providers AS $provider) {
-            $class = Yii::import($provider);
-            if (method_exists($class, $name)) {
-                //echo $class."----------->";
-                $c = call_user_func_array(array($class, $name), $args);
-                // until a provider returns not null
-                if ($c !== null) {
-                    return $c;
-                }
-            }
-        }
+        $provider = new GtcProvider();
+        $provider->providers = $this->providers;
+        return $provider;
     }
 
     /**
-     * Get label from provider or fall back to parent
+     * prepend echo
      *
      * @param $modelClass
      * @param $column
@@ -97,15 +89,11 @@ class FullCrudCode extends CrudCode
      */
     public function generateActiveLabel($modelClass, $column)
     {
-        if ($c = $this->__call('generateActiveLabel', array($modelClass, $column))) {
-            return $c;
-        } else {
             return "echo " . parent::generateActiveLabel($modelClass, $column);
-        }
     }
 
     /**
-     * Get input field from provider or fall back to parent
+     * prepend echo
      *
      * @param $modelClass
      * @param $column
@@ -114,11 +102,7 @@ class FullCrudCode extends CrudCode
      */
     public function generateActiveField($modelClass, $column)
     {
-        if ($c = $this->__call('generateActiveField', array($modelClass, $column))) {
-            return $c;
-        } else {
             return "echo " . parent::generateActiveField($modelClass, $column);
-        }
     }
 
     /**
@@ -192,6 +176,33 @@ class FullCrudCode extends CrudCode
         return $return;
     }
 
+}
+
+/**
+ * Class to handle the method calls
+ *
+ * Class GtcProvider
+ */
+class GtcProvider {
+
+    public $providers = array();
+
+    public function __call($name, $args)
+    {
+        // walk through providers
+        foreach ($this->providers AS $provider) {
+            $class = Yii::import($provider);
+            if (method_exists($class, $name)) {
+                //echo $class."----------->";
+                $obj = new $class;
+                $c = call_user_func_array(array(&$obj, $name), $args);
+                // until a provider returns not null
+                if ($c !== null) {
+                    return $c;
+                }
+            }
+        }
+    }
 }
 
 ?>

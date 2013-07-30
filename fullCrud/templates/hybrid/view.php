@@ -48,7 +48,7 @@ foreach (CActiveRecord::model(Yii::import($this->model))->relations() as $key =>
     $controller = $this->resolveController($relation);
     $relatedModel = CActiveRecord::model($relation[1]);
     $pk = $relatedModel->tableSchema->primaryKey;
-    $suggestedfield = $this->suggestIdentifier($relatedModel);
+    $suggestedfield = $this->provider()->suggestIdentifier($relatedModel);
 
     // TODO: currently composite PKs are omitted
     if (is_array($pk))
@@ -126,7 +126,7 @@ foreach (CActiveRecord::model(Yii::import($this->model))->relations() as $key =>
                     $relatedModel = CActiveRecord::model($relation[1]);
                     $columns = $relatedModel->tableSchema->columns;
 
-                    $suggestedfield = $this->suggestIdentifier($relatedModel);
+                    $suggestedfield = $this->provider()->suggestIdentifier($relatedModel);
                     $controller = $this->resolveController($relation);
                     $value = "(\$model->{$key} !== null)?";
                     $value .= "'<span class=label>" . $relation[0] . "</span><br/>'.";

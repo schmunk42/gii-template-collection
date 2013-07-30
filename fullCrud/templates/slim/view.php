@@ -29,7 +29,7 @@ echo "?>";
         </h2>
 
         <h3>
-            <?php echo "<?php echo \$model->" . $this->suggestIdentifier(
+            <?php echo "<?php echo \$model->" . $this->provider()->suggestIdentifier(
                     CActiveRecord::model(Yii::import($this->model))
                 ) . "?>"; ?>
         </h3>
@@ -48,7 +48,7 @@ echo "?>";
                 foreach ($this->relations as $key => $relation) {
                     if ((($relation[0] == "CHasOneRelation") || ($relation[0] == "CBelongsToRelation")) && $relation[2] == $column->name) {
                         $relatedModel   = CActiveRecord::model($relation[1]);
-                        $suggestedfield = $this->suggestIdentifier($relatedModel);
+                        $suggestedfield = $this->provider()->suggestIdentifier($relatedModel);
                         $controller     = $this->resolveController($relation);
 
                         $value = "(\$model->{$key} !== null)?";
