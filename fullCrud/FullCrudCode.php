@@ -22,7 +22,21 @@ class FullCrudCode extends CrudCode
     public $textEditor = "textarea";
     // Legacy template
     public $authTemplate = "auth_filter_default";
+    public $providers = array(
+        "gtc.fullCrud.providers.IdentifierProvider",
+        "gtc.fullCrud.providers.EditableProvider",
+        "gtc.fullCrud.providers.RelationProvider",
+        "gtc.fullCrud.providers.HybridFieldProvider",
+        "gtc.fullCrud.providers.P3CrudFieldProvider",
+        "gtc.fullCrud.providers.PartialViewProvider",
+        "gtc.fullCrud.providers.FullCrudFieldProvider",
+        "gtc.fullCrud.providers.ValueFieldProvider",
+    );
 
+    /**
+     * Returns validation rules
+     * @return array
+     */
     public function rules()
     {
         return array_merge(
@@ -34,6 +48,10 @@ class FullCrudCode extends CrudCode
         );
     }
 
+    /**
+     * Returns form attribute labels
+     * @return array
+     */
     public function attributeLabels()
     {
         return array_merge(
@@ -44,13 +62,78 @@ class FullCrudCode extends CrudCode
         );
     }
 
-    //
+    /**
+     * Tries to find a provider for the called method, continues until a provider returns not NULL
+     *
+     * @param string $name
+     * @param array  $args
+     *
+     * @return mixed
+     */
+    public function __call($name, $args)
+    {
+        // walk through providers
+        foreach ($this->providers AS $provider) {
+            $class = Yii::import($provider);
+            if (method_exists($class, $name)) {
+                //echo $class."----------->";
+                $c = call_user_func_array(array($class, $name), $args);
+                // until a provider returns not null
+                if ($c !== null) {
+                    return $c;
+                }
+            }
+        }
+    }
+
+    /**
+     * Get label from provider or fall back to parent
+     *
+     * @param $modelClass
+     * @param $column
+     *
+     * @return string
+     * @TODO   implemnt providers
+     */
+    public function generateActiveLabel($modelClass, $column)
+    {
+        if ($c = $this->__call('generateActiveLabel', array($modelClass, $column))) {
+            return $c;
+        } else {
+            return "echo " . parent::generateActiveLabel($modelClass, $column);
+        }
+    }
+
+    /**
+     * Get input field from provider or fall back to parent
+     *
+     * @param $modelClass
+     * @param $column
+     *
+     * @return string
+     */
+    public function generateActiveField($modelClass, $column)
+    {
+        if ($c = $this->__call('generateActiveField', array($modelClass, $column))) {
+            return $c;
+        } else {
+            return "echo " . parent::generateActiveField($modelClass, $column);
+        }
+    }
+
+    /**
+     * Shorthand
+     * @return string
+     */
     public function getEnableAjaxValidation()
     {
         return ($this->validation == 1 || $this->validation == 3) ? 'true' : 'false';
     }
 
-    //
+    /**
+     * Shorthand
+     * @return string
+     */
     public function getEnableClientValidation()
     {
         return ($this->validation == 2 || $this->validation == 3) ? 'true' : 'false';
@@ -65,37 +148,23 @@ class FullCrudCode extends CrudCode
         return CActiveRecord::model($this->modelClass)->relations();
     }
 
+    /**
+     * @param null $model
+     *
+     * @return mixed
+     * @TODO   ?
+     */
     public function getItemLabel($model = null)
     {
         if ($model === null) {
             $model = $this->model;
         }
-        return FullCrudHelper::suggestIdentifier($model);
-    }
-
-    public function validateModel($attribute, $params)
-    {
-        // check your import paths, if you get an error here
-        // PHP error can't be catched as an exception
-        if ($this->model) {
-            Yii::import($this->model, true);
-        }
-        parent::validateModel($attribute, $params);
-    }
-
-    // updated for $moduleName handling
-    public function successMessage()
-    {
-        $link = CHtml::link(
-            'try it now',
-            Yii::app()->createUrl($this->controller),
-            array('target' => '_blank')
-        );
-        return "The controller has been generated successfully. You may $link.";
+        return $this->suggestIdentifier($model); // TODO ??? see provider
     }
 
     /**
      * @param CCodeFile $file whether the code file should be saved
+     *
      * @todo Don't use a constant
      */
     public function confirmed($file)
@@ -107,191 +176,20 @@ class FullCrudCode extends CrudCode
         }
     }
 
+    /**
+     * Returns a controller route for the specified relation.
+     * Note: Controllers and models have to be named the same way, eg. model (Foo) -> controller (FooController)
+     *
+     * @param $relation
+     *
+     * @return string
+     */
     public function resolveController($relation)
     {
         $relatedController = strtolower(substr($relation[1], 0, 1)) . substr($relation[1], 1);
-        $controllerName = (strrchr($this->controller,"/")) ? strrchr($this->controller,"/") : $this->controller;
-        $return = "/".str_replace($controllerName,'/'.$relatedController,$this->controller);
+        $controllerName    = (strrchr($this->controller, "/")) ? strrchr($this->controller, "/") : $this->controller;
+        $return            = "/" . str_replace($controllerName, '/' . $relatedController, $this->controller);
         return $return;
-    }
-
-
-
-
-
-
-
-
-    // ==========================================
-    // TODO: move code below to "providers"
-    // ==========================================
-
-    /**
-     * Returns the viewFile for the column if exists otherwise it returns null
-     * @return string
-     * @todo detection
-     */
-    public function resolveColumnViewFile($column)
-    {
-        if (!isset($this->files[0])) {
-            return null;
-        }
-        $viewDir   = $this->getOutputViewDirectory();
-        $viewAlias = 'columns' . DIRECTORY_SEPARATOR . $column->name;
-        $viewFile  = $viewDir . DIRECTORY_SEPARATOR . $viewAlias . '.php';
-        return (file_exists($viewFile)) ? $viewAlias : null;
-    }
-
-    /**
-     * Returns the viewFile for the relation if exists otherwise it returns null
-     * @return string
-     * @todo detection
-     */
-    public function resolveRelationViewFile($relation)
-    {
-        if (!isset($this->files[0])) {
-            return null;
-        }
-
-        $viewDir   = $viewDir = $this->getOutputViewDirectory();
-        $viewAlias = 'relations' . DIRECTORY_SEPARATOR . $relation[1];
-        $viewFile  = $viewDir . DIRECTORY_SEPARATOR . $viewAlias . '.php';
-        return (file_exists($viewFile)) ? $viewAlias : null;
-    }
-
-
-    /**
-     * Prepend code fragments from parent class with an echo
-     *
-     * @param $modelClass
-     * @param $column
-     *
-     * @return string
-     */
-    public function generateActiveLabel($modelClass, $column)
-    {
-        return "echo " . parent::generateActiveLabel($modelClass, $column);
-    }
-
-    /**
-     * Get input field from provider
-     *
-     * @param $modelClass
-     * @param $column
-     *
-     * @return string
-     */
-    public function generateActiveField($modelClass, $column)
-    {
-        $providers = array(
-            "gtc.fullCrud.providers.P3CrudFieldProvider",
-            "gtc.fullCrud.providers.FullCrudFieldProvider",
-            "system.gii.generators.crud.CrudCode",
-        );
-        foreach ($providers AS $provider) {
-            $class = Yii::import($provider);
-            if (method_exists($class, "generateActiveField")) {
-                if ($class::generateActiveField($modelClass, $column) !== null) {
-                    if ($provider === "system.gii.generators.crud.CrudCode") {
-                        return "echo " . $class::generateActiveField($modelClass, $column);
-                    } else {
-                        return $class::generateActiveField($modelClass, $column);
-                    }
-
-                }
-            }
-        }
-    }
-
-    public function generateActiveRow($modelClass, $column, $relation = false)
-    {
-
-        /*
-         * TODO: Evaluate how to utilize the best from TbActiveForm (using type attribute + TbFormInputElement::$tbActiveFormMethods)
-         * TODO: This should be moved to providers, see @link generateActiveField
-         * and CrudFieldProviders from gtc together.
-         */
-
-        if ($column->type === 'boolean') {
-            return "\$form->checkBoxRow(\$model,'{$column->name}')";
-        } else {
-            if (stripos($column->dbType, 'text') !== false) {
-
-                switch ($this->textEditor) {
-                    default:
-                    case "textarea":
-                        return "\$form->textAreaRow(\$model,'{$column->name}',array('rows'=>6, 'cols'=>50, 'class'=>'span8'))";
-                        break;
-                    case "redactor":
-                        return "\$form->redactorRow(\$model, '{$column->name}', array('rows'=>6, 'cols'=>50, 'class'=>'span8'))";
-                        break;
-                    case "html5Editor":
-                        return "\$form->html5EditorRow(\$model, '{$column->name}', array('rows'=>6, 'cols'=>50, 'class'=>'span8', 'options' => array(
-                    'link' => true,
-                    'image' => false,
-                    'color' => false,
-                    'html' => true,
-            )))";
-                        break;
-                    case "ckEditor":
-                        return "\$form->ckEditorRow(\$model, '{$column->name}', array('options'=>array('fullpage'=>'js:true', 'width'=>'640', 'resize_maxWidth'=>'640','resize_minWidth'=>'320')))";
-                        break;
-                    case "markdownEditor":
-                        return "\$form->markdownEditorRow(\$model, '{$column->name}', array('rows'=>6, 'cols'=>50, 'class'=>'span8'))";
-                        break;
-                }
-
-            } else {
-                if (preg_match('/^(password|pass|passwd|passcode)$/i', $column->name)) {
-                    $inputField = 'passwordFieldRow';
-                } else {
-                    $inputField = 'textFieldRow';
-                }
-
-                if ($column->type !== 'string' || $column->size === null) {
-                    return "\$form->{$inputField}(\$model,'{$column->name}')";
-                } else {
-                    return "\$form->{$inputField}(\$model,'{$column->name}',array('maxlength'=>$column->size))";
-                }
-            }
-        }
-    }
-
-    public function generateRelationHeader($model, $relationName, $relationInfo)
-    {
-        $controller = self::resolveController($relationInfo); // TODO
-        $code       = "";
-        $code .= "
-    \$this->widget('bootstrap.widgets.TbButtonGroup', array(
-        'type'=>'', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
-        'buttons'=>array(
-            array(
-                'label'=>'" . ucfirst($relationName) . "',
-                'icon'=>'icon-list-alt',
-                'url'=> array('/{$controller}/admin')
-            ),
-            array(
-                'icon'=>'icon-plus',
-                'url'=>array(
-                    '/{$controller}/create',
-                    '{$relationInfo[1]}' => array('{$relationInfo[2]}'=>\$model->{\$model->tableSchema->primaryKey})
-                    )
-                ),
-            ),
-        )
-    );";
-
-        return $code;
-    }
-
-
-
-    private function getOutputViewDirectory()
-    {
-        $controllerDir  = dirname($this->files[0]->path);
-        $controllerName = strtolower(basename(str_replace('Controller', '', $this->files[0]->path), ".php"));
-        $viewDir        = str_replace('controllers', 'views/' . $controllerName, $controllerDir);
-        return $viewDir;
     }
 
 }

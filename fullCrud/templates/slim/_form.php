@@ -45,7 +45,7 @@
                     }
 
                     // render a view file if present in destination folder
-                    if ($columnView = $this->resolveColumnViewFile($column)) {
+                    if ($columnView = $this->resolveColumnViewFile($column, $this)) {
                         echo "<?php      \$this->renderPartial('{$columnView}', array('model'=>\$model, 'form' => \$form)) ?>";
                         continue;
                     }
@@ -60,10 +60,10 @@
                             </div>
                             <div class='controls'>
                                 <?=
-                                <<<PHP
+                                "
                                <?php {$this->generateActiveField($this->modelClass, $column)} ?>
                                <?php echo \$form->error(\$model,'{$column->name}') ?>
-PHP;
+                                "
                                 ?>
 
                                 <span class="help-block">
@@ -92,21 +92,20 @@ PHP;
                     || $relation[0] == 'CHasOneRelation'
                     || $relation[0] == 'CManyManyRelation'
                 ) :
-                    if ($relationView = $this->resolveRelationViewFile($relation)) {
+                    if ($relationView = $this->resolveRelationViewFile($relation, $this)) {
                         echo "      <?php \$this->renderPartial('{$relationView}', array('model'=>\$model, 'form' => \$form)) ?>\n";
                         continue;
                     }
                     ?>
 
                     <?=
-                    <<<PHP
+                    "
                     <h3>
                         <?php echo Yii::t('{$this->messageCatalog}', '{$key}'); ?>
                     </h3>
-PHP;
+                    "
                     ?>
-
-                    <?= "<?php " . FullCrudHelper::generateRelation($this->modelClass, $key, $relation) . " ?>" ?>
+                    <?= "<?php " . $this->generateRelation($this->modelClass, $key, $relation, false, "itemLabel") . " ?>" // TODO ?>
 
                 <?
                 endif;

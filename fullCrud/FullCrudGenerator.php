@@ -2,13 +2,29 @@
 
 Yii::setPathOfAlias("gtc", dirname(__FILE__) . DIRECTORY_SEPARATOR . '..');
 
-// import global helpers
-Yii::import('gtc.fullCrud.FullCrudHelper',true);
-
 class FullCrudGenerator extends CCodeGenerator
 {
 
     public $codeModel = 'gtc.fullCrud.FullCrudCode';
+
+    /**
+     * Get auth templates for main template
+     *
+     * @param $template
+     *
+     * @return mixed
+     */
+    protected function getAuthTemplates($template)
+    {
+        foreach (scandir(Yii::getPathOfAlias("gtc.fullCrud.templates.$template.auth")) AS $file) {
+            if (substr($file, 0, 1) === ".") {
+                continue;
+            }
+            $name          = str_replace(".php", "", $file);
+            $return[$name] = $name;
+        }
+        return $return;
+    }
 
     /**
      * Returns the model names and, if possible, the attributes in an array.
@@ -19,17 +35,19 @@ class FullCrudGenerator extends CCodeGenerator
      */
     protected function getModels()
     {
-        $models = array();
-        $aliases = array();
+        $models    = array();
+        $aliases   = array();
         $aliases[] = 'application.models';
         foreach (Yii::app()->getModules() as $moduleName => $config) {
-            if ($moduleName != 'gii')
+            if ($moduleName != 'gii') {
                 $aliases[] = $moduleName . ".models";
+            }
         }
 
         foreach ($aliases as $alias) {
-            if (!is_dir(Yii::getPathOfAlias($alias)))
+            if (!is_dir(Yii::getPathOfAlias($alias))) {
                 continue;
+            }
             $files = scandir(Yii::getPathOfAlias($alias));
             Yii::import($alias . ".*");
             foreach ($files as $file) {
@@ -37,14 +55,16 @@ class FullCrudGenerator extends CCodeGenerator
                     $classname = sprintf('%s.%s', $alias, $fileClassName);
                     Yii::import($classname);
                     try {
-                        if (!class_exists($fileClassName))
-                            throw new Exception('Model '.$fileClassName.' does not exist');
+                        if (!class_exists($fileClassName)) {
+                            throw new Exception('Model ' . $fileClassName . ' does not exist');
+                        }
 
                         $model = new $fileClassName;
-                        if (is_object($model) && $model->getMetaData())
+                        if (is_object($model) && $model->getMetaData()) {
                             $models[$classname] = $model->attributes;
-                        else
+                        } else {
                             $models[$classname] = array();
+                        }
                     } catch (ErrorException $e) {
                         break;
                     } catch (CDbException $e) {
@@ -59,36 +79,37 @@ class FullCrudGenerator extends CCodeGenerator
         return $models;
     }
 
-    protected function getAuthTemplates($template)
-    {
-        foreach(scandir(Yii::getPathOfAlias("gtc.fullCrud.templates.$template.auth")) AS $file){
-            if (substr($file,0,1) === ".") {
-                continue;
-            }
-            $name = str_replace(".php", "", $file);
-            $return[$name] = $name;
-        }
-        return $return;
-    }
 
+    /**
+     * Internal function
+     *
+     * @param        $file
+     * @param string $alias
+     *
+     * @return null|string
+     */
     private function checkFile($file, $alias = '')
     {
+        // find models, exclude base model
         if (substr($file, 0, 1) !== '.'
             && substr($file, 0, 2) !== '..'
             && substr($file, 0, 4) !== 'Base'
-            && strtolower(substr($file, -4)) === '.php') {
+            && strtolower(substr($file, -4)) === '.php'
+        ) {
             $fileClassName = substr($file, 0, strpos($file, '.'));
             if (class_exists($fileClassName)
-                && is_subclass_of($fileClassName, 'CActiveRecord')) {
+                && is_subclass_of($fileClassName, 'CActiveRecord')
+            ) {
                 $fileClass = new ReflectionClass($fileClassName);
-                if ($fileClass->isAbstract())
+                // exclude abstract classes
+                if ($fileClass->isAbstract()) {
                     return null;
-                else
+                } else {
                     return $models[] = $fileClassName;
+                }
             }
         }
     }
-
 }
 
 ?>

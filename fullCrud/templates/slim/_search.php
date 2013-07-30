@@ -20,7 +20,7 @@
             <?php if (!$column->isForeignKey): ?>
                 <?= "<?php " . $this->generateActiveField($this->modelClass, $column) . "; ?>"; ?>
             <?php else: ?>
-                <?= "<?php " . FullCrudHelper::generateValueField($this->modelClass, $column, 'search') . "; ?>"; ?>
+                <?= "<?php " . $this->generateValueField($this->modelClass, $column, 'search', 'itemLabel') . "; ?>"; // TODO: itemLabel ?>
             <?php endif; ?>
 
         </div>

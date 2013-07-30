@@ -44,7 +44,7 @@ $this->widget('TbGridView',
     'columns'=>array(
 <?php
 $count = 0;
-echo "        array('header'=>'','value'=>'\$data[\"" . FullCrudHelper::suggestIdentifier($this->modelClass) . "\"]'),\n";
+echo "        array('header'=>'','value'=>'\$data[\"" . $this->suggestIdentifier($this->modelClass) . "\"]'),\n";
 foreach ($this->tableSchema->columns as $column) {
     if ($count == 7) {
         echo "        /*\n";
@@ -56,7 +56,7 @@ foreach ($this->tableSchema->columns as $column) {
     else {
         $count++;
     }
-    echo "        " . FullCrudHelper::generateValueField($this->modelClass, $column) . ",\n";
+    echo "        " . $this->generateValueField($this->modelClass, $column, false, 'itemLabel') . ",\n"; // TODO: itemLabel
 }
 
 if ($count >= 8) {
