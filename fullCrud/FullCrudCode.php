@@ -28,7 +28,6 @@ class FullCrudCode extends CrudCode
         "gtc.fullCrud.providers.RelationProvider",
         "gtc.fullCrud.providers.EditableFieldProvider",
         "gtc.fullCrud.providers.HybridFieldProvider",
-        "gtc.fullCrud.providers.PhActiveFieldProvider",
         "gtc.fullCrud.providers.GtcActiveFieldProvider",
         "gtc.fullCrud.providers.GtcValueFieldProvider",
         "gtc.fullCrud.FullCrudCode",
