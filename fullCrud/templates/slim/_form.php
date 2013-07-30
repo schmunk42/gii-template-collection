@@ -69,24 +69,19 @@
                 <?= "<?php echo Yii::t('" . $this->messageCatalog . "','Relations')?>"; ?>
 
             </h2>
-            <?
-            // render relation inputs
-            foreach ($this->getRelations() as $key => $relation) :
-                ?>
+            <? foreach ($this->getRelations() as $key => $relation) : ?>
 
                 <?=
+                // relations
                 "
-                    <h3>
-                        <?php echo Yii::t('{$this->messageCatalog}', '{$key}'); ?>
-                    </h3>
-
-                    <?php {$this->provider()->generateRelationField($this->modelClass, $key, $relation)} ?>
-                    "
+                <h3>
+                    <?php echo Yii::t('{$this->messageCatalog}', '{$key}'); ?>
+                </h3>
+                <?php {$this->provider()->generateRelationField($this->modelClass, $key, $relation)} ?>
+                "
                 ?>
 
-            <?
-            endforeach;
-            ?>
+            <? endforeach; ?>
 
 
         </div>
