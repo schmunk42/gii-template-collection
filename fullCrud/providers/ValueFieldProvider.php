@@ -5,7 +5,7 @@ class ValueFieldProvider {
      * @param CActiveRecord   $modelClass
      * @param CDbColumnSchema $column
      */
-    static public function generateValueField($modelClass, $column, $view = false, $suggestIdentifier)
+    static public function generateValueField($modelClass, $column, $view = false, $suggestIdentifier = "itemLabel")
     {
         if ($column->isForeignKey) {
 

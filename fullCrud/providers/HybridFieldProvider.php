@@ -9,13 +9,14 @@ class HybridFieldProvider {
          * TODO: This should be moved to providers, see @link generateActiveField
          * and CrudFieldProviders from gtc together.
          */
-
+        $codeModel = new FullCrudCode(); // TODO
+        
         if ($column->type === 'boolean') {
             return "\$form->checkBoxRow(\$model,'{$column->name}')";
         } else {
             if (stripos($column->dbType, 'text') !== false) {
 
-                switch ($this->textEditor) {
+                switch ($codeModel->textEditor) {
                     default:
                     case "textarea":
                         return "\$form->textAreaRow(\$model,'{$column->name}',array('rows'=>6, 'cols'=>50, 'class'=>'span8'))";

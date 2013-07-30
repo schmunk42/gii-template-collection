@@ -34,7 +34,7 @@ class RelationProvider
         $relationName,
         $relationInfo,
         $captureOutput = false,
-        $suggestedfield
+        $suggestedfield = "itemLabel"
     ) {
         $relatedModel = CActiveRecord::model($relationInfo[1]);
         if ($columns = $relatedModel->tableSchema->columns) {
