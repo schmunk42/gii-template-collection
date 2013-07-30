@@ -1,6 +1,6 @@
 <?php
 
-class IdentifierProvider
+class IdentifierProvider extends GtcCodeProvider
 {
 
     // Which column will most probably be the one that gets used to list

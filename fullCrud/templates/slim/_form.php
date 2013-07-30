@@ -103,9 +103,9 @@
                     <h3>
                         <?php echo Yii::t('{$this->messageCatalog}', '{$key}'); ?>
                     </h3>
-                    "
-                    ?>
-                    <?= "<?php " . $this->provider()->generateRelation($this->modelClass, $key, $relation) . " ?>" // TODO "itemLabel" ?>
+
+                    <?php {$this->provider()->generateRelation($this->modelClass, $key, $relation)} ?>
+                    " // TODO "itemLabel" ?>
 
                 <?
                 endif;

@@ -1,11 +1,11 @@
 <?php
 
-class RelationProvider
+class RelationProvider extends GtcCodeProvider
 {
 
-    static public function generateRelationHeader($relationName, $relationInfo, $controller)
+    public function generateRelationHeader($relationName, $relationInfo, $controller)
     {
-        $code       = "";
+        $code = "";
         $code .= "
     \$this->widget('bootstrap.widgets.TbButtonGroup', array(
         'type'=>'', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
@@ -29,17 +29,16 @@ class RelationProvider
         return $code;
     }
 
-    static public function generateRelation(
+    public function generateRelation(
         $model,
         $relationName,
         $relationInfo,
-        $captureOutput = false,
-        $suggestedfield = "itemLabel"
+        $captureOutput = false
     ) {
         $relatedModel = CActiveRecord::model($relationInfo[1]);
         if ($columns = $relatedModel->tableSchema->columns) {
 
-            $suggestedfield = $suggestedfield;
+            $suggestedfield = $this->codeModel->provider()->suggestIdentifier($relatedModel);
             $field          = current($columns);
             $style          = $relationInfo[0] == 'CManyManyRelation' ? 'multiselect' : 'dropdownlist';
 

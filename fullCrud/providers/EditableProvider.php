@@ -1,17 +1,16 @@
 <?php
 
-class EditableProvider
+class EditableProvider extends GtcCodeProvider
 {
     /**
      * @param CActiveRecord   $modelClass
      * @param CDbColumnSchema $column
      */
-    static public function generateEditableField($modelClass, $column, $controller, $view = false)
+    public function generateEditableField($modelClass, $column, $controller, $view = false)
     {
-        $codeModel = new FullCrudCode();
-        $provider = $codeModel->provider();
+        $provider = $this->codeModel->provider();
 
-        if ($column->isForeignKey) {
+        if (!$column->isForeignKey) {
             return $provider->generateValueField($modelClass, $column, $view);
         } else {
             return "array(

@@ -1,6 +1,7 @@
 <?php
 
-class HybridFieldProvider {
+class HybridFieldProvider extends GtcCodeProvider
+{
     static public function generateActiveRow($modelClass, $column, $relation = false)
     {
 
@@ -10,7 +11,7 @@ class HybridFieldProvider {
          * and CrudFieldProviders from gtc together.
          */
         $codeModel = new FullCrudCode(); // TODO
-        
+
         if ($column->type === 'boolean') {
             return "\$form->checkBoxRow(\$model,'{$column->name}')";
         } else {

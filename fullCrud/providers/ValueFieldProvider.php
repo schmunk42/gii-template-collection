@@ -1,14 +1,16 @@
 <?php
 
-class ValueFieldProvider {
+class ValueFieldProvider extends GtcCodeProvider
+{
     /**
      * @param CActiveRecord   $modelClass
      * @param CDbColumnSchema $column
      */
-    static public function generateValueField($modelClass, $column, $view = false, $suggestIdentifier = "itemLabel")
+    public function generateValueField($modelClass, $column, $view = false)
     {
         if ($column->isForeignKey) {
 
+            $suggestIdentifier = $this->codeModel->provider()->suggestIdentifier($modelClass);
             $model = CActiveRecord::model($modelClass);
             $table = $model->getTableSchema();
             $fk    = $table->foreignKeys[$column->name];
