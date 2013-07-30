@@ -16,20 +16,6 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
     public function beforeAction($action)
     {
         parent::beforeAction($action);
-        // map identifcationColumn to id
-        if (!isset($_GET['id']) && isset($_GET['<?php echo $this->identificationColumn; ?>'])) {
-            $model = <?php echo $this->modelClass; ?>::model()->find(
-                '<?php echo $this->identificationColumn; ?> = :<?php echo $this->identificationColumn; ?>',
-                array(
-                    ':<?php echo $this->identificationColumn; ?>' => $_GET['<?php echo $this->identificationColumn; ?>']
-                )
-            );
-            if ($model !== null) {
-                $_GET['id'] = $model-><?php echo CActiveRecord::model($this->modelClass)->tableSchema->primaryKey ?>;
-            } else {
-                throw new CHttpException(400);
-            }
-        }
         if ($this->module !== null) {
             $this->breadcrumbs[$this->module->Id] = array('/' . $this->module->Id);
         }
@@ -73,7 +59,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
                     }
                 }
             } catch (Exception $e) {
-                $model->addError('<?php echo $this->identificationColumn;?>', $e->getMessage());
+                $model->addError('<?php echo CActiveRecord::model($this->modelClass)->tableSchema->primaryKey ?>', $e->getMessage());
             }
         } elseif (isset($_GET['<?php echo $this->modelClass; ?>'])) {
             $model->attributes = $_GET['<?php echo $this->modelClass; ?>'];
@@ -115,7 +101,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
                     }
                 }
             } catch (Exception $e) {
-                $model->addError('<?php echo $this->identificationColumn;?>', $e->getMessage());
+                $model->addError('<?php echo CActiveRecord::model($this->modelClass)->tableSchema->primaryKey ?>', $e->getMessage());
             }
         }
 

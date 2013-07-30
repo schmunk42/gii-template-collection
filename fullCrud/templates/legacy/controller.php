@@ -35,9 +35,9 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
     public function beforeAction($action){
         parent::beforeAction($action);
         // map identifcationColumn to id
-        if (!isset($_GET['id']) && isset($_GET['<?php echo $this->identificationColumn; ?>'])) {
-            $model=<?php echo $this->modelClass; ?>::model()->find('<?php echo $this->identificationColumn; ?> = :<?php echo $this->identificationColumn; ?>', array(
-            ':<?php echo $this->identificationColumn; ?>' => $_GET['<?php echo $this->identificationColumn; ?>']));
+        if (!isset($_GET['id']) && isset($_GET['<?php echo $this->tableSchema->primaryKey; ?>'])) {
+            $model=<?php echo $this->modelClass; ?>::model()->find('<?php echo $this->tableSchema->primaryKey; ?> = :<?php echo $this->tableSchema->primaryKey; ?>', array(
+            ':<?php echo $this->tableSchema->primaryKey; ?>' => $_GET['<?php echo $this->tableSchema->primaryKey; ?>']));
             if ($model !== null) {
                 $_GET['id'] = $model-><?php echo CActiveRecord::model($this->modelClass)->tableSchema->primaryKey ?>;
             } else {
@@ -89,7 +89,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
                     }
                 }
             } catch (Exception $e) {
-                $model->addError('<?php echo $this->identificationColumn;?>', $e->getMessage());
+                $model->addError('<?php echo $this->tableSchema->primaryKey;?>', $e->getMessage());
             }
         } elseif(isset($_GET['<?php echo $this->modelClass; ?>'])) {
                 $model->attributes = $_GET['<?php echo $this->modelClass; ?>'];
@@ -133,7 +133,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
                     }
                 }
             } catch (Exception $e) {
-                $model->addError('<?php echo $this->identificationColumn;?>', $e->getMessage());
+                $model->addError('<?php echo $this->tableSchema->primaryKey;?>', $e->getMessage());
             }    
         }
 

@@ -4,7 +4,7 @@ $label = $this->pluralize($this->class2name($this->modelClass));
 echo "<?php\n";
 
 echo "\$this->breadcrumbs['$label'] = array('index');\n";
-echo "\$this->breadcrumbs[] = \$model->{$this->identificationColumn};\n";
+echo "\$this->breadcrumbs[] = \$model->{$this->tableSchema->primaryKey};\n";
 ?>
 
 if(!$this->menu)
@@ -17,7 +17,7 @@ array('label'=>Yii::t('app', 'List') , 'url'=>array('index')),
 );
 ?>
 
-<h1><?php echo "<?php echo Yii::t('app', 'View');?>" ?> <?php echo $this->modelClass . " <?php echo \$model->{$this->identificationColumn}; ?>"; ?></h1>
+<h1><?php echo "<?php echo Yii::t('app', 'View');?>" ?> <?php echo $this->modelClass . " <?php echo \$model->{$this->tableSchema->primaryKey}; ?>"; ?></h1>
 
 <?php echo "<?php " ?>
 $this->widget('zii.widgets.CDetailView', array(

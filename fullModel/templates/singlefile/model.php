@@ -147,11 +147,4 @@ class <?php echo $modelClass; ?> extends <?php echo $this->baseClass; ?>
     {
         return parent::afterSave();    
     }
-
-    public function __toString() {
-        return (string) $this-><?php echo $this->identificationColumn; ?>;
-        }
-
-
-
 }

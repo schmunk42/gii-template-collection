@@ -3,7 +3,7 @@ $label = $this->pluralize($this->class2name($this->modelClass));
 
 echo "<?php\n";
 echo "\$this->breadcrumbs[Yii::t('" . $this->messageCatalog . "','$label')] = array('admin');\n";
-echo "\$this->breadcrumbs[] = \$model->{$this->identificationColumn};\n";
+echo "\$this->breadcrumbs[] = \$model->{$this->tableSchema->primaryKey};\n";
 echo "?>";
 ?>
 

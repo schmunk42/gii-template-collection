@@ -7,7 +7,6 @@
         'rules' => array(<br />
                 '<?php echo $model->controller; ?>' => '<?php echo $model->controller; ?>/index', <br />
                 '<?php echo $model->controller; ?>/admin' => '<?php echo $model->controller; ?>/admin', <br />
-                '<?php echo $model->controller; ?>/&lt;<?php echo $model->identificationColumn; ?>&gt;' => '<?php echo $model->controller; ?>/view', <br />
         ),
     </code>
 

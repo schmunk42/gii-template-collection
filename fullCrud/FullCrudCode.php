@@ -11,7 +11,6 @@ class FullCrudCode extends CrudCode
 {
     // validation method; 0 = none, 1 = ajax, 2 = client-side, 3 = both
     public $validation = 3;
-    public $identificationColumn = null;
     public $baseControllerClass = 'Controller';
     public $messageCatalog = "crud";
     public $template = "slim";
@@ -30,7 +29,7 @@ class FullCrudCode extends CrudCode
             parent::rules(),
             array(
                  array('validation', 'required'),
-                 array('authTemplateSlim, authTemplateHybrid, authTemplate, identificationColumn, formOrientation, textEditor', 'safe'),
+                 array('authTemplateSlim, authTemplateHybrid, authTemplate, formOrientation, textEditor', 'safe'),
             )
         );
     }
@@ -74,22 +73,6 @@ class FullCrudCode extends CrudCode
         return FullCrudHelper::suggestIdentifier($model);
     }
 
-    public function prepare()
-    {
-        if (!$this->identificationColumn) {
-            $this->identificationColumn = $this->tableSchema->primaryKey;
-        }
-
-        if (!array_key_exists($this->identificationColumn, $this->tableSchema->columns)) {
-            $this->addError(
-                'identificationColumn',
-                'The specified column can not be found in the models attributes. <br /> Please specify a valid attribute. If unsure, leave the field empty.'
-            );
-        }
-
-        parent::prepare();
-        }
-
     public function validateModel($attribute, $params)
     {
         // check your import paths, if you get an error here
@@ -124,8 +107,6 @@ class FullCrudCode extends CrudCode
         }
     }
 
-
-
     public function resolveController($relation)
     {
         $relatedController = strtolower(substr($relation[1], 0, 1)) . substr($relation[1], 1);
@@ -133,6 +114,9 @@ class FullCrudCode extends CrudCode
         $return = "/".str_replace($controllerName,'/'.$relatedController,$this->controller);
         return $return;
     }
+
+
+
 
 
 

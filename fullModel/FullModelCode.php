@@ -6,7 +6,6 @@ class FullModelCode extends ModelCode
 {
     public $tables;
     public $baseClass = 'CActiveRecord';
-    public $identificationColumn = null;
     public $messageCatalog = 'crud';
 
     public function init()
@@ -24,7 +23,6 @@ class FullModelCode extends ModelCode
         return array_merge(
             parent::rules(),
             array(
-                 array('identificationColumn', 'safe'),
                  array('messageCatalog', 'match', 'pattern' => '/^[a-zA-Z_][\w.]*$/',
                        'message'                            => '{attribute} should only contain word characters.'),
             ));
@@ -181,10 +179,6 @@ class FullModelCode extends ModelCode
                 else {
                     if ($column->type === 'string' && $column->size > 0) {
                         $length[$column->size][] = $column->name;
-                        if ($column->name == $this->identificationColumn) {
-                            $rules[] = "array('{$column->name}', 'unique')";
-                            $rules[] = "array('{$column->name}', 'identificationColumnValidator')";
-                        }
                     }
                     else {
                         if (!$column->isPrimaryKey && !$r) {
@@ -253,32 +247,6 @@ class FullModelCode extends ModelCode
             return parent::confirmed($file);
         }
     }
-
-    /*public function guessIdentificationColumn($columns) {
-        $found = false;
-        foreach($columns as $name => $column) {
-            if(!$found
-                    && $column->type != 'datetime'
-                    && $column->type==='string'
-                    && !$column->isPrimaryKey) {
-                return $column->name;
-                $found = true;
-            }
-        }
-
-        // nothing found yet, deliver the primary key
-        if(!$found)
-            foreach($columns as $name => $column)
-                if($column->isPrimaryKey)
-                    return $column;
-
-        // table does not seem to have a primary key.
-        // if the columns contains no column of type 'string', return the
-        // first column
-        if(!$found)
-            return reset($columns)->name;
-    }*/
-
 }
 
 ?>

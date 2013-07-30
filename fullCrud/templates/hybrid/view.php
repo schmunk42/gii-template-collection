@@ -3,7 +3,7 @@ $label = $this->pluralize($this->class2name($this->modelClass));
 
 echo "<?php\n";
 echo "\$this->breadcrumbs[Yii::t('".$this->messageCatalog."','$label')] = array('admin');\n";
-echo "\$this->breadcrumbs[] = \$model->{$this->identificationColumn};\n";
+echo "\$this->breadcrumbs[] = \$model->{$this->tableSchema->primaryKey};\n";
 echo "?>";
 ?>
 
@@ -21,8 +21,8 @@ echo "?>";
 <?php echo '<?php $this->renderPartial("_toolbar", array("model"=>$model)); ?>'; ?>
 
 <?php
-echo "    <b><?php echo CHtml::encode(\$model->getAttributeLabel('{$this->identificationColumn}')); ?>:</b>\n";
-echo "    <?php echo CHtml::link(CHtml::encode(\$model->{$this->identificationColumn}), array('view', '{$this->identificationColumn}'=>\$model->{$this->identificationColumn})); ?>\n    <br />\n\n";
+echo "    <b><?php echo CHtml::encode(\$model->getAttributeLabel('{$this->tableSchema->primaryKey}')); ?>:</b>\n";
+echo "    <?php echo CHtml::link(CHtml::encode(\$model->{$this->tableSchema->primaryKey}), array('view', '{$this->tableSchema->primaryKey}'=>\$model->{$this->tableSchema->primaryKey})); ?>\n    <br />\n\n";
 $count = 0;
 foreach ($this->tableSchema->columns as $column) {
     if ($column->isPrimaryKey)
