@@ -32,52 +32,34 @@
 
             <div class="form-horizontal">
 
-                <?php
-                foreach ($this->tableSchema->columns as $column):
+                <?php foreach ($this->tableSchema->columns as $column): ?>
 
-                    // omit pk
-                    if ($column->autoIncrement) {
-                        continue;
-                    }
-                    // omit relations, they are rendered below
-                    foreach ($this->getRelations() as $key => $relation) {
-                        if ($relation[2] == $column->name) {
-                            continue 2;
-                        }
-                    }
+                    <div class="control-group">
+                        <div class='control-label'>
+                            <?= "<?php {$this->provider()->generateActiveLabel($this->modelClass, $column)} ?>" ?>
 
-                    // render a view file if present in destination folder
-                    if ($columnView = $this->provider()->resolveColumnViewFile($column)) {
-                        echo "<?php      \$this->renderPartial('{$columnView}', array('model'=>\$model, 'form' => \$form)) ?>";
-                        continue;
-                    }
-                    // render input
-                    if (!$column->isForeignKey):
-                        ?>
-
-                        <div class="control-group">
-                            <div class='control-label'>
-                                <?= "<?php {$this->provider()->generateActiveLabel($this->modelClass, $column)} ?>" ?>
-
-                            </div>
-                            <div class='controls'>
-                                <?=
-                                "
+                        </div>
+                        <div class='controls'>
+                            <?=
+                            "
                                <?php {$this->provider()->generateActiveField($this->modelClass, $column)} ?>
                                <?php echo \$form->error(\$model,'{$column->name}') ?>
                                 "
+                            ?>
+
+                            <span class="help-block">
+                                <?=
+                                "
+                                <?php
+                                echo (\$t = Yii::t('{$this->messageCatalog}', '{$this->modelClass}.{$column->name }') != '{$this->modelClass}.{$column->name }')?\$t:''
                                 ?>
-
-                                <span class="help-block">
-                                    <?= "<?php echo (\$t = Yii::t('{$this->messageCatalog}', '{$this->modelClass}.{$column->name }') != '{$this->modelClass}.{$column->name }')?\$t:'' ?>" ?>
-
-                                </span>
-                            </div>
+                                "
+                                ?>
+                            </span>
                         </div>
-                    <?php
-                    endif;
-                endforeach;
-                ?>
+                    </div>
+
+                <?php endforeach; ?>
             </div>
         </div>
         <!-- main inputs -->
@@ -90,28 +72,19 @@
             <?
             // render relation inputs
             foreach ($this->getRelations() as $key => $relation) :
-                if ($relation[0] == 'CBelongsToRelation'
-                    || $relation[0] == 'CHasOneRelation'
-                    || $relation[0] == 'CManyManyRelation'
-                ) :
-                    if ($relationView = $this->provider()->resolveRelationViewFile($relation, $this)) {
-                        echo "      <?php \$this->renderPartial('{$relationView}', array('model'=>\$model, 'form' => \$form)) ?>\n";
-                        continue;
-                    }
-                    ?>
+                ?>
 
-                    <?=
-                    "
+                <?=
+                "
                     <h3>
                         <?php echo Yii::t('{$this->messageCatalog}', '{$key}'); ?>
                     </h3>
 
-                    <?php {$this->provider()->generateRelation($this->modelClass, $key, $relation)} ?>
-                    " // TODO "itemLabel"
-                    ?>
+                    <?php {$this->provider()->generateRelationField($this->modelClass, $key, $relation)} ?>
+                    "
+                ?>
 
-                <?
-                endif;
+            <?
             endforeach;
             ?>
 
@@ -121,10 +94,12 @@
     </div>
 
     <p class="alert">
+
         <?=
         "
-        <?php
-            echo Yii::t('{$this->messageCatalog}','Fields with <span class=\"required\">*</span> are required.');?>"; ?>
+        <?php echo Yii::t('{$this->messageCatalog}','Fields with <span class=\"required\">*</span> are required.');?>
+        ";
+        ?>
 
     </p>
 

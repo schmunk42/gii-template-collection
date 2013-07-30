@@ -15,7 +15,7 @@ $label = $this->pluralize($this->class2name($this->modelClass));
     <h1>
         <?=
         "
-        <?php echo Yii::t('{$this->messageCatalog}','{$this->class2name($this->modelClass)}');
+        <?php echo Yii::t('{$this->messageCatalog}','{$this->class2name($this->modelClass)}'); ?>
         <small>
             <?php echo Yii::t('{$this->messageCatalog}','Update')?> #<?php echo \$model->{$this->tableSchema->primaryKey} ?>
         </small>

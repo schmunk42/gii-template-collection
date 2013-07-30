@@ -29,30 +29,36 @@ class RelationProvider extends GtcCodeProvider
         return $code;
     }
 
-    public function generateRelation(
+    public function generateRelationField(
         $model,
         $relationName,
         $relationInfo,
         $captureOutput = false
     ) {
-        $relatedModel = CActiveRecord::model($relationInfo[1]);
-        if ($columns = $relatedModel->tableSchema->columns) {
 
-            $suggestedfield = $this->codeModel->provider()->suggestIdentifier($relatedModel);
-            $field          = current($columns);
-            $style          = $relationInfo[0] == 'CManyManyRelation' ? 'multiselect' : 'dropdownlist';
+        if ($relationInfo[0] == 'CBelongsToRelation'
+            || $relationInfo[0] == 'CHasOneRelation'
+            || $relationInfo[0] == 'CManyManyRelation'
+        ) {
 
-            if (is_object($field)) {
-                if ($relationInfo[0] == 'CHasOneRelation') {
-                    return "if (\$model->{$relationName} !== null) echo \$model->{$relationName}->{$suggestedfield};";
-                }
+            $relatedModel = CActiveRecord::model($relationInfo[1]);
+            if ($columns = $relatedModel->tableSchema->columns) {
 
-                // we always allow empty, so the does not accidentally select the first value
-                $allowEmpty = true;
+                $suggestedfield = $this->codeModel->provider()->suggestIdentifier($relatedModel);
+                $field          = current($columns);
+                $style          = $relationInfo[0] == 'CManyManyRelation' ? 'multiselect' : 'dropdownlist';
 
-                return ("\$this->widget(
-                    'Relation',
-                    array(
+                if (is_object($field)) {
+                    if ($relationInfo[0] == 'CHasOneRelation') {
+                        return "if (\$model->{$relationName} !== null) echo \$model->{$relationName}->{$suggestedfield};";
+                    }
+
+                    // we always allow empty, so the does not accidentally select the first value
+                    $allowEmpty = true;
+
+                    return ("\$this->widget(
+                        'Relation',
+                        array(
                             'model' => \$model,
                             'relation' => '{$relationName}',
                             'fields' => '{$suggestedfield}',
@@ -62,6 +68,7 @@ class RelationProvider extends GtcCodeProvider
                                 'checkAll' => 'all'),
                             )
                         " . ($captureOutput ? ", true" : "") . ")");
+                }
             }
         }
     }

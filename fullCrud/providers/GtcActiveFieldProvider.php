@@ -7,9 +7,35 @@
 
 class GtcActiveFieldProvider extends GtcCodeProvider
 {
-
-    static public function generateActiveField($model, $column)
+    public function generateActiveLabel($model, $column)
     {
+        // TODO -->
+        if ($column->autoIncrement) {
+            return '';
+        }
+        // omit relations, they are rendered below
+        foreach ($this->codeModel->getRelations() as $key => $relation) {
+            if ($relation[2] == $column->name) {
+                return '';
+            }
+        }
+        // TODO <--
+    }
+
+    public function generateActiveField($model, $column)
+    {
+        // TODO -->
+        if ($column->autoIncrement) {
+            return '';
+        }
+        // omit relations, they are rendered below
+        foreach ($this->codeModel->getRelations() as $key => $relation) {
+            if ($relation[2] == $column->name) {
+                return '';
+            }
+        }
+        // TODO <--
+
 
         if (strtoupper($column->dbType) == 'TEXT' && stristr($column->name, 'html')) {
             return "\$this->widget('CKEditor', array('model'=>\$model,'attribute'=>'{$column->name}','options'=>Yii::app()->params['ext.ckeditor.options']));";

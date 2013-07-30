@@ -2,6 +2,18 @@
 
 class PartialViewProvider extends GtcCodeProvider
 {
+    public function generateActiveField($model, $column) {
+        if ($view = $this->resolveColumnViewFile($column)) {
+            return "\$this->renderPartial('{$view}', array('model'=>\$model, 'form' => \$form))";
+        }
+    }
+
+    public function generateRelationField($model, $column) {
+        if ($view = $this->resolveRelationViewFile($column)) {
+            return "\$this->renderPartial('{$view}', array('model'=>\$model, 'form' => \$form))";
+        }
+    }
+
     /**
      * Returns the viewFile for the column if exists otherwise it returns null
      * @return string
