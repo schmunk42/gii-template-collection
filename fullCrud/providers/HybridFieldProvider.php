@@ -2,7 +2,7 @@
 
 class HybridFieldProvider extends GtcCodeProvider
 {
-    static public function generateActiveRow($modelClass, $column, $relation = false)
+    public function generateActiveRow($modelClass, $column, $relation = false)
     {
 
         /*
@@ -10,14 +10,13 @@ class HybridFieldProvider extends GtcCodeProvider
          * TODO: This should be moved to providers, see @link generateActiveField
          * and CrudFieldProviders from gtc together.
          */
-        $codeModel = new FullCrudCode(); // TODO
 
         if ($column->type === 'boolean') {
             return "\$form->checkBoxRow(\$model,'{$column->name}')";
         } else {
             if (stripos($column->dbType, 'text') !== false) {
 
-                switch ($codeModel->textEditor) {
+                switch ($this->codeModel->textEditor) {
                     default:
                     case "textarea":
                         return "\$form->textAreaRow(\$model,'{$column->name}',array('rows'=>6, 'cols'=>50, 'class'=>'span8'))";
