@@ -1,12 +1,11 @@
 <div class="btn-toolbar">
     <div class="btn-group">
-        <?php
-        echo '<?php  ?>';
-        echo '<?php
-            switch($this->action->id) {
-                case "create":
-                    $this->widget("bootstrap.widgets.TbButton", array(
-                        "label"=>Yii::t("' . $this->messageCatalog . '","Manage"),
+        <?=
+        '<?php
+                   switch($this->action->id) {
+                       case "create":
+                           $this->widget("bootstrap.widgets.TbButton", array(
+                               "label"=>Yii::t("' . $this->messageCatalog . '","Manage"),
                         "icon"=>"icon-list-alt",
                         "url"=>array("admin")
                     ));
@@ -69,14 +68,21 @@
         ?>';
         ?>
     </div>
-    <?php echo "<?php if(\$this->action->id == 'admin'): ?>" ?>
+    <?= "<?php if(\$this->action->id == 'admin'): ?>" ?>
     <div class="btn-group">
-        <?php echo '<?php
-    $this->widget("bootstrap.widgets.TbButton", array(
-                        "label"=>Yii::t("' . $this->messageCatalog . '","Search"),
-                        "icon"=>"icon-search",
-                        "htmlOptions"=>array("class"=>"search-button")
-                    ));?>'; ?>
+        <?=
+        '
+        <?php
+            $this->widget(
+                   "bootstrap.widgets.TbButton",
+                   array(
+                       "label"=>Yii::t("' . $this->messageCatalog . '","Search"),
+                "icon"=>"icon-search",
+                "htmlOptions"=>array("class"=>"search-button")
+               )
+           );
+        ?>
+        '; ?>
     </div>
 
     <?php
@@ -84,19 +90,22 @@
     if ($model->relations() !== array()):
         ?>
         <div class="btn-group">
-            <?php
-            echo "<?php \$this->widget('bootstrap.widgets.TbButtonGroup', array(
-        'buttons'=>array(
-                array('label'=>Yii::t('" . $this->messageCatalog . "','Relations'), 'icon'=>'icon-random', 'items'=>array(";
+            <?=
+            "<?php \$this->widget('bootstrap.widgets.TbButtonGroup', array(
+                   'buttons'=>array(
+                           array('label'=>Yii::t('" . $this->messageCatalog . "','Relations'), 'icon'=>'icon-random', 'items'=>array(";
 
             // render relation links
             foreach ($model->relations() AS $key => $relation) {
                 $replace = array(
                     'CBelongsToRelation' => 'circle-arrow-left',
-                    'CManyManyRelation'=> 'resize-horizontal',
-                    'CHasManyRelation'=> 'arrow-right',
-                    'CHasOneRelation'=> 'circle-arrow-right',);
-                echo "array('icon'=>'".strtr($relation[0], $replace)."','label'=>'".ucfirst($key)."', 'url' =>array('".$this->resolveController($relation)."/admin')),";
+                    'CManyManyRelation'  => 'resize-horizontal',
+                    'CHasManyRelation'   => 'arrow-right',
+                    'CHasOneRelation'    => 'circle-arrow-right',
+                );
+                echo "array('icon'=>'" . strtr($relation[0], $replace) . "','label'=>'" . ucfirst(
+                        $key
+                    ) . "', 'url' =>array('" . $this->resolveController($relation) . "/admin')),";
             }
 
             echo "
@@ -108,15 +117,14 @@
             ?>
         </div>
 
-        <?php endif; ?>
+    <?php endif; ?>
 
-    <?php echo "<?php endif; ?>" ?>
+    <?= "<?php endif; ?>" ?>
 </div>
 
-<?php echo "<?php if(\$this->action->id == 'admin'): ?>" ?>
+<?= "<?php if(\$this->action->id == 'admin'): ?>" ?>
 <div class="search-form" style="display:none">
-    <?php echo "<?php \$this->renderPartial('_search',array(
-    'model'=>\$model,
-)); ?>\n"; ?>
+    <?=
+    "<?php \$this->renderPartial('_search',array('model'=>\$model,)); ?>\n"; ?>
 </div>
-<?php echo "<?php endif; ?>" ?>
+<?= "<?php endif; ?>" ?>
