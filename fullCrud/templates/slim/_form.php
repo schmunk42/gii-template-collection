@@ -45,7 +45,7 @@
                     }
 
                     // render a view file if present in destination folder
-                    if ($columnView = $this->provider()->resolveColumnViewFile($column, $this)) {
+                    if ($columnView = $this->provider()->resolveColumnViewFile($column)) {
                         echo "<?php      \$this->renderPartial('{$columnView}', array('model'=>\$model, 'form' => \$form)) ?>";
                         continue;
                     }
