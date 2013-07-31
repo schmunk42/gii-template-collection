@@ -56,8 +56,9 @@
 
                             // render belongsTo relation input
                             echo "                <?php\n";
-                            echo "                \$input = ".$this->provider()->generateRelation($this->modelClass, $columnRelation["key"], $columnRelation["relation"], true, 'itemLabel').";\n"; // TODO
-                            echo "                echo \$form->customRow(\$model, '{$column->name}', \$input);\n";
+                            // TODO
+                            //echo "                \$input = ".$this->provider()->generateRelation($this->modelClass, $columnRelation["key"], $columnRelation["relation"], true, 'itemLabel').";\n"; // TODO
+                            //echo "                echo \$form->customRow(\$model, '{$column->name}', \$input);\n";
                             echo "                ?>\n";
 
                             // render create button
@@ -92,9 +93,10 @@
                             <?php
 
                             // render modal create-forms into modal_forms clip (rendered by parent view outside active form elements)
-                            echo "<?php
+                            // TODO
+                            /*echo "<?php
                             \$this->beginClip('modal:'.\$formId.'-modal');
-                            \$this->renderPartial('/{$controller}/_modal_form', array(
+                            \$this->renderPartial('{$controller}/_modal_form', array(
                                 'formId' => \$formId,
                                 'inputSelector' => '#{$this->modelClass}_{$fk}',
                                 'model' => new {$relatedModelClass},
@@ -103,7 +105,7 @@
                             ));
                             \$this->endClip();
                             ?>
-                            ";
+                            ";*/
 
                             ?>
 

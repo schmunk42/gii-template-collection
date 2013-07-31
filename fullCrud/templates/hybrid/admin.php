@@ -50,12 +50,13 @@ foreach ($this->tableSchema->columns as $column) {
     }
 
     if (strtoupper($column->dbType) == 'TEXT') {
-        echo "#";
+        #echo "#";
+        continue;
     }
     else {
         $count++;
     }
-    echo "        " . $this->provider()->generateValueField($this->modelClass, $column) . ",\n"; // TODO  "itemLabel"
+    echo "        " . $this->provider()->generateColumn($this->modelClass, $column) . ",\n"; // TODO  "itemLabel"
 }
 
 if ($count >= 8) {
@@ -68,5 +69,5 @@ if ($count >= 8) {
             'updateButtonUrl' => "Yii::app()->controller->createUrl('update', array('<?php echo $this->tableSchema->primaryKey; ?>' => \$data-><?php echo $this->tableSchema->primaryKey; ?>))",
             'deleteButtonUrl' => "Yii::app()->controller->createUrl('delete', array('<?php echo $this->tableSchema->primaryKey; ?>' => \$data-><?php echo $this->tableSchema->primaryKey; ?>))",
         ),
-    ),
+    )
 )); ?>
