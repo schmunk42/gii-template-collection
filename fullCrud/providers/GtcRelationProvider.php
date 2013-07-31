@@ -102,6 +102,8 @@ class GtcRelationProvider extends GtcCodeProvider
                         " . ($captureOutput ? ", true" : "") . ")");
                 }
             }
+        } else {
+            return "echo '<i>Switch to view mode to edit related records.</i>'";
         }
     }
 
