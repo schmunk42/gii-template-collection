@@ -8,8 +8,6 @@ class EditableColumnProvider extends GtcCodeProvider
      */
     public function generateColumn($modelClass, $column)
     {
-        $provider = $this->codeModel->provider();
-
         if ($column->isForeignKey) {
             return null; //$provider->generateValueField($modelClass, $column);
         } else {

@@ -6,12 +6,12 @@ class GtcColumnProvider extends GtcCodeProvider
      * @param CActiveRecord   $modelClass
      * @param CDbColumnSchema $column
      */
-    public function generateColumn($modelClass, $column, $view = false)
+    public function generateColumn($modelClass, $column, $view = false) // TODO: remove view?
     {
         if ($column->isForeignKey) {
 
-            $suggestIdentifier = $this->codeModel->provider()->suggestIdentifier($modelClass);
-            $model             = CActiveRecord::model($modelClass);
+            $suggestIdentifier = $this->codeModel->provider()->suggestIdentifier($this->codeModel->modelClass);
+            $model             = CActiveRecord::model($this->codeModel->modelClass);
             $table             = $model->getTableSchema();
             $fk                = $table->foreignKeys[$column->name];
 
