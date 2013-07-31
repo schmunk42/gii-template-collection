@@ -134,8 +134,8 @@ GTC is using *`<?=""?>` Bobsled Coding Style*.
 *tbd*
 
 
-Ressources
-----------
+Resources
+---------
 
 ### Links
 
