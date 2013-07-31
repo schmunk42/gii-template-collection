@@ -1,6 +1,6 @@
 <?php
 /**
- * CSaveRelationsBehavior class file.
+ * GtcSaveRelationsBehavior class file.
  * @author  Alban Jubert <alban.jubert@trinidev.fr>
  * @link    http://www.trinidev.fr/
  * @version 1.0.3
@@ -19,7 +19,7 @@
  * Usage:
  * - Add the following code to the models you wish to add this behavior to:
  * public function behaviors(){
- *         return array('CSaveRelationsBehavior' => array('class' => 'application.components.CSaveRelationsBehavior'));
+ *         return array('GtcSaveRelationsBehavior' => array('class' => 'application.components.GtcSaveRelationsBehavior'));
  * }
  * In your controler, to save the relations data, simply call
  * $model->setRelationRecords('relationName',$data);
@@ -55,7 +55,7 @@
  * Set the message to be shown in the error summary of the main model
  */
 
-class CSaveRelationsBehavior extends CActiveRecordBehavior
+class GtcSaveRelationsBehavior extends CActiveRecordBehavior
 {
 
     public $relations = array();

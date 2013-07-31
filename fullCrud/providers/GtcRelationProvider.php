@@ -57,7 +57,7 @@ class GtcRelationProvider extends GtcCodeProvider
                     $allowEmpty = true;
 
                     return ("\$this->widget(
-                        'Relation',
+                        'GtcRelation',
                         array(
                             'model' => \$model,
                             'relation' => '{$relationName}',

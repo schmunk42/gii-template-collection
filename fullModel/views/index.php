@@ -49,7 +49,7 @@ $('.form .row.model-class').toggle($('#{$class}_tableName').val().substring($('#
             To disable this behavior, choose the 'singlefile' template instead of the
             default.
         </li>
-        <li> It will include the CSaveRelationsBehavior to add additional functions for MANY_MANY relations</li>
+        <li> It will include the GtcSaveRelationsBehavior to add additional functions for MANY_MANY relations</li>
         <li> It adds the __toString() php magic function to the Base Model class</li>
         <li> All comments are removed except for the first comment describing the attributes of the model</li>
         <li> Attribute labels gets a Yii::t('app', 'label') wrapper to make easier i18n possible</li>

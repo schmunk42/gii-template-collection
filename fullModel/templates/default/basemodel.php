@@ -1,7 +1,7 @@
 <?php
 /**
  * This is the template for generating the model class of a specified table.
- * In addition to the default model Code, this adds the CSaveRelationsBehavior
+ * In addition to the default model Code, this adds the GtcSaveRelationsBehavior
  * to the model class definition.
  * - $this: the ModelCode object
  * - $tableName: the table name for this class (prefix is already removed if necessary)
@@ -107,7 +107,7 @@ abstract class <?php echo 'Base' . $modelClass; ?> extends <?php echo $this->bas
         return array_merge(
             parent::behaviors(), array(
                 'savedRelated' => array(
-                    'class' => 'gii-template-collection.components.CSaveRelationsBehavior'
+                    'class' => 'gii-template-collection.components.GtcSaveRelationsBehavior'
                 )
             )
         );
@@ -158,43 +158,6 @@ abstract class <?php echo 'Base' . $modelClass; ?> extends <?php echo $this->bas
         return new CActiveDataProvider(get_class($this), array(
             'criteria' => $criteria,
         ));
-    }
-
-    /**
-     * Returns a model used to populate a filterable, searchable
-     * and sortable CGridView with the records found by a model relation.
-     *
-     * Usage:
-     * $relatedSearchModel = $model->getRelatedSearchModel('relationName');
-     *
-     * Then, when invoking CGridView:
-     *    ...
-     *        'dataProvider' => $relatedSearchModel->search(),
-     *        'filter' => $relatedSearchModel,
-     *    ...
-     * @returns CActiveRecord
-     */
-    public function getRelatedSearchModel($name)
-    {
-
-        $md = $this->getMetaData();
-        if (!isset($md->relations[$name])) {
-            throw new CDbException(Yii::t('yii', '{class} does not have relation "{name}".', array('{class}' => get_class($this), '{name}' => $name)));
-        }
-
-        $relation = $md->relations[$name];
-        if (!($relation instanceof CHasManyRelation)) {
-            throw new CException("Currently works with HAS_MANY relations only");
-        }
-
-        $className = $relation->className;
-        $related = new $className('search');
-        $related->unsetAttributes();
-        $related->{$relation->foreignKey} = $this->primaryKey;
-        if (isset($_GET[$className])) {
-            $related->attributes = $_GET[$className];
-        }
-        return $related;
     }
 
 }

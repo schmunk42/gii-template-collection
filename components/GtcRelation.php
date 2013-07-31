@@ -110,7 +110,7 @@ $this->widget('application.components.Relation', array(
 @since 1.1
 */
 
-class Relation extends CWidget
+class GtcRelation extends CWidget
 {
     // this Variable holds an instance of the Object
     protected $_model;
@@ -203,7 +203,7 @@ class Relation extends CWidget
         if (!is_object($this->model)) {
             if (!$this->_model = new $this->model) {
                 throw new CException(
-                    Yii::t('yii', 'Relation widget is not able to instantiate the given Model'));
+                    Yii::t('yii', 'GtcRelation widget is not able to instantiate the given Model'));
             }
         } else {
             $this->_model = $this->model;
@@ -240,7 +240,7 @@ class Relation extends CWidget
 
         if (!is_object($this->_relatedModel)) {
             throw new CException(
-                Yii::t('yii', 'Relation widget cannot find the given Relation(' . $this->relation . ')'));
+                Yii::t('yii', 'GtcRelation widget cannot find the given Relation(' . $this->relation . ')'));
         }
 
         if (!isset($this->relatedPk) || $this->relatedPk == "") {

@@ -12,8 +12,8 @@ class FullModelCode extends ModelCode
     {
         parent::init();
 
-        if (!@class_exists("CSaveRelationsBehavior")) {
-            throw new CException("Fatal Error: Class 'CSaveRelationsBehavior' could not be found in your application! Add 'ext.gtc.components.*' to your import paths.");
+        if (!@class_exists("GtcSaveRelationsBehavior")) {
+            throw new CException("Fatal Error: Class 'GtcSaveRelationsBehavior' could not be found in your application! Add 'ext.gtc.components.*' to your import paths.");
         }
 
     }
@@ -99,8 +99,8 @@ class FullModelCode extends ModelCode
     {
         $behaviors = 'return array(';
         if (count($this->relations) > 0) {
-            $behaviors .= "'CSaveRelationsBehavior', array(
-                'class' => 'CSaveRelationsBehavior'),";
+            $behaviors .= "'GtcSaveRelationsBehavior', array(
+                'class' => 'GtcSaveRelationsBehavior'),";
         }
 
         foreach ($columns as $name => $column) {
