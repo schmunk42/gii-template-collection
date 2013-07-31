@@ -205,8 +205,7 @@ class Relation extends CWidget
                 throw new CException(
                     Yii::t('yii', 'Relation widget is not able to instantiate the given Model'));
             }
-        }
-        else {
+        } else {
             $this->_model = $this->model;
         }
 
@@ -249,7 +248,10 @@ class Relation extends CWidget
         }
 
         if (!isset($this->fields) || $this->fields == "" || $this->fields == array()) {
-            throw new CException(Yii::t('yii', 'Widget "Relation" has been run without fields Option(string or array)'));
+            throw new CException(Yii::t(
+                'yii',
+                'Widget "Relation" has been run without fields Option(string or array)'
+            ));
         }
     }
 
@@ -257,10 +259,9 @@ class Relation extends CWidget
     public function getModelData($model, $field)
     {
         if (strstr($field, '.')) {
-            $data = explode('.', $field);
+            $data  = explode('.', $field);
             $value = $model->getRelated($data[0])->$data[1];
-        }
-        else {
+        } else {
             $value = $model->$field;
         }
 
@@ -278,19 +279,16 @@ class Relation extends CWidget
         if (is_object($this->parentObjects)) // a single Element
         {
             $parentobjects = array($this->parentObjects);
-        }
-        else {
+        } else {
             if (is_array($this->parentObjects)) // Only show this elements
             {
                 $parentobjects = $this->parentObjects;
-            }
-            else // Show all Parent elements
+            } else // Show all Parent elements
             {
                 if ($this->criteria === false) {
                     // TODO: reimplement ORDER BY array('order'=>GHelper::guessNameColumn($this->_relatedModel->tableSchema->columns))
                     $parentobjects = CActiveRecord::model(get_class($this->_relatedModel))->findAll();
-                }
-                else {
+                } else {
                     $parentobjects = CActiveRecord::model(get_class($this->_relatedModel));
                     $parentobjects->setDbCriteria($this->criteria);
                     // TODO: reimplement ORDER BY array('order'=>GHelper::guessNameColumn($this->_relatedModel->tableSchema->columns))
@@ -302,8 +300,7 @@ class Relation extends CWidget
         if ($this->allowEmpty) {
             if (is_string($this->allowEmpty)) {
                 $dataArray[''] = $this->allowEmpty;
-            }
-            else {
+            } else {
                 $dataArray[''] = Yii::t('app', 'None');
             }
         }
@@ -314,9 +311,9 @@ class Relation extends CWidget
             }
 
             $fields = '';
-            $i = 0;
+            $i      = 0;
             foreach ($this->fields as $field) {
-                $rule = sprintf('{%s}', $field);
+                $rule         = sprintf('{%s}', $field);
                 $rules[$rule] = $this->getModelData($obj, $field);
 
                 if ($i++ > 0) {
@@ -327,7 +324,8 @@ class Relation extends CWidget
 
             $defaultrules = array(
                 '{fields}' => $fields,
-                '{id}' => $obj->{$obj->tableSchema->primaryKey});
+                '{id}'     => $obj->{$obj->tableSchema->primaryKey}
+            );
 
             // Look for user-contributed functions and evaluate them
             if ($this->functions != array()) {
@@ -340,11 +338,12 @@ class Relation extends CWidget
                     //  new way is encouraged.
                     if (is_string($key)) {
                         $funcrules[sprintf('{%s}', $key)] = $this->controller->evaluateExpression(
-                            strtr($function, $defaultrules));
-                    }
-                    else {
+                            strtr($function, $defaultrules)
+                        );
+                    } else {
                         $funcrules[sprintf('{func%d}', $key)] = $this->controller->evaluateExpression(
-                            strtr($function, $defaultrules));
+                            strtr($function, $defaultrules)
+                        );
                     }
                 }
             }
@@ -361,7 +360,10 @@ class Relation extends CWidget
             $value = strtr($this->template, $rules);
 
             // Apply the user contributed functions to $htmlOptions's template, if requested.
-            if (isset($this->htmlOptions['template']) && $this->functionsInHtmlOptionsTemplate !== false && isset($funcrules) && is_array($funcrules)) {
+            if (isset($this->htmlOptions['template']) && $this->functionsInHtmlOptionsTemplate !== false && isset($funcrules) && is_array(
+                    $funcrules
+                )
+            ) {
                 if (is_array($this->functionsInHtmlOptionsTemplate)) {
                     $funcrulesToUse = array();
                     foreach ($this->functionsInHtmlOptionsTemplate as $functionName) {
@@ -371,16 +373,14 @@ class Relation extends CWidget
                         }
                     }
                     $this->htmlOptions['template'] = strtr($this->htmlOptions['template'], $funcrulesToUse);
-                }
-                else {
+                } else {
                     $this->htmlOptions['template'] = strtr($this->htmlOptions['template'], $funcrules);
                 }
             }
 
             if ($this->groupParentsBy != '') {
                 $dataArray[$obj->{$this->groupParentsBy}][$obj->{$this->relatedPk}] = $value;
-            }
-            else {
+            } else {
                 $dataArray[$obj->{$this->relatedPk}] = $value;
             }
         }
@@ -402,20 +402,23 @@ class Relation extends CWidget
             return array();
         }
 
-        $sql = sprintf("select * from %s where %s = %s",
-                       $this->manyManyTable,
-                       $this->manyManyTableLeft,
-                       $this->_model->{$this->_model->tableSchema->primaryKey});
+        $sql = sprintf(
+            "select * from %s where %s = %s",
+            $this->manyManyTable,
+            $this->manyManyTableLeft,
+            $this->_model->{$this->_model->tableSchema->primaryKey}
+        );
 
         $result = $this->_model->getDbConnection()->createCommand($sql)->queryAll();
 
         foreach ($result as $foreignObject) {
-            $id = $foreignObject[$this->manyManyTableRight];
+            $id           = $foreignObject[$this->manyManyTableRight];
             $objects[$id] = $this->_relatedModel->findByPk($id);
         }
 
-        foreach ($this->_model->{$this->relation} as $relobj)
+        foreach ($this->_model->{$this->relation} as $relobj) {
             $objects[$relobj->{$relobj->tableSchema->primaryKey}] = $relobj;
+        }
 
         return isset($objects) ? $objects : array();
     }
@@ -445,8 +448,7 @@ class Relation extends CWidget
             foreach ($objects as $object) {
                 $attributeValues[$object->primaryKey] = $object->{$this->fields};
             }
-        }
-        else {
+        } else {
             if (is_object($objects)) {
                 $attributeValues[$object->primaryKey] = $objects->{$this->fields};
             }
@@ -461,49 +463,48 @@ class Relation extends CWidget
     public function getListBoxName($ajax = false)
     {
         if ($ajax) {
-            return sprintf('%s_%s',
-                           get_class($this->_model),
-                           get_class($this->_relatedModel)
+            return sprintf(
+                '%s_%s',
+                get_class($this->_model),
+                get_class($this->_relatedModel)
             );
-        }
-        else {
-            return sprintf('%s[%s]',
-                           get_class($this->_model),
-                           get_class($this->_relatedModel)
+        } else {
+            return sprintf(
+                '%s[%s]',
+                get_class($this->_model),
+                get_class($this->_relatedModel)
             );
         }
     }
 
     public function renderBelongsToSelection()
     {
-        CWidget::render(strtolower($this->style),
-                        array(
-                             'id' => $this->relation . '_options',
-                             'model' => $this->_model,
-                             'field' => $this->field,
-                             'data' => $this->getRelatedData(),
-                             'htmlOptions' => $this->htmlOptions));
+        CWidget::render(
+            strtolower($this->style),
+            array(
+                 'id'          => $this->relation . '_options',
+                 'model'       => $this->_model,
+                 'field'       => $this->field,
+                 'data'        => $this->getRelatedData(),
+                 'htmlOptions' => $this->htmlOptions
+            )
+        );
     }
 
     public function renderManyManySelection()
     {
         if (strcasecmp($this->style, 'twopane') == 0) {
             $this->renderTwoPaneSelection();
-        }
-        else {
+        } else {
             if (strcasecmp($this->style, 'checkbox') == 0) {
                 $this->renderCheckBoxListSelection();
-            }
-            else {
+            } else {
                 if (strcasecmp($this->style, 'dropDownList') == 0) {
                     $this->renderManyManyDropDownListSelection();
-                }
-                else {
+                } else {
                     if (strcasecmp($this->style, 'radiobutton') == 0) {
                         $this->renderManyManyRadioButtonListSelection();
-                    }
-
-                    else {
+                    } else {
                         $this->renderOnePaneSelection();
                     }
                 }
@@ -518,7 +519,8 @@ class Relation extends CWidget
             get_class($this->_model) . '[' . get_class($this->_relatedModel) . '][]',
             $this->_model{$this->relation}[0]->{$this->_model{$this->relation}[0]->tableSchema->primaryKey},
             $this->getRelatedData(),
-            $this->htmlOptions);
+            $this->htmlOptions
+        );
     }
 
     /*
@@ -532,40 +534,59 @@ class Relation extends CWidget
 
         if ($this->parentObjects != 0) {
             $relatedmodels = $this->parentObjects;
-        }
-        else {
+        } else {
             $relatedmodels = $this->_relatedModel->findAll();
         }
 
-        $addbutton = sprintf('i' . $this->num . ' = %d; maxi' . $this->num . ' = %d;',
-                             count($this->getAssignedObjects()) + 1,
-                             count($relatedmodels));
+        $addbutton = sprintf(
+            'i' . $this->num . ' = %d; maxi' . $this->num . ' = %d;',
+            count($this->getAssignedObjects()) + 1,
+            count($relatedmodels)
+        );
         Yii::app()->clientScript->registerScript(
-            'addbutton_' . $uniqueid . '_' . $this->num, $addbutton);
+            'addbutton_' . $uniqueid . '_' . $this->num,
+            $addbutton
+        );
 
         $i = 0;
         foreach ($relatedmodels as $obj) {
             $i++;
             $isAssigned = $this->isAssigned($obj->id);
 
-            echo CHtml::openTag('div', array(
-                                            'id' => sprintf('div_%s_%d', $uniqueid, $i),
-                                            'style' => $isAssigned ? '' : 'display:none;',
-                                            'class' => 'relation'
-                                       ));
-            echo CHtml::dropDownList(sprintf('%s[%d]',
-                                             $this->getListBoxName(),
-                                             $i),
-                                     $isAssigned ? $obj->id : 0,
-                                     CHtml::listData(
-                                         array_merge(
-                                             array('0' => $this->allowEmpty), $relatedmodels),
-                                         $this->relatedPk,
-                                         $this->fields)
+            echo CHtml::openTag(
+                'div',
+                array(
+                     'id'    => sprintf('div_%s_%d', $uniqueid, $i),
+                     'style' => $isAssigned ? '' : 'display:none;',
+                     'class' => 'relation'
+                )
             );
-            echo CHtml::button('-', array('id' => sprintf('sub_%s_%d',
-                                                          $uniqueid,
-                                                          $i)));
+            echo CHtml::dropDownList(
+                sprintf(
+                    '%s[%d]',
+                    $this->getListBoxName(),
+                    $i
+                ),
+                $isAssigned ? $obj->id : 0,
+                CHtml::listData(
+                    array_merge(
+                        array('0' => $this->allowEmpty),
+                        $relatedmodels
+                    ),
+                    $this->relatedPk,
+                    $this->fields
+                )
+            );
+            echo CHtml::button(
+                '-',
+                array(
+                     'id' => sprintf(
+                         'sub_%s_%d',
+                         $uniqueid,
+                         $i
+                     )
+                )
+            );
             echo CHtml::closeTag('div');
             $jsadd = '
                     $(\'#add_' . $uniqueid . '\').click(function() {
@@ -622,10 +643,12 @@ class Relation extends CWidget
 
         $id = $this->relation . '_options';
         echo CHtml::openTag('div', array('id' => $id, 'class' => 'relation'));
-        echo CHtml::CheckBoxList($this->getListBoxName(),
-                                 $keys,
-                                 $this->getRelatedData(),
-                                 $this->htmlOptions);
+        echo CHtml::CheckBoxList(
+            $this->getListBoxName(),
+            $keys,
+            $this->getRelatedData(),
+            $this->htmlOptions
+        );
         echo CHtml::closeTag('div');
     }
 
@@ -634,10 +657,12 @@ class Relation extends CWidget
     {
         $keys = array_keys($this->getAssignedObjects());
 
-        echo CHtml::ListBox($this->getListBoxName(),
-                            $keys,
-                            $this->getRelatedData(),
-                            array('multiple' => 'multiple'));
+        echo CHtml::ListBox(
+            $this->getListBoxName(),
+            $keys,
+            $this->getRelatedData(),
+            array('multiple' => 'multiple')
+        );
     }
 
     public function handleAjaxRequest($post)
@@ -647,48 +672,54 @@ class Relation extends CWidget
 
     public function renderTwoPaneSelection()
     {
-        echo CHtml::ListBox($this->getListBoxName(),
-                            array(),
-                            $this->getObjectValues($this->getAssignedObjects()),
-                            array('multiple' => 'multiple'));
-
-        $ajax =
-            array(
-                'type' => 'POST',
-                'data' => array('yeah'),
-                'update' => '#' . $this->getListBoxName(true),
-            );
-
-        echo CHtml::ajaxSubmitButton('<<',
-                                     array('assign'),
-                                     $ajax
+        echo CHtml::ListBox(
+            $this->getListBoxName(),
+            array(),
+            $this->getObjectValues($this->getAssignedObjects()),
+            array('multiple' => 'multiple')
         );
 
         $ajax =
             array(
-                'type' => 'POST',
+                'type'   => 'POST',
+                'data'   => array('yeah'),
+                'update' => '#' . $this->getListBoxName(true),
+            );
+
+        echo CHtml::ajaxSubmitButton(
+            '<<',
+            array('assign'),
+            $ajax
+        );
+
+        $ajax =
+            array(
+                'type'   => 'POST',
                 'update' => '#not_' . $this->getListBoxName(true)
             );
 
-        echo  CHtml::ajaxSubmitButton('>>',
-                                      array('assign', 'revoke' => 1),
-                                      $ajax);
+        echo CHtml::ajaxSubmitButton(
+            '>>',
+            array('assign', 'revoke' => 1),
+            $ajax
+        );
         //,
         //$data['revoke']);
 
 
-        echo CHtml::ListBox('not_' . $this->getListBoxName(),
-                            array(),
-                            $this->getObjectValues($this->getNotAssignedObjects()),
-                            array('multiple' => 'multiple'));
+        echo CHtml::ListBox(
+            'not_' . $this->getListBoxName(),
+            array(),
+            $this->getObjectValues($this->getNotAssignedObjects()),
+            array('multiple' => 'multiple')
+        );
     }
 
     public function run()
     {
         if ($this->manyManyTable != '') {
             $this->renderManyManySelection();
-        }
-        else {
+        } else {
             $this->renderBelongsToSelection();
         }
         echo CHtml::error($this->model, $this->model->getActiveRelation($this->relation)->foreignKey);
@@ -701,38 +732,45 @@ class Relation extends CWidget
         //   $this->renderAddButton();
         return;
 
-        $model = strtolower(get_class($this->_model));
+        $model        = strtolower(get_class($this->_model));
         $relatedModel = strtolower(get_class($this->_relatedModel));
-        $relations = $this->_model->relations();
+        $relations    = $this->_model->relations();
 
         #$controller = GHelper::resolveController($relations[$this->relation]);
 
         if ($this->addButtonUrl != '') {
             $link = $this->addButtonUrl;
-        }
-        else {
+        } else {
             $link = $this->controller->createUrl($controller . '/create', array('relation' => $this->relation));
         }
 
         if ($this->addButtonRefreshUrl == '') {
-            $this->addButtonRefreshUrl = $this->controller->createUrl($model . '/getOptions',
-                                                                      array(
-                                                                           'relation' => $this->relation,
-                                                                           'style' => $this->style,
-                                                                           'fields' => $this->fields));
+            $this->addButtonRefreshUrl = $this->controller->createUrl(
+                $model . '/getOptions',
+                array(
+                     'relation' => $this->relation,
+                     'style'    => $this->style,
+                     'fields'   => $this->fields
+                )
+            );
         }
 
         $string = Yii::t('app', 'Add new {model}', array('{model}' => $relatedModel));
 
         $dialog = 'zii.widgets.jui.CJuiDialog';
-        $this->beginWidget($dialog, array(
-                                         'id' => $this->relation . '_dialog',
-                                         'options' => array('autoOpen' => false,
-                                                            'modal' => true,
-                                                            'title' => $string,
-                                                            'width' => 800,
-                                                            'height' => 600)
-                                    ));
+        $this->beginWidget(
+            $dialog,
+            array(
+                 'id'      => $this->relation . '_dialog',
+                 'options' => array(
+                     'autoOpen' => false,
+                     'modal'    => true,
+                     'title'    => $string,
+                     'width'    => 800,
+                     'height'   => 600
+                 )
+            )
+        );
         $this->endWidget($dialog);
 
         echo CHtml::AjaxButton(
@@ -742,28 +780,33 @@ class Relation extends CWidget
                  'success' => "function(html) {
                                 jQuery('#" . $this->relation . "_dialog').html(html);
                                 $('#" . $this->relation . "_dialog').dialog('open');
-                            }"),
+                            }"
+            ),
             array('id' => $this->relation . '_create')
         );
 
         // prepare the Submit button that is not loaded into the DOM yet
-        Yii::app()->clientScript->registerScript($this->relation . '_submit',
-                                                 "jQuery('body').delegate('#submit_" . $this->relation . "','click',function(){
+        Yii::app()->clientScript->registerScript(
+            $this->relation . '_submit',
+            "jQuery('body').delegate('#submit_" . $this->relation . "','click',function(){
                 jQuery.ajax({'url':'" . $link . "',
                         'cache':false,
                         'type':'POST',
                         'data':jQuery(this).parents('form').serialize(),
                         'success':function(html){
                         jQuery('#" . $this->relation . "_dialog').html(html)}});
-            return false;});");
+            return false;});"
+        );
 
-        Yii::app()->clientScript->registerScript($this->relation . '_done',
-                                                 "jQuery('body').delegate('#" . $this->relation . "_done','click',function(){
+        Yii::app()->clientScript->registerScript(
+            $this->relation . '_done',
+            "jQuery('body').delegate('#" . $this->relation . "_done','click',function(){
                     jQuery.ajax({'url':'" . $this->addButtonRefreshUrl . "',
                             'cache':false,
                             'success':function(html){
                             jQuery('#" . $this->relation . "_options').html(html)}});
                         $('#" . $this->relation . "_dialog').dialog('close');
-                return false;});");
+                return false;});"
+        );
     }
 }

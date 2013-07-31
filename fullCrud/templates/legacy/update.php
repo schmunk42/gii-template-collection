@@ -16,7 +16,12 @@ array('label'=>Yii::t('app', 'Manage') , 'url'=>array('admin')),
 
 <?php
 $pk = "\$model->" . $this->tableSchema->primaryKey;
-printf('<h1> %s %s #%s </h1>', '<?php echo Yii::t(\'app\', \'Update\');?>', '<?php echo Yii::t(\'app\', \'' . $this->modelClass . '\');?>', '<?php echo ' . $pk . '; ?>');
+printf(
+    '<h1> %s %s #%s </h1>',
+    '<?php echo Yii::t(\'app\', \'Update\');?>',
+    '<?php echo Yii::t(\'app\', \'' . $this->modelClass . '\');?>',
+    '<?php echo ' . $pk . '; ?>'
+);
 ?>
 
 <?php echo "<?php\n"; ?>

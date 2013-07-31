@@ -2,10 +2,10 @@
 
 /**
  * Class to handle the method calls
- *
  * Class GtcProvider
  */
-class GtcCodeProviderQueue {
+class GtcCodeProviderQueue
+{
 
     public $providers = array();
     public $codeModel;
@@ -17,9 +17,9 @@ class GtcCodeProviderQueue {
             $class = Yii::import($provider);
             if (method_exists($class, $name)) {
                 //echo $class."----------->";
-                $obj = new $class;
+                $obj            = new $class;
                 $obj->codeModel = $this->codeModel;
-                $c = call_user_func_array(array(&$obj, $name), $args);
+                $c              = call_user_func_array(array(&$obj, $name), $args);
                 // until a provider returns not null
                 if ($c !== null) {
                     return $c;

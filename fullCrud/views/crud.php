@@ -77,10 +77,10 @@
         $model,
         'validation',
         array(
-            3 => 'Enable Ajax and Client-side Validation',
-            2 => 'Enable Client Validation',
-            1 => 'Enable Ajax Validation',
-            0 => 'Disable ajax Validation'
+             3 => 'Enable Ajax and Client-side Validation',
+             2 => 'Enable Client Validation',
+             1 => 'Enable Ajax Validation',
+             0 => 'Disable ajax Validation'
         )
     );
     ?>
@@ -115,61 +115,63 @@
 
 <fieldset>
 
-<div class="row">
-    <?php
-    echo $form->labelEx($model, 'authTemplateHybrid');
-    echo $form->dropDownList($model, 'authTemplateHybrid', $this->getAuthTemplates('hybrid'));
-    ?>
-    <div class="tooltip">
-        The Authentication method to be used in the Controller. Yii access Control is the
-        default accessControl of Yii using the Controller accessRules() method. No access
-        Control provides no Access control.
+    <div class="row">
+        <?php
+        echo $form->labelEx($model, 'authTemplateHybrid');
+        echo $form->dropDownList($model, 'authTemplateHybrid', $this->getAuthTemplates('hybrid'));
+        ?>
+        <div class="tooltip">
+            The Authentication method to be used in the Controller. Yii access Control is the
+            default accessControl of Yii using the Controller accessRules() method. No access
+            Control provides no Access control.
+        </div>
+        <?php echo $form->error($model, 'authTemplateHybrid'); ?>
     </div>
-    <?php echo $form->error($model, 'authTemplateHybrid'); ?>
-</div>
 
-<div class="row">
-    <?php echo $form->labelEx($model, 'formOrientation'); ?>
-    <?php
-    echo $form->dropDownList(
-        $model,
-        'formOrientation',
-        array(
-            'horizontal' => 'Horizontal',
-            'vertical'   => 'Vertical',
-        )
-    );
-    ?>
-    <div class="tooltip">
-        Valid for "Hybrid" template only. Determines the "type" attribute for the update forms. See <?php CHtml::link(
-            'http://yiibooster.clevertech.biz/components.html#forms'
-        ); ?> for an example.
+    <div class="row">
+        <?php echo $form->labelEx($model, 'formOrientation'); ?>
+        <?php
+        echo $form->dropDownList(
+            $model,
+            'formOrientation',
+            array(
+                 'horizontal' => 'Horizontal',
+                 'vertical'   => 'Vertical',
+            )
+        );
+        ?>
+        <div class="tooltip">
+            Valid for "Hybrid" template only. Determines the "type" attribute for the update forms.
+            See <?php CHtml::link(
+                'http://yiibooster.clevertech.biz/components.html#forms'
+            ); ?> for an example.
+        </div>
+        <?php echo $form->error($model, 'formOrientation'); ?>
     </div>
-    <?php echo $form->error($model, 'formOrientation'); ?>
-</div>
 
-<div class="row">
-    <?php echo $form->labelEx($model, 'textEditor'); ?>
-    <?php
-    echo $form->dropDownList(
-        $model,
-        'textEditor',
-        array(
-            'textarea'       => 'Plain Text Area',
-            'redactor'       => 'Redactor WYSIWYG',
-            'html5Editor'    => 'Bootstrap WYSIHTML5',
-            'ckEditor'       => 'CKEditor WYSIWYG',
-            'markdownEditor' => 'Markdown Editor',
-        )
-    );
-    ?>
-    <div class="tooltip">
-        Valid for "Hybrid" template only. Determines the type of field used for TEXT-type fields. See <?php CHtml::link(
-            'http://yiibooster.clevertech.biz/components.html#forms'
-        ); ?> for a demo of the different editors.
+    <div class="row">
+        <?php echo $form->labelEx($model, 'textEditor'); ?>
+        <?php
+        echo $form->dropDownList(
+            $model,
+            'textEditor',
+            array(
+                 'textarea'       => 'Plain Text Area',
+                 'redactor'       => 'Redactor WYSIWYG',
+                 'html5Editor'    => 'Bootstrap WYSIHTML5',
+                 'ckEditor'       => 'CKEditor WYSIWYG',
+                 'markdownEditor' => 'Markdown Editor',
+            )
+        );
+        ?>
+        <div class="tooltip">
+            Valid for "Hybrid" template only. Determines the type of field used for TEXT-type fields.
+            See <?php CHtml::link(
+                'http://yiibooster.clevertech.biz/components.html#forms'
+            ); ?> for a demo of the different editors.
+        </div>
+        <?php echo $form->error($model, 'textEditor'); ?>
     </div>
-    <?php echo $form->error($model, 'textEditor'); ?>
-</div>
 
 </fieldset>
 
@@ -177,18 +179,18 @@
 
 <fieldset>
 
-<div class="row">
-    <?php
-    echo $form->labelEx($model, 'authTemplate');
-    echo $form->dropDownList($model, 'authTemplate', $this->getAuthTemplates('legacy'));
-    ?>
-    <div class="tooltip">
-        The Authentication method to be used in the Controller. Yii access Control is the
-        default accessControl of Yii using the Controller accessRules() method. No access
-        Control provides no Access control.
+    <div class="row">
+        <?php
+        echo $form->labelEx($model, 'authTemplate');
+        echo $form->dropDownList($model, 'authTemplate', $this->getAuthTemplates('legacy'));
+        ?>
+        <div class="tooltip">
+            The Authentication method to be used in the Controller. Yii access Control is the
+            default accessControl of Yii using the Controller accessRules() method. No access
+            Control provides no Access control.
+        </div>
+        <?php echo $form->error($model, 'authTemplate'); ?>
     </div>
-    <?php echo $form->error($model, 'authTemplate'); ?>
-</div>
 
 </fieldset>
 

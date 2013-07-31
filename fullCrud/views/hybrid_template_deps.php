@@ -1,6 +1,8 @@
 <div class="info" style="border: 1px solid;padding: 5px; margin:5px;">
     <h2> Dependencies </h2>
-    <p>The generated code depends on third party libraries. Ensure that you have the following in your composer.json: </p>
+
+    <p>The generated code depends on third party libraries. Ensure that you have the following in your
+        composer.json: </p>
 
     <pre>
     "repositories":[
@@ -31,6 +33,6 @@
     },
     </pre>
 
-    <br />
+    <br/>
 
 </div>

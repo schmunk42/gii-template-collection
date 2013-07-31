@@ -31,12 +31,12 @@ foreach ($this->tableSchema->columns as $column) {
         foreach ($this->relations as $key => $relation) {
             if ((($relation[0] == "CHasOneRelation") || ($relation[0] == "CBelongsToRelation")) && $relation[2] == $column->name) {
                 $relatedModel = CActiveRecord::model($relation[1]);
-                $columns = $relatedModel->tableSchema->columns;
+                $columns      = $relatedModel->tableSchema->columns;
 
                 $suggestedfield = FullCrudHelper::suggestIdentifier($relatedModel);
 
                 $controller = $this->resolveController($relation);
-                $value = "(\$model->{$key} !== null)?";
+                $value      = "(\$model->{$key} !== null)?";
                 $value .= "CHtml::link(\$model->{$key}->{$suggestedfield}, array('{$controller}/view','{$relatedModel->tableSchema->primaryKey}'=>\$model->{$key}->{$relatedModel->tableSchema->primaryKey})).' '.";
                 $value .= "CHtml::link(Yii::t('app','Update'), array('{$controller}/update','{$relatedModel->tableSchema->primaryKey}'=>\$model->{$key}->{$relatedModel->tableSchema->primaryKey}), array('class'=>'edit'))";
                 $value .= ":'n/a'";
@@ -46,20 +46,26 @@ foreach ($this->tableSchema->columns as $column) {
             }
         }
         echo "        ),\n";
-    } else if (stristr($column->name, 'url')) {
-        // TODO - experimental - move to provider class
-        echo "array(";
-        echo "            'name'=>'{$column->name}',\n";
-        echo "            'type'=>'link',\n";
-        echo "),\n";
-    } else if ($column->name == 'createtime'
-        or $column->name == 'updatetime'
-        or $column->name == 'timestamp') {
-        echo "array(
+    } else {
+        if (stristr($column->name, 'url')) {
+            // TODO - experimental - move to provider class
+            echo "array(";
+            echo "            'name'=>'{$column->name}',\n";
+            echo "            'type'=>'link',\n";
+            echo "),\n";
+        } else {
+            if ($column->name == 'createtime'
+                or $column->name == 'updatetime'
+                or $column->name == 'timestamp'
+            ) {
+                echo "array(
                     'name'=>'{$column->name}',
                     'value' =>\$locale->getDateFormatter()->formatDateTime(\$model->{$column->name}, 'medium', 'medium')),\n";
-    } else
-        echo "        '" . $column->name . "',\n";
+            } else {
+                echo "        '" . $column->name . "',\n";
+            }
+        }
+    }
 }
 ?>
 ),
@@ -69,14 +75,15 @@ foreach ($this->tableSchema->columns as $column) {
 <?php
 foreach (CActiveRecord::model(Yii::import($this->model))->relations() as $key => $relation) {
 
-    $controller = $this->resolveController($relation);
-    $relatedModel = CActiveRecord::model($relation[1]);
-    $pk = $relatedModel->tableSchema->primaryKey;
+    $controller     = $this->resolveController($relation);
+    $relatedModel   = CActiveRecord::model($relation[1]);
+    $pk             = $relatedModel->tableSchema->primaryKey;
     $suggestedfield = FullCrudHelper::suggestIdentifier($relatedModel);
 
     // TODO: currently composite PKs are omitted
-    if (is_array($pk))
+    if (is_array($pk)) {
         continue;
+    }
 
     if (($relation[0] == 'CManyManyRelation' || $relation[0] == 'CHasManyRelation')) {
         #$model = CActiveRecord::model($relation[1]);
@@ -103,10 +110,11 @@ foreach (CActiveRecord::model(Yii::import($this->model))->relations() as $key =>
     }
     if ($relation[0] == 'CHasOneRelation') {
         $relatedModel = CActiveRecord::model($relation[1]);
-        if (!$pk = $relatedModel->tableSchema->primaryKey)
+        if (!$pk = $relatedModel->tableSchema->primaryKey) {
             $pk = 'id';
+        }
 
-#$suggestedtitle = FullCrudHelper::suggestIdentifier($model->tableSchema->columns);
+        #$suggestedtitle = FullCrudHelper::suggestIdentifier($model->tableSchema->columns);
         echo '<h2>';
         echo "<?php echo CHtml::link(Yii::t('app','" . $relation[1] . "'), array('" . $controller . "/admin'));?>";
         echo "</h2>\n";

@@ -1,6 +1,7 @@
 <div class="form">
     <p class="note">
-        <?php echo "<?php echo Yii::t('app','Fields with');?> <span class=\"required\">*</span> <?php echo Yii::t('app','are required');?>"; ?>.
+        <?php echo "<?php echo Yii::t('app','Fields with');?> <span class=\"required\">*</span> <?php echo Yii::t('app','are required');?>"; ?>
+        .
     </p>
 
     <?php echo '<?php'; ?>
@@ -16,13 +17,15 @@
 
     <?php
     foreach ($this->tableSchema->columns as $column) {
-        if ($column->isPrimaryKey)
+        if ($column->isPrimaryKey) {
             continue;
+        }
 
         // omit relations, they are rendered below
         foreach ($this->getRelations() as $key => $relation) {
-            if ($relation[2] == $column->name)
+            if ($relation[2] == $column->name) {
                 continue 2;
+            }
         }
 
 
@@ -31,7 +34,8 @@
             && $column->name != 'update_time'
             && $column->name != 'createtime'
             && $column->name != 'updatetime'
-            && $column->name != 'timestamp') {
+            && $column->name != 'timestamp'
+        ) {
             echo "<div class=\"row\">\n";
             echo "<?php " . $this->provider()->generateActiveLabel($this->modelClass, $column) . "; ?>\n";
             echo "<?php " . $this->provider()->generateActiveField($this->modelClass, $column) . "; ?>\n";
@@ -48,7 +52,8 @@
     foreach ($this->getRelations() as $key => $relation) {
         if ($relation[0] == 'CBelongsToRelation'
             || $relation[0] == 'CHasOneRelation'
-            || $relation[0] == 'CManyManyRelation') {
+            || $relation[0] == 'CManyManyRelation'
+        ) {
             echo "<div class=\"row\">\n";
             /* printf("<label for=\"%s\"><?php echo Yii::t('app', 'Belonging').' '.Yii::t('app', '%s'); ?></label>\n", $relation[1], $relation[1]);
              */

@@ -18,7 +18,8 @@
             <?php if (!$column->isForeignKey): ?>
                 <?= "<?php " . $this->provider()->generateActiveField($this->modelClass, $column) . "; ?>\n"; ?>
             <?php else: ?>
-                <?= "<?php " . $this->provider()->generateValueField(
+                <?=
+                "<?php " . $this->provider()->generateValueField(
                     $this->modelClass,
                     $column,
                     'search'

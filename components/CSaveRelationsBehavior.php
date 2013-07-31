@@ -1,9 +1,8 @@
 <?php
 /**
  * CSaveRelationsBehavior class file.
- *
- * @author Alban Jubert <alban.jubert@trinidev.fr>
- * @link http://www.trinidev.fr/
+ * @author  Alban Jubert <alban.jubert@trinidev.fr>
+ * @link    http://www.trinidev.fr/
  * @version 1.0.3
  */
 
@@ -56,348 +55,401 @@
  * Set the message to be shown in the error summary of the main model
  */
 
-class CSaveRelationsBehavior extends CActiveRecordBehavior {
-    
+class CSaveRelationsBehavior extends CActiveRecordBehavior
+{
+
     public $relations = array();
     public $transactional = true;
     public $hasError = false;
     public $deleteRelatedRecords = true;
     private $transaction;
-    
-    private function initSaveRelation($relation){
+
+    private function initSaveRelation($relation)
+    {
         $model = $this->owner;
-        if(!array_key_exists($relation,$model->relations())) 
-            throw new CDbException('CSaveRelatedBehavior could not find the "'.$relation.'" relation in the model.');
-        if(!array_key_exists($relation,$this->relations)) {
-            Yii::trace("Init {$relation} relation",'application.components.CSaveRelatedBehavior');
-            $this->relations[$relation]=array();
+        if (!array_key_exists($relation, $model->relations())) {
+            throw new CDbException('CSaveRelatedBehavior could not find the "' . $relation . '" relation in the model.');
+        }
+        if (!array_key_exists($relation, $this->relations)) {
+            Yii::trace("Init {$relation} relation", 'application.components.CSaveRelatedBehavior');
+            $this->relations[$relation] = array();
         }
     }
-    
-    public function setRelationRecords($relation,$data=null,$merge=false) {
+
+    public function setRelationRecords($relation, $data = null, $merge = false)
+    {
         // TODO - Make fewer SQL requests to validate and load related models data
         $this->addSaveRelation($relation);
-        $model = $this->owner;
+        $model          = $this->owner;
         $activeRelation = $model->getActiveRelation($relation);
-        if($activeRelation instanceOf CHasManyRelation || $activeRelation instanceOf CManyManyRelation) {
-            if(!$merge) $model->{$relation} = array();
-            $relationClassName = $activeRelation->className;
+        if ($activeRelation instanceOf CHasManyRelation || $activeRelation instanceOf CManyManyRelation) {
+            if (!$merge) {
+                $model->{$relation} = array();
+            }
+            $relationClassName  = $activeRelation->className;
             $relationForeignKey = $activeRelation->foreignKey;
-            $criteria = array();
-            if($activeRelation instanceOf CManyManyRelation) {
+            $criteria           = array();
+            if ($activeRelation instanceOf CManyManyRelation) {
                 $schema = $model->getCommandBuilder()->getSchema();
-                preg_match('/^\s*(.*?)\((.*)\)\s*$/',$relationForeignKey,$matches);
-                $joinTable=$schema->getTable($matches[1]);
-                $fks=preg_split('/[\s,]+/',$matches[2],-1,PREG_SPLIT_NO_EMPTY);
-                $relModel = new $relationClassName;
-                $pks = array();
-                $fkDefined=true;
-                foreach($fks as $i=>$fk) {
-                    if(isset($joinTable->foreignKeys[$fk])) {
-                        list($tableName,$pk)=$joinTable->foreignKeys[$fk];
-                        if($schema->compareTableNames($relModel->tableSchema->rawName,$tableName)) {
+                preg_match('/^\s*(.*?)\((.*)\)\s*$/', $relationForeignKey, $matches);
+                $joinTable = $schema->getTable($matches[1]);
+                $fks       = preg_split('/[\s,]+/', $matches[2], -1, PREG_SPLIT_NO_EMPTY);
+                $relModel  = new $relationClassName;
+                $pks       = array();
+                $fkDefined = true;
+                foreach ($fks as $i => $fk) {
+                    if (isset($joinTable->foreignKeys[$fk])) {
+                        list($tableName, $pk) = $joinTable->foreignKeys[$fk];
+                        if ($schema->compareTableNames($relModel->tableSchema->rawName, $tableName)) {
                             $pks[] = $pk;
                         }
-                    }
-                    else {
-                        $fkDefined=false;
+                    } else {
+                        $fkDefined = false;
                         break;
                     }
                 }
-                if(!$fkDefined) {
+                if (!$fkDefined) {
                     $pks = array();
-                    foreach($fks as $i=>$fk)
-                    {
-                        if($i<count($model->tableSchema->primaryKey))
-                        {
-                            $pks[] = is_array($model->tableSchema->primaryKey) ? $model->tableSchema->primaryKey[$i] : $model->tableSchema->primaryKey;
+                    foreach ($fks as $i => $fk) {
+                        if ($i < count($model->tableSchema->primaryKey)) {
+                            $pks[] = is_array($model->tableSchema->primaryKey) ? $model->tableSchema->primaryKey[$i] :
+                                $model->tableSchema->primaryKey;
                         }
                     }
                 }
-                if(!is_null($data)) {
-                    foreach($data as $key=>$value) {
-                        $relobj = null;
+                if (!is_null($data)) {
+                    foreach ($data as $key => $value) {
+                        $relobj   = null;
                         $relModel = new $relationClassName;
-                        if(is_array($value)) {
-                            foreach($pks as $pk) {
+                        if (is_array($value)) {
+                            foreach ($pks as $pk) {
                                 $criteria[$pk] = $value[$pk];
                             }
-                        }
-                        else {
+                        } else {
                             $criteria[$pks[0]] = $value;
                         }
                         $relobj = $relModel->findByAttributes($criteria);
-                        if(!($relobj instanceof $relationClassName)) $relobj = new $relationClassName;
+                        if (!($relobj instanceof $relationClassName)) {
+                            $relobj = new $relationClassName;
+                        }
                         $relobj->attributes = $value;
-                        $model->addRelatedRecord($relation,$relobj,$key);
+                        $model->addRelatedRecord($relation, $relobj, $key);
                     }
                 }
-            }
-            else {
-                $fks=preg_split('/[\s,]+/',$relationForeignKey,-1,PREG_SPLIT_NO_EMPTY);
-                if(!is_null($data)) {
-                    foreach($data as $key=>$value) {
+            } else {
+                $fks = preg_split('/[\s,]+/', $relationForeignKey, -1, PREG_SPLIT_NO_EMPTY);
+                if (!is_null($data)) {
+                    foreach ($data as $key => $value) {
                         $relobj = null;
-                        if(!$model->isNewRecord) {
-                            $criteria = array();
-                            $relModel = new $relationClassName;
+                        if (!$model->isNewRecord) {
+                            $criteria            = array();
+                            $relModel            = new $relationClassName;
                             $relationPrimaryKeys = $relModel->tableSchema->primaryKey;
-                            if(is_array($value)) {
-                                if(is_array($relationPrimaryKeys)) {
-                                    foreach($relationPrimaryKeys as $relationPrimaryKey){
-                                        if(!in_array($relationPrimaryKey,$fks)) {
-                                            if(isset($value[$relationPrimaryKey])) $criteria[$relationPrimaryKey] = $value[$relationPrimaryKey];
-                                        }
-                                        else {
+                            if (is_array($value)) {
+                                if (is_array($relationPrimaryKeys)) {
+                                    foreach ($relationPrimaryKeys as $relationPrimaryKey) {
+                                        if (!in_array($relationPrimaryKey, $fks)) {
+                                            if (isset($value[$relationPrimaryKey])) {
+                                                $criteria[$relationPrimaryKey] = $value[$relationPrimaryKey];
+                                            }
+                                        } else {
                                             $criteria[$relationPrimaryKey] = $model->primaryKey;
                                         }
                                     }
-                                }
-                                else{
-                                    if(!in_array($relationPrimaryKeys,$fks)) {
-                                        if(isset($value[$relationPrimaryKeys])) $criteria[$relationPrimaryKeys] = $value[$relationPrimaryKeys];
-                                    }
-                                    else {
+                                } else {
+                                    if (!in_array($relationPrimaryKeys, $fks)) {
+                                        if (isset($value[$relationPrimaryKeys])) {
+                                            $criteria[$relationPrimaryKeys] = $value[$relationPrimaryKeys];
+                                        }
+                                    } else {
                                         $criteria[$relationPrimaryKeys] = $model->primaryKey;
                                     }
                                 }
+                            } else {
+                                $criteria = array($relationPrimaryKeys => $value);
                             }
-                            else {
-                                $criteria = array($relationPrimaryKeys=>$value);
+                            if (count($criteria)) {
+                                $relobj = $relModel->findByAttributes($criteria);
                             }
-                            if(count($criteria)) $relobj = $relModel->findByAttributes($criteria);
                         }
-                        if(!($relobj instanceof $relationClassName)) $relobj = new $relationClassName;
-                        foreach($value as $prop=>$val) $relobj->{$prop} = $val;
-                        $model->addRelatedRecord($relation,$relobj,$key);
+                        if (!($relobj instanceof $relationClassName)) {
+                            $relobj = new $relationClassName;
+                        }
+                        foreach ($value as $prop => $val) {
+                            $relobj->{$prop} = $val;
+                        }
+                        $model->addRelatedRecord($relation, $relobj, $key);
                     }
                 }
             }
         }
     }
-    
-    public function addSaveRelation($relation,$message=null){
+
+    public function addSaveRelation($relation, $message = null)
+    {
         $this->initSaveRelation($relation);
-        $this->relations[$relation] = CMap::mergeArray($this->relations[$relation],array('save'=>true));
-        if(!is_null($message)) $this->setSaveRelationMessage($relation,$message);
-    }
-    
-    public function removeSaveRelation($relation){
-        $model = $this->owner;
-        if(!array_key_exists($relation,$model->relations())) 
-            throw new CDbException('CSaveRelatedBehavior could not find the "'.$relation.'" relation in the model.');
-        if(array_key_exists($relation,$this->relations)) {
-            Yii::trace("Removing {$relation} relation to save",'application.components.CSaveRelatedBehavior');
-            $this->relations[$relation] = CMap::mergeArray($this->relations[$relation],array('save'=>false));
+        $this->relations[$relation] = CMap::mergeArray($this->relations[$relation], array('save' => true));
+        if (!is_null($message)) {
+            $this->setSaveRelationMessage($relation, $message);
         }
     }
-    
-    public function setRelationScenario($relation,$scenario){
-        $this->initSaveRelation($relation);
-        $this->relations[$relation] = CMap::mergeArray($this->relations[$relation],array('scenario'=>$scenario));    
-    }
-    
-    public function setSaveRelationMessage($relation,$message) {
-        $this->initSaveRelation($relation);
-        $this->relations[$relation] = CMap::mergeArray($this->relations[$relation],array('message'=>$message));
-    }
-    
-    public function beforeValidate($event) {
+
+    public function removeSaveRelation($relation)
+    {
         $model = $this->owner;
-        foreach($this->relations as $relation=>$params) {
-            if(isset($params['save']) && $params['save']==true) {
+        if (!array_key_exists($relation, $model->relations())) {
+            throw new CDbException('CSaveRelatedBehavior could not find the "' . $relation . '" relation in the model.');
+        }
+        if (array_key_exists($relation, $this->relations)) {
+            Yii::trace("Removing {$relation} relation to save", 'application.components.CSaveRelatedBehavior');
+            $this->relations[$relation] = CMap::mergeArray($this->relations[$relation], array('save' => false));
+        }
+    }
+
+    public function setRelationScenario($relation, $scenario)
+    {
+        $this->initSaveRelation($relation);
+        $this->relations[$relation] = CMap::mergeArray($this->relations[$relation], array('scenario' => $scenario));
+    }
+
+    public function setSaveRelationMessage($relation, $message)
+    {
+        $this->initSaveRelation($relation);
+        $this->relations[$relation] = CMap::mergeArray($this->relations[$relation], array('message' => $message));
+    }
+
+    public function beforeValidate($event)
+    {
+        $model = $this->owner;
+        foreach ($this->relations as $relation => $params) {
+            if (isset($params['save']) && $params['save'] == true) {
                 $activeRelation = $model->getActiveRelation($relation);
-                $validRelation = true;
-                if(!$activeRelation instanceOf CManyManyRelation) {
-                    foreach($model->{$relation} as $relatedRecord) {
-                        if(isset($params['scenario'])) $relatedRecord->scenario = $params['scenario'];
+                $validRelation  = true;
+                if (!$activeRelation instanceOf CManyManyRelation) {
+                    foreach ($model->{$relation} as $relatedRecord) {
+                        if (isset($params['scenario'])) {
+                            $relatedRecord->scenario = $params['scenario'];
+                        }
                         $validRelation = $validRelation && $relatedRecord->validate();
                     }
-                    if(!$validRelation) 
-                        $model->addError($relation,isset($params['message']) ? $params['message'] : "An error occured during the save of {$relation}");                
+                    if (!$validRelation) {
+                        $model->addError(
+                            $relation,
+                            isset($params['message']) ? $params['message'] : "An error occured during the save of {$relation}"
+                        );
+                    }
                 }
                 $this->relations[$relation]['valid'] = $validRelation;
             }
         }
     }
-    
-    public function beforeSave($event) {
+
+    public function beforeSave($event)
+    {
         $model = $this->owner;
-        $valid =  true;
-        foreach($this->relations as $relation=>$params) {
-            if(isset($params['save']) && $params['save']==true) {
+        $valid = true;
+        foreach ($this->relations as $relation => $params) {
+            if (isset($params['save']) && $params['save'] == true) {
                 $valid = $valid && $this->relations[$relation]['valid'];
             }
         }
-        if($valid && $this->transactional && !$model->dbConnection->currentTransaction) {
-            Yii::trace("beforeSave start transaction",'application.components.CSaveRelatedBehavior');
-            $this->transaction=$model->dbConnection->beginTransaction();
+        if ($valid && $this->transactional && !$model->dbConnection->currentTransaction) {
+            Yii::trace("beforeSave start transaction", 'application.components.CSaveRelatedBehavior');
+            $this->transaction = $model->dbConnection->beginTransaction();
         }
         $event->isValid = $valid;
     }
-    
-    public function afterSave($event) {
+
+    public function afterSave($event)
+    {
         $model = $this->owner;
-        try{
-            foreach($this->relations as $relation=>$params) {
-                if(isset($params['save']) && $params['save']==true) {
-                    Yii::trace("saving {$relation} related records.",'application.components.CSaveRelatedBehavior');
-                    $activeRelation = $model->getActiveRelation($relation);
-                    $relationClassName = $activeRelation->className;
+        try {
+            foreach ($this->relations as $relation => $params) {
+                if (isset($params['save']) && $params['save'] == true) {
+                    Yii::trace("saving {$relation} related records.", 'application.components.CSaveRelatedBehavior');
+                    $activeRelation     = $model->getActiveRelation($relation);
+                    $relationClassName  = $activeRelation->className;
                     $relationForeignKey = $activeRelation->foreignKey;
-                    $keysToKeep = array();
-                    if($activeRelation instanceOf CManyManyRelation) {
+                    $keysToKeep         = array();
+                    if ($activeRelation instanceOf CManyManyRelation) {
                         // ManyMany relation : save relation to the many to many relation table
                         $schema = $model->getCommandBuilder()->getSchema();
-                        preg_match('/^\s*(.*?)\((.*)\)\s*$/',$relationForeignKey,$matches);
-                        $joinTable=$schema->getTable($matches[1]);
-                        $fks=preg_split('/[\s,]+/',$matches[2],-1,PREG_SPLIT_NO_EMPTY);
+                        preg_match('/^\s*(.*?)\((.*)\)\s*$/', $relationForeignKey, $matches);
+                        $joinTable     = $schema->getTable($matches[1]);
+                        $fks           = preg_split('/[\s,]+/', $matches[2], -1, PREG_SPLIT_NO_EMPTY);
                         $fksFieldNames = array();
                         $fksParamNames = array();
-                        foreach($fks as $fk) {
+                        foreach ($fks as $fk) {
                             $fksFieldNames[] = $schema->quoteColumnName($fk);
-                            $fksParamNames[] = ':'.$fk;
+                            $fksParamNames[] = ':' . $fk;
                         }
-                        $sql="INSERT IGNORE INTO ".$joinTable->rawName." (".implode(', ',$fksFieldNames).") VALUES(".implode(', ',$fksParamNames).")";
-                        $baseParams = array();
+                        $sql                   = "INSERT IGNORE INTO " . $joinTable->rawName . " (" . implode(
+                                ', ',
+                                $fksFieldNames
+                            ) . ") VALUES(" . implode(', ', $fksParamNames) . ")";
+                        $baseParams            = array();
                         $baseCriteriaCondition = array();
                         reset($fks);
-                        foreach($fks as $i=>$fk) {
-                            if(isset($joinTable->foreignKeys[$fk])) {
-                                list($tableName,$pk)=$joinTable->foreignKeys[$fk];
-                                if($schema->compareTableNames($model->tableSchema->rawName,$tableName)) {
-                                    $baseCriteriaCondition[$fk] = $baseParams[':'.$fk] = $model->{$pk};
+                        foreach ($fks as $i => $fk) {
+                            if (isset($joinTable->foreignKeys[$fk])) {
+                                list($tableName, $pk) = $joinTable->foreignKeys[$fk];
+                                if ($schema->compareTableNames($model->tableSchema->rawName, $tableName)) {
+                                    $baseCriteriaCondition[$fk] = $baseParams[':' . $fk] = $model->{$pk};
                                 }
                             }
                         }
                         $relModel = new $relationClassName;
-                        foreach($model->{$relation} as $idx=>$relatedRecord) {
+                        foreach ($model->{$relation} as $idx => $relatedRecord) {
                             $relParams = array();
                             reset($fks);
-                            foreach($fks as $i=>$fk) {
-                                if(isset($joinTable->foreignKeys[$fk])) {
-                                    list($tableName,$pk)=$joinTable->foreignKeys[$fk];
-                                    if($schema->compareTableNames($relModel->tableSchema->rawName,$tableName)) {
-                                        $keysToKeep[$fk][] = $relParams[':'.$fk] = $relatedRecord->{$pk};
+                            foreach ($fks as $i => $fk) {
+                                if (isset($joinTable->foreignKeys[$fk])) {
+                                    list($tableName, $pk) = $joinTable->foreignKeys[$fk];
+                                    if ($schema->compareTableNames($relModel->tableSchema->rawName, $tableName)) {
+                                        $keysToKeep[$fk][] = $relParams[':' . $fk] = $relatedRecord->{$pk};
                                     }
                                 }
                             }
-                            $model->getCommandBuilder()->createSqlCommand($sql,$baseParams+$relParams)->execute();
+                            $model->getCommandBuilder()->createSqlCommand($sql, $baseParams + $relParams)->execute();
                         }
                         // Delete removed records
                         $criteria = new CDbCriteria;
                         $criteria->addColumnCondition($baseCriteriaCondition);
-                        foreach($keysToKeep as $fk=>$values)
-                            $criteria->addInCondition($fk,$values,'AND NOT');
-                        $model->getCommandBuilder()->createDeleteCommand($joinTable->name,$criteria)->execute();
-                    }
-                    else {
+                        foreach ($keysToKeep as $fk => $values) {
+                            $criteria->addInCondition($fk, $values, 'AND NOT');
+                        }
+                        $model->getCommandBuilder()->createDeleteCommand($joinTable->name, $criteria)->execute();
+                    } else {
                         // HasMany relation : save related models
-                        foreach($model->{$relation} as $relatedRecord) {
-                            if($relatedRecord->isNewRecord) {
-                                if(is_array($relationForeignKey)) {
-                                    foreach($relationForeignKey as $fk) {
+                        foreach ($model->{$relation} as $relatedRecord) {
+                            if ($relatedRecord->isNewRecord) {
+                                if (is_array($relationForeignKey)) {
+                                    foreach ($relationForeignKey as $fk) {
                                         $relatedRecord->{$fk} = $model->primaryKey[$fk];
                                     }
-                                }
-                                else {
+                                } else {
                                     $relatedRecord->{$relationForeignKey} = $model->primaryKey;
                                 }
                             }
-                            if($relatedRecord->save()) {
+                            if ($relatedRecord->save()) {
                                 $relationPrimaryKeys = $relatedRecord->tableSchema->primaryKey;
-                                if(is_array($relationPrimaryKeys)) {
-                                    foreach($relationPrimaryKeys as $relationPrimaryKey){
-                                        if($relationPrimaryKey!=$relationForeignKey) $keysToKeep[$relationPrimaryKey][] = $relatedRecord->{$relationPrimaryKey};
+                                if (is_array($relationPrimaryKeys)) {
+                                    foreach ($relationPrimaryKeys as $relationPrimaryKey) {
+                                        if ($relationPrimaryKey != $relationForeignKey) {
+                                            $keysToKeep[$relationPrimaryKey][] = $relatedRecord->{$relationPrimaryKey};
+                                        }
                                     }
-                                }
-                                else{
+                                } else {
                                     $keysToKeep[$relationPrimaryKeys][] = $relatedRecord->{$relationPrimaryKeys};
                                 }
-                            }
-                            else {
+                            } else {
                                 throw new CException("Invalid related record");
                             }
                         }
                         $relatedRecord = new $relationClassName;
-                        $criteria = new CDbCriteria;
-                        $criteria->addColumnCondition(array($relationForeignKey=>$model->primaryKey));
-                        foreach($keysToKeep as $fk=>$values)
-                            $criteria->addInCondition($fk,$values,'AND NOT');
+                        $criteria      = new CDbCriteria;
+                        $criteria->addColumnCondition(array($relationForeignKey => $model->primaryKey));
+                        foreach ($keysToKeep as $fk => $values) {
+                            $criteria->addInCondition($fk, $values, 'AND NOT');
+                        }
                         $relatedRecord->deleteAll($criteria);
                     }
                 }
             }
             unset($relation);
-            if($this->transactional && $this->transaction) $this->transaction->commit();
-        }
-        catch(Exception $e)
-        {
-            Yii::trace("An error occured during the save operation for related records : ".$e->getMessage(),'application.components.CSaveRelatedBehavior');
+            if ($this->transactional && $this->transaction) {
+                $this->transaction->commit();
+            }
+        } catch (Exception $e) {
+            Yii::trace(
+                "An error occured during the save operation for related records : " . $e->getMessage(),
+                'application.components.CSaveRelatedBehavior'
+            );
             $this->hasError = true;
-            if(isset($relation)) $model->addError($relation,isset($this->relations[$relation]['message']) ? $this->relations[$relation]['message'] : "An error occured during the save of {$relation}");
-            if($this->transactional && $this->transaction) $this->transaction->rollBack();
+            if (isset($relation)) {
+                $model->addError(
+                    $relation,
+                    isset($this->relations[$relation]['message']) ? $this->relations[$relation]['message'] : "An error occured during the save of {$relation}"
+                );
+            }
+            if ($this->transactional && $this->transaction) {
+                $this->transaction->rollBack();
+            }
         }
     }
-    
-    public function beforeDelete($event) {
+
+    public function beforeDelete($event)
+    {
         $model = $this->owner;
-        if($this->transactional && !$model->dbConnection->currentTransaction) {
-            Yii::trace("beforeDelete start transaction",'application.components.CSaveRelatedBehavior');
-            $this->transaction=$model->dbConnection->beginTransaction();
+        if ($this->transactional && !$model->dbConnection->currentTransaction) {
+            Yii::trace("beforeDelete start transaction", 'application.components.CSaveRelatedBehavior');
+            $this->transaction = $model->dbConnection->beginTransaction();
         }
     }
-    
-    public function afterDelete($event) {
-        if($this->deleteRelatedRecords) {
+
+    public function afterDelete($event)
+    {
+        if ($this->deleteRelatedRecords) {
             $model = $this->owner;
-            try{
-                foreach($model->relations() as $relation=>$params) {
+            try {
+                foreach ($model->relations() as $relation => $params) {
                     $activeRelation = $model->getActiveRelation($relation);
-                    if(is_object($activeRelation) && ($activeRelation instanceOf CManyManyRelation || $activeRelation instanceOf CHasManyRelation || $activeRelation instanceOf CHasOneRelation)) {
-                        Yii::trace("deleting {$relation} related records.",'application.components.CSaveRelatedBehavior');
-                        $relationClassName = $activeRelation->className;
+                    if (is_object(
+                            $activeRelation
+                        ) && ($activeRelation instanceOf CManyManyRelation || $activeRelation instanceOf CHasManyRelation || $activeRelation instanceOf CHasOneRelation)
+                    ) {
+                        Yii::trace(
+                            "deleting {$relation} related records.",
+                            'application.components.CSaveRelatedBehavior'
+                        );
+                        $relationClassName  = $activeRelation->className;
                         $relationForeignKey = $activeRelation->foreignKey;
-                        if($activeRelation instanceOf CManyManyRelation) {
+                        if ($activeRelation instanceOf CManyManyRelation) {
                             // ManyMany relation : delete related records from the many to many relation table
                             $schema = $model->getCommandBuilder()->getSchema();
-                            preg_match('/^\s*(.*?)\((.*)\)\s*$/',$relationForeignKey,$matches);
-                            $joinTable=$schema->getTable($matches[1]);
-                            $fks=preg_split('/[\s,]+/',$matches[2],-1,PREG_SPLIT_NO_EMPTY);
-                            $baseParams = array();
+                            preg_match('/^\s*(.*?)\((.*)\)\s*$/', $relationForeignKey, $matches);
+                            $joinTable             = $schema->getTable($matches[1]);
+                            $fks                   = preg_split('/[\s,]+/', $matches[2], -1, PREG_SPLIT_NO_EMPTY);
+                            $baseParams            = array();
                             $baseCriteriaCondition = array();
                             reset($fks);
-                            foreach($fks as $i=>$fk) {
-                                if(isset($joinTable->foreignKeys[$fk])) {
-                                    list($tableName,$pk)=$joinTable->foreignKeys[$fk];
-                                    if($schema->compareTableNames($model->tableSchema->rawName,$tableName)) {
-                                        $baseCriteriaCondition[$fk] = $baseParams[':'.$fk] = $model->{$pk};
+                            foreach ($fks as $i => $fk) {
+                                if (isset($joinTable->foreignKeys[$fk])) {
+                                    list($tableName, $pk) = $joinTable->foreignKeys[$fk];
+                                    if ($schema->compareTableNames($model->tableSchema->rawName, $tableName)) {
+                                        $baseCriteriaCondition[$fk] = $baseParams[':' . $fk] = $model->{$pk};
                                     }
                                 }
                             }
                             // Delete records
                             $criteria = new CDbCriteria;
                             $criteria->addColumnCondition($baseCriteriaCondition);
-                            $model->getCommandBuilder()->createDeleteCommand($joinTable->name,$criteria)->execute();
-                        }
-                        else {
+                            $model->getCommandBuilder()->createDeleteCommand($joinTable->name, $criteria)->execute();
+                        } else {
                             // HasMany & HasOne relation : delete related records
                             $relatedRecord = new $relationClassName;
-                            $criteria = new CDbCriteria;
-                            $criteria->addColumnCondition(array($relationForeignKey=>$model->primaryKey));
+                            $criteria      = new CDbCriteria;
+                            $criteria->addColumnCondition(array($relationForeignKey => $model->primaryKey));
                             $relatedRecord->deleteAll($criteria);
                         }
                     }
                 }
                 unset($relation);
-                if($this->transactional && $this->transaction) $this->transaction->commit();
-            }
-            catch(Exception $e)
-            {
-                Yii::trace("An error occured during the delete operation for related records : ".$e->getMessage(),'application.components.CSaveRelatedBehavior');
+                if ($this->transactional && $this->transaction) {
+                    $this->transaction->commit();
+                }
+            } catch (Exception $e) {
+                Yii::trace(
+                    "An error occured during the delete operation for related records : " . $e->getMessage(),
+                    'application.components.CSaveRelatedBehavior'
+                );
                 $this->hasError = true;
-                if(isset($relation)) $model->addError($relation,"An error occured during the delete operation of {$relation}");
-                if($this->transactional && $this->transaction) $this->transaction->rollBack();
+                if (isset($relation)) {
+                    $model->addError($relation, "An error occured during the delete operation of {$relation}");
+                }
+                if ($this->transactional && $this->transaction) {
+                    $this->transaction->rollBack();
+                }
             }
         }
     }

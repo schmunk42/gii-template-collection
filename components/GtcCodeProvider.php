@@ -1,6 +1,7 @@
 <?php
 
-class GtcCodeProvider {
+class GtcCodeProvider
+{
 
     public $codeModel;
 

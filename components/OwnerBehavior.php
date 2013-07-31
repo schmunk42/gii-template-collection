@@ -7,7 +7,8 @@
 // the dataset. The Owner will never be touched.
 
 
-class OwnerBehavior extends CActiveRecordBehavior {
+class OwnerBehavior extends CActiveRecordBehavior
+{
     /**
      * The field that stores the pk of the owner
      */
@@ -18,19 +19,24 @@ class OwnerBehavior extends CActiveRecordBehavior {
      */
     public $lastChangeColumn = 'last_change_by';
 
-    public function beforeValidate($on) {
-        if(isset($this->owner->tableSchema->columns[$this->ownerColumn]))
-            if ($this->owner->isNewRecord)
+    public function beforeValidate($on)
+    {
+        if (isset($this->owner->tableSchema->columns[$this->ownerColumn])) {
+            if ($this->owner->isNewRecord) {
                 $this->owner->{$this->ownerColumn} = Yii::app()->user->id;
+            }
+        }
 
 
         return true;
     }
 
-    public function beforeSave($on) {
+    public function beforeSave($on)
+    {
 
-        if(isset($this->owner->tableSchema->columns[$this->lastChangeColumn]))
+        if (isset($this->owner->tableSchema->columns[$this->lastChangeColumn])) {
             $this->owner->{$this->lastChangeColumn} = Yii::app()->user->id;
+        }
 
         return true;
     }

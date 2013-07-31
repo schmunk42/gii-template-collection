@@ -1,6 +1,8 @@
 <?php
 $class = get_class($model);
-Yii::app()->clientScript->registerScript('gii.crud', "
+Yii::app()->clientScript->registerScript(
+    'gii.crud',
+    "
 $('#{$class}_controller').change(function(){
     $(this).data('changed',$(this).val()!='');
 });
@@ -16,7 +18,8 @@ $('#{$class}_model').bind('keyup change', function(){
         controller.val(id);
     }
 });
-");
+"
+);
 ?>
 <h1>Full Crud Generator</h1>
 
@@ -26,28 +29,45 @@ $('#{$class}_model').bind('keyup change', function(){
 <?php $form = $this->beginWidget('CCodeForm', array('model' => $model)); ?>
 
 <p> <?php
-echo CHtml::link(
-    'Click here to see what FullCrud does exactly', '#', array(
-    'onClick' => '$(".details").toggle()'));
-?> </p>
+    echo CHtml::link(
+        'Click here to see what FullCrud does exactly',
+        '#',
+        array(
+             'onClick' => '$(".details").toggle()'
+        )
+    );
+    ?> </p>
 
 <div class="details" style="display: none;">
     <?php
-    $this->renderPartial('info', array(
-        'model' => $model,
-        'form' => $form));
+    $this->renderPartial(
+        'info',
+        array(
+             'model' => $model,
+             'form'  => $form
+        )
+    );
     ?>
 </div>
 
 <?php
-$this->renderPartial('crud', array(
-    'model' => $model,
-    'form' => $form));
+$this->renderPartial(
+    'crud',
+    array(
+         'model' => $model,
+         'form'  => $form
+    )
+);
 
-if (isset($_POST['preview']) && !$model->hasErrors())
-    $this->renderPartial('url_hint', array(
-        'model' => $model,
-        'form' => $form));
+if (isset($_POST['preview']) && !$model->hasErrors()) {
+    $this->renderPartial(
+        'url_hint',
+        array(
+             'model' => $model,
+             'form'  => $form
+        )
+    );
+}
 
 if (isset($_POST['preview']) && !$model->hasErrors()) {
 
@@ -56,7 +76,7 @@ if (isset($_POST['preview']) && !$model->hasErrors()) {
 
             $this->renderPartial('hybrid_template_deps');
 
-        break;
+            break;
     }
 
 }

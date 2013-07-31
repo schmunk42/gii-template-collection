@@ -11,9 +11,9 @@ class GtcColumnProvider extends GtcCodeProvider
         if ($column->isForeignKey) {
 
             $suggestIdentifier = $this->codeModel->provider()->suggestIdentifier($modelClass);
-            $model = CActiveRecord::model($modelClass);
-            $table = $model->getTableSchema();
-            $fk    = $table->foreignKeys[$column->name];
+            $model             = CActiveRecord::model($modelClass);
+            $table             = $model->getTableSchema();
+            $fk                = $table->foreignKeys[$column->name];
 
             // We have to look into relations to find the correct model class (i.e. if models are generated with table prefix)
             // TODO: do not repeat yourself (foreach) - this is a hotfix

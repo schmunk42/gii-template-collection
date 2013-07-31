@@ -22,9 +22,9 @@ echo "?>";
 ?>
 
 <h1> <?php
-echo "<?php echo Yii::t('app', 'Manage'); ?> ";
-echo "<?php echo Yii::t('app', '" . $this->pluralize($this->class2name($this->modelClass)) . "'); ?> ";
-?></h1>
+    echo "<?php echo Yii::t('app', 'Manage'); ?> ";
+    echo "<?php echo Yii::t('app', '" . $this->pluralize($this->class2name($this->modelClass)) . "'); ?> ";
+    ?></h1>
 
 
 <?php
@@ -33,9 +33,11 @@ $model = new $this->modelClass;
 echo "<ul>";
 foreach ($model->relations() AS $key => $relation) {
     echo "<li>" .
-    Yii::t("app", substr(str_replace("Relation", "", $relation[0]), 1)) . " " .
-    "<?php echo CHtml::link('" . Yii::t("app", $relation[1]) . "', array('" . $this->resolveController($relation) . "/admin')); ?>" .
-    " </li>";
+        Yii::t("app", substr(str_replace("Relation", "", $relation[0]), 1)) . " " .
+        "<?php echo CHtml::link('" . Yii::t("app", $relation[1]) . "', array('" . $this->resolveController(
+            $relation
+        ) . "/admin')); ?>" .
+        " </li>";
 }
 echo "</ul>";
 ?>
@@ -59,16 +61,19 @@ echo "</ul>";
 <?php
 $count = 0;
 foreach ($this->tableSchema->columns as $column) {
-    if (++$count == 7)
+    if (++$count == 7) {
         echo "        /*\n";
+    }
 
-    if (strtoupper($column->dbType) == 'TEXT')
+    if (strtoupper($column->dbType) == 'TEXT') {
         echo "#";
+    }
     echo "        " . FullCrudHelper::generateValueField($this->modelClass, $column) . ",\n";
 }
 
-if ($count >= 7)
+if ($count >= 7) {
     echo "        */\n";
+}
 ?>
 array(
 'class'=>'CButtonColumn',
