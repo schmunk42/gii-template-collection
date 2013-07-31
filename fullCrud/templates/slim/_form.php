@@ -19,16 +19,16 @@
     ?>
 
     <div class="row">
-        <div class="span8"> <!-- main inputs -->
+        <div class="span7"> <!-- main inputs -->
             <h2>
                 <?= "<?php echo Yii::t('{$this->messageCatalog}','Data')?>"; ?>
+                <small>
+                    <?= "<?php echo \$model->{$this->provider()->suggestIdentifier($this->modelClass)} ?>"; ?>
+
+                </small>
 
             </h2>
 
-            <h3>
-                <?= "<?php echo \$model->{$this->provider()->suggestIdentifier($this->modelClass)} ?>"; ?>
-
-            </h3>
 
             <div class="form-horizontal">
 
@@ -64,18 +64,20 @@
         </div>
         <!-- main inputs -->
 
-        <div class="span4"> <!-- sub inputs -->
+        <div class="span5"> <!-- sub inputs -->
             <h2>
                 <?= "<?php echo Yii::t('" . $this->messageCatalog . "','Relations')?>"; ?>
 
             </h2>
             <? foreach ($this->getRelations() as $key => $relation) : ?>
 
+                <?php if($relation[0] == "CBelongsToRelation") continue; ?>
+
                 <?=
                 // relations
                 "
                 <h3>
-                    <?php echo Yii::t('{$this->messageCatalog}', '{$key}'); ?>
+                    <?php echo Yii::t('{$this->messageCatalog}', '".ucfirst($key)."'); ?>
                 </h3>
                 <?php {$this->provider()->generateRelationField($this->modelClass, $key, $relation)} ?>
                 "

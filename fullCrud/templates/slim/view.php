@@ -22,17 +22,17 @@
 
 
 <div class="row">
-    <div class="span8">
+    <div class="span7">
         <h2>
             <?= "<?php echo Yii::t('" . $this->messageCatalog . "','Data')?>"; ?>
+            <small>
+                <?=
+                "<?php echo \$model->" . $this->provider()->suggestIdentifier(
+                    CActiveRecord::model(Yii::import($this->model))
+                ) . "?>"; ?>
+            </small>
         </h2>
 
-        <h3>
-            <?=
-            "<?php echo \$model->" . $this->provider()->suggestIdentifier(
-                CActiveRecord::model(Yii::import($this->model))
-            ) . "?>"; ?>
-        </h3>
 
 
         <?=
@@ -52,7 +52,7 @@
 
     </div>
 
-    <div class="span4">
+    <div class="span5">
         <?=
         "<?php \$this->renderPartial('_view-relations',array('model'=>\$model)); ?>";
         ?>
