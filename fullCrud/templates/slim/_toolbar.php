@@ -1,3 +1,5 @@
+<?php $pk = CActiveRecord::model($this->modelClass)->tableSchema->primaryKey ?>
+
 <div class="btn-toolbar">
     <div class="btn-group">
         <?=
@@ -26,7 +28,7 @@
                     $this->widget("bootstrap.widgets.TbButton", array(
                         "label"=>Yii::t("' . $this->messageCatalog . '","Update"),
                         "icon"=>"icon-edit",
-                        "url"=>array("update","id"=>$model->{$model->tableSchema->primaryKey})
+                        "url"=>array("update","'.$pk .'"=>$model->{$model->tableSchema->primaryKey})
                     ));
                     $this->widget("bootstrap.widgets.TbButton", array(
                         "label"=>Yii::t("' . $this->messageCatalog . '","Create"),
@@ -38,7 +40,7 @@
                         "type"=>"danger",
                         "icon"=>"icon-remove icon-white",
                         "htmlOptions"=> array(
-                            "submit"=>array("delete","id"=>$model->{$model->tableSchema->primaryKey}, "returnUrl"=>(Yii::app()->request->getParam("returnUrl"))?Yii::app()->request->getParam("returnUrl"):$this->createUrl("admin")),
+                            "submit"=>array("delete","'.$pk.'"=>$model->{$model->tableSchema->primaryKey}, "returnUrl"=>(Yii::app()->request->getParam("returnUrl"))?Yii::app()->request->getParam("returnUrl"):$this->createUrl("admin")),
                             "confirm"=>Yii::t("' . $this->messageCatalog . '","Do you want to delete this item?"))
                          )
                     );
@@ -52,14 +54,14 @@
                     $this->widget("bootstrap.widgets.TbButton", array(
                         "label"=>Yii::t("' . $this->messageCatalog . '","View"),
                         "icon"=>"icon-eye-open",
-                        "url"=>array("view","id"=>$model->{$model->tableSchema->primaryKey})
+                        "url"=>array("view","'.$pk.'"=>$model->{$model->tableSchema->primaryKey})
                     ));
                     $this->widget("bootstrap.widgets.TbButton", array(
                         "label"=>Yii::t("' . $this->messageCatalog . '","Delete"),
                         "type"=>"danger",
                         "icon"=>"icon-remove icon-white",
                         "htmlOptions"=> array(
-                            "submit"=>array("delete","id"=>$model->{$model->tableSchema->primaryKey}, "returnUrl"=>(Yii::app()->request->getParam("returnUrl"))?Yii::app()->request->getParam("returnUrl"):$this->createUrl("admin")),
+                            "submit"=>array("delete","'.$pk.'"=>$model->{$model->tableSchema->primaryKey}, "returnUrl"=>(Yii::app()->request->getParam("returnUrl"))?Yii::app()->request->getParam("returnUrl"):$this->createUrl("admin")),
                             "confirm"=>Yii::t("' . $this->messageCatalog . '","Do you want to delete this item?"))
                          )
                     );

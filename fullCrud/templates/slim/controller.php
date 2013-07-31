@@ -1,5 +1,7 @@
 <?php echo "<?php\n"; ?>
 
+<?php $pk = CActiveRecord::model($this->modelClass)->tableSchema->primaryKey ?>
+
 class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseControllerClass."\n"; ?>
 {
     #public $layout='//layouts/column2';
@@ -22,9 +24,9 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
         return true;
     }
 
-    public function actionView($id)
+    public function actionView($<?= $pk ?>)
     {
-        $model = $this->loadModel($id);
+        $model = $this->loadModel($<?= $pk ?>);
         $this->render('view', array('model' => $model,));
     }
 
@@ -55,11 +57,11 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
                     if (isset($_GET['returnUrl'])) {
                         $this->redirect($_GET['returnUrl']);
                     } else {
-                        $this->redirect(array('view', 'id' => $model-><?php echo CActiveRecord::model($this->modelClass)->tableSchema->primaryKey ?>));
+                        $this->redirect(array('view', '<?= $pk ?>' => $model-><?= $pk ?>));
                     }
                 }
             } catch (Exception $e) {
-                $model->addError('<?php echo CActiveRecord::model($this->modelClass)->tableSchema->primaryKey ?>', $e->getMessage());
+                $model->addError('<?= $pk ?>', $e->getMessage());
             }
         } elseif (isset($_GET['<?php echo $this->modelClass; ?>'])) {
             $model->attributes = $_GET['<?php echo $this->modelClass; ?>'];
@@ -68,9 +70,9 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
         $this->render('create', array('model' => $model));
     }
 
-    public function actionUpdate($id)
+    public function actionUpdate($<?= $pk ?>)
     {
-        $model = $this->loadModel($id);
+        $model = $this->loadModel($<?= $pk ?>);
         $model->scenario = $this->scenario;
 
         <?php if($this->validation == 1 || $this->validation == 3) { ?>$this->performAjaxValidation($model, '<?php echo $this->class2id($this->modelClass)?>-form');
@@ -97,11 +99,11 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
                     if (isset($_GET['returnUrl'])) {
                         $this->redirect($_GET['returnUrl']);
                     } else {
-                        $this->redirect(array('view', 'id' => $model-><?php echo CActiveRecord::model($this->modelClass)->tableSchema->primaryKey ?>));
+                        $this->redirect(array('view', '<?= $pk ?>' => $model-><?= $pk ?>));
                     }
                 }
             } catch (Exception $e) {
-                $model->addError('<?php echo CActiveRecord::model($this->modelClass)->tableSchema->primaryKey ?>', $e->getMessage());
+                $model->addError('<?= $pk ?>', $e->getMessage());
             }
         }
 
@@ -115,11 +117,11 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
         $es->update();
     }
 
-    public function actionDelete($id)
+    public function actionDelete($<?= $pk ?>)
     {
         if (Yii::app()->request->isPostRequest) {
             try {
-                $this->loadModel($id)->delete();
+                $this->loadModel($<?= $pk ?>)->delete();
             } catch (Exception $e) {
                 throw new CHttpException(500, $e->getMessage());
             }
