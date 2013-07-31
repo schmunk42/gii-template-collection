@@ -30,11 +30,15 @@ class FullCrudCode extends CrudCode
         "gtc.fullCrud.providers.IdentifierProvider",
         "gtc.fullCrud.providers.PartialViewProvider",
         "gtc.fullCrud.providers.RelationProvider",
-        "gtc.fullCrud.providers.EditableFieldProvider",
+
         "gtc.fullCrud.providers.HybridFieldProvider",
         "gtc.fullCrud.providers.GtcActiveFieldProvider",
+
         "gtc.fullCrud.providers.GtcAttributeProvider",
+
+        "gtc.fullCrud.providers.EditableColumnProvider",
         "gtc.fullCrud.providers.GtcColumnProvider",
+
         "gtc.fullCrud.FullCrudCode",
     );
 
