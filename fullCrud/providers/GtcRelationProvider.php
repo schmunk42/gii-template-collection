@@ -3,15 +3,46 @@
 class GtcRelationProvider extends GtcCodeProvider
 {
 
+    public function generateActiveLabel($model, $column)
+    {
+        foreach ($this->codeModel->getRelations() as $key => $relation) {
+            if ($relation[2] == $column->name) {
+                if ($relation[0] == "CBelongsToRelation") {
+                    return null; // continue with providers
+                } else {
+                    // omit relations, they are rendered by GtcRelationProvider
+                    return false; // no output, don't continue
+                }
+
+            }
+        }
+    }
+
+    public function generateActiveField($model, $column)
+    {
+        foreach ($this->codeModel->getRelations() as $key => $relation) {
+            if ($relation[2] == $column->name) {
+                if ($relation[0] == "CBelongsToRelation") {
+                    return $this->codeModel->provider()->generateRelationField($model, $key, $relation);
+                } else {
+                    // omit other relations
+                    return false; // no output
+                }
+
+            }
+        }
+    }
+
     public function generateRelationHeader($relationName, $relationInfo, $controller)
     {
         $code = "";
         $code .= "
+        echo '<h3>".ucfirst($relationName)." ';
     \$this->widget('bootstrap.widgets.TbButtonGroup', array(
         'type'=>'', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
+        'size'=>'mini',
         'buttons'=>array(
             array(
-                'label'=>'" . ucfirst($relationName) . "',
                 'icon'=>'icon-list-alt',
                 'url'=> array('/{$controller}/admin')
             ),
@@ -24,7 +55,8 @@ class GtcRelationProvider extends GtcCodeProvider
                 ),
             ),
         )
-    );";
+    );
+        echo '</h3>'";
 
         return $code;
     }
@@ -36,7 +68,7 @@ class GtcRelationProvider extends GtcCodeProvider
         $captureOutput = false
     ) {
 
-        if ($relationInfo[0] == 'CBelongsToRelation'
+        if ( $relationInfo[0] == 'CBelongsToRelation'
             || $relationInfo[0] == 'CHasOneRelation'
             || $relationInfo[0] == 'CManyManyRelation'
         ) {
