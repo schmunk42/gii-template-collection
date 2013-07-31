@@ -22,6 +22,10 @@ class FullCrudCode extends CrudCode
     public $textEditor = "textarea";
     // Legacy template
     public $authTemplate = "auth_filter_default";
+
+    // for usage as provider
+    public $codeModel;
+    // default provider
     public $providers = array(
         "gtc.fullCrud.providers.IdentifierProvider",
         "gtc.fullCrud.providers.PartialViewProvider",
@@ -29,11 +33,10 @@ class FullCrudCode extends CrudCode
         "gtc.fullCrud.providers.EditableFieldProvider",
         "gtc.fullCrud.providers.HybridFieldProvider",
         "gtc.fullCrud.providers.GtcActiveFieldProvider",
-        "gtc.fullCrud.providers.GtcValueFieldProvider",
+        "gtc.fullCrud.providers.GtcAttributeProvider",
+        "gtc.fullCrud.providers.GtcColumnProvider",
         "gtc.fullCrud.FullCrudCode",
     );
-
-    public $codeModel; // for usage as provider
 
     /**
      * Returns validation rules

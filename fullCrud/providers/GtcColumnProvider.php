@@ -1,12 +1,12 @@
 <?php
 
-class GtcValueFieldProvider extends GtcCodeProvider
+class GtcColumnProvider extends GtcCodeProvider
 {
     /**
      * @param CActiveRecord   $modelClass
      * @param CDbColumnSchema $column
      */
-    public function generateValueField($modelClass, $column, $view = false)
+    public function generateColumn($modelClass, $column, $view = false)
     {
         if ($column->isForeignKey) {
 
