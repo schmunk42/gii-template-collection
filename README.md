@@ -14,6 +14,17 @@ Features
 * [giic](https://github.com/schmunk42/giic) prove
 * customize inputs with code-providers
 
+### Templates
+
+* FullModel
+  * default (`BaseModel`, `Model`)
+  * singlefile (`Model`)
+* FullCrud 
+  * slim
+  * hybrid
+  * legacy (*original gtc*)
+
+
 Installation
 ------------
 
@@ -26,6 +37,7 @@ or
 [Download latest release](https://github.com/schmunk42/gii-template-collection/releases)
 To use it, simply extract the content of the archive into your application 
 `extensions/` directory.
+
 
 Setup
 -----
@@ -53,6 +65,7 @@ Setup
 	),
     ```
 
+
 Usage
 -----
 
@@ -61,8 +74,8 @@ Usage
 * open Gii
 * select `FullModel`
 * enter model class
-* `preview`
-* `generate`
+* click `preview`
+* click `generate`
 
 ### Full CRUD
 
@@ -71,8 +84,8 @@ Usage
 * open Gii
 * select `FullCrud`
 * enter model class
-* `preview`
-* `generate`
+* click `preview`
+* click `generate`
 
 #### Template slim
 
@@ -84,6 +97,7 @@ An enhanced hybrid between the default/slim templates and the bootstrap crud gen
 
 Requires `x-editable-yii` and `echosen`.
 
+
 Code Providers
 --------------
 
@@ -93,8 +107,6 @@ You can call a provider from your template with, eg.:
     $this->provider()->generateColumn($this->modelClass, $column)
     
 FullCrudCode will walk the provider queue until it finds a provider which has the requested method AND which returns **not `null`**. This is on of the major differences compared to a behavior.
-
-
 
 
 Coding Standards
@@ -145,6 +157,7 @@ In 2011 [schmunk](https://github.com/schmunk42) create the currently active fork
 
 While there has been much, much, much, … code added over the time. At the end of July 2013 gtc was completely refurbished.
 
+
 Contributors
 ------------
 
@@ -161,6 +174,7 @@ Contributors
 * thyseus
 
 Active maintainers are written in **bold**.
+
 
 Contact
 -------
