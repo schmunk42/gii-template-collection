@@ -1,10 +1,6 @@
-<?php
-$label = $this->pluralize($this->class2name($this->modelClass));
-?>
-
 <?=
 "<?php
-\$this->breadcrumbs[Yii::t('{$this->messageCatalog}','{$label}')] = array('admin');
+\$this->breadcrumbs[Yii::t('{$this->messageCatalog}','{$this->pluralize($this->class2name($this->modelClass))}')] = array('admin');
 \$this->breadcrumbs[\$model->{\$model->tableSchema->primaryKey}] = array('view','id'=>\$model->{\$model->tableSchema->primaryKey});
 \$this->breadcrumbs[] = Yii::t('{$this->messageCatalog}', 'Update');
 ?>
