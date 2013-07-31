@@ -69,6 +69,7 @@ if ($count >= 8) {
         'id'=>'{$this->class2id($this->modelClass)}-grid',
         'dataProvider'=>\$model->search(),
         'filter'=>\$model,
+        'template'=>'{pager}{items}{pager}{summary}',
         'pager' => array(
             'class' => 'TbPager',
             'displayFirstAndLast' => true,
