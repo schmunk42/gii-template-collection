@@ -42,9 +42,9 @@
                         <div class='controls'>
                             <?=
                             "<?php
-                            {$this->provider()->generateActiveField($this->modelClass, $column)}
-                            echo \$form->error(\$model,'{$column->name}') ?>
-                            "
+                            {$this->provider()->generateActiveField($this->modelClass, $column)};
+                            echo \$form->error(\$model,'{$column->name}')
+                            ?>"
                             ?>
 
                             <span class="help-block">
