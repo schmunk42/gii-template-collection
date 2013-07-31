@@ -10,8 +10,8 @@ class GtcColumnProvider extends GtcCodeProvider
     {
         if ($column->isForeignKey) {
 
-            $suggestIdentifier = $this->codeModel->provider()->suggestIdentifier($this->codeModel->modelClass);
-            $model             = CActiveRecord::model($this->codeModel->modelClass);
+            $suggestIdentifier = $this->codeModel->provider()->suggestIdentifier($modelClass);
+            $model             = CActiveRecord::model($modelClass);
             $table             = $model->getTableSchema();
             $fk                = $table->foreignKeys[$column->name];
 
