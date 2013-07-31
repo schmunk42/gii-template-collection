@@ -52,7 +52,7 @@ foreach ($this->tableSchema->columns as $column) {
     } else {
         $count++;
     }
-    $columns .= $this->provider()->generateColumn($this->modelClass, $column) . ",\n";
+    $columns .= "        ".$this->provider()->generateColumn($this->modelClass, $column) . ",\n";
 }
 
 if ($count >= 8) {
@@ -74,7 +74,12 @@ if ($count >= 8) {
             'displayFirstAndLast' => true,
         ),
         'columns'=> array(
-            array('header'=>'','value'=>'\$data[\"{$this->provider()->suggestIdentifier($this->modelClass)}\"]'),
+            array(
+                'class'=>'CLinkColumn',
+                'header'=>'',
+                'labelExpression'=> '\$data->{$this->provider()->suggestIdentifier($this->modelClass)}',
+                'urlExpression'=> 'Yii::app()->controller->createUrl(\"view\", array(\"{$this->tableSchema->primaryKey}\" => \$data[\"{$this->tableSchema->primaryKey}\"]))'
+            ),
             {$columns}
             array(
                 'class'=>'TbButtonColumn',
