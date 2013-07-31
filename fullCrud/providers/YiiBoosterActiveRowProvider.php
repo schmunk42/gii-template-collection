@@ -1,6 +1,6 @@
 <?php
 
-class HybridFieldProvider extends GtcCodeProvider
+class YiiBoosterActiveRowProvider extends GtcCodeProvider
 {
     public function generateActiveRow($modelClass, $column, $relation = false)
     {

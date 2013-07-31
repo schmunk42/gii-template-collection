@@ -23,14 +23,18 @@ class FullCrudCode extends CrudCode
     // Legacy template
     public $authTemplate = "auth_filter_default";
 
-    // for usage as provider
+    /*
+     * for usage as provider
+     */
     public $codeModel;
-    // default provider
+    /*
+     * default providers, topmost has highest priority
+     */
     public $providers = array(
-        "gtc.fullCrud.providers.IdentifierProvider",
-        "gtc.fullCrud.providers.PartialViewProvider",
-        "gtc.fullCrud.providers.RelationProvider",
-        "gtc.fullCrud.providers.HybridFieldProvider",
+        "gtc.fullCrud.providers.GtcIdentifierProvider",
+        "gtc.fullCrud.providers.GtcPartialViewProvider",
+        "gtc.fullCrud.providers.GtcRelationProvider",
+        "gtc.fullCrud.providers.YiiBoosterActiveRowProvider",
         "gtc.fullCrud.providers.GtcActiveFieldProvider",
         "gtc.fullCrud.providers.GtcAttributeProvider",
         "gtc.fullCrud.providers.EditableColumnProvider",
@@ -90,7 +94,6 @@ class FullCrudCode extends CrudCode
      * @param $column
      *
      * @return string
-     * @TODO   implemnt providers
      */
     public function generateActiveLabel($modelClass, $column)
     {

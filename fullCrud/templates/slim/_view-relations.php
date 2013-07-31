@@ -34,7 +34,7 @@ if (!empty($relations)) :
         <ul>
 
             <?=
-            // start output -->
+            // relation view and update links
             "<?php
             {$recordsWrapper}
             if (is_array(\$records)) {

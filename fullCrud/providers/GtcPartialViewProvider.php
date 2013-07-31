@@ -1,6 +1,6 @@
 <?php
 
-class PartialViewProvider extends GtcCodeProvider
+class GtcPartialViewProvider extends GtcCodeProvider
 {
     public function generateActiveField($model, $column)
     {

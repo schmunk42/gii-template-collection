@@ -36,28 +36,21 @@ class GtcAttributeProvider extends GtcCodeProvider
                 }
             }
             $code .= "        ),\n";
-        } else {
-            if (stristr($column->name, 'url')) {
-                // TODO - experimental - move to provider class
-                $code .= "array(";
-                $code .= "            'name'=>'{$column->name}',\n";
-                $code .= "            'type'=>'url',\n";
-                $code .= "),\n";
-            } else {
-                if ($column->name == 'createtime'
-                    or $column->name == 'updatetime'
-                    or $column->name == 'timestamp'
-                ) {
-                    $code .= "array(
+        } elseif (stristr($column->name, 'url')) {
+            $code .= "array(";
+            $code .= "            'name'=>'{$column->name}',\n";
+            $code .= "            'type'=>'url',\n";
+            $code .= "),\n";
+        } elseif ($column->name == 'createtime'
+            or $column->name == 'updatetime'
+            or $column->name == 'timestamp'
+        ) {
+            $code .= "array(
                     'name'=>'{$column->name}',
                     'value' =>\$locale->getDateFormatter()->formatDateTime(\$model->{$column->name}, 'medium', 'medium')),\n";
-                } else {
-                    $code .= "        '" . $column->name . "',\n";
-                }
-            }
+        } else {
+            $code .= "        '" . $column->name . "',\n";
         }
-
         return $code;
     }
-
 }

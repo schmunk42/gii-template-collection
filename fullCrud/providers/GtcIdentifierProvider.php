@@ -1,11 +1,11 @@
 <?php
 
-class IdentifierProvider extends GtcCodeProvider
+class GtcIdentifierProvider extends GtcCodeProvider
 {
 
     // Which column will most probably be the one that gets used to list
     // KEEP THIS CODE it can be called statically
-    static public function suggestIdentifier($model)
+    public function suggestIdentifier($model)
     {
         if (!$model instanceof CActiveRecord) {
             $model = CActiveRecord::model(Yii::import($model));

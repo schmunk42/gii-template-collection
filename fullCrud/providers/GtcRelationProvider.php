@@ -1,6 +1,6 @@
 <?php
 
-class RelationProvider extends GtcCodeProvider
+class GtcRelationProvider extends GtcCodeProvider
 {
 
     public function generateRelationHeader($relationName, $relationInfo, $controller)
