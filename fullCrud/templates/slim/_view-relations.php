@@ -23,9 +23,9 @@ if (!empty($relations)) :
         if ($relation[0] == 'CBelongsToRelation') {
             continue;
         } elseif ($relation[0] == 'CHasOneRelation') {
-            $recordsWrapper = "\$records = array(\$model->{$key});"; // TODO: untested
+            $recordsWrapper = "\$records = array(\$model->{$key}(array('limit'=>250));"; // TODO: has one untested
         } else {
-            $recordsWrapper = "\$records = \$model->{$key};";
+            $recordsWrapper = "\$records = \$model->{$key}(array('limit'=>250));"; // TODO: move to ajax list
         }
         ?>
 
@@ -38,7 +38,7 @@ if (!empty($relations)) :
             "<?php
             {$recordsWrapper}
             if (is_array(\$records)) {
-                foreach(\$records as \$relatedModel) {
+                foreach(\$records as \$i => \$relatedModel) {
                     echo '<li>';
                     echo CHtml::link(
                         '<i class=\"icon icon-arrow-right\"></i> '.\$relatedModel->{$suggestedfield},
