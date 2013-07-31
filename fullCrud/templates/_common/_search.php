@@ -14,17 +14,8 @@
 
         <div class="row">
             <?= "<?php echo \$form->label(\$model,'{$column->name}'); ?>\n"; ?>
+            <?= "<?php " . $this->provider()->generateActiveField($this->modelClass, $column) . "; ?>\n"; ?>
 
-            <?php if (!$column->isForeignKey): ?>
-                <?= "<?php " . $this->provider()->generateActiveField($this->modelClass, $column) . "; ?>\n"; ?>
-            <?php else: ?>
-                <?=
-                "<?php " . $this->provider()->generateValueField(
-                    $this->modelClass,
-                    $column,
-                    'search'
-                ) . "; ?>\n"; ?> // TODO: itemLabel
-            <?php endif; ?>
         </div>
 
     <?php endforeach; ?>
