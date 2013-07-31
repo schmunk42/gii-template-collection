@@ -43,7 +43,7 @@ class <?php echo $modelClass; ?> extends <?php echo 'Base' . $modelClass."\n"; ?
         $behaviors = 'return array_merge(
             parent::behaviors(),
             array()
-        );\n';
+        );';
         echo $behaviors;
         ?>
     }
