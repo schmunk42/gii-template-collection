@@ -16,7 +16,7 @@ class EditableColumnProvider extends GtcCodeProvider
             'name' => '{$column->name}',
             'editable' => array(
                 'url' => \$this->createUrl('/{$this->codeModel->controller}/editableSaver'),
-                'placement' => 'right',
+                //'placement' => 'right',
             )
         )";
         }
