@@ -47,9 +47,9 @@ foreach ($this->tableSchema->columns as $column) {
     }
     // omit text fields
     if (strtoupper($column->dbType) == 'TEXT') {
-        $columns .= "#";
-    }
-    else {
+        continue;
+        #$columns .= "#";
+    } else {
         $count++;
     }
     $columns .= $this->provider()->generateColumn($this->modelClass, $column) . ",\n";
