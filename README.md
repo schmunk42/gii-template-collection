@@ -55,32 +55,19 @@ An enhanced hybrid between the default/slim templates and the bootstrap crud gen
 
 Requires yii-bootstrap, x-editable-yii and echosen.
 
-#### Experimental
+Code Providers
+--------------
 
-**Note: This feature is not yet available!**
-
-You also have the ability to add custom field providers by config.
-
-    'gii' => array(
-        'params' => array(
-	        'gtc.fullCrud.providers' => array(
-	            'p2.gii.fullCrud.providers.P2FieldProvider',
-	        )
-        )
-    )
+tbd
 
 
-Please enjoy this extension and give your feedback at the github
-Repository, thank you.
-
-Of course, any templates are appreciated and just leave a comment or mail: schmunk@usrbin.de, fredrik@neam.se or thyseus@gmail.com.
-
-
-### GTC Coding Standards
+Coding Standards
+----------------
 
 GTC is using **`<?=""?>` Bobsled Coding Style**.
 
-* Write PHP code wrapped in short-open-echo tags and double quotes `<?="<?php ...code... ?>"?>`
+* Write PHP code wrapped in short-open-echo tags and double quotes `<?="<?php ...code... ?>"?>` -
+  only for generating PHP code the templates - DO NOT use short open tags in outputted code (yet)
 * Use brackets `{}` to insert variables for generated code
 
 
@@ -101,3 +88,4 @@ Ressources
 * [Project page up to version 0.6](http://code.google.com/p/gii-template-collection/)
 
 
+Of course, any templates are appreciated and just leave a comment or mail: schmunk@usrbin.de, fredrik@neam.se or thyseus@gmail.com.
