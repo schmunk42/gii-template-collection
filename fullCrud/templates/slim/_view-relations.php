@@ -23,29 +23,30 @@ if (!empty($relations)) :
         if ($relation[0] == 'CBelongsToRelation') {
             continue;
         } elseif ($relation[0] == 'CHasOneRelation') {
-            $recordsWrapper = "\$records = array(\$model->{$key});";
+            $recordsWrapper = "\$records = array(\$model->{$key});"; // TODO: untested
         } else {
             $recordsWrapper = "\$records = \$model->{$key};";
         }
         ?>
+
+        <?= "<?php {$this->provider()->generateRelationHeader($key, $relation, $controller)} ?>" ?>
 
         <ul>
 
             <?=
             // start output -->
             "<?php
-            {$this->provider()->generateRelationHeader($key, $relation, $controller)}
             {$recordsWrapper}
             if (is_array(\$records)) {
                 foreach(\$records as \$relatedModel) {
                     echo '<li>';
                     echo CHtml::link(
                         '<i class=\"icon icon-arrow-right\"></i> '.\$relatedModel->{$suggestedfield},
-                        array('{$controller}/view','{$pk}'=>\$relatedModel->{$pk}), array('class'=>'')
+                        array('{$controller}/view','{$pk}'=>\$relatedModel->{$pk})
                     );
                     echo CHtml::link(
                         ' <i class=\"icon icon-pencil\"></i>',
-                        array('{$controller}/update','{$pk}'=>\$relatedModel->{$pk}), array('class'=>'')
+                        array('{$controller}/update','{$pk}'=>\$relatedModel->{$pk})
                     );
                     echo '</li>';
                 }

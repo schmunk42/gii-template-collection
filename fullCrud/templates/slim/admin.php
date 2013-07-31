@@ -52,7 +52,7 @@ foreach ($this->tableSchema->columns as $column) {
     else {
         $count++;
     }
-    $columns .= $this->provider()->generateValueField($this->modelClass, $column) . ",\n";
+    $columns .= $this->provider()->generateColumn($this->modelClass, $column) . ",\n";
 }
 
 if ($count >= 8) {

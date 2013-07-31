@@ -41,10 +41,10 @@
                         </div>
                         <div class='controls'>
                             <?=
+                            "<?php
+                            {$this->provider()->generateActiveField($this->modelClass, $column)}
+                            echo \$form->error(\$model,'{$column->name}') ?>
                             "
-                               <?php {$this->provider()->generateActiveField($this->modelClass, $column)} ?>
-                               <?php echo \$form->error(\$model,'{$column->name}') ?>
-                                "
                             ?>
 
                             <span class="help-block">
