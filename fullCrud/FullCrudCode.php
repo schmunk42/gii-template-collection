@@ -126,7 +126,7 @@ class FullCrudCode extends CrudCode
     }
 
     /**
-     * Returns relations of current model
+     * Returns relations of current active record model
      * @return array
      */
     public function getRelations()
