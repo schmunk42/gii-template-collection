@@ -58,7 +58,7 @@
             /* printf("<label for=\"%s\"><?php echo Yii::t('app', 'Belonging').' '.Yii::t('app', '%s'); ?></label>\n", $relation[1], $relation[1]);
              */
             printf("<label for=\"%s\"><?php echo Yii::t('app', '%s'); ?></label>\n", $key, ucfirst($key));
-            echo "<?php " . FullCrudHelper::generateRelation($this->modelClass, $key, $relation) . "; ?><br />\n";
+            echo "<?php " . $this->provider()->generateRelationField($this->modelClass, $key, $relation) . "; ?><br />\n";
             echo "</div>\n\n";
         }
     }

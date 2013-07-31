@@ -68,7 +68,7 @@ foreach ($this->tableSchema->columns as $column) {
     if (strtoupper($column->dbType) == 'TEXT') {
         echo "#";
     }
-    echo "        " . FullCrudHelper::generateValueField($this->modelClass, $column) . ",\n";
+    echo "        " . $this->provider()->generateValueField($this->modelClass, $column) . ",\n";
 }
 
 if ($count >= 7) {
