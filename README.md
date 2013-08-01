@@ -101,9 +101,10 @@ An enhanced hybrid between the default/slim templates and the bootstrap crud gen
 
 Requires `x-editable-yii` and `echosen`.
 
+Development
+-----------
 
-Code Providers
---------------
+### Code Providers
 
 The FullCrudCode is able to access providers from a provider-queue to render fields, labels, etc.
 You can call a provider from your template with, eg.:
@@ -113,8 +114,7 @@ You can call a provider from your template with, eg.:
 FullCrudCode will walk the provider queue until it finds a provider which has the requested method AND which returns **not `null`**. This is on of the major differences compared to a behavior.
 
 
-Coding Standards
-----------------
+### Coding Standards
 
 GTC is using *`<?=""?>` Bobsled Coding Style*.
 
