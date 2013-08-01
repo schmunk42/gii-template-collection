@@ -139,7 +139,9 @@ Resources
 
 ### Links
 
-* [extension page](http://www.yiiframework.com/extension/gii-template-collection)
+* [Yii Framework Extension Page](http://www.yiiframework.com/extension/gii-template-collection)
+* [GitHub Project Page](https://github.com/schmunk42/gii-template-collection)
+* [Phundament](http://phundament.com) Package
 
 
 History
