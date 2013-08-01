@@ -10,9 +10,13 @@ Features
 
 * relation handling
 * YiiBooster integration
-* editable grid columns
 * [giic](https://github.com/schmunk42/giic) prove
-* customize inputs with code-providers
+* customize inputs with code-providers, detect input-type by model and column
+  * date and time pickers
+  * checkboxes
+  * relation widgets
+  * editable grid columns
+  * partial views
 
 ### Templates
 
