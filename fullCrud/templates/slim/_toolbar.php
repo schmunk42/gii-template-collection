@@ -70,6 +70,8 @@
         ?>';
         ?>
     </div>
+
+
     <?= "<?php if(\$this->action->id == 'admin'): ?>" ?>
     <div class="btn-group">
         <?=
@@ -86,7 +88,9 @@
         ?>
         '; ?>
     </div>
+    <?= "<?php endif; ?>" ?>
 
+    <?= "<?php if(\$this->action->id == 'admin' || \$this->action->id == 'view'): ?>" ?>
     <?php
     $model = new $this->modelClass;
     if ($model->relations() !== array()):
