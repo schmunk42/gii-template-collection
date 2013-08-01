@@ -113,6 +113,19 @@ You can call a provider from your template with, eg.:
     
 FullCrudCode will walk the provider queue until it finds a provider which has the requested method AND which returns **not `null`**. This is on of the major differences compared to a behavior.
 
+#### Example
+
+Render a populated dropdown, if the model contains and `optsColumnName()` method.
+
+    public function generateActiveField($model, $column)
+    {
+        $func = "opts".str_replace("_","",$column->name);
+        if (method_exists($model, $func)) {
+            return "echo \$form->dropDownList(\$model,'{$column->name}',{$model}::{$func}());";
+        }
+    }
+
+
 
 ### Coding Standards
 
