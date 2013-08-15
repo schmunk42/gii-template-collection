@@ -4,7 +4,7 @@
     "keywords": ["package", "dependency", "autoload"],
     "homepage": "http://phundament.com/",
     "type": "library",
-    "license": "BSD",
+    "license": "BSD-3-Clause",
     "authors": [
         {
             "name": "Tobias Munk",
@@ -14,5 +14,8 @@
     ],
     "require": {
         "php": ">=5.3.0"
+    },
+    "suggest": {
+        "schmunk42/relation": "Yii Framework active record relation components"
     }
 }
