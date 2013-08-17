@@ -28,6 +28,7 @@ Features
   * hybrid
   * legacy (*original gtc*)
 
+**NOTE! Relation widgets moved to https://github.com/schmunk42/yii-relation**
 
 Installation
 ------------
@@ -93,7 +94,7 @@ Usage
 
 #### Template slim
 
-*tbd*
+Requirements: `https://github.com/clevertech/yiibooster`, `schmunk42/yii-relation`
 
 #### Template hybrid
 
