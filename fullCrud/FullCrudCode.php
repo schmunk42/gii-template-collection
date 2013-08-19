@@ -27,10 +27,13 @@ class FullCrudCode extends CrudCode
      * for usage as provider
      */
     public $codeModel;
+
     /*
-     * default providers, topmost has highest priority
+     * custom providers, topmost has highest priority
      */
-    public $providers = array(
+    public $providers = array();
+
+    private $_defaultProviders = array(
         "gtc.fullCrud.providers.GtcIdentifierProvider",
         "gtc.fullCrud.providers.GtcPartialViewProvider",
         "gtc.fullCrud.providers.GtcRelationProvider",
@@ -52,7 +55,7 @@ class FullCrudCode extends CrudCode
             parent::rules(),
             array(
                  array('validation', 'required'),
-                 array('authTemplateSlim, authTemplateHybrid, authTemplate, formOrientation, textEditor', 'safe'),
+                 array('authTemplateSlim, authTemplateHybrid, authTemplate, formOrientation, textEditor, providers', 'safe'),
             )
         );
     }
@@ -82,7 +85,7 @@ class FullCrudCode extends CrudCode
     public function provider()
     {
         $provider            = new GtcCodeProviderQueue();
-        $provider->providers = $this->providers;
+        $provider->providers = CMap::mergeArray($this->providers,$this->_defaultProviders);
         $provider->codeModel = $this;
         return $provider;
     }
