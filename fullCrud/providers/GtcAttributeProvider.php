@@ -6,7 +6,7 @@ class GtcAttributeProvider extends GtcCodeProvider
      * @param CActiveRecord   $modelClass
      * @param CDbColumnSchema $column
      */
-    public function generateAttribute($column, $view = false)
+    public function generateAttribute($modelClass, $column, $view = false)
     {
         $code = "";
         if ($column->isForeignKey) {

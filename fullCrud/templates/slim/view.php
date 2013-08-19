@@ -44,7 +44,7 @@
                 'attributes'=>array(
         ";
         foreach ($this->tableSchema->columns as $column) {
-            echo $this->provider()->generateAttribute($column);
+            echo $this->provider()->generateAttribute($this->model, $column);
         }
         echo "),
             ));
