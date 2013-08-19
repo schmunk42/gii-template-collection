@@ -7,7 +7,7 @@
         Yii::app()->bootstrap->registerAssetJs('../select2/select2.js');
         Yii::app()->clientScript->registerScript('crud/variant/update','$(\".crud-form select\").select2();');
 
-        \$form=\$this->beginWidget('CActiveForm', array(
+        \$form=\$this->beginWidget('TbActiveForm', array(
             'id'=>'{$this->class2id($this->modelClass)}-form',
             'enableAjaxValidation'=>{$this->enableAjaxValidation},
             'enableClientValidation'=>{$this->enableClientValidation},

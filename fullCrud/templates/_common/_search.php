@@ -3,7 +3,7 @@
     <?=
     "
     <?php
-    \$form=\$this->beginWidget('CActiveForm', array(
+    \$form=\$this->beginWidget('TbActiveForm', array(
         'action'=>Yii::app()->createUrl(\$this->route),
         'method'=>'get',
     )); ?>\n
