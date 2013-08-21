@@ -27,7 +27,7 @@ class EditableProvider extends GtcCodeProvider
     public function generateAttribute($modelClass, $column, $view = false)
     {
         if ($column->isForeignKey) {
-           return null;
+            return null;
         } elseif ($column->name) {
             $code = "array(
                         'name'=>'{$column->name}',
