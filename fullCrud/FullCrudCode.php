@@ -34,11 +34,11 @@ class FullCrudCode extends CrudCode
     public $providers = array();
 
     private $_defaultProviders = array(
-        "gtc.fullCrud.providers.EditableProvider",
         "gtc.fullCrud.providers.GtcIdentifierProvider",
         "gtc.fullCrud.providers.GtcPartialViewProvider",
-        "gtc.fullCrud.providers.GtcRelationProvider",
+        "gtc.fullCrud.providers.EditableProvider",
         "gtc.fullCrud.providers.YiiBoosterActiveRowProvider",
+        "gtc.fullCrud.providers.GtcRelationProvider",
         "gtc.fullCrud.providers.GtcActiveFieldProvider",
         "gtc.fullCrud.providers.GtcAttributeProvider",
         "gtc.fullCrud.providers.GtcColumnProvider",
