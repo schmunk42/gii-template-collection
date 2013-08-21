@@ -35,6 +35,11 @@ class GtcRelationProvider extends GtcCodeProvider
 
     public function generateRelationHeader($relationName, $relationInfo, $controller)
     {
+        // TODO: don't omit custom relations?
+        if (is_array($relationInfo[2])) {
+            return "echo '<h3>".ucfirst($relationName)." </h3>'";
+        }
+
         $code = "";
         $code .= "
         echo '<h3>".ucfirst($relationName)." ';
