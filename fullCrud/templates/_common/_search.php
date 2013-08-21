@@ -14,7 +14,7 @@
 
         <div class="row">
             <?= "<?php echo \$form->label(\$model,'{$column->name}'); ?>\n"; ?>
-            <?= "<?php " . $this->provider()->generateActiveField($this->modelClass, $column) . "; ?>\n"; ?>
+            <?= "<?php " . $this->provider()->generateActiveField($this->modelClass, $column, 'search') . "; ?>\n"; ?>
 
         </div>
 
