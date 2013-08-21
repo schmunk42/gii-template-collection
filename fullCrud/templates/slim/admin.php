@@ -42,20 +42,16 @@ $count = 0;
 $columns = "";
 foreach ($this->tableSchema->columns as $column) {
     // render, but comment from the 8th column on
-    if ($count == 7) {
+    if ($count == 8) {
         $columns .= "        /*\n";
     }
-    // omit text fields
-    if (strtoupper($column->dbType) == 'TEXT') {
-        continue;
-        #$columns .= "#";
-    } else {
+    $column = $this->provider()->generateColumn($this->modelClass, $column);
+    $columns .= "        " . $column . ",\n";
+    if (substr($column, 0, 1) != '#') {
         $count++;
-    }
-    $columns .= "        ".$this->provider()->generateColumn($this->modelClass, $column) . ",\n";
+    } // don't count a commented column
 }
-
-if ($count >= 8) {
+if ($count >= 9) {
     $columns .= "        */\n";
 }
 ?>
