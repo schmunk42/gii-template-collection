@@ -51,6 +51,8 @@ class GtcColumnProvider extends GtcCodeProvider
                             'filter'=>CHtml::listData({$relatedModelName}::model()->findAll(array('limit'=>1000)), '{$fcolumns[0]}', '{$suggestIdentifier}'),
                             )";
             }
+        } elseif (strtoupper($column->dbType) == 'TEXT') {
+            return "#'{$column->name}'"; // comment text fields
         } elseif (strtoupper($column->dbType) == 'BOOLEAN'
             or strtoupper($column->dbType) == 'TINYINT(1)' or
             strtoupper($column->dbType) == 'BIT'

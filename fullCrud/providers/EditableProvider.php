@@ -10,6 +10,8 @@ class EditableProvider extends GtcCodeProvider
     {
         if ($column->isForeignKey) {
             return null; //$provider->generateValueField($modelClass, $column);
+        } elseif (strtoupper($column->dbType) == 'TEXT') {
+            return "#'{$column->name}'"; // comment text fields
         } else {
             return "array(
             'class' => 'editable.EditableColumn',
