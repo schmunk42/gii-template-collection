@@ -11,8 +11,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 
 <?php
     $authPath = 'gtc.fullCrud.templates.slim.auth.';
-    $rightsPrefix = str_replace(" ",".",ucwords(str_replace("/"," ",$this->getModule()->id.'/'.$this->getControllerID())));
-    Yii::app()->controller->renderPartial($authPath . $this->authTemplateSlim, array('rightsPrefix'=>$rightsPrefix));
+    Yii::app()->controller->renderPartial($authPath . $this->authTemplateSlim, array('rightsPrefix'=>$this->getRightsPrefix()));
     ?>
 
     public function beforeAction($action)
@@ -136,12 +135,6 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
         } else {
             throw new CHttpException(400, Yii::t('<?php echo $this->messageCatalog; ?>', 'Invalid request. Please do not repeat this request again.'));
         }
-    }
-
-    public function actionIndex()
-    {
-        $dataProvider = new CActiveDataProvider('<?php echo $this->modelClass; ?>');
-        $this->render('index', array('dataProvider' => $dataProvider,));
     }
 
     public function actionAdmin()

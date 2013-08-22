@@ -9,8 +9,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 
 <?php
     $authPath = 'gtc.fullCrud.templates.hybrid.auth.';
-    $rightsPrefix = str_replace(" ",".",ucwords(str_replace("/"," ",$this->controller)));
-    Yii::app()->controller->renderPartial($authPath . $this->authTemplateHybrid, array('rightsPrefix'=>$rightsPrefix));
+    Yii::app()->controller->renderPartial($authPath . $this->authTemplateHybrid, array('rightsPrefix'=>$this->getRightsPrefix()));
     ?>
 
     public function beforeAction($action)

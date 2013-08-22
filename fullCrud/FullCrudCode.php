@@ -144,6 +144,14 @@ class FullCrudCode extends CrudCode
     }
 
     /**
+     * Returns the prefix for auth assignments, eg. `Module.Controller.Action`
+     * @return mixed
+     */
+    public function getRightsPrefix(){
+        return str_replace(" ",".",ucwords(str_replace("/"," ",$this->getModule()->id.'/'.$this->getControllerID())));
+    }
+
+    /**
      * @param null $model
      *
      * @return mixed
