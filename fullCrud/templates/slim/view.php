@@ -33,8 +33,6 @@
             </small>
         </h2>
 
-
-
         <?=
         "<?php
         \$this->widget(
@@ -43,12 +41,15 @@
                 'data'=>\$model,
                 'attributes'=>array(
         ";
+        ?>
+        <?php
         foreach ($this->tableSchema->columns as $column) {
             echo $this->provider()->generateAttribute($this->model, $column);
         }
-        echo "),
-            ));
-        ?>"?>
+        ?>
+        <?=
+        "   ),
+        )); ?>"?>
 
     </div>
 
