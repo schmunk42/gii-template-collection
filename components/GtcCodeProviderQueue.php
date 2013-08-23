@@ -16,12 +16,12 @@ class GtcCodeProviderQueue
         foreach ($this->providers AS $provider) {
             $class = Yii::import($provider);
             if (method_exists($class, $name)) {
-                //echo $class."----------->";
                 $obj            = new $class;
                 $obj->codeModel = $this->codeModel;
                 $c              = call_user_func_array(array(&$obj, $name), $args);
                 // until a provider returns not null
                 if ($c !== null) {
+                    #echo 'Provider: '.$class."\n";
                     return $c;
                 }
             }
