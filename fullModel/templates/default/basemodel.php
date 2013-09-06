@@ -107,7 +107,7 @@ abstract class <?php echo 'Base' . $modelClass; ?> extends <?php echo $this->bas
         return array_merge(
             parent::behaviors(), array(
                 'savedRelated' => array(
-                    'class' => 'gii-template-collection.components.GtcSaveRelationsBehavior'
+                    'class' => 'vendor.schmunk42.relation.behaviors.GtcSaveRelationsBehavior'
                 )
             )
         );
