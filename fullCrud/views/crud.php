@@ -173,6 +173,26 @@
         <?php echo $form->error($model, 'textEditor'); ?>
     </div>
 
+    <div class="row sticky">
+        <?php echo $form->labelEx($model, 'backendViewPathAlias'); ?>
+        <?php echo $form->textField($model, 'backendViewPathAlias', array('size' => 65)); ?>
+        <div class="tooltip">
+            This refers to the directory that the backend views should be generated under.
+            It should be specified in the form of a path alias, for example, <code>application.themes.backend.views</code>.
+        </div>
+        <?php echo $form->error($model, 'backendViewPathAlias'); ?>
+    </div>
+
+    <div class="row sticky">
+        <?php echo $form->labelEx($model, 'frontendViewPathAlias'); ?>
+        <?php echo $form->textField($model, 'frontendViewPathAlias', array('size' => 65)); ?>
+        <div class="tooltip">
+            This refers to the directory that the frontend views should be generated under.
+            It should be specified in the form of a path alias, for example, <code>application.themes.frontend.views</code>.
+        </div>
+        <?php echo $form->error($model, 'frontendViewPathAlias'); ?>
+    </div>
+
 </fieldset>
 
 <h3>Legacy Code Template specific</h3>

@@ -20,6 +20,8 @@ class FullCrudCode extends CrudCode
     public $authTemplateHybrid = "yii_user_management_access_control";
     public $formOrientation = "horizontal";
     public $textEditor = "textarea";
+    public $backendViewPathAlias = "application.themes.backend2.views";
+    public $frontendViewPathAlias = "application.themes.frontend.views";
     // Legacy template
     public $authTemplate = "auth_filter_default";
 
@@ -55,7 +57,7 @@ class FullCrudCode extends CrudCode
             parent::rules(),
             array(
                  array('validation', 'required'),
-                 array('authTemplateSlim, authTemplateHybrid, authTemplate, formOrientation, textEditor, providers', 'safe'),
+                 array('authTemplateSlim, authTemplateHybrid, authTemplate, formOrientation, textEditor, backendViewPathAlias, frontendViewPathAlias', 'safe'),
             )
         );
     }
@@ -88,6 +90,50 @@ class FullCrudCode extends CrudCode
         $provider->providers = CMap::mergeArray($this->providers,$this->_defaultProviders);
         $provider->codeModel = $this;
         return $provider;
+    }
+
+    /**
+     * This method is overridden to be able to copy certain templates to backend and frontend themes' view directories
+     * More specifically, views placed in _frontend will be copied to the destination as specified by $this->frontendViewPathAlias
+     * and views placed in _backend will be copied to the destination as specified by $this->backendViewPathAlias
+     */
+    public function prepare()
+    {
+
+        parent::prepare();
+
+        // Add backend theme views
+        $templatePath = $this->templatePath. DIRECTORY_SEPARATOR . "_backend";
+        if (is_dir($templatePath)) {
+            $files=scandir($templatePath);
+            foreach($files as $file)
+            {
+                if(is_file($templatePath.'/'.$file) && CFileHelper::getExtension($file)==='php')
+                {
+                    $this->files[]=new CCodeFile(
+                        Yii::getPathOfAlias($this->backendViewPathAlias).DIRECTORY_SEPARATOR.$this->getControllerID().DIRECTORY_SEPARATOR.$file,
+                        $this->render($templatePath.'/'.$file)
+                    );
+                }
+            }
+        }
+
+        // Add frontend theme views
+        $templatePath = $this->templatePath. DIRECTORY_SEPARATOR . "_frontend";
+        if (is_dir($templatePath)) {
+            $files=scandir($templatePath);
+            foreach($files as $file)
+            {
+                if(is_file($templatePath.'/'.$file) && CFileHelper::getExtension($file)==='php')
+                {
+                    $this->files[]=new CCodeFile(
+                        Yii::getPathOfAlias($this->frontendViewPathAlias).DIRECTORY_SEPARATOR.$this->getControllerID().DIRECTORY_SEPARATOR.$file,
+                        $this->render($templatePath.'/'.$file)
+                    );
+                }
+            }
+        }
+
     }
 
     /**
