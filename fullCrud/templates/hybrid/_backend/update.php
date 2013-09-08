@@ -86,7 +86,7 @@ if ($relations !== array()): ?>
 </div>
 
 <?php echo "<?php\n"; ?>
-$relatedSearchModel = $model->getRelatedSearchModel('<?php echo $key; ?>');
+$relatedSearchModel = $this->getRelatedSearchModel($model, '<?php echo $key; ?>');
 $this->widget('TbGridView',
     array(
         'id'=>'<?php echo $controller; ?>-grid',
