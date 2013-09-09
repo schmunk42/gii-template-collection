@@ -10,6 +10,7 @@
         "yiisoft/yii":">=1.1.13",
         "vitalets/x-editable-yii": "1.2.0",
         "clevertech/YiiBooster": "dev-master",
+        "schmunk42/relation": "1.*",
         ...
     },
     </pre>
