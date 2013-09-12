@@ -1,8 +1,8 @@
 <div class="view">
 
     <?php
-    echo "    <b><?php echo CHtml::encode(\$data->getAttributeLabel('{$this->identificationColumn}')); ?>:</b>\n";
-    echo "    <?php echo CHtml::link(CHtml::encode(\$data->{$this->identificationColumn}), array('{$this->controller}/view', '{$this->identificationColumn}'=>\$data->{$this->identificationColumn})); ?>\n    <br />\n\n";
+    echo "    <b><?php echo CHtml::encode(\$data->getAttributeLabel('{$this->tableSchema->primaryKey}')); ?>:</b>\n";
+    echo "    <?php echo CHtml::link(CHtml::encode(\$data->{$this->tableSchema->primaryKey}), array('{$this->controller}/view', '{$this->tableSchema->primaryKey}'=>\$data->{$this->tableSchema->primaryKey})); ?>\n    <br />\n\n";
     $count = 0;
     foreach ($this->tableSchema->columns as $column) {
         if ($column->isPrimaryKey)

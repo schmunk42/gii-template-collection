@@ -9,19 +9,18 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 
 <?php
     $authPath = 'gtc.fullCrud.templates.hybrid.auth.';
-    $rightsPrefix = str_replace(" ",".",ucwords(str_replace("/"," ",$this->controller)));
-    Yii::app()->controller->renderPartial($authPath . $this->authTemplateHybrid, array('rightsPrefix'=>$rightsPrefix));
+    Yii::app()->controller->renderPartial($authPath . $this->authTemplateHybrid, array('rightsPrefix'=>$this->getRightsPrefix()));
     ?>
 
     public function beforeAction($action)
     {
         parent::beforeAction($action);
         // map identifcationColumn to id
-        if (!isset($_GET['id']) && isset($_GET['<?php echo $this->identificationColumn; ?>'])) {
+        if (!isset($_GET['id']) && isset($_GET['<?php echo $this->tableSchema->primaryKey; ?>'])) {
             $model = <?php echo $this->modelClass; ?>::model()->find(
-                '<?php echo $this->identificationColumn; ?> = :<?php echo $this->identificationColumn; ?>',
+                '<?php echo $this->tableSchema->primaryKey; ?> = :<?php echo $this->tableSchema->primaryKey; ?>',
                 array(
-                    ':<?php echo $this->identificationColumn; ?>' => $_GET['<?php echo $this->identificationColumn; ?>']
+                    ':<?php echo $this->tableSchema->primaryKey; ?>' => $_GET['<?php echo $this->tableSchema->primaryKey; ?>']
                 )
             );
             if ($model !== null) {
@@ -73,7 +72,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
                     }
                 }
             } catch (Exception $e) {
-                $model->addError('<?php echo $this->identificationColumn;?>', $e->getMessage());
+                $model->addError('<?php echo $this->tableSchema->primaryKey;?>', $e->getMessage());
             }
         } elseif (isset($_GET['<?php echo $this->modelClass; ?>'])) {
             $model->attributes = $_GET['<?php echo $this->modelClass; ?>'];
@@ -115,7 +114,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
                     }
                 }
             } catch (Exception $e) {
-                $model->addError('<?php echo $this->identificationColumn;?>', $e->getMessage());
+                $model->addError('<?php echo $this->tableSchema->primaryKey;?>', $e->getMessage());
             }
         }
 
@@ -205,5 +204,45 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
             Yii::app()->end();
         }
     }
+
+    /**
+    * Returns a model used to populate a filterable, searchable
+    * and sortable CGridView with the records found by a model relation.
+    *
+    * Usage:
+    * $relatedSearchModel = $this->getRelatedSearchModel($model, 'relationName');
+    *
+    * Then, when invoking CGridView:
+    *    ...
+    *        'dataProvider' => $relatedSearchModel->search(),
+    *        'filter' => $relatedSearchModel,
+    *    ...
+    * @returns CActiveRecord
+    */
+    public function getRelatedSearchModel($model, $name)
+    {
+        $md = $model->getMetaData();
+        if (!isset($md->relations[$name])) {
+            throw new CDbException(Yii::t('yii', '{class} does not have relation "{name}".', array('{class}' => get_class($model), '{name}' => $name)));
+        }
+
+        $relation = $md->relations[$name];
+        if (!($relation instanceof CHasManyRelation)) {
+            throw new CException("Currently works with HAS_MANY relations only");
+        }
+
+        $className = $relation->className;
+        $related = new $className('search');
+        $related->unsetAttributes();
+        $related->{$relation->foreignKey} = $model->primaryKey;
+
+        if (isset($_GET[$className])) {
+            $related->attributes = $_GET[$className];
+        }
+
+        return $related;
+    }
+
+
 
 }

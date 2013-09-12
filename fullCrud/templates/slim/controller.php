@@ -1,44 +1,32 @@
 <?php echo "<?php\n"; ?>
 
+<?php $pk = CActiveRecord::model($this->modelClass)->tableSchema->primaryKey ?>
+
 class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseControllerClass."\n"; ?>
 {
     #public $layout='//layouts/column2';
 
     public $defaultAction = "admin";
     public $scenario = "crud";
+    public $scope = "crud";
 
 <?php
     $authPath = 'gtc.fullCrud.templates.slim.auth.';
-    $rightsPrefix = str_replace(" ",".",ucwords(str_replace("/"," ",$this->getModule()->id.'/'.$this->getControllerID())));
-    Yii::app()->controller->renderPartial($authPath . $this->authTemplateSlim, array('rightsPrefix'=>$rightsPrefix));
+    Yii::app()->controller->renderPartial($authPath . $this->authTemplateSlim, array('rightsPrefix'=>$this->getRightsPrefix()));
     ?>
 
     public function beforeAction($action)
     {
         parent::beforeAction($action);
-        // map identifcationColumn to id
-        if (!isset($_GET['id']) && isset($_GET['<?php echo $this->identificationColumn; ?>'])) {
-            $model = <?php echo $this->modelClass; ?>::model()->find(
-                '<?php echo $this->identificationColumn; ?> = :<?php echo $this->identificationColumn; ?>',
-                array(
-                    ':<?php echo $this->identificationColumn; ?>' => $_GET['<?php echo $this->identificationColumn; ?>']
-                )
-            );
-            if ($model !== null) {
-                $_GET['id'] = $model-><?php echo CActiveRecord::model($this->modelClass)->tableSchema->primaryKey ?>;
-            } else {
-                throw new CHttpException(400);
-            }
-        }
         if ($this->module !== null) {
             $this->breadcrumbs[$this->module->Id] = array('/' . $this->module->Id);
         }
         return true;
     }
 
-    public function actionView($id)
+    public function actionView($<?= $pk ?>)
     {
-        $model = $this->loadModel($id);
+        $model = $this->loadModel($<?= $pk ?>);
         $this->render('view', array('model' => $model,));
     }
 
@@ -69,11 +57,11 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
                     if (isset($_GET['returnUrl'])) {
                         $this->redirect($_GET['returnUrl']);
                     } else {
-                        $this->redirect(array('view', 'id' => $model-><?php echo CActiveRecord::model($this->modelClass)->tableSchema->primaryKey ?>));
+                        $this->redirect(array('view', '<?= $pk ?>' => $model-><?= $pk ?>));
                     }
                 }
             } catch (Exception $e) {
-                $model->addError('<?php echo $this->identificationColumn;?>', $e->getMessage());
+                $model->addError('<?= $pk ?>', $e->getMessage());
             }
         } elseif (isset($_GET['<?php echo $this->modelClass; ?>'])) {
             $model->attributes = $_GET['<?php echo $this->modelClass; ?>'];
@@ -82,9 +70,9 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
         $this->render('create', array('model' => $model));
     }
 
-    public function actionUpdate($id)
+    public function actionUpdate($<?= $pk ?>)
     {
-        $model = $this->loadModel($id);
+        $model = $this->loadModel($<?= $pk ?>);
         $model->scenario = $this->scenario;
 
         <?php if($this->validation == 1 || $this->validation == 3) { ?>$this->performAjaxValidation($model, '<?php echo $this->class2id($this->modelClass)?>-form');
@@ -111,11 +99,11 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
                     if (isset($_GET['returnUrl'])) {
                         $this->redirect($_GET['returnUrl']);
                     } else {
-                        $this->redirect(array('view', 'id' => $model-><?php echo CActiveRecord::model($this->modelClass)->tableSchema->primaryKey ?>));
+                        $this->redirect(array('view', '<?= $pk ?>' => $model-><?= $pk ?>));
                     }
                 }
             } catch (Exception $e) {
-                $model->addError('<?php echo $this->identificationColumn;?>', $e->getMessage());
+                $model->addError('<?= $pk ?>', $e->getMessage());
             }
         }
 
@@ -129,11 +117,11 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
         $es->update();
     }
 
-    public function actionDelete($id)
+    public function actionDelete($<?= $pk ?>)
     {
         if (Yii::app()->request->isPostRequest) {
             try {
-                $this->loadModel($id)->delete();
+                $this->loadModel($<?= $pk ?>)->delete();
             } catch (Exception $e) {
                 throw new CHttpException(500, $e->getMessage());
             }
@@ -150,15 +138,13 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
         }
     }
 
-    public function actionIndex()
-    {
-        $dataProvider = new CActiveDataProvider('<?php echo $this->modelClass; ?>');
-        $this->render('index', array('dataProvider' => $dataProvider,));
-    }
-
     public function actionAdmin()
     {
         $model = new <?php echo $this->modelClass; ?>('search');
+        $scopes = $model->scopes();
+        if (isset($scopes[$this->scope])) {
+            $model->{$this->scope}();
+        }
         $model->unsetAttributes();
 
         if (isset($_GET['<?php echo $this->modelClass; ?>'])) {
@@ -170,7 +156,13 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 
     public function loadModel($id)
     {
-        $model = <?php echo $this->modelClass; ?>::model()->findByPk($id);
+        $m = <?php echo $this->modelClass; ?>::model();
+        // apply scope, if available
+        $scopes = $m->scopes();
+        if (isset($scopes[$this->scope])) {
+            $m->{$this->scope}();
+        }
+        $model = $m->findByPk($id);
         if ($model === null) {
             throw new CHttpException(404, Yii::t('<?php echo $this->messageCatalog; ?>', 'The requested page does not exist.'));
         }

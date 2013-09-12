@@ -24,7 +24,7 @@
                     }
 
                     // render a view file if present in destination folder
-                    if ($columnView = $this->resolveColumnViewFile($column)) {
+                    if ($columnView = $this->provider()->resolveColumnViewFile($column)) {
                         echo "<?php      \$this->renderPartial('{$columnView}', array('model'=>\$model)) ?>";
                         continue;
                     }
@@ -49,24 +49,24 @@
 
                         if (isset($columnRelation["relation"]) && $columnRelation["relation"][0] === 'CBelongsToRelation') {
 
-                            if ($relationView = $this->resolveRelationViewFile($relation)) {
+                            if ($relationView = $this->provider()->resolveRelationViewFile($relation, $this)) {
                                 echo "      <?php \$this->renderPartial('{$relationView}', array('model'=>\$model)) ?>";
                                 continue;
                             }
 
                             // render belongsTo relation input
                             echo "                <?php\n";
-                            echo "                \$input = ".FullCrudHelper::generateRelation($this->modelClass, $columnRelation["key"], $columnRelation["relation"], true).";\n";
+                            echo "                \$input = ".$this->provider()->generateRelationField($this->modelClass, $columnRelation["key"], $columnRelation["relation"], true).";\n"; // TODO
                             echo "                echo \$form->customRow(\$model, '{$column->name}', \$input);\n";
                             echo "                ?>\n";
 
                             // render create button
-                            $controller = FullCrudHelper::resolveController($columnRelation["relation"]);
+                            $controller = $this->resolveController($columnRelation["relation"]);
                             $relatedModelClass = $columnRelation["relation"][1];
                             $relatedModel = CActiveRecord::model($relatedModelClass);
                             $fk = $columnRelation["relation"][2];
                             $pk = $relatedModel->tableSchema->primaryKey;
-                            $suggestedfield = FullCrudHelper::suggestIdentifier($relatedModel);
+                            $suggestedfield = $this->provider()->suggestIdentifier($relatedModel);
 
                             echo "
                             <?php
@@ -94,7 +94,7 @@
                             // render modal create-forms into modal_forms clip (rendered by parent view outside active form elements)
                             echo "<?php
                             \$this->beginClip('modal:'.\$formId.'-modal');
-                            \$this->renderPartial('/{$controller}/_modal_form', array(
+                            \$this->renderPartial('{$controller}/_modal_form', array(
                                 'formId' => \$formId,
                                 'inputSelector' => '#{$this->modelClass}_{$fk}',
                                 'model' => new {$relatedModelClass},
@@ -110,7 +110,7 @@
                         <?php
                         } else {
                             // render ordinary input row
-                            echo "    <?php echo " . $this->generateActiveRow($this->modelClass, $column) . "; ?>\n";
+                            echo "    <?php echo " . $this->provider()->generateActiveRow($this->modelClass, $column, false, $this) . "; ?>\n";
                         }
                     }
                 endforeach;
@@ -127,7 +127,7 @@
                 if ($relation[0] == 'CHasOneRelation'
                     || $relation[0] == 'CManyManyRelation'
                 ) :
-                    if ($relationView = $this->resolveRelationViewFile($relation)) {
+                    if ($relationView = $this->provider()->resolveRelationViewFile($relation, $this)) {
                         echo "      <?php \$this->renderPartial('{$relationView}', array('model'=>\$model, 'form' => \$form)) ?>\n";
                         continue;
                     }
@@ -141,7 +141,7 @@
 PHP;
                     ?>
 
-                    <?= "<?php " . FullCrudHelper::generateRelation($this->modelClass, $key, $relation) . " ?>" ?>
+                    <?= "<?php " . $this->provider()->generateRelation($this->modelClass, $key, $relation) . " ?>" ?>
 
                 <?
                 endif;

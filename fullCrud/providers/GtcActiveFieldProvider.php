@@ -5,18 +5,30 @@
  * and open the template in the editor.
  */
 
-class FullCrudFieldProvider
+class GtcActiveFieldProvider extends GtcCodeProvider
 {
-
-    static public function generateActiveField($model, $column)
+    public function generateActiveLabel($model, $column)
     {
+        if ($column->autoIncrement) {
+            return false;
+        }
+    }
 
-        if (strtoupper($column->dbType) == 'TINYINT(1)'
+    public function generateActiveField($model, $column)
+    {
+        if ($column->autoIncrement) {
+            return false;
+        }
+
+        if (strtoupper($column->dbType) == 'TEXT' && stristr($column->name, 'html')) {
+            return "\$this->widget('CKEditor', array('model'=>\$model,'attribute'=>'{$column->name}','options'=>Yii::app()->params['ext.ckeditor.options']));";
+        } elseif (strtoupper($column->dbType) == 'TINYINT(1)'
             || strtoupper($column->dbType) == 'BIT'
             || strtoupper($column->dbType) == 'BOOL'
-            || strtoupper($column->dbType) == 'BOOLEAN') {
+            || strtoupper($column->dbType) == 'BOOLEAN'
+        ) {
             return "echo \$form->checkBox(\$model,'{$column->name}')";
-        } else if (strtoupper($column->dbType) == 'DATE') {
+        } elseif (strtoupper($column->dbType) == 'DATE') {
             return ("\$this->widget('zii.widgets.jui.CJuiDatePicker',
                          array(
                                  'model'=>\$model,
@@ -32,7 +44,7 @@ class FullCrudFieldProvider
                                  )
                              );
                     ");
-        } else if (substr(strtoupper($column->dbType), 0, 4) == 'ENUM') {
+        } elseif (substr(strtoupper($column->dbType), 0, 4) == 'ENUM') {
             $string = sprintf("echo CHtml::activeDropDownList(\$model, '%s', array(\n", $column->name);
 
             $enum_values = explode(',', substr($column->dbType, 4, strlen($column->dbType) - 1));

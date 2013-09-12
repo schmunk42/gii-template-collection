@@ -49,10 +49,10 @@ $('.form .row.model-class').toggle($('#{$class}_tableName').val().substring($('#
             To disable this behavior, choose the 'singlefile' template instead of the
             default.
         </li>
-        <li> It will include the CSaveRelationsBehavior to add additional functions for MANY_MANY relations</li>
+        <li> It will include the GtcSaveRelationsBehavior to add additional functions for MANY_MANY relations</li>
         <li> It adds the __toString() php magic function to the Base Model class</li>
         <li> All comments are removed except for the first comment describing the attributes of the model</li>
-        <li> Attribute labels gets a Yii::t('app', <label>) wrapper to make easier i18n possible</li>
+        <li> Attribute labels gets a Yii::t('app', 'label') wrapper to make easier i18n possible</li>
         <li> If a column is called <em> create_time, createtime, update_time, updatetime or timestamp </em> the
             CTimestampBehavior shipped with zii will automatically added as a behavior
         </li>
@@ -116,23 +116,6 @@ $form = $this->beginWidget('CCodeForm', array('model' => $model));
     </div>
     <?php echo $form->error($model, 'modelClass'); ?>
 </div>
-<div class="row">
-    <?php echo $form->labelEx($model, 'identificationColumn'); ?>
-    <?php echo $form->textField($model, 'identificationColumn', array('size' => 65)); ?>
-    <div class="tooltip">
-        If you specify a column here, the generated Model will use the column
-        as a human-readable identifier. Specify the 'title' or 'name' attribute of
-        the model here. Leave it empty to let the column be guessed automatically.
-        Set it to 'id' or to the PK of the model to bypass this feature.
-        <hr/>
-        If unsure, leave it empty
-        <hr/>
-        The 'identificationColumnValidator' will automatically applied to the column
-        because certain conditions need to be met for the column. Check the Validator
-        for details.
-    </div>
-    <?php echo $form->error($model, 'identificationColumn'); ?>
-</div>
 
 <div class="row wide">
     <?php echo $form->labelEx($model, 'messageCatalog'); ?>
@@ -142,7 +125,7 @@ $form = $this->beginWidget('CCodeForm', array('model' => $model));
     <div class="tooltip">
         Message catalog for CRUD hints and labels.
     </div>
-    <?php echo $form->error($model, 'identificationColumn'); ?>
+    <?php echo $form->error($model, 'messageCatalog'); ?>
 </div>
 
 <div class="row sticky">

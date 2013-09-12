@@ -3,7 +3,7 @@ $label = $this->pluralize($this->class2name($this->modelClass));
 
 echo "<?php\n";
 echo "\$this->breadcrumbs[Yii::t('".$this->messageCatalog."','$label')] = array('admin');\n";
-echo "\$this->breadcrumbs[] = \$model->{$this->identificationColumn};\n";
+echo "\$this->breadcrumbs[] = \$model->{$this->tableSchema->primaryKey};\n";
 echo "?>";
 ?>
 
@@ -21,8 +21,8 @@ echo "?>";
 <?php echo '<?php $this->renderPartial("_toolbar", array("model"=>$model)); ?>'; ?>
 
 <?php
-echo "    <b><?php echo CHtml::encode(\$model->getAttributeLabel('{$this->identificationColumn}')); ?>:</b>\n";
-echo "    <?php echo CHtml::link(CHtml::encode(\$model->{$this->identificationColumn}), array('view', '{$this->identificationColumn}'=>\$model->{$this->identificationColumn})); ?>\n    <br />\n\n";
+echo "    <b><?php echo CHtml::encode(\$model->getAttributeLabel('{$this->tableSchema->primaryKey}')); ?>:</b>\n";
+echo "    <?php echo CHtml::link(CHtml::encode(\$model->{$this->tableSchema->primaryKey}), array('view', '{$this->tableSchema->primaryKey}'=>\$model->{$this->tableSchema->primaryKey})); ?>\n    <br />\n\n";
 $count = 0;
 foreach ($this->tableSchema->columns as $column) {
     if ($column->isPrimaryKey)
@@ -45,10 +45,10 @@ if ($count >= 7)
 <?php
 foreach (CActiveRecord::model(Yii::import($this->model))->relations() as $key => $relation) {
 
-    $controller = FullCrudHelper::resolveController($relation);
+    $controller = $this->resolveController($relation);
     $relatedModel = CActiveRecord::model($relation[1]);
     $pk = $relatedModel->tableSchema->primaryKey;
-    $suggestedfield = FullCrudHelper::suggestIdentifier($relatedModel);
+    $suggestedfield = $this->provider()->suggestIdentifier($relatedModel);
 
     // TODO: currently composite PKs are omitted
     if (is_array($pk))
@@ -58,7 +58,7 @@ foreach (CActiveRecord::model(Yii::import($this->model))->relations() as $key =>
         #$model = CActiveRecord::model($relation[1]);
         #if (!$pk = $model->tableSchema->primaryKey)
         #    $pk = 'id';
-        #$suggestedtitle = FullCrudHelper::suggestName($model->tableSchema->columns);
+        #$suggestedtitle = $this->suggestName($model->tableSchema->columns);
         echo '<h2>';
         echo "<?php echo CHtml::link(Yii::t('app','" . ucfirst($key) . "'), array('" . $controller . "/admin'));?>";
         echo "</h2>\n";
@@ -82,7 +82,7 @@ foreach (CActiveRecord::model(Yii::import($this->model))->relations() as $key =>
         if (!$pk = $relatedModel->tableSchema->primaryKey)
             $pk = 'id';
 
-#$suggestedtitle = FullCrudHelper::suggestName($model->tableSchema->columns);
+#$suggestedtitle = $this->suggestName($model->tableSchema->columns);
         echo '<h2>';
         echo "<?php echo CHtml::link(Yii::t('app','" . $relation[1] . "'), array('" . $controller . "/admin'));?>";
         echo "</h2>\n";
@@ -126,8 +126,8 @@ foreach (CActiveRecord::model(Yii::import($this->model))->relations() as $key =>
                     $relatedModel = CActiveRecord::model($relation[1]);
                     $columns = $relatedModel->tableSchema->columns;
 
-                    $suggestedfield = FullCrudHelper::suggestIdentifier($relatedModel);
-                    $controller = FullCrudHelper::resolveController($relation);
+                    $suggestedfield = $this->provider()->suggestIdentifier($relatedModel);
+                    $controller = $this->resolveController($relation);
                     $value = "(\$model->{$key} !== null)?";
                     $value .= "'<span class=label>" . $relation[0] . "</span><br/>'.";
                     $value .= "CHtml::link(\$model->{$key}->{$suggestedfield}, array('{$controller}/view','{$relatedModel->tableSchema->primaryKey}'=>\$model->{$key}->{$relatedModel->tableSchema->primaryKey}), array('class'=>'btn'))";

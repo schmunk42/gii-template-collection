@@ -48,12 +48,12 @@ if ($relations !== array()): ?>
 
 <?php
     foreach ($relations as $key => $relation) {
-        $controller = FullCrudHelper::resolveController($relation);
+        $controller = str_replace("/", "", $this->resolveController($relation));
         $relatedModelClass = $relation[1];
         $relatedModel = CActiveRecord::model($relatedModelClass);
         $fk = $relation[2];
         $pk = $relatedModel->tableSchema->primaryKey;
-        $suggestedfield = FullCrudHelper::suggestIdentifier($relatedModel);
+        $suggestedfield = $this->provider()->suggestIdentifier($relatedModel);
 
         // TODO: currently composite PKs are omitted
         if (is_array($pk)) {
@@ -76,7 +76,8 @@ if ($relations !== array()): ?>
     echo "<?php \$this->widget('bootstrap.widgets.TbButtonGroup', array(
     'type' => '', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
     'buttons'=>array(
-        array('label'=>Yii::t('" . $this->messageCatalog . "','Create'), 'icon'=>'icon-plus', 'url' => array('{$controller}/create','{$relatedModelClass}' => array('{$fk}'=>\$model->{$pk}), 'returnUrl' => Yii::app()->request->url), array('class'=>''))
+        // TODO
+        #array('label'=>Yii::t('" . $this->messageCatalog . "','Create'), 'icon'=>'icon-plus', 'url' => array('{$controller}/create','{$relatedModelClass}' => array('{$fk}'=>\$model->{$pk}), 'returnUrl' => Yii::app()->request->url), array('class'=>''))
     ),
 ));
 ?>";
@@ -85,7 +86,7 @@ if ($relations !== array()): ?>
 </div>
 
 <?php echo "<?php\n"; ?>
-$relatedSearchModel = $model->getRelatedSearchModel('<?php echo $key; ?>');
+$relatedSearchModel = $this->getRelatedSearchModel($model, '<?php echo $key; ?>');
 $this->widget('TbGridView',
     array(
         'id'=>'<?php echo $controller; ?>-grid',
@@ -117,7 +118,7 @@ $this->widget('TbGridView',
 
         $count++;
 
-        echo "        " . FullCrudHelper::generateEditableField($relatedModelClass, $column, $controller) . ",\n";
+        echo "        " . $this->provider()->generateColumn($relatedModelClass, $column, $controller) . ",\n";
     }
 
     if ($count >= 8) {
@@ -142,7 +143,7 @@ $this->widget('TbGridView',
             echo "<div class='well'>\n";
             echo "    <div class='row'>\n";
 
-            echo "<div class='span3'><?php " . FullCrudHelper::generateRelationHeader($relatedModel, $key, $relation) . " ?></div>";
+            echo "<div class='span3'><?php " . $this->provider()->generateRelationHeader($key, $relation, $controller) . " ?></div>";
             echo "<div class='span8'>
 <?php
     echo '<span class=label>{$relation[0]}</span>';
@@ -174,7 +175,7 @@ $this->widget('TbGridView',
                 $pk = 'id';
             }
 
-            echo "<div class='span3'><?php " . FullCrudHelper::generateRelationHeader($relatedModel, $key, $relation) . " ?></div>";
+            echo "<div class='span3'><?php " . $this->provider()->generateRelationHeader($relatedModel, $key, $relation) . " ?></div>";
             echo "<div class='span8'>
 <?php
     echo '<span class=label>{$relation[0]}</span>';

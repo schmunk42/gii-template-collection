@@ -91,7 +91,7 @@
 
             // render relation links
             foreach ($model->relations() AS $key => $relation) {
-                echo "array('label'=>'{$key} - {$relation[1]}', 'url' =>array('".FullCrudHelper::resolveController($relation)."/admin')),";
+                echo "array('label'=>'{$key} - {$relation[1]}', 'url' =>array('".$this->resolveController($relation)."/admin')),";
             }
 
             echo "

@@ -11,38 +11,61 @@ class FullCrudCode extends CrudCode
 {
     // validation method; 0 = none, 1 = ajax, 2 = client-side, 3 = both
     public $validation = 3;
-    public $identificationColumn = null;
     public $baseControllerClass = 'Controller';
     public $messageCatalog = "crud";
     public $template = "slim";
-    public $moduleName;
     // Slim template
     public $authTemplateSlim = "yii_user_management_access_control";
     // Hybrid template
     public $authTemplateHybrid = "yii_user_management_access_control";
     public $formOrientation = "horizontal";
     public $textEditor = "textarea";
+    public $backendViewPathAlias = "application.themes.backend2.views";
+    public $frontendViewPathAlias = "application.themes.frontend.views";
     // Legacy template
     public $authTemplate = "auth_filter_default";
 
+    /*
+     * for usage as provider
+     */
+    public $codeModel;
+
+    /*
+     * custom providers, topmost has highest priority
+     */
+    public $providers = array();
+
+    private $_defaultProviders = array(
+        "gtc.fullCrud.providers.GtcIdentifierProvider",
+        "gtc.fullCrud.providers.GtcPartialViewProvider",
+        "gtc.fullCrud.providers.EditableProvider",
+        "gtc.fullCrud.providers.YiiBoosterActiveRowProvider",
+        "gtc.fullCrud.providers.GtcRelationProvider",
+        "gtc.fullCrud.providers.GtcActiveFieldProvider",
+        "gtc.fullCrud.providers.GtcAttributeProvider",
+        "gtc.fullCrud.providers.GtcColumnProvider",
+        "gtc.fullCrud.FullCrudCode",
+    );
+
+    /**
+     * Returns validation rules
+     * @return array
+     */
     public function rules()
     {
         return array_merge(
             parent::rules(),
             array(
                  array('validation', 'required'),
-                 array('authTemplateSlim, authTemplateHybrid, authTemplate, identificationColumn, formOrientation, textEditor', 'safe'),
-                 array(
-                     'messageCatalog, moduleName',
-                     'match',
-                     'pattern' => '/^[a-zA-Z_][\w.]*$/',
-                     'message' => '{attribute} should only contain word characters.'
-                 ),
-                 array('moduleName', 'sticky'),
+                 array('authTemplateSlim, authTemplateHybrid, authTemplate, formOrientation, textEditor, backendViewPathAlias, frontendViewPathAlias', 'safe'),
             )
         );
     }
 
+    /**
+     * Returns form attribute labels
+     * @return array
+     */
     public function attributeLabels()
     {
         return array_merge(
@@ -53,122 +76,68 @@ class FullCrudCode extends CrudCode
         );
     }
 
-    //
-    public function getEnableAjaxValidation()
+    /**
+     * Tries to find a provider for the called method, continues until a provider returns not NULL
+     *
+     * @param string $name
+     * @param array  $args
+     *
+     * @return mixed
+     */
+    public function provider()
     {
-        return ($this->validation == 1 || $this->validation == 3) ? 'true' : 'false';
-    }
-
-    //
-    public function getEnableClientValidation()
-    {
-        return ($this->validation == 2 || $this->validation == 3) ? 'true' : 'false';
-    }
-
-    // updated for $moduleName handling
-    public function getModule()
-    {
-        if (!empty($this->moduleName)) {
-            if (($module = Yii::app()->getModule($this->moduleName)) !== null) {
-                return $module;
-            }
-        }
-        return parent::getModule();
-    }
-
-    // updated for $moduleName handling
-    public function getControllerID()
-    {
-        if ($this->getModule() !== Yii::app() && !empty($this->moduleName)) {
-            return $this->controller;
-        } else {
-            return parent::getControllerID();
-        }
-    }
-
-    // updated for $moduleName handling
-    public function successMessage()
-    {
-        $link = CHtml::link(
-            'try it now',
-            Yii::app()->createUrl($this->moduleName . '/' . $this->controller),
-            array('target' => '_blank')
-        );
-        return "The controller has been generated successfully. You may $link.";
+        $provider            = new GtcCodeProviderQueue();
+        $provider->providers = CMap::mergeArray($this->providers,$this->_defaultProviders);
+        $provider->codeModel = $this;
+        return $provider;
     }
 
     /**
-     * Returns relations of current model
-     * @return array
+     * This method is overridden to be able to copy certain templates to backend and frontend themes' view directories
+     * More specifically, views placed in _frontend will be copied to the destination as specified by $this->frontendViewPathAlias
+     * and views placed in _backend will be copied to the destination as specified by $this->backendViewPathAlias
      */
-    public function getRelations()
-    {
-        return CActiveRecord::model($this->modelClass)->relations();
-    }
-
-
     public function prepare()
     {
-        if (!$this->identificationColumn) {
-            $this->identificationColumn = $this->tableSchema->primaryKey;
-        }
-
-        if (!array_key_exists($this->identificationColumn, $this->tableSchema->columns)) {
-            $this->addError(
-                'identificationColumn',
-                'The specified column can not be found in the models attributes. <br /> Please specify a valid attribute. If unsure, leave the field empty.'
-            );
-        }
 
         parent::prepare();
+
+        // Add backend theme views
+        $templatePath = $this->templatePath. DIRECTORY_SEPARATOR . "_backend";
+        if (is_dir($templatePath)) {
+            $files=scandir($templatePath);
+            foreach($files as $file)
+            {
+                if(is_file($templatePath.'/'.$file) && CFileHelper::getExtension($file)==='php')
+                {
+                    $this->files[]=new CCodeFile(
+                        Yii::getPathOfAlias($this->backendViewPathAlias).DIRECTORY_SEPARATOR.$this->getControllerID().DIRECTORY_SEPARATOR.$file,
+                        $this->render($templatePath.'/'.$file)
+                    );
+                }
+            }
         }
 
-
-    public function validateModel($attribute, $params)
-    {
-        // check your import paths, if you get an error here
-        // PHP error can't be catched as an exception
-        if ($this->model) {
-            Yii::import($this->model, true);
+        // Add frontend theme views
+        $templatePath = $this->templatePath. DIRECTORY_SEPARATOR . "_frontend";
+        if (is_dir($templatePath)) {
+            $files=scandir($templatePath);
+            foreach($files as $file)
+            {
+                if(is_file($templatePath.'/'.$file) && CFileHelper::getExtension($file)==='php')
+                {
+                    $this->files[]=new CCodeFile(
+                        Yii::getPathOfAlias($this->frontendViewPathAlias).DIRECTORY_SEPARATOR.$this->getControllerID().DIRECTORY_SEPARATOR.$file,
+                        $this->render($templatePath.'/'.$file)
+                    );
+                }
+            }
         }
-        parent::validateModel($attribute, $params);
+
     }
 
     /**
-     * Returns the viewFile for the column if exists otherwise it returns null
-     * @return string
-     * @todo detection
-     */
-    public function resolveColumnViewFile($column)
-    {
-        if (!isset($this->files[0])) {
-            return null;
-        }
-        $viewDir   = $this->getOutputViewDirectory();
-        $viewAlias = 'columns' . DIRECTORY_SEPARATOR . $column->name;
-        $viewFile  = $viewDir . DIRECTORY_SEPARATOR . $viewAlias . '.php';
-        return (file_exists($viewFile)) ? $viewAlias : null;
-    }
-
-    /**
-     * Returns the viewFile for the relation if exists otherwise it returns null
-     * @return string
-     * @todo detection
-     */
-    public function resolveRelationViewFile($relation)
-    {
-        if (!isset($this->files[0])) {
-            return null;
-        }
-
-        $viewDir   = $viewDir = $this->getOutputViewDirectory();
-        $viewAlias = 'relations' . DIRECTORY_SEPARATOR . $relation[1];
-        $viewFile  = $viewDir . DIRECTORY_SEPARATOR . $viewAlias . '.php';
-        return (file_exists($viewFile)) ? $viewAlias : null;
-    }
-
-    /**
-     * Prepend code fragments from parent class with an echo
+     * prepend echo
      *
      * @param $modelClass
      * @param $column
@@ -181,7 +150,7 @@ class FullCrudCode extends CrudCode
     }
 
     /**
-     * Get input field from provider
+     * prepend echo
      *
      * @param $modelClass
      * @param $column
@@ -190,96 +159,86 @@ class FullCrudCode extends CrudCode
      */
     public function generateActiveField($modelClass, $column)
     {
-        $providers = array(
-            "gtc.fullCrud.providers.P3CrudFieldProvider",
-            "gtc.fullCrud.providers.FullCrudFieldProvider",
-            "system.gii.generators.crud.CrudCode",
-        );
-        foreach ($providers AS $provider) {
-            $class = Yii::import($provider);
-            if (method_exists($class, "generateActiveField")) {
-                if ($class::generateActiveField($modelClass, $column) !== null) {
-                    if ($provider === "system.gii.generators.crud.CrudCode") {
-                        return "echo " . $class::generateActiveField($modelClass, $column);
-                    } else {
-                        return $class::generateActiveField($modelClass, $column);
-                    }
-
-                }
-            }
-        }
+        return "echo " . parent::generateActiveField($modelClass, $column);
     }
 
-    public function generateActiveRow($modelClass, $column, $relation = false)
+    /**
+     * Shorthand
+     * @return string
+     */
+    public function getEnableAjaxValidation()
     {
-
-        /*
-         * TODO: Evaluate how to utilize the best from TbActiveForm (using type attribute + TbFormInputElement::$tbActiveFormMethods)
-         * TODO: This should be moved to providers, see @link generateActiveField
-         * and CrudFieldProviders from gtc together.
-         */
-
-        if ($column->type === 'boolean') {
-            return "\$form->checkBoxRow(\$model,'{$column->name}')";
-        } else {
-            if (stripos($column->dbType, 'text') !== false) {
-
-                switch ($this->textEditor) {
-                    default:
-                    case "textarea":
-                        return "\$form->textAreaRow(\$model,'{$column->name}',array('rows'=>6, 'cols'=>50, 'class'=>'span8'))";
-                        break;
-                    case "redactor":
-                        return "\$form->redactorRow(\$model, '{$column->name}', array('rows'=>6, 'cols'=>50, 'class'=>'span8'))";
-                        break;
-                    case "html5Editor":
-                        return "\$form->html5EditorRow(\$model, '{$column->name}', array('rows'=>6, 'cols'=>50, 'class'=>'span8', 'options' => array(
-                    'link' => true,
-                    'image' => false,
-                    'color' => false,
-                    'html' => true,
-            )))";
-                        break;
-                    case "ckEditor":
-                        return "\$form->ckEditorRow(\$model, '{$column->name}', array('options'=>array('fullpage'=>'js:true', 'width'=>'640', 'resize_maxWidth'=>'640','resize_minWidth'=>'320')))";
-                        break;
-                    case "markdownEditor":
-                        return "\$form->markdownEditorRow(\$model, '{$column->name}', array('rows'=>6, 'cols'=>50, 'class'=>'span8'))";
-                        break;
-                }
-
-            } else {
-                if (preg_match('/^(password|pass|passwd|passcode)$/i', $column->name)) {
-                    $inputField = 'passwordFieldRow';
-                } else {
-                    $inputField = 'textFieldRow';
-                }
-
-                if ($column->type !== 'string' || $column->size === null) {
-                    return "\$form->{$inputField}(\$model,'{$column->name}')";
-                } else {
-                    return "\$form->{$inputField}(\$model,'{$column->name}',array('maxlength'=>$column->size))";
-                }
-            }
-        }
+        return ($this->validation == 1 || $this->validation == 3) ? 'true' : 'false';
     }
 
+    /**
+     * Shorthand
+     * @return string
+     */
+    public function getEnableClientValidation()
+    {
+        return ($this->validation == 2 || $this->validation == 3) ? 'true' : 'false';
+    }
+
+    /**
+     * Returns relations of current active record model
+     * @return array
+     */
+    public function getRelations()
+    {
+        return CActiveRecord::model($this->modelClass)->relations();
+    }
+
+    /**
+     * Returns the prefix for auth assignments, eg. `Module.Controller.Action`
+     * @return mixed
+     */
+    public function getRightsPrefix(){
+        return str_replace(" ",".",ucwords(str_replace("/"," ",$this->getModule()->id.'/'.$this->getControllerID())));
+    }
+
+    /**
+     * @param null $model
+     *
+     * @return mixed
+     * @TODO   ?
+     */
     public function getItemLabel($model = null)
     {
         if ($model === null) {
             $model = $this->model;
         }
-        return FullCrudHelper::suggestIdentifier($model);
+        return $this->suggestIdentifier($model); // TODO ??? see provider
     }
 
-
-
-    private function getOutputViewDirectory()
+    /**
+     * @param CCodeFile $file whether the code file should be saved
+     *
+     * @todo Don't use a constant
+     */
+    public function confirmed($file)
     {
-        $controllerDir  = dirname($this->files[0]->path);
-        $controllerName = strtolower(basename(str_replace('Controller', '', $this->files[0]->path), ".php"));
-        $viewDir        = str_replace('controllers', 'views/' . $controllerName, $controllerDir);
-        return $viewDir;
+        if (defined('GIIC_ALL_CONFIRMED') && GIIC_ALL_CONFIRMED === true) {
+            return true;
+        } else {
+            return parent::confirmed($file);
+        }
+    }
+
+    /**
+     * Returns a controller route for the specified relation.
+     * Note: Controllers and models have to be named the same way, eg. model (Foo) -> controller (FooController)
+     *
+     * @param $relation
+     *
+     * @return string
+     */
+    public function resolveController($relation)
+    {
+        $relatedController = strtolower(substr($relation[1], 0, 1)) . substr($relation[1], 1);
+        $controllerName    = (strrchr($this->controller, "/")) ? strrchr($this->controller, "/") : $this->controller;
+        $return            = "/" . str_replace($controllerName, '/' . $relatedController, $this->controller);
+        return $return;
     }
 
 }

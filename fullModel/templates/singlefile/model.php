@@ -1,7 +1,7 @@
 <?php
 /**
  * This is the template for generating the model class of a specified table.
- * In addition to the default model Code, this adds the CSaveRelationsBehavior
+ * In addition to the default model Code, this adds the GtcSaveRelationsBehavior
  * to the model class definition.
  * - $this: the ModelCode object
  * - $tableName: the table name for this class (prefix is already removed if necessary)
@@ -147,11 +147,4 @@ class <?php echo $modelClass; ?> extends <?php echo $this->baseClass; ?>
     {
         return parent::afterSave();    
     }
-
-    public function __toString() {
-        return (string) $this-><?php echo $this->identificationColumn; ?>;
-        }
-
-
-
 }
