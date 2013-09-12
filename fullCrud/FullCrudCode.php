@@ -22,8 +22,6 @@ class FullCrudCode extends CrudCode
     public $authTemplateHybrid = "yii_user_management_access_control";
     public $formOrientation = "horizontal";
     public $textEditor = "textarea";
-    public $backendThemeViewPath = "application.themes.backend.views";
-    public $frontendThemeViewPath = "application.themes.frontend.views";
     // Legacy template
     public $authTemplate = "auth_filter_default";
 
@@ -33,7 +31,7 @@ class FullCrudCode extends CrudCode
             parent::rules(),
             array(
                  array('validation', 'required'),
-                 array('authTemplateSlim, authTemplateHybrid, authTemplate, identificationColumn, formOrientation, textEditor, backendThemeViewPath, frontendThemeViewPath', 'safe'),
+                 array('authTemplateSlim, authTemplateHybrid, authTemplate, identificationColumn, formOrientation, textEditor', 'safe'),
                  array(
                      'messageCatalog, moduleName',
                      'match',
@@ -100,19 +98,6 @@ class FullCrudCode extends CrudCode
     }
 
     /**
-     * @param CCodeFile $file whether the code file should be saved
-     * @todo Don't use a constant
-     */
-    public function confirmed($file)
-    {
-        if (defined('GIIC_ALL_CONFIRMED') && GIIC_ALL_CONFIRMED === true) {
-            return true;
-        } else {
-            return parent::confirmed($file);
-        }
-    }
-
-    /**
      * Returns relations of current model
      * @return array
      */
@@ -121,72 +106,9 @@ class FullCrudCode extends CrudCode
         return CActiveRecord::model($this->modelClass)->relations();
     }
 
-    public function requiredTemplates()
-    {
-        return array(
-            'controller/controller.php',
-        );
-    }
 
-    protected function defaultControllerId($model)
-    {
-        // Return default controller Id
-        // Based on javascript code from gii frontend
-        preg_match('/^\w*/', $model, $matches);
-        $module = isset($matches[0]) ? $matches[0] : null;
-        preg_match('/\w*$/', $model, $matches);
-        $id = isset($matches[0]) ? $matches[0] : null;
-        if (strlen($id) > 0) {
-            $id = strtolower(substr($id, 0, 1)) . substr($id, 1);
-        }
-        if (strpos($model, ".") !== false && strpos($model, "application.") === false) {
-            $id = $module . "/" . $id;
-        }
-        return $id;
-
-    }
-
-    /**
-     * Note: Asterisk argument for model field generates crud for all application models
-     */
     public function prepare()
     {
-
-        $models = array();
-        $this->files=array();
-        $originalModel = $this->model;
-
-        if (strpos($this->model, '*') === 0) {
-            foreach (array_keys($this->getModels()) as $model) {
-                if (strpos($model, "application.") === false) {
-                    continue;
-                }
-                $models[] = $model;
-            }
-        } else {
-            $models[] = $this->model;
-        }
-
-        foreach ($models as $model) {
-            $this->model = $model;
-            $this->controller = $this->defaultControllerId($this->model);
-            $this->validateModel('model', array());
-            if ($this->hasErrors('model')) {
-                continue;
-            };
-            $this->prepareSingle();
-            $this->model = $originalModel;
-        }
-
-    }
-
-    public function prepareSingle()
-    {
-
-        if (!$this->controller) {
-            $this->controller = $this->defaultControllerId($this->model);
-        }
-
         if (!$this->identificationColumn) {
             $this->identificationColumn = $this->tableSchema->primaryKey;
         }
@@ -198,81 +120,12 @@ class FullCrudCode extends CrudCode
             );
         }
 
-        // Adapted code from original CrudCode->prepare() to support a more flexible template structure
-        $templatePath=$this->templatePath;
-
-        // Add the controller view manually
-        $controllerTemplateFile=$templatePath.DIRECTORY_SEPARATOR.'controller'.DIRECTORY_SEPARATOR.'controller.php';
-        $this->files[]=new CCodeFile(
-            $this->controllerFile,
-            $this->render($controllerTemplateFile)
-        );
-
-        // Add remaining files recursively
-        $this->addFilesFromPath($templatePath, null);
-
-    }
-
-    /**
-     * Add files from the specified path
-     * One exception: We ignore the controller directory since it is
-     * already rendered manually
-     * @param $templatePath
-     * @param $viewPath
-     */
-    protected function addFilesFromPath($templatePath, $viewPathAlias)
-    {
-        // Default target view path for view files in the template root directory
-        $viewPath = null;
-        if (is_null($viewPathAlias)) {
-            $viewPath = $this->getViewPath();
-        } else {
-            $viewPath = Yii::getPathOfAlias($viewPathAlias) ? Yii::getPathOfAlias($viewPathAlias) : Yii::getPathOfAlias("application." . $viewPathAlias);
+        parent::prepare();
         }
 
-        $files = scandir($templatePath);
-        foreach ($files as $file) {
-            $filePath = $templatePath . DIRECTORY_SEPARATOR . $file;
-            if (is_file($filePath) && CFileHelper::getExtension($file) === 'php') {
-
-                $this->files[] = new CCodeFile(
-                    $viewPath . DIRECTORY_SEPARATOR . $this->getControllerID() . DIRECTORY_SEPARATOR . $file,
-                    $this->render($filePath)
-                );
-
-            } elseif ($file !== "." && $file !== ".." && $file !== "controller" && is_dir($filePath)) {
-
-                // Decide the target path alias of the directory
-                if ($file == "_backend") {
-                    $viewPathAlias = $this->backendThemeViewPath;
-                } elseif ($file == "_frontend") {
-                    $viewPathAlias = $this->frontendThemeViewPath;
-                } else {
-                    $viewPathAlias = (is_null($viewPathAlias) ? '' : $viewPathAlias . ".") . $file;
-                }
-
-                $this->addFilesFromPath($filePath, $viewPathAlias);
-            }
-        }
-
-    }
-
-    /**
-     * Overridden not to supply controller id, which we do manually
-     * @return string
-     */
-    public function getViewPath()
-    {
-        return $this->getModule()->getViewPath();
-    }
 
     public function validateModel($attribute, $params)
     {
-        if ($this->model === "*") {
-            $this->clearErrors('model');
-            $this->clearErrors('controller');
-            return true;
-        }
         // check your import paths, if you get an error here
         // PHP error can't be catched as an exception
         if ($this->model) {
@@ -427,72 +280,6 @@ class FullCrudCode extends CrudCode
         $controllerName = strtolower(basename(str_replace('Controller', '', $this->files[0]->path), ".php"));
         $viewDir        = str_replace('controllers', 'views/' . $controllerName, $controllerDir);
         return $viewDir;
-    }
-
-    /**
-     * Returns the model names and, if possible, the attributes in an array.
-     * Only non abstract and superclasses of CActiveRecord models are returned.
-     * @return array key = names and value = attributes of the models
-     */
-    public function getModels()
-    {
-        $models = array();
-        $aliases = array();
-        $aliases[] = 'application.models';
-        foreach (Yii::app()->getModules() as $moduleName => $config) {
-            if ($moduleName != 'gii')
-                $aliases[] = $moduleName . ".models";
-        }
-
-        foreach ($aliases as $alias) {
-            if (!is_dir(Yii::getPathOfAlias($alias)))
-                continue;
-            $files = scandir(Yii::getPathOfAlias($alias));
-            Yii::import($alias . ".*");
-            foreach ($files as $file) {
-                if ($fileClassName = $this->checkFile($file, $alias)) {
-                    $classname = sprintf('%s.%s', $alias, $fileClassName);
-                    Yii::import($classname);
-                    try {
-                        if (!class_exists($fileClassName))
-                            throw new Exception('Model '.$fileClassName.' does not exist');
-
-                        $model = new $fileClassName;
-                        if (is_object($model) && $model->getMetaData())
-                            $models[$classname] = $model->attributes;
-                        else
-                            $models[$classname] = array();
-                    } catch (ErrorException $e) {
-                        break;
-                    } catch (CDbException $e) {
-                        break;
-                    } catch (Exception $e) {
-                        break;
-                    }
-                }
-            }
-        }
-
-        return $models;
-    }
-
-    private function checkFile($file, $alias = '')
-    {
-        if (substr($file, 0, 1) !== '.'
-            && substr($file, 0, 2) !== '..'
-            && substr($file, 0, 4) !== 'Base'
-            && $file != 'GActiveRecord'
-            && strtolower(substr($file, -4)) === '.php') {
-            $fileClassName = substr($file, 0, strpos($file, '.'));
-            if (class_exists($fileClassName)
-                && is_subclass_of($fileClassName, 'CActiveRecord')) {
-                $fileClass = new ReflectionClass($fileClassName);
-                if ($fileClass->isAbstract())
-                    return null;
-                else
-                    return $models[] = $fileClassName;
-            }
-        }
     }
 
 }

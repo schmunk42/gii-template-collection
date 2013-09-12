@@ -80,7 +80,7 @@
         traditional identification via PK.
         For example, entering <code>title</code> as identification Column, a
         post would be associated with <code>index.php/post/title-of-the-post</code>
-        instead of <code>index.php?r=post/view&amp;id=5</code>.
+        instead of <code>index.php?r=post/view&id=5</code>.
         Ready to use url rules for Yii's CUrlManager will be generated and shown
         after the generation.
         Please make sure that identificationColumnValidator is applied to the
@@ -205,26 +205,6 @@
         ); ?> for a demo of the different editors.
     </div>
     <?php echo $form->error($model, 'textEditor'); ?>
-</div>
-
-<div class="row sticky">
-    <?php echo $form->labelEx($model, 'backendThemeViewPath'); ?>
-    <?php echo $form->textField($model, 'backendThemeViewPath', array('size' => 65)); ?>
-    <div class="tooltip">
-        This refers to the directory that the backend views should be generated under.
-        It should be specified in the form of a path alias, for example, <code>application.themes.backend.views</code>.
-    </div>
-    <?php echo $form->error($model, 'backendThemeViewPath'); ?>
-</div>
-
-<div class="row sticky">
-    <?php echo $form->labelEx($model, 'frontendThemeViewPath'); ?>
-    <?php echo $form->textField($model, 'frontendThemeViewPath', array('size' => 65)); ?>
-    <div class="tooltip">
-        This refers to the directory that the frontend views should be generated under.
-        It should be specified in the form of a path alias, for example, <code>application.themes.frontend.views</code>.
-    </div>
-    <?php echo $form->error($model, 'frontendThemeViewPath'); ?>
 </div>
 
 </fieldset>
