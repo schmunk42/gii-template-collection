@@ -48,7 +48,7 @@ if ($relations !== array()): ?>
 
 <?php
     foreach ($relations as $key => $relation) {
-        $controller = $this->resolveController($relation);
+        $controller = str_replace("/", "", $this->resolveController($relation));
         $relatedModelClass = $relation[1];
         $relatedModel = CActiveRecord::model($relatedModelClass);
         $fk = $relation[2];
@@ -86,7 +86,7 @@ if ($relations !== array()): ?>
 </div>
 
 <?php echo "<?php\n"; ?>
-$relatedSearchModel = $model->getRelatedSearchModel('<?php echo $key; ?>');
+$relatedSearchModel = $this->getRelatedSearchModel($model, '<?php echo $key; ?>');
 $this->widget('TbGridView',
     array(
         'id'=>'<?php echo $controller; ?>-grid',

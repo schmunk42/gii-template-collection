@@ -8,11 +8,11 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 
     public $defaultAction = "admin";
     public $scenario = "crud";
+    public $scope = "crud";
 
 <?php
     $authPath = 'gtc.fullCrud.templates.slim.auth.';
-    $rightsPrefix = str_replace(" ",".",ucwords(str_replace("/"," ",$this->getModule()->id.'/'.$this->getControllerID())));
-    Yii::app()->controller->renderPartial($authPath . $this->authTemplateSlim, array('rightsPrefix'=>$rightsPrefix));
+    Yii::app()->controller->renderPartial($authPath . $this->authTemplateSlim, array('rightsPrefix'=>$this->getRightsPrefix()));
     ?>
 
     public function beforeAction($action)
@@ -138,15 +138,13 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
         }
     }
 
-    public function actionIndex()
-    {
-        $dataProvider = new CActiveDataProvider('<?php echo $this->modelClass; ?>');
-        $this->render('index', array('dataProvider' => $dataProvider,));
-    }
-
     public function actionAdmin()
     {
         $model = new <?php echo $this->modelClass; ?>('search');
+        $scopes = $model->scopes();
+        if (isset($scopes[$this->scope])) {
+            $model->{$this->scope}();
+        }
         $model->unsetAttributes();
 
         if (isset($_GET['<?php echo $this->modelClass; ?>'])) {
@@ -158,7 +156,13 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 
     public function loadModel($id)
     {
-        $model = <?php echo $this->modelClass; ?>::model()->findByPk($id);
+        $m = <?php echo $this->modelClass; ?>::model();
+        // apply scope, if available
+        $scopes = $m->scopes();
+        if (isset($scopes[$this->scope])) {
+            $m->{$this->scope}();
+        }
+        $model = $m->findByPk($id);
         if ($model === null) {
             throw new CHttpException(404, Yii::t('<?php echo $this->messageCatalog; ?>', 'The requested page does not exist.'));
         }
