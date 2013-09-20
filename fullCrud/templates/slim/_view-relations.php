@@ -14,6 +14,7 @@ if (!empty($relations)) :
         $relatedModel   = CActiveRecord::model($relation[1]);
         $pk             = $relatedModel->tableSchema->primaryKey;
         $suggestedfield = $this->provider()->suggestIdentifier($relatedModel);
+        $scope          = (isset($relatedModel->scopes()['crud']))?'crud':'';
 
         // TODO: currently composite PKs are omitted
         if (is_array($pk)) {
@@ -23,9 +24,9 @@ if (!empty($relations)) :
         if ($relation[0] == 'CBelongsToRelation') {
             continue;
         } elseif ($relation[0] == 'CHasOneRelation') {
-            $recordsWrapper = "\$records = array(\$model->{$key}(array('limit'=>250));"; // TODO: has one untested
+            $recordsWrapper = "\$records = array(\$model->{$key}(array('limit'=>250, 'scopes' => '{$scope}'));"; // TODO: has one untested
         } else {
-            $recordsWrapper = "\$records = \$model->{$key}(array('limit'=>250));"; // TODO: move to ajax list
+            $recordsWrapper = "\$records = \$model->{$key}(array('limit'=>250, 'scopes' => '{$scope}'));"; // TODO: move to ajax list
         }
         ?>
 
