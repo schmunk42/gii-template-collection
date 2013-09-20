@@ -30,6 +30,11 @@ Features
 
 **NOTE! Relation widgets moved to https://github.com/schmunk42/yii-relation**
 
+Requirements
+------------
+
+* PHP 5.4+
+
 Installation
 ------------
 
