@@ -33,7 +33,7 @@ Features
 Requirements
 ------------
 
-* PHP 5.4+
+* PHP 5.3 and `short_open_tags = On`
 
 Installation
 ------------
