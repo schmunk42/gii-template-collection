@@ -49,17 +49,14 @@
 
                             <span class="help-block">
                                 <?=
-                                "
-                                <?php
-                                echo (\$t = Yii::t('{$this->messageCatalog}', '{$this->modelClass}.{$column->name }') != '{$this->modelClass}.{$column->name }')?\$t:''
+                                "<?php echo (\$t = Yii::t('{$this->messageCatalog}', '{$this->modelClass}.{$column->name }') != '{$this->modelClass}.{$column->name }')?\$t:'' ?>"
                                 ?>
-                                "
-                                ?>
+
                             </span>
                         </div>
                     </div>
-
                 <?php endforeach; ?>
+
             </div>
         </div>
         <!-- main inputs -->
@@ -70,32 +67,27 @@
 
             </h2>
             <? foreach ($this->getRelations() as $key => $relation) : ?>
-
-                <?php if($relation[0] == "CBelongsToRelation") continue; ?>
-
+                <?php if ($relation[0] == "CBelongsToRelation") {
+                    continue;
+                } ?>
                 <?=
                 // relations
                 "
                 <h3>
-                    <?php echo Yii::t('{$this->messageCatalog}', '".ucfirst($key)."'); ?>
+                    <?php echo Yii::t('{$this->messageCatalog}', '" . ucfirst($key) . "'); ?>
                 </h3>
                 <?php {$this->provider()->generateRelationField($this->modelClass, $key, $relation)} ?>
                 "
                 ?>
-
             <? endforeach; ?>
-
 
         </div>
         <!-- sub inputs -->
     </div>
 
     <p class="alert">
-
         <?=
-        "
-        <?php echo Yii::t('{$this->messageCatalog}','Fields with <span class=\"required\">*</span> are required.');?>
-        ";
+        "<?php echo Yii::t('{$this->messageCatalog}','Fields with <span class=\"required\">*</span> are required.');?>";
         ?>
 
     </p>
@@ -113,7 +105,6 @@
                 'class' => 'btn btn-primary'
             ));
         ?>";
-
         ?>
 
     </div>
