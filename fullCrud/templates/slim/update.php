@@ -1,5 +1,12 @@
 <?=
 "<?php
+\$this->setPageTitle(
+        Yii::t('{$this->messageCatalog}', '{$this->class2name($this->modelClass)}')
+        . ' - '
+        . Yii::t('{$this->messageCatalog}', 'Update')
+        . ': '   
+        . \$model->getItemLabel()
+);    
 \$this->breadcrumbs[Yii::t('{$this->messageCatalog}','{$this->pluralize($this->class2name($this->modelClass))}')] = array('admin');
 \$this->breadcrumbs[\$model->{\$model->tableSchema->primaryKey}] = array('view','id'=>\$model->{\$model->tableSchema->primaryKey});
 \$this->breadcrumbs[] = Yii::t('{$this->messageCatalog}', 'Update');
