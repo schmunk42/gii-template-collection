@@ -57,7 +57,7 @@ class FullCrudCode extends CrudCode
             parent::rules(),
             array(
                  array('validation', 'required'),
-                 array('authTemplateSlim, authTemplateHybrid, providers, authTemplate, formOrientation, textEditor, backendViewPathAlias, frontendViewPathAlias', 'safe'),
+                 array('authTemplateSlim, authTemplateHybrid, providers, authTemplate, formOrientation, textEditor, backendViewPathAlias, frontendViewPathAlias,messageCatalog', 'safe'),
             )
         );
     }
