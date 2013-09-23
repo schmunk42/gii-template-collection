@@ -5,6 +5,12 @@ $label = $this->pluralize($this->class2name($this->modelClass));
 <?=
 "
 <?php
+\$this->setPageTitle(
+        Yii::t('{$this->messageCatalog}', '{$this->class2name($this->modelClass)}')
+        . ' - '
+        . Yii::t('{$this->messageCatalog}', 'Create')
+);
+
 \$this->breadcrumbs[Yii::t('" . $this->messageCatalog . "','$label')] = array('admin');
 \$this->breadcrumbs[] = Yii::t('" . $this->messageCatalog . "', 'Create');
 ?>";

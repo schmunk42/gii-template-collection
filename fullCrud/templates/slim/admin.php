@@ -2,6 +2,12 @@
 // prepare breadcrumbs & clientscript
 "
 <?php
+\$this->setPageTitle(
+        Yii::t('{$this->messageCatalog}', '{$this->pluralize($this->class2name($this->modelClass))}')
+        . ' - '
+        . Yii::t('{$this->messageCatalog}', 'Manage')
+);
+
 \$this->breadcrumbs[] = Yii::t('{$this->messageCatalog}','{$this->pluralize($this->class2name($this->modelClass))}');
 Yii::app()->clientScript->registerScript('search', \"
     $('.search-button').click(function(){
