@@ -17,7 +17,7 @@
 <?php endforeach; ?>
 
     <div class="row buttons">
-        <?= "<?php echo CHtml::submitButton(Yii::t('" . $this->messageCatalog . "', 'Search')); ?>\n"; ?>
+        <?= "<?php echo CHtml::submitButton(Yii::t('" . $this->messageCatalogStandard . "', 'Search')); ?>\n"; ?>
     </div>
 
     <?= "<?php \$this->endWidget(); ?>\n"; ?>

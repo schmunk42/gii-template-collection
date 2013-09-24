@@ -3,13 +3,13 @@
 \$this->setPageTitle(
         Yii::t('{$this->messageCatalog}', '{$this->class2name($this->modelClass)}')
         . ' - '
-        . Yii::t('{$this->messageCatalog}', 'Update')
+        . Yii::t('{$this->messageCatalogStandard}', 'Update')
         . ': '   
         . \$model->getItemLabel()
 );    
 \$this->breadcrumbs[Yii::t('{$this->messageCatalog}','{$this->pluralize($this->class2name($this->modelClass))}')] = array('admin');
 \$this->breadcrumbs[\$model->{\$model->tableSchema->primaryKey}] = array('view','id' => \$model->{\$model->tableSchema->primaryKey});
-\$this->breadcrumbs[] = Yii::t('{$this->messageCatalog}', 'Update');
+\$this->breadcrumbs[] = Yii::t('{$this->messageCatalogStandard}', 'Update');
 ?>
 ";?>
 
@@ -20,7 +20,7 @@
         "
         <?php echo Yii::t('{$this->messageCatalog}','{$this->class2name($this->modelClass)}'); ?>
         <small>
-            <?php echo Yii::t('{$this->messageCatalog}','Update')?> #<?php echo \$model->{$this->tableSchema->primaryKey} ?>
+            <?php echo Yii::t('{$this->messageCatalogStandard}','Update')?> #<?php echo \$model->{$this->tableSchema->primaryKey} ?>
         </small>
         ";
         ?>
