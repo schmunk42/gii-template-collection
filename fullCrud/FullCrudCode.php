@@ -146,7 +146,7 @@ class FullCrudCode extends CrudCode
      */
     public function generateActiveLabel($modelClass, $column)
     {
-        return "echo " . parent::generateActiveLabel($modelClass, $column);
+        return "echo " . $this->generateActiveLabelGtcCodeStyle($modelClass, $column);
     }
 
     /**
@@ -159,7 +159,42 @@ class FullCrudCode extends CrudCode
      */
     public function generateActiveField($modelClass, $column)
     {
-        return "echo " . parent::generateActiveField($modelClass, $column);
+        return "echo " . $this->generateActiveFieldGtcCodeStyle($modelClass, $column);
+    }
+
+    /**
+     * Overridden to ensure that output follows GTC preferred code style
+     */
+    public function generateActiveLabelGtcCodeStyle($modelClass,$column)
+    {
+        return "\$form->labelEx(\$model, '{$column->name}')";
+    }
+
+    /**
+     * Overridden to ensure that output follows GTC preferred code style
+     */
+    public function generateActiveFieldGtcCodeStyle($modelClass,$column)
+    {
+        if($column->type==='boolean')
+            return "\$form->checkBox(\$model, '{$column->name}')";
+        elseif(stripos($column->dbType,'text')!==false)
+            return "\$form->textArea(\$model, '{$column->name}', array('rows' => 6, 'cols' => 50))";
+        else
+        {
+            if(preg_match('/^(password|pass|passwd|passcode)$/i',$column->name))
+                $inputField='passwordField';
+            else
+                $inputField='textField';
+
+            if($column->type!=='string' || $column->size===null)
+                return "\$form->{$inputField}(\$model, '{$column->name}')";
+            else
+            {
+                if(($size=$maxLength=$column->size)>60)
+                    $size=60;
+                return "\$form->{$inputField}(\$model, '{$column->name}', array('size' => $size, 'maxlength' => $maxLength))";
+            }
+        }
     }
 
     /**
