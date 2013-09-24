@@ -1,6 +1,5 @@
 <?=
-"
-<?php
+"<?php
 /* @var \$this {$this->controllerClass} */
 /* @var \$inputSelector jQuery selector to the select-input of the parent form */
 /* @var \$pk The primary key field added object */

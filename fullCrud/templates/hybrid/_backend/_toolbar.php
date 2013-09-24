@@ -37,9 +37,9 @@
                     "label" => Yii::t("' . $this->messageCatalog . '", "Delete"),
                     "type" => "danger",
                     "icon" => "icon-remove icon-white",
-                    "htmlOptions" =>  array(
-                        "submit" => array("delete", "id" => $model->{$model->tableSchema->primaryKey}, "returnUrl" => (Yii::app()->request->getParam("returnUrl"))?Yii::app()->request->getParam("returnUrl"):$this->createUrl("admin")),
-                        "confirm" => Yii::t("' . $this->messageCatalog . '","Do you want to delete this item?"))
+                    "htmlOptions" => array(
+                        "submit" => array("delete", "id" => $model->{$model->tableSchema->primaryKey}, "returnUrl" => (Yii::app()->request->getParam("returnUrl")) ? Yii::app()->request->getParam("returnUrl") : $this->createUrl("admin")),
+                        "confirm" => Yii::t("' . $this->messageCatalog . '", "Do you want to delete this item?"))
                 ));
                 break;
             case "update":
@@ -57,9 +57,9 @@
                     "label" => Yii::t("' . $this->messageCatalog . '", "Delete"),
                     "type" => "danger",
                     "icon" => "icon-remove icon-white",
-                    "htmlOptions" =>  array(
-                        "submit" => array("delete", "id" => $model->{$model->tableSchema->primaryKey}, "returnUrl" => (Yii::app()->request->getParam("returnUrl"))?Yii::app()->request->getParam("returnUrl"):$this->createUrl("admin")),
-                        "confirm" => Yii::t("' . $this->messageCatalog . '","Do you want to delete this item?"))
+                    "htmlOptions" => array(
+                        "submit" => array("delete", "id" => $model->{$model->tableSchema->primaryKey}, "returnUrl" => (Yii::app()->request->getParam("returnUrl")) ? Yii::app()->request->getParam("returnUrl") : $this->createUrl("admin")),
+                        "confirm" => Yii::t("' . $this->messageCatalog . '", "Do you want to delete this item?"))
                 ));
                 break;
         }
@@ -80,7 +80,7 @@
 
         </div>
 
-        <?php
+<?php
         $model = new $this->modelClass;
         if ($model->relations() !== array()): ?>
 
@@ -95,20 +95,22 @@
                         'items' => array(";
 
                         // render relation links
+                        $relationLinks = array();
                         foreach ($model->relations() AS $key => $relation) {
-                        echo "                    array('label' => '{$key} - {$relation[1]}', 'url' => array('" . $this->resolveController($relation) . "/admin')),";
+                            $relationLinks[] = "array('label' => '{$key} - {$relation[1]}', 'url' => array('" . $this->resolveController($relation) . "/admin'))";
                         }
+                        echo implode(", ", $relationLinks);
 
                         echo "
-                    )
-                ),
+                        )
+                    ),
                 ),
             ));
             ?>";
             ?>
         </div>
 
-    <?php endif; ?>
+<?php endif; ?>
 
     <?php echo "<?php endif; ?>" ?>
 </div>
@@ -116,7 +118,7 @@
 <?= "<?php if (\$this->action->id == 'admin'): ?>" ?>
 
     <div class="search-form" style="display:none">
-        <?= "<?php \$this->renderPartial('_search',array(
+        <?= "<?php \$this->renderPartial('_search', array(
             'model' => \$model,
         )); ?>\n"; ?>
     </div>

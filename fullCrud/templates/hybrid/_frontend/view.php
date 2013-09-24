@@ -10,13 +10,16 @@ echo "?>";
 <?php echo '<?php $this->widget("TbBreadcrumbs", array("links" => $this->breadcrumbs)) ?>'; ?>
 
 <h1>
-    <?php
-    echo "<?php echo Yii::t('".$this->messageCatalog."', '".$this->class2name($this->modelClass)."')?>";
-    echo " <small><?php echo Yii::t('".$this->messageCatalog."', 'View')?> #<?php echo \$model->" . $this->tableSchema->primaryKey . " ?></small>";
+    <?=
+    "
+    <?php echo Yii::t('{$this->messageCatalog}','{$this->class2name($this->modelClass)}'); ?>
+    <small>
+        <?php echo Yii::t('{$this->messageCatalog}','View')?> #<?php echo \$model->{$this->tableSchema->primaryKey} ?>
+    </small>
+    ";
     ?>
+
 </h1>
-
-
 
 <?php echo '<?php $this->renderPartial("_toolbar", array("model" => $model)); ?>'; ?>
 
@@ -28,14 +31,14 @@ foreach ($this->tableSchema->columns as $column) {
     if ($column->isPrimaryKey)
     continue;
     if (++$count == 7)
-    echo "    <?php /*\n";
-    echo "    <b><?php echo CHtml::encode(\$model->getAttributeLabel('{$column->name}')); ?>:</b>\n";
+    echo "<?php /*\n";
+    echo "<b><?php echo CHtml::encode(\$model->getAttributeLabel('{$column->name}')); ?>:</b>\n";
     if ($column->name == 'createtime'
     or $column->name == 'updatetime'
     or $column->name == 'timestamp') {
     echo "    echo Yii::app()->getDateFormatter()->formatDateTime(\$model->{$column->name}, 'medium', 'medium'); ?>\n    <br />\n\n";
     } else {
-    echo "<?php echo CHtml::encode(\$model->{$column->name}); ?>\n    <br />\n\n";
+    echo "<?php echo CHtml::encode(\$model->{$column->name}); ?>\n<br />\n\n";
     }
 }
 if ($count >= 7)
@@ -76,7 +79,7 @@ if ($count >= 7)
 
     <div class="span5">
         <?=
-        "<?php \$this->renderPartial('_view-relations',array('model' => \$model)); ?>";
+        "<?php \$this->renderPartial('_view-relations', array('model' => \$model)); ?>";
         ?>
     </div>
 </div>

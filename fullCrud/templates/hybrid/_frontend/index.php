@@ -1,16 +1,13 @@
 <?php
 $label = $this->pluralize($this->class2name($this->modelClass));
-?>
-
-<?=
-"
-<?php
-\$this->breadcrumbs[Yii::t('" . $this->messageCatalog . "','$label')] = array('index');
+?><?=
+"<?php
+\$this->breadcrumbs[Yii::t('" . $this->messageCatalog . "', '$label')] = array('index');
 \$this->breadcrumbs[] = Yii::t('" . $this->messageCatalog . "', 'Create');
 ?>";
 ?>
 
-<?= '<?php $this->widget("TbBreadcrumbs", array("links"=>$this->breadcrumbs)) ?>'; ?>
+<?= '<?php $this->widget("TbBreadcrumbs", array("links" => $this->breadcrumbs)) ?>'; ?>
 
 <?=
 "<?php
@@ -23,7 +20,7 @@ if (!isset(\$this->menu) || \$this->menu === array()) {
 ?>";
 ?>
 
-<h1><?="<?php echo Yii::t('" . $this->messageCatalog . "','" . $label . "')?>";?></h1>
+    <h1><?= "<?php echo Yii::t('" . $this->messageCatalog . "', '" . $label . "'); ?>"; ?></h1>
 
 <?=
 "<?php

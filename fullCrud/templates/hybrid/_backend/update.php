@@ -1,45 +1,40 @@
-<?php
-echo "<?php\n";
-$label = $this->pluralize($this->class2name($this->modelClass));
-echo "\$this->breadcrumbs[Yii::t('".$this->messageCatalog."','$label')] = array('admin');\n";
-echo "\$this->breadcrumbs[\$model->{\$model->tableSchema->primaryKey}] = array('view','id' => \$model->{\$model->tableSchema->primaryKey});\n";
-echo "\$this->breadcrumbs[] = Yii::t('".$this->messageCatalog."', 'Update');\n";
-echo "?>";
+<?=
+"<?php
+\$this->setPageTitle(
+    Yii::t('{$this->messageCatalog}', '{$this->class2name($this->modelClass)}')
+    . ' - '
+    . Yii::t('{$this->messageCatalog}', 'Update')
+    . ': '
+    . \$model->getItemLabel()
+);
+\$this->breadcrumbs[Yii::t('{$this->messageCatalog}', '{$this->pluralize($this->class2name($this->modelClass))}')] = array('admin');
+\$this->breadcrumbs[\$model->{\$model->tableSchema->primaryKey}] = array('view', 'id' => \$model->{\$model->tableSchema->primaryKey});
+\$this->breadcrumbs[] = Yii::t('{$this->messageCatalog}', 'Update');
 ?>
+";?>
 
-<?php echo '<?php $this->widget("TbBreadcrumbs", array("links"=>$this->breadcrumbs)) ?>'; ?>
+<?= '<?php $this->widget("TbBreadcrumbs", array("links" => $this->breadcrumbs)) ?>'; ?>
 
 <h1>
-    <?php
-    echo "<?php echo Yii::t('".$this->messageCatalog."','".$this->class2name($this->modelClass)."')?>";
-    echo " <small><?php echo Yii::t('".$this->messageCatalog."','Update')?> #<?php echo \$model->" . $this->tableSchema->primaryKey . " ?></small>";
+    <?=
+    "
+    <?php echo Yii::t('{$this->messageCatalog}','{$this->class2name($this->modelClass)}'); ?>
+    <small>
+        <?php echo Yii::t('{$this->messageCatalog}','Update')?> #<?php echo \$model->{$this->tableSchema->primaryKey} ?>
+    </small>
+    ";
     ?>
+
 </h1>
 
-<?php echo '<?php $this->renderPartial("_toolbar", array("model"=>$model)); ?>'; ?>
+<?= '<?php $this->renderPartial("_toolbar", array("model" => $model)); ?>'; ?>
 
-<?php echo "<?php\n"; ?>
-$this->renderPartial('_form', array(
-'model' => $model));
+<?=
+"
+<?php
+    \$this->renderPartial('_form', array('model' => \$model));
 ?>
-
-<?php echo "<?php\n"; ?>
-
-/*
-Code example to include an editable detail view:
-
-<h2>
-    <?php echo "<?php echo Yii::t('".$this->messageCatalog."','Editable Detail View')?>";?>
-</h2>
-
-<?php echo "<?php
-\$this->widget('EditableDetailView', array(
-    'data' => \$model,
-    'url' => \$this->createUrl('editableSaver'),
-));
-?>\n"; ?>
-
-*/
+"
 ?>
 
 <?php
@@ -73,12 +68,12 @@ if ($relations !== array()): ?>
 
 <div class="btn-group">
 <?php
-    echo "<?php \$this->widget('bootstrap.widgets.TbButtonGroup', array(
-    'type' => '', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
-    'buttons' => array(
-        array('label' => Yii::t('" . $this->messageCatalog . "', 'Create'), 'icon' => 'icon-plus', 'url' => array('{$controller}/create', '{$relatedModelClass}' => array('{$fk}' => \$model->{$pk}), 'returnUrl' => Yii::app()->request->url), array('class' => ''))
-    ),
-));
+    echo "    <?php \$this->widget('bootstrap.widgets.TbButtonGroup', array(
+        'type' => '', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
+        'buttons' => array(
+            array('label' => Yii::t('" . $this->messageCatalog . "', 'Create'), 'icon' => 'icon-plus', 'url' => array('{$controller}/create', '{$relatedModelClass}' => array('{$fk}' => \$model->{$pk}), 'returnUrl' => Yii::app()->request->url), array('class' => ''))
+        ),
+    ));
 ?>";
 
 ?>
