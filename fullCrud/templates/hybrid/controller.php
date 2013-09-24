@@ -9,7 +9,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 
 <?php
     $authPath = 'gtc.fullCrud.templates.hybrid.auth.';
-    Yii::app()->controller->renderPartial($authPath . $this->authTemplateHybrid, array('rightsPrefix'=>$this->getRightsPrefix()));
+    Yii::app()->controller->renderPartial($authPath . $this->authTemplateHybrid, array('rightsPrefix' => $this->getRightsPrefix()));
     ?>
 
     public function beforeAction($action)
@@ -206,19 +206,19 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
     }
 
     /**
-    * Returns a model used to populate a filterable, searchable
-    * and sortable CGridView with the records found by a model relation.
-    *
-    * Usage:
-    * $relatedSearchModel = $this->getRelatedSearchModel($model, 'relationName');
-    *
-    * Then, when invoking CGridView:
-    *    ...
-    *        'dataProvider' => $relatedSearchModel->search(),
-    *        'filter' => $relatedSearchModel,
-    *    ...
-    * @returns CActiveRecord
-    */
+     * Returns a model used to populate a filterable, searchable
+     * and sortable CGridView with the records found by a model relation.
+     *
+     * Usage:
+     * $relatedSearchModel = $this->getRelatedSearchModel($model, 'relationName');
+     *
+     * Then, when invoking CGridView:
+     *    ...
+     *        'dataProvider' => $relatedSearchModel->search(),
+     *        'filter' => $relatedSearchModel,
+     *    ...
+     * @returns CActiveRecord
+     */
     public function getRelatedSearchModel($model, $name)
     {
         $md = $model->getMetaData();
@@ -242,7 +242,5 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 
         return $related;
     }
-
-
 
 }

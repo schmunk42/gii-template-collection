@@ -1,21 +1,35 @@
 <?php
 $label = $this->pluralize($this->class2name($this->modelClass));
-
-echo "<?php\n";
-echo "\$this->breadcrumbs['$label'] = array('index');\n";
-echo "\$this->breadcrumbs[] = Yii::t('app', 'Index');\n";
 ?>
 
-if(!isset($this->menu) || $this->menu === array())
-$this->menu=array(
-array('label'=>Yii::t('app', 'Create'), 'url'=>array('create')),
-array('label'=>Yii::t('app', 'Manage'), 'url'=>array('admin')),
-);
+<?=
+"
+<?php
+\$this->breadcrumbs[Yii::t('" . $this->messageCatalog . "','$label')] = array('index');
+\$this->breadcrumbs[] = Yii::t('" . $this->messageCatalog . "', 'Create');
+?>";
 ?>
 
-<h1><?php echo $label; ?></h1>
+<?= '<?php $this->widget("TbBreadcrumbs", array("links"=>$this->breadcrumbs)) ?>'; ?>
 
-<?php echo "<?php"; ?> $this->widget('zii.widgets.CListView', array(
-'dataProvider'=>$dataProvider,
-'itemView'=>'_view',
-)); ?>
+<?=
+"<?php
+if (!isset(\$this->menu) || \$this->menu === array()) {
+    \$this->menu = array(
+        array('label' => Yii::t('app', 'Create'), 'url' => array('create')),
+        array('label' => Yii::t('app', 'Manage'), 'url' => array('admin')),
+    );
+}
+?>";
+?>
+
+<h1><?="<?php echo Yii::t('" . $this->messageCatalog . "','" . $label . "')?>";?></h1>
+
+<?=
+"<?php
+\$this->widget('zii.widgets.CListView', array(
+    'dataProvider' => \$dataProvider,
+    'itemView' => '_view',
+));
+?>";
+?>

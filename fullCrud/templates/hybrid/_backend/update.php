@@ -2,7 +2,7 @@
 echo "<?php\n";
 $label = $this->pluralize($this->class2name($this->modelClass));
 echo "\$this->breadcrumbs[Yii::t('".$this->messageCatalog."','$label')] = array('admin');\n";
-echo "\$this->breadcrumbs[\$model->{\$model->tableSchema->primaryKey}] = array('view','id'=>\$model->{\$model->tableSchema->primaryKey});\n";
+echo "\$this->breadcrumbs[\$model->{\$model->tableSchema->primaryKey}] = array('view','id' => \$model->{\$model->tableSchema->primaryKey});\n";
 echo "\$this->breadcrumbs[] = Yii::t('".$this->messageCatalog."', 'Update');\n";
 echo "?>";
 ?>
@@ -20,7 +20,7 @@ echo "?>";
 
 <?php echo "<?php\n"; ?>
 $this->renderPartial('_form', array(
-'model'=>$model));
+'model' => $model));
 ?>
 
 <?php echo "<?php\n"; ?>
@@ -75,9 +75,8 @@ if ($relations !== array()): ?>
 <?php
     echo "<?php \$this->widget('bootstrap.widgets.TbButtonGroup', array(
     'type' => '', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
-    'buttons'=>array(
-        // TODO
-        #array('label'=>Yii::t('" . $this->messageCatalog . "','Create'), 'icon'=>'icon-plus', 'url' => array('{$controller}/create','{$relatedModelClass}' => array('{$fk}'=>\$model->{$pk}), 'returnUrl' => Yii::app()->request->url), array('class'=>''))
+    'buttons' => array(
+        array('label' => Yii::t('" . $this->messageCatalog . "', 'Create'), 'icon' => 'icon-plus', 'url' => array('{$controller}/create', '{$relatedModelClass}' => array('{$fk}' => \$model->{$pk}), 'returnUrl' => Yii::app()->request->url), array('class' => ''))
     ),
 ));
 ?>";
@@ -89,14 +88,14 @@ if ($relations !== array()): ?>
 $relatedSearchModel = $this->getRelatedSearchModel($model, '<?php echo $key; ?>');
 $this->widget('TbGridView',
     array(
-        'id'=>'<?php echo $controller; ?>-grid',
-        'dataProvider'=>$relatedSearchModel->search(),
-        'filter' => count($model-><?php echo $key; ?>) > 1 ? $relatedSearchModel : null,
+        'id' => '<?php echo $controller; ?>-grid',
+        'dataProvider' => $relatedSearchModel->search(),
+        'filter' => $relatedSearchModel, // TODO: Restore similar functionality without oom problems: count($model-><?php echo $key; ?>) > 1 ? $relatedSearchModel : null,
         'pager' => array(
             'class' => 'TbPager',
             'displayFirstAndLast' => true,
         ),
-    'columns'=>array(
+    'columns' => array(
         '<?php echo $pk; ?>',
         <?php
     $count = 0;
@@ -126,7 +125,7 @@ $this->widget('TbGridView',
     }
     ?>
         array(
-            'class'=>'TbButtonColumn',
+            'class' => 'TbButtonColumn',
             'viewButtonUrl' => "Yii::app()->controller->createUrl('<?php echo $controller; ?>/view', array('<?php echo $pk; ?>' => \$data-><?php echo $pk; ?>))",
             'updateButtonUrl' => "Yii::app()->controller->createUrl('<?php echo $controller; ?>/update', array('<?php echo $pk; ?>' => \$data-><?php echo $pk; ?>))",
             'deleteButtonUrl' => "Yii::app()->controller->createUrl('<?php echo $controller; ?>/delete', array('<?php echo $pk; ?>' => \$data-><?php echo $pk; ?>))",
@@ -151,7 +150,7 @@ $this->widget('TbGridView',
         echo CHtml::openTag('ul');
             foreach(\$model->{$key} as \$relatedModel) {\n
                 echo '<li>';
-                echo CHtml::link(\$relatedModel->{$suggestedfield}, array('{$controller}/view','{$pk}'=>\$relatedModel->{$pk}), array('class'=>''));\n
+                echo CHtml::link(\$relatedModel->{$suggestedfield}, array('{$controller}/view','{$pk}' => \$relatedModel->{$pk}), array('class' => ''));\n
                 echo '</li>';
             }
         echo CHtml::closeTag('ul');
@@ -185,8 +184,8 @@ $this->widget('TbGridView',
         echo '<li>';
         echo CHtml::link(
             '#'.\$model->{$key}->{$pk}.' '.\$model->{$key}->{$suggestedfield},
-            array('{$controller}/view','{$pk}'=>\$model->{$key}->{$pk}),
-            array('class'=>''));\n
+            array('{$controller}/view','{$pk}' => \$model->{$key}->{$pk}),
+            array('class' => ''));\n
         echo '</li>';\n
         echo CHtml::closeTag('ul');
     }
