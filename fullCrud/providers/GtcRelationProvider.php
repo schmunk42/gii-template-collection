@@ -49,10 +49,10 @@ class GtcRelationProvider extends GtcCodeProvider
         $createButton = ($relationInfo[0] == 'CManyManyRelation') ?
             "" :
             "array(
-                'icon'=>'icon-plus',
-                'url'=>array(
+                'icon' => 'icon-plus',
+                'url' => array(
                     '/{$controller}/create',
-                    '{$relationInfo[1]}' => array('{$relationInfo[2]}'=>\$model->{\$model->tableSchema->primaryKey})
+                    '{$relationInfo[1]}' => array('{$relationInfo[2]}' => \$model->{\$model->tableSchema->primaryKey})
                 )
             ),
             ";
@@ -63,12 +63,12 @@ class GtcRelationProvider extends GtcCodeProvider
             \$this->widget(
                 'bootstrap.widgets.TbButtonGroup',
                 array(
-                    'type'=>'', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
-                    'size'=>'mini',
-                    'buttons'=>array(
+                    'type' => '', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
+                    'size' => 'mini',
+                    'buttons' => array(
                         array(
-                            'icon'=>'icon-list-alt',
-                            'url'=> array('/{$controller}/admin')
+                            'icon' => 'icon-list-alt',
+                            'url' =>  array('/{$controller}/admin')
                         ),
                         {$createButton}
                     )
@@ -107,17 +107,18 @@ class GtcRelationProvider extends GtcCodeProvider
                     $allowEmpty = true;
 
                     return ("\$this->widget(
-                        '\\GtcRelation',
-                        array(
-                            'model' => \$model,
-                            'relation' => '{$relationName}',
-                            'fields' => '{$suggestedfield}',
-                            'allowEmpty' => " . ($allowEmpty ? "true" : "false") . ",
-                            'style' => '{$style}',
-                            'htmlOptions' => array(
-                                'checkAll' => 'all'),
-                            )
-                        " . ($captureOutput ? ", true" : "") . ")");
+                '\\GtcRelation',
+                array(
+                    'model' => \$model,
+                    'relation' => '{$relationName}',
+                    'fields' => '{$suggestedfield}',
+                    'allowEmpty' => " . ($allowEmpty ? "true" : "false") . ",
+                    'style' => '{$style}',
+                    'htmlOptions' => array(
+                        'checkAll' => 'all'
+                    ),
+                )
+                " . ($captureOutput ? ", true" : "") . ")");
                 }
             }
         } else {

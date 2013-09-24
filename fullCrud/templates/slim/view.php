@@ -8,7 +8,7 @@
         . \$model->getItemLabel()            
 );    
 \$this->breadcrumbs[Yii::t('{$this->messageCatalog}','{$this->pluralize($this->class2name($this->modelClass))}')] = array('admin');
-\$this->breadcrumbs[\$model->{\$model->tableSchema->primaryKey}] = array('view','id'=>\$model->{\$model->tableSchema->primaryKey});
+\$this->breadcrumbs[\$model->{\$model->tableSchema->primaryKey}] = array('view','id' => \$model->{\$model->tableSchema->primaryKey});
 \$this->breadcrumbs[] = Yii::t('{$this->messageCatalog}', 'View');
 ?>
 ";?>
@@ -45,8 +45,8 @@
         \$this->widget(
             'TbDetailView',
             array(
-                'data'=>\$model,
-                'attributes'=>array(
+                'data' => \$model,
+                'attributes' => array(
         ";
         ?>
         <?php
@@ -62,7 +62,7 @@
 
     <div class="span5">
         <?=
-        "<?php \$this->renderPartial('_view-relations',array('model'=>\$model)); ?>";
+        "<?php \$this->renderPartial('_view-relations',array('model' => \$model)); ?>";
         ?>
     </div>
 </div>

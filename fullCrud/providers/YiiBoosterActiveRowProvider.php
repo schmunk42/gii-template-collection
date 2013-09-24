@@ -12,20 +12,20 @@ class YiiBoosterActiveRowProvider extends GtcCodeProvider
          */
 
         if ($column->type === 'boolean') {
-            return "\$form->checkBoxRow(\$model,'{$column->name}')";
+            return "\$form->checkBoxRow(\$model, '{$column->name}')";
         } else {
             if (stripos($column->dbType, 'text') !== false) {
 
                 switch ($this->codeModel->textEditor) {
                     default:
                     case "textarea":
-                        return "\$form->textAreaRow(\$model,'{$column->name}',array('rows'=>6, 'cols'=>50, 'class'=>'span8'))";
+                        return "\$form->textAreaRow(\$model, '{$column->name}', array('rows' => 6, 'cols' => 50, 'class' => 'span8'))";
                         break;
                     case "redactor":
-                        return "\$form->redactorRow(\$model, '{$column->name}', array('rows'=>6, 'cols'=>50, 'class'=>'span8'))";
+                        return "\$form->redactorRow(\$model, '{$column->name}', array('rows' => 6, 'cols' => 50, 'class' => 'span8'))";
                         break;
                     case "html5Editor":
-                        return "\$form->html5EditorRow(\$model, '{$column->name}', array('rows'=>6, 'cols'=>50, 'class'=>'span8', 'options' => array(
+                        return "\$form->html5EditorRow(\$model, '{$column->name}', array('rows' => 6, 'cols' => 50, 'class' => 'span8', 'options' => array(
                     'link' => true,
                     'image' => false,
                     'color' => false,
@@ -33,10 +33,10 @@ class YiiBoosterActiveRowProvider extends GtcCodeProvider
             )))";
                         break;
                     case "ckEditor":
-                        return "\$form->ckEditorRow(\$model, '{$column->name}', array('options'=>array('fullpage'=>'js:true', 'width'=>'640', 'resize_maxWidth'=>'640','resize_minWidth'=>'320')))";
+                        return "\$form->ckEditorRow(\$model, '{$column->name}', array('options' => array('fullpage' => 'js:true', 'width' => '640', 'resize_maxWidth' => '640','resize_minWidth' => '320')))";
                         break;
                     case "markdownEditor":
-                        return "\$form->markdownEditorRow(\$model, '{$column->name}', array('rows'=>6, 'cols'=>50, 'class'=>'span8'))";
+                        return "\$form->markdownEditorRow(\$model, '{$column->name}', array('rows' => 6, 'cols' => 50, 'class' => 'span8'))";
                         break;
                 }
 
@@ -48,9 +48,9 @@ class YiiBoosterActiveRowProvider extends GtcCodeProvider
                 }
 
                 if ($column->type !== 'string' || $column->size === null) {
-                    return "\$form->{$inputField}(\$model,'{$column->name}')";
+                    return "\$form->{$inputField}(\$model, '{$column->name}')";
                 } else {
-                    return "\$form->{$inputField}(\$model,'{$column->name}',array('maxlength'=>$column->size))";
+                    return "\$form->{$inputField}(\$model, '{$column->name}', array('maxlength' => $column->size))";
                 }
             }
         }

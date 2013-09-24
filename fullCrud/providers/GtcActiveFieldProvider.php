@@ -21,25 +21,25 @@ class GtcActiveFieldProvider extends GtcCodeProvider
         }
 
         if (strtoupper($column->dbType) == 'TEXT' && stristr($column->name, 'html')) {
-            return "\$this->widget('CKEditor', array('model'=>\$model,'attribute'=>'{$column->name}','options'=>Yii::app()->params['ext.ckeditor.options']));";
+            return "\$this->widget('CKEditor', array('model' => \$model, 'attribute' => '{$column->name}', 'options' => Yii::app()->params['ext.ckeditor.options']));";
         } elseif (strtoupper($column->dbType) == 'TINYINT(1)'
             || strtoupper($column->dbType) == 'BIT'
             || strtoupper($column->dbType) == 'BOOL'
             || strtoupper($column->dbType) == 'BOOLEAN'
         ) {
-            return "echo \$form->checkBox(\$model,'{$column->name}')";
+            return "echo \$form->checkBox(\$model, '{$column->name}')";
         } elseif (strtoupper($column->dbType) == 'DATE') {
             return ("\$this->widget('zii.widgets.jui.CJuiDatePicker',
                          array(
-                                 'model'=>\$model,
-                                 'attribute'=>'{$column->name}',
-                                 'language'=> substr(Yii::app()->language,0,strpos(Yii::app()->language,'_')),
-                                 'htmlOptions'=>array('size'=>10),
-                                 'options'=>array(
-                                     'showButtonPanel'=>true,
-                                     'changeYear'=>true,
-                                     'changeYear'=>true,
-                                     'dateFormat'=>'yy-mm-dd',
+                                 'model' => \$model,
+                                 'attribute' => '{$column->name}',
+                                 'language' =>  substr(Yii::app()->language, 0, strpos(Yii::app()->language, '_')),
+                                 'htmlOptions' => array('size' => 10),
+                                 'options' => array(
+                                     'showButtonPanel' => true,
+                                     'changeYear' => true,
+                                     'changeYear' => true,
+                                     'dateFormat' => 'yy-mm-dd',
                                      ),
                                  )
                              );
@@ -51,7 +51,7 @@ class GtcActiveFieldProvider extends GtcCodeProvider
 
             foreach ($enum_values as $value) {
                 $value = trim($value, "()'");
-                $string .= "            '$value' => '" . $value . "' ,\n";
+                $string .= "            '$value' => '" . $value . "',\n";
             }
             $string .= '))';
 

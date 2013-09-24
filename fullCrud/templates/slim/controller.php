@@ -12,7 +12,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 
 <?php
     $authPath = 'gtc.fullCrud.templates.slim.auth.';
-    Yii::app()->controller->renderPartial($authPath . $this->authTemplateSlim, array('rightsPrefix'=>$this->getRightsPrefix()));
+    Yii::app()->controller->renderPartial($authPath . $this->authTemplateSlim, array('rightsPrefix' => $this->getRightsPrefix()));
     ?>
 
     public function beforeAction($action)

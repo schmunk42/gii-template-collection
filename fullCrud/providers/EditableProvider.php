@@ -30,13 +30,13 @@ class EditableProvider extends GtcCodeProvider
             return null;
         } elseif ($column->name) {
             $code = "array(
-                        'name'=>'{$column->name}',
+                        'name' => '{$column->name}',
                         'type' => 'raw',
                         'value' =>\$this->widget(
                             'EditableField',
                             array(
-                                'model'=>\$model,
-                                'attribute'=>'{$column->name}',
+                                'model' => \$model,
+                                'attribute' => '{$column->name}',
                                 'url' => \$this->createUrl('/{$this->codeModel->controller}/editableSaver'),
                             ),
                             true

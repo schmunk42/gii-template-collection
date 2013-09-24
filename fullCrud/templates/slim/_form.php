@@ -8,9 +8,9 @@
         Yii::app()->clientScript->registerScript('crud/variant/update','$(\".crud-form select\").select2();');
 
         \$form=\$this->beginWidget('TbActiveForm', array(
-            'id'=>'{$this->class2id($this->modelClass)}-form',
-            'enableAjaxValidation'=>{$this->enableAjaxValidation},
-            'enableClientValidation'=>{$this->enableClientValidation},
+            'id' => '{$this->class2id($this->modelClass)}-form',
+            'enableAjaxValidation' => {$this->enableAjaxValidation},
+            'enableClientValidation' => {$this->enableClientValidation},
         ));
 
         echo \$form->errorSummary(\$model);

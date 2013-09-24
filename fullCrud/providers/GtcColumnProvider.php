@@ -38,17 +38,17 @@ class GtcColumnProvider extends GtcCodeProvider
 
             if ($view === true) {
                 return "array(
-                    'name'=>'{$column->name}',
-                    'value'=>CHtml::value(\$model,'{$relname}." . $suggestIdentifier . "'),
+                    'name' => '{$column->name}',
+                    'value' => CHtml::value(\$model, '{$relname}." . $suggestIdentifier . "'),
                     )";
             } elseif ($view == 'search') {
-                return "echo \$form->dropDownList(\$model,'{$column->name}',CHtml::listData({$relatedModelName}::model()->findAll(),
-                '{$fcolumns[0]}', '{$fcolumns[1]}'),array('prompt'=>'all'))";
+                return "echo \$form->dropDownList(\$model, '{$column->name}', CHtml::listData({$relatedModelName}::model()->findAll(),
+                '{$fcolumns[0]}', '{$fcolumns[1]}'),array('prompt' => 'all'))";
             } else {
                 return "array(
-                    'name'=>'{$column->name}',
-                    'value'=>'CHtml::value(\$data,\'{$relname}." . $suggestIdentifier . "\')',
-                            'filter'=>CHtml::listData({$relatedModelName}::model()->findAll(array('limit'=>1000)), '{$fcolumns[0]}', '{$suggestIdentifier}'),
+                    'name' => '{$column->name}',
+                    'value' => 'CHtml::value(\$data, \'{$relname}." . $suggestIdentifier . "\')',
+                            'filter' => CHtml::listData({$relatedModelName}::model()->findAll(array('limit' => 1000)), '{$fcolumns[0]}', '{$suggestIdentifier}'),
                             )";
             }
         } elseif (strtoupper($column->dbType) == 'TEXT') {
@@ -59,14 +59,14 @@ class GtcColumnProvider extends GtcCodeProvider
         ) {
             if ($view) {
                 return "array(
-                    'name'=>'{$column->name}',
-                    'value'=>\$model->{$column->name}?\'yes\':\'no\',
+                    'name' => '{$column->name}',
+                    'value' => \$model->{$column->name}?\'yes\':\'no\',
                 )";
             } else {
                 return "array(
-                    'name'=>'{$column->name}',
-                    'value'=>'\$data->{$column->name}?\'yes\':\'no\'',
-                    'filter'=>array('0'=>'no','1'=>'yes'),
+                    'name' => '{$column->name}',
+                    'value' => '\$data->{$column->name}?\'yes\':\'no\'',
+                    'filter' => array('0' => 'no','1' => 'yes'),
                 )";
             }
         } else { // TODO: useful?, needed?
@@ -75,7 +75,7 @@ class GtcColumnProvider extends GtcCodeProvider
                 or $column->name == 'timestamp'
             ) {
                 return "array(
-                'name'=>'{$column->name}',
+                'name' => '{$column->name}',
                 'value' =>'date(\"Y. m. d G:i:s\", \$data->{$column->name})')";
             } else {
                 return ("'" . $column->name . "'");

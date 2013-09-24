@@ -107,8 +107,8 @@
         <div class="btn-group">
             <?=
             "<?php \$this->widget('bootstrap.widgets.TbButtonGroup', array(
-                   'buttons'=>array(
-                           array('label'=>Yii::t('" . $this->messageCatalog . "','Relations'), 'icon'=>'icon-random', 'items'=>array(";
+                   'buttons' => array(
+                           array('label' => Yii::t('" . $this->messageCatalog . "','Relations'), 'icon' => 'icon-random', 'items' => array(";
 
             // render relation links
             foreach ($model->relations() AS $key => $relation) {
@@ -118,7 +118,7 @@
                     'CHasManyRelation'   => 'arrow-right',
                     'CHasOneRelation'    => 'circle-arrow-right',
                 );
-                echo "array('icon'=>'" . strtr($relation[0], $replace) . "','label'=>'" . ucfirst(
+                echo "array('icon' => '" . strtr($relation[0], $replace) . "','label' => '" . ucfirst(
                         $key
                     ) . "', 'url' =>array('" . $this->resolveController($relation) . "/admin')),";
             }
@@ -140,6 +140,6 @@
 <?= "<?php if(\$this->action->id == 'admin'): ?>" ?>
 <div class="search-form" style="display:none">
     <?=
-    "<?php \$this->renderPartial('_search',array('model'=>\$model,)); ?>\n"; ?>
+    "<?php \$this->renderPartial('_search',array('model' => \$model,)); ?>\n"; ?>
 </div>
 <?= "<?php endif; ?>" ?>

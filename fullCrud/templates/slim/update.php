@@ -8,7 +8,7 @@
         . \$model->getItemLabel()
 );    
 \$this->breadcrumbs[Yii::t('{$this->messageCatalog}','{$this->pluralize($this->class2name($this->modelClass))}')] = array('admin');
-\$this->breadcrumbs[\$model->{\$model->tableSchema->primaryKey}] = array('view','id'=>\$model->{\$model->tableSchema->primaryKey});
+\$this->breadcrumbs[\$model->{\$model->tableSchema->primaryKey}] = array('view','id' => \$model->{\$model->tableSchema->primaryKey});
 \$this->breadcrumbs[] = Yii::t('{$this->messageCatalog}', 'Update');
 ?>
 ";?>
@@ -32,7 +32,7 @@
 <?=
 "
 <?php
-    \$this->renderPartial('_form', array('model'=>\$model));
+    \$this->renderPartial('_form', array('model' => \$model));
 ?>
 "
 ?>
