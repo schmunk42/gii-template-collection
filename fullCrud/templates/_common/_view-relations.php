@@ -24,9 +24,9 @@ if (!empty($relations)) :
         if ($relation[0] == 'CBelongsToRelation') {
             continue;
         } elseif ($relation[0] == 'CHasOneRelation') {
-            $recordsWrapper = "\$records = array(\$model->{$key}(array('limit'=>250, 'scopes' => '{$scope}'));"; // TODO: has one untested
+            $recordsWrapper = "\$records = array(\$model->{$key}(array('limit' => 250, 'scopes' => '{$scope}'));"; // TODO: has one untested
         } else {
-            $recordsWrapper = "\$records = \$model->{$key}(array('limit'=>250, 'scopes' => '{$scope}'));"; // TODO: move to ajax list
+            $recordsWrapper = "\$records = \$model->{$key}(array('limit' => 250, 'scopes' => '{$scope}'));"; // TODO: move to ajax list
         }
         ?>
 
@@ -43,11 +43,11 @@ if (!empty($relations)) :
                     echo '<li>';
                     echo CHtml::link(
                         '<i class=\"icon icon-arrow-right\"></i> '.\$relatedModel->{$suggestedfield},
-                        array('{$controller}/view','{$pk}'=>\$relatedModel->{$pk})
+                        array('{$controller}/view','{$pk}' => \$relatedModel->{$pk})
                     );
                     echo CHtml::link(
                         ' <i class=\"icon icon-pencil\"></i>',
-                        array('{$controller}/update','{$pk}'=>\$relatedModel->{$pk})
+                        array('{$controller}/update','{$pk}' => \$relatedModel->{$pk})
                     );
                     echo '</li>';
                 }
