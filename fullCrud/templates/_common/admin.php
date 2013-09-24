@@ -1,14 +1,13 @@
 <?=
 // prepare breadcrumbs & clientscript
-"
-<?php
+"<?php
 \$this->setPageTitle(
-        Yii::t('{$this->messageCatalog}', '{$this->pluralize($this->class2name($this->modelClass))}')
-        . ' - '
-        . Yii::t('{$this->messageCatalog}', 'Manage')
+    Yii::t('{$this->messageCatalog}', '{$this->pluralize($this->class2name($this->modelClass))}')
+    . ' - '
+    . Yii::t('{$this->messageCatalog}', 'Manage')
 );
 
-\$this->breadcrumbs[] = Yii::t('{$this->messageCatalog}','{$this->pluralize($this->class2name($this->modelClass))}');
+\$this->breadcrumbs[] = Yii::t('{$this->messageCatalog}', '{$this->pluralize($this->class2name($this->modelClass))}');
 Yii::app()->clientScript->registerScript('search', \"
     $('.search-button').click(function(){
         $('.search-form').toggle();
@@ -26,20 +25,19 @@ Yii::app()->clientScript->registerScript('search', \"
 "
 ?>
 
-<?= '<?php $this->widget("TbBreadcrumbs", array("links"=>$this->breadcrumbs)) ?>'; ?>
+<?= '<?php $this->widget("TbBreadcrumbs", array("links" => $this->breadcrumbs)) ?>'; ?>
 
-<h1>
-    <?=
-    // headline
-    "
-    <?php echo Yii::t('{$this->messageCatalog}', '{$this->pluralize($this->class2name($this->modelClass))}'); ?>
-    <small><?php echo Yii::t('{$this->messageCatalog}', 'Manage'); ?></small>
+    <h1><?=
+        // headline
+        "
+
+        <?php echo Yii::t('{$this->messageCatalog}', '{$this->pluralize($this->class2name($this->modelClass))}'); ?>
+        <small><?php echo Yii::t('{$this->messageCatalog}', 'Manage'); ?></small>
+
     ";
-    ?>
+    ?></h1>
 
-</h1>
-
-<?= '<?php $this->renderPartial("_toolbar", array("model"=>$model)); ?>'; ?>
+<?= '<?php $this->renderPartial("_toolbar", array("model" => $model)); ?>'; ?>
 
 
 <?php
@@ -49,16 +47,16 @@ $columns = "";
 foreach ($this->tableSchema->columns as $column) {
     // render, but comment from the 8th column on
     if ($count == 8) {
-        $columns .= "        /*\n";
+        $columns .= "            /*\n";
     }
     $column = $this->provider()->generateColumn($this->modelClass, $column);
-    $columns .= "        " . $column . ",\n";
+    $columns .= "            " . $column . ",\n";
     if (substr($column, 0, 1) != '#') {
         $count++;
     } // don't count a commented column
 }
 if ($count >= 9) {
-    $columns .= "        */\n";
+    $columns .= "            */\n";
 }
 ?>
 
@@ -76,14 +74,14 @@ if ($count >= 9) {
             'class' => 'TbPager',
             'displayFirstAndLast' => true,
         ),
-        'columns' =>  array(
+        'columns' => array(
             array(
                 'class' => 'CLinkColumn',
                 'header' => '',
-                'labelExpression' =>  '\$data->{$this->provider()->suggestIdentifier($this->modelClass)}',
-                'urlExpression' =>  'Yii::app()->controller->createUrl(\"view\", array(\"{$this->tableSchema->primaryKey}\" => \$data[\"{$this->tableSchema->primaryKey}\"]))'
+                'labelExpression' => '\$data->{$this->provider()->suggestIdentifier($this->modelClass)}',
+                'urlExpression' => 'Yii::app()->controller->createUrl(\"view\", array(\"{$this->tableSchema->primaryKey}\" => \$data[\"{$this->tableSchema->primaryKey}\"]))'
             ),
-            {$columns}
+{$columns}
             array(
                 'class' => 'TbButtonColumn',
                 'buttons' => array(
@@ -91,7 +89,7 @@ if ($count >= 9) {
                     'update' => array('visible' => 'Yii::app()->user->checkAccess(\"{$this->getRightsPrefix()}.Update\")'),
                     'delete' => array('visible' => 'Yii::app()->user->checkAccess(\"{$this->getRightsPrefix()}.Delete\")'),
                 ),
-                'viewButtonUrl'   => 'Yii::app()->controller->createUrl(\"view\", array(\"{$this->tableSchema->primaryKey}\" => \$data->{$this->tableSchema->primaryKey}))',
+                'viewButtonUrl' => 'Yii::app()->controller->createUrl(\"view\", array(\"{$this->tableSchema->primaryKey}\" => \$data->{$this->tableSchema->primaryKey}))',
                 'updateButtonUrl' => 'Yii::app()->controller->createUrl(\"update\", array(\"{$this->tableSchema->primaryKey}\" => \$data->{$this->tableSchema->primaryKey}))',
                 'deleteButtonUrl' => 'Yii::app()->controller->createUrl(\"delete\", array(\"{$this->tableSchema->primaryKey}\" => \$data->{$this->tableSchema->primaryKey}))',
             ),

@@ -14,13 +14,13 @@ class EditableProvider extends GtcCodeProvider
             return "#'{$column->name}'"; // comment text fields
         } else {
             return "array(
-            'class' => 'editable.EditableColumn',
-            'name' => '{$column->name}',
-            'editable' => array(
-                'url' => \$this->createUrl('/{$this->codeModel->controller}/editableSaver'),
-                //'placement' => 'right',
-            )
-        )";
+                'class' => 'editable.EditableColumn',
+                'name' => '{$column->name}',
+                'editable' => array(
+                    'url' => \$this->createUrl('/{$this->codeModel->controller}/editableSaver'),
+                    //'placement' => 'right',
+                )
+            )";
         }
     }
 
@@ -32,7 +32,7 @@ class EditableProvider extends GtcCodeProvider
             $code = "array(
                         'name' => '{$column->name}',
                         'type' => 'raw',
-                        'value' =>\$this->widget(
+                        'value' => \$this->widget(
                             'EditableField',
                             array(
                                 'model' => \$model,

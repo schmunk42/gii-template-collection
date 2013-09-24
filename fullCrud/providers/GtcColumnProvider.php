@@ -38,18 +38,18 @@ class GtcColumnProvider extends GtcCodeProvider
 
             if ($view === true) {
                 return "array(
-                    'name' => '{$column->name}',
-                    'value' => CHtml::value(\$model, '{$relname}." . $suggestIdentifier . "'),
-                    )";
+                'name' => '{$column->name}',
+                'value' => CHtml::value(\$model, '{$relname}." . $suggestIdentifier . "'),
+            )";
             } elseif ($view == 'search') {
                 return "echo \$form->dropDownList(\$model, '{$column->name}', CHtml::listData({$relatedModelName}::model()->findAll(),
                 '{$fcolumns[0]}', '{$fcolumns[1]}'),array('prompt' => 'all'))";
             } else {
                 return "array(
-                    'name' => '{$column->name}',
-                    'value' => 'CHtml::value(\$data, \'{$relname}." . $suggestIdentifier . "\')',
-                            'filter' => CHtml::listData({$relatedModelName}::model()->findAll(array('limit' => 1000)), '{$fcolumns[0]}', '{$suggestIdentifier}'),
-                            )";
+                'name' => '{$column->name}',
+                'value' => 'CHtml::value(\$data, \'{$relname}." . $suggestIdentifier . "\')',
+                'filter' => CHtml::listData({$relatedModelName}::model()->findAll(array('limit' => 1000)), '{$fcolumns[0]}', '{$suggestIdentifier}'),
+            )";
             }
         } elseif (strtoupper($column->dbType) == 'TEXT') {
             return "#'{$column->name}'"; // comment text fields
