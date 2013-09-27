@@ -13,7 +13,8 @@ foreach ($relations as $key => $relation):
     $relatedModel   = CActiveRecord::model($relation[1]);
     $pk             = $relatedModel->tableSchema->primaryKey;
     $suggestedfield = $this->provider()->suggestIdentifier($relatedModel);
-    $scope          = (isset($relatedModel->scopes()['crud'])) ? 'crud' : '';
+    $scopes         = $relatedModel->scopes();
+    $scope          = (isset($scopes['crud'])) ? 'crud' : '';
 
     // TODO: currently composite PKs are omitted
     if (is_array($pk)) {
