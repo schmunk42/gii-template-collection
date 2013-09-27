@@ -4,7 +4,7 @@
 \$this->setPageTitle(
     Yii::t('{$this->messageCatalog}', '{$this->pluralize($this->class2name($this->modelClass))}')
     . ' - '
-    . Yii::t('{$this->messageCatalog}', 'Manage')
+    . Yii::t('{$this->messageCatalogStandard}', 'Manage')
 );
 
 \$this->breadcrumbs[] = Yii::t('{$this->messageCatalog}', '{$this->pluralize($this->class2name($this->modelClass))}');
@@ -32,7 +32,7 @@ Yii::app()->clientScript->registerScript('search', \"
         "
 
         <?php echo Yii::t('{$this->messageCatalog}', '{$this->pluralize($this->class2name($this->modelClass))}'); ?>
-        <small><?php echo Yii::t('{$this->messageCatalog}', 'Manage'); ?></small>
+        <small><?php echo Yii::t('{$this->messageCatalogStandard}', 'Manage'); ?></small>
 
     ";
     ?></h1>

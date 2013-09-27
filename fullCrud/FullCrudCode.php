@@ -12,6 +12,7 @@ class FullCrudCode extends CrudCode
     // validation method; 0 = none, 1 = ajax, 2 = client-side, 3 = both
     public $validation = 3;
     public $baseControllerClass = 'Controller';
+    public $messageCatalogStandard = "crud_static";
     public $messageCatalog = "crud";
     public $template = "slim";
     // Slim template
@@ -57,7 +58,7 @@ class FullCrudCode extends CrudCode
             parent::rules(),
             array(
                  array('validation', 'required'),
-                 array('authTemplateSlim, authTemplateHybrid, providers, authTemplate, formOrientation, textEditor, backendViewPathAlias, frontendViewPathAlias,messageCatalog', 'safe'),
+                 array('authTemplateSlim, authTemplateHybrid, providers, authTemplate, formOrientation, textEditor, backendViewPathAlias, frontendViewPathAlias,messageCatalog,messageCatalogStandard', 'safe'),
             )
         );
     }

@@ -3,13 +3,13 @@
     \$this->setPageTitle(
         Yii::t('{$this->messageCatalog}', '{$this->class2name($this->modelClass)}')
         . ' - '
-        . Yii::t('{$this->messageCatalog}', 'View')
+        . Yii::t('{$this->messageCatalogStandard}', 'View')
         . ': '   
         . \$model->getItemLabel()            
 );    
 \$this->breadcrumbs[Yii::t('{$this->messageCatalog}','{$this->pluralize($this->class2name($this->modelClass))}')] = array('admin');
 \$this->breadcrumbs[\$model->{\$model->tableSchema->primaryKey}] = array('view','id' => \$model->{\$model->tableSchema->primaryKey});
-\$this->breadcrumbs[] = Yii::t('{$this->messageCatalog}', 'View');
+\$this->breadcrumbs[] = Yii::t('{$this->messageCatalogStandard}', 'View');
 ?>
 ";?>
 
@@ -18,7 +18,7 @@
 <h1>
     <?=
     "<?php echo Yii::t('" . $this->messageCatalog . "','" . $this->class2name($this->modelClass) . "')?>
-    <small><?php echo Yii::t('" . $this->messageCatalog . "','View')?> #<?php echo \$model->" . $this->tableSchema->primaryKey . " ?></small>
+    <small><?php echo Yii::t('" . $this->messageCatalogStandard . "','View')?> #<?php echo \$model->" . $this->tableSchema->primaryKey . " ?></small>
     "?>
 </h1>
 
@@ -31,7 +31,7 @@
 <div class="row">
     <div class="span7">
         <h2>
-            <?= "<?php echo Yii::t('" . $this->messageCatalog . "','Data')?>"; ?>
+            <?= "<?php echo Yii::t('" . $this->messageCatalogStandard . "','Data')?>"; ?>
             <small>
                 <?=
                 "<?php echo \$model->" . $this->provider()->suggestIdentifier(

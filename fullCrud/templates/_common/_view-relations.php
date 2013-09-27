@@ -3,7 +3,7 @@ $relations = CActiveRecord::model(Yii::import($this->model))->relations();
 if (!empty($relations)) :
     ?>
 <h2>
-    <?= "<?php echo Yii::t('{$this->messageCatalog}', 'Relations') ?>"; ?>
+    <?= "<?php echo Yii::t('{$this->messageCatalogStandard}', 'Relations') ?>"; ?>
 </h2>
 
 <?php

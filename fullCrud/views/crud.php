@@ -55,6 +55,22 @@
 </div>
 
 <div class="row wide">
+    <?php echo $form->labelEx($model, 'messageCatalogStandard'); ?>
+    <?php echo $form->textField(
+        $model,
+        'messageCatalogStandard',
+        array(
+             'size' => 65
+        )
+    );
+    ?>
+    <div class="tooltip">
+        Message catalog for CRUD standard hints and labels.
+    </div>
+    <?php echo $form->error($model, 'messageCatalogStandard'); ?>
+</div>
+
+<div class="row wide">
     <?php echo $form->labelEx($model, 'messageCatalog'); ?>
     <?php echo $form->textField(
         $model,
@@ -65,7 +81,7 @@
     );
     ?>
     <div class="tooltip">
-        Message catalog for CRUD hints and labels.
+        Message catalog for CRUD generated hints and labels.
     </div>
     <?php echo $form->error($model, 'messageCatalog'); ?>
 </div>
