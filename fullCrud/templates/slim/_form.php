@@ -21,7 +21,7 @@
     <div class="row">
         <div class="span7"> <!-- main inputs -->
             <h2>
-                <?= "<?php echo Yii::t('{$this->messageCatalog}','Data')?>"; ?>
+                <?= "<?php echo Yii::t('{$this->messageCatalogStandard}','Data')?>"; ?>
                 <small>
                     <?= "<?php echo \$model->{$this->provider()->suggestIdentifier($this->modelClass)} ?>"; ?>
 
@@ -63,7 +63,7 @@
 
         <div class="span5"> <!-- sub inputs -->
             <h2>
-                <?= "<?php echo Yii::t('" . $this->messageCatalog . "','Relations')?>"; ?>
+                <?= "<?php echo Yii::t('" . $this->messageCatalogStandard . "','Relations')?>"; ?>
 
             </h2>
             <? foreach ($this->getRelations() as $key => $relation) : ?>
@@ -87,7 +87,7 @@
 
     <p class="alert">
         <?=
-        "<?php echo Yii::t('{$this->messageCatalog}','Fields with <span class=\"required\">*</span> are required.');?>";
+        "<?php echo Yii::t('{$this->messageCatalogStandard}','Fields with <span class=\"required\">*</span> are required.');?>";
         ?>
 
     </p>
@@ -97,11 +97,11 @@
         "
         <?php
             echo CHtml::Button(
-            Yii::t('{$this->messageCatalog}', 'Cancel'), array(
+            Yii::t('{$this->messageCatalogStandard}', 'Cancel'), array(
                 'submit' => (isset(\$_GET['returnUrl']))?\$_GET['returnUrl']:array('{$this->controllerID}/admin'),
                 'class' => 'btn'
             ));
-            echo ' '.CHtml::submitButton(Yii::t('{$this->messageCatalog}', 'Save'), array(
+            echo ' '.CHtml::submitButton(Yii::t('{$this->messageCatalogStandard}', 'Save'), array(
                 'class' => 'btn btn-primary'
             ));
         ?>";

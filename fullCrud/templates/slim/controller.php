@@ -134,7 +134,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
                 }
             }
         } else {
-            throw new CHttpException(400, Yii::t('<?php echo $this->messageCatalog; ?>', 'Invalid request. Please do not repeat this request again.'));
+            throw new CHttpException(400, Yii::t('<?php echo $this->messageCatalogStandard; ?>', 'Invalid request. Please do not repeat this request again.'));
         }
     }
 
@@ -164,7 +164,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
         }
         $model = $m->findByPk($id);
         if ($model === null) {
-            throw new CHttpException(404, Yii::t('<?php echo $this->messageCatalog; ?>', 'The requested page does not exist.'));
+            throw new CHttpException(404, Yii::t('<?php echo $this->messageCatalogStandard; ?>', 'The requested page does not exist.'));
         }
         return $model;
     }

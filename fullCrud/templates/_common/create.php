@@ -5,11 +5,11 @@ $label = $this->pluralize($this->class2name($this->modelClass));
 \$this->setPageTitle(
     Yii::t('{$this->messageCatalog}', '{$this->class2name($this->modelClass)}')
     . ' - '
-    . Yii::t('{$this->messageCatalog}', 'Create')
+    . Yii::t('{$this->messageCatalogStandard}', 'Create')
 );
 
 \$this->breadcrumbs[Yii::t('" . $this->messageCatalog . "', '$label')] = array('admin');
-\$this->breadcrumbs[] = Yii::t('" . $this->messageCatalog . "', 'Create');
+\$this->breadcrumbs[] = Yii::t('" . $this->messageCatalogStandard . "', 'Create');
 ?>";
 ?>
 
@@ -18,7 +18,7 @@ $label = $this->pluralize($this->class2name($this->modelClass));
     <h1>
         <?=
         "<?php echo Yii::t('" . $this->messageCatalog . "', '" . $this->class2name($this->modelClass) . "'); ?>
-        <small><?php echo Yii::t('" . $this->messageCatalog . "', 'Create'); ?></small>
+        <small><?php echo Yii::t('" . $this->messageCatalogStandard . "', 'Create'); ?></small>
 
     ";
     ?></h1>

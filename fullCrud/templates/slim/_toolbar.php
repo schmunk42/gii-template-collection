@@ -7,7 +7,7 @@
                    switch($this->action->id) {
                        case "create":
                            $this->widget("bootstrap.widgets.TbButton", array(
-                               "label"=>Yii::t("' . $this->messageCatalog . '","Manage"),
+                               "label"=>Yii::t("' . $this->messageCatalogStandard . '","Manage"),
                         "icon"=>"icon-list-alt",
                         "url"=>array("admin"),
                         "visible"=>Yii::app()->user->checkAccess("'.$this->getRightsPrefix().'.View")
@@ -15,7 +15,7 @@
                     break;
                 case "admin":
                     $this->widget("bootstrap.widgets.TbButton", array(
-                        "label"=>Yii::t("' . $this->messageCatalog . '","Create"),
+                        "label"=>Yii::t("' . $this->messageCatalogStandard . '","Create"),
                         "icon"=>"icon-plus",
                         "url"=>array("create"),
                         "visible"=>Yii::app()->user->checkAccess("'.$this->getRightsPrefix().'.Create")
@@ -23,54 +23,54 @@
                     break;
                 case "view":
                     $this->widget("bootstrap.widgets.TbButton", array(
-                        "label"=>Yii::t("' . $this->messageCatalog . '","Manage"),
+                        "label"=>Yii::t("' . $this->messageCatalogStandard . '","Manage"),
                         "icon"=>"icon-list-alt",
                         "url"=>array("admin"),
                         "visible"=>Yii::app()->user->checkAccess("'.$this->getRightsPrefix().'.View")
                     ));
                     $this->widget("bootstrap.widgets.TbButton", array(
-                        "label"=>Yii::t("' . $this->messageCatalog . '","Update"),
+                        "label"=>Yii::t("' . $this->messageCatalogStandard . '","Update"),
                         "icon"=>"icon-edit",
                         "url"=>array("update","'.$pk .'"=>$model->{$model->tableSchema->primaryKey}),
                         "visible"=>Yii::app()->user->checkAccess("'.$this->getRightsPrefix().'.Update")
                     ));
                     $this->widget("bootstrap.widgets.TbButton", array(
-                        "label"=>Yii::t("' . $this->messageCatalog . '","Create"),
+                        "label"=>Yii::t("' . $this->messageCatalogStandard . '","Create"),
                         "icon"=>"icon-plus",
                         "url"=>array("create"),
                         "visible"=>Yii::app()->user->checkAccess("'.$this->getRightsPrefix().'.Create")
                     ));
                     $this->widget("bootstrap.widgets.TbButton", array(
-                        "label"=>Yii::t("' . $this->messageCatalog . '","Delete"),
+                        "label"=>Yii::t("' . $this->messageCatalogStandard . '","Delete"),
                         "type"=>"danger",
                         "icon"=>"icon-remove icon-white",
                         "htmlOptions"=> array(
                             "submit"=>array("delete","'.$pk.'"=>$model->{$model->tableSchema->primaryKey}, "returnUrl"=>(Yii::app()->request->getParam("returnUrl"))?Yii::app()->request->getParam("returnUrl"):$this->createUrl("admin")),
-                            "confirm"=>Yii::t("' . $this->messageCatalog . '","Do you want to delete this item?")
+                            "confirm"=>Yii::t("' . $this->messageCatalogStandard . '","Do you want to delete this item?")
                         ),
                         "visible"=>Yii::app()->user->checkAccess("'.$this->getRightsPrefix().'.Delete")
                     ));
                     break;
                 case "update":
                     $this->widget("bootstrap.widgets.TbButton", array(
-                        "label"=>Yii::t("' . $this->messageCatalog . '","Manage"),
+                        "label"=>Yii::t("' . $this->messageCatalogStandard . '","Manage"),
                         "icon"=>"icon-list-alt",
                         "url"=>array("admin"),
                         "visible"=>Yii::app()->user->checkAccess("'.$this->getRightsPrefix().'.View")
                     ));
                     $this->widget("bootstrap.widgets.TbButton", array(
-                        "label"=>Yii::t("' . $this->messageCatalog . '","View"),
+                        "label"=>Yii::t("' . $this->messageCatalogStandard . '","View"),
                         "icon"=>"icon-eye-open",
                         "url"=>array("view","'.$pk.'"=>$model->{$model->tableSchema->primaryKey}),
                         "visible"=>Yii::app()->user->checkAccess("'.$this->getRightsPrefix().'.View")
                     ));
                     $this->widget("bootstrap.widgets.TbButton", array(
-                        "label"=>Yii::t("' . $this->messageCatalog . '","Delete"),
+                        "label"=>Yii::t("' . $this->messageCatalogStandard . '","Delete"),
                         "type"=>"danger",
                         "icon"=>"icon-remove icon-white",
                         "htmlOptions"=> array(
                             "submit"=>array("delete","'.$pk.'"=>$model->{$model->tableSchema->primaryKey}, "returnUrl"=>(Yii::app()->request->getParam("returnUrl"))?Yii::app()->request->getParam("returnUrl"):$this->createUrl("admin")),
-                            "confirm"=>Yii::t("' . $this->messageCatalog . '","Do you want to delete this item?")
+                            "confirm"=>Yii::t("' . $this->messageCatalogStandard . '","Do you want to delete this item?")
                         ),
                         "visible"=>Yii::app()->user->checkAccess("'.$this->getRightsPrefix().'.Delete")
                     ));
@@ -89,7 +89,7 @@
             $this->widget(
                    "bootstrap.widgets.TbButton",
                    array(
-                       "label"=>Yii::t("' . $this->messageCatalog . '","Search"),
+                       "label"=>Yii::t("' . $this->messageCatalogStandard . '","Search"),
                 "icon"=>"icon-search",
                 "htmlOptions"=>array("class"=>"search-button")
                )
@@ -108,7 +108,7 @@
             <?=
             "<?php \$this->widget('bootstrap.widgets.TbButtonGroup', array(
                    'buttons' => array(
-                           array('label' => Yii::t('" . $this->messageCatalog . "','Relations'), 'icon' => 'icon-random', 'items' => array(";
+                           array('label'=>Yii::t('" . $this->messageCatalogStandard . "','Relations'), 'icon'=>'icon-random', 'items'=>array(";
 
             // render relation links
             foreach ($model->relations() AS $key => $relation) {

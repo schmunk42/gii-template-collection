@@ -51,12 +51,14 @@ echo "</ul>";
 </div>
 <?php echo "<?php
 \$locale = CLocale::getInstance(Yii::app()->language);\n
-"; ?> $this->widget('zii.widgets.grid.CGridView', array(
-'id'=>'<?php echo $this->class2id($this->modelClass); ?>-grid',
-'dataProvider'=>$model->search(),
-'filter'=>$model,
+ ?>"; ?>
+<?php echo "<?php
+\$this->widget('zii.widgets.grid.CGridView', array(
+'id'=>'<?php echo ".$this->class2id($this->modelClass)."-grid',
+'dataProvider'=>\$model->search(),
+'filter'=>\$model,
 'columns'=>array(
-
+";?>
 
 <?php
 $count = 0;
