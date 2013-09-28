@@ -20,6 +20,7 @@ Features
 
 ### Templates
 
+* FullModule
 * FullModel
   * default (`BaseModel`, `Model`)
   * singlefile (`Model`)
@@ -78,6 +79,14 @@ Setup
 
 Usage
 -----
+
+### Full Module
+
+* open Gii
+* select `FullModule`
+* enter Module ID
+* click `preview`
+* click `generate`
 
 ### Full Model
 
@@ -192,7 +201,7 @@ Contributors
 * Herbert Maschke <thyseus@gmail.com> (original creator)
 * Igor Santos
 * **Tobias Munk <schmunk@usrbin.de>**
-* Uldis Nelsons
+* Uldis Nelsons <uldisnelsons@gmail.com>
 * leo@finalresort.org
 * robregonm <rodrigo.coelho@gmail.com>
 * sealtrip
