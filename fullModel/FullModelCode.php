@@ -23,9 +23,14 @@ class FullModelCode extends ModelCode
         return array_merge(
             parent::rules(),
             array(
-                 array('messageCatalog', 'match', 'pattern' => '/^[a-zA-Z_][\w.]*$/',
-                       'message'                            => '{attribute} should only contain word characters.'),
-            ));
+                 array(
+                     'messageCatalog',
+                     'match',
+                     'pattern' => '/^[a-zA-Z_][\w.]*$/',
+                     'message' => '{attribute} should only contain word characters.'
+                 ),
+            )
+        );
     }
 
     public function prepare()
@@ -38,8 +43,7 @@ class FullModelCode extends ModelCode
         if (($pos = strrpos($this->tableName, '.')) !== false) {
             $schema    = substr($this->tableName, 0, $pos);
             $tableName = substr($this->tableName, $pos + 1);
-        }
-        else {
+        } else {
             $schema    = '';
             $tableName = $this->tableName;
         }
@@ -53,8 +57,7 @@ class FullModelCode extends ModelCode
                     }
                 }
             }
-        }
-        else {
+        } else {
             $this->tables = array($this->getTableSchema($this->tableName));
         }
 
@@ -86,8 +89,7 @@ class FullModelCode extends ModelCode
     {
         if ($this->template == 'singlefile') {
             return array('model.php');
-        }
-        else {
+        } else {
             return array(
                 'model.php',
                 'basemodel.php',
@@ -104,40 +106,54 @@ class FullModelCode extends ModelCode
         }
 
         foreach ($columns as $name => $column) {
-            if (in_array($column->name, array(
-                                             'create_time',
-                                             'createtime',
-                                             'created_at',
-                                             'createdat',
-                                             'changed',
-                                             'changed_at',
-                                             'updatetime',
-                                             'update_time',
-                                             'timestamp'))
+            if (in_array(
+                $column->name,
+                array(
+                     'create_time',
+                     'createtime',
+                     'created_at',
+                     'createdat',
+                     'changed',
+                     'changed_at',
+                     'updatetime',
+                     'update_time',
+                     'timestamp'
+                )
+            )
             ) {
-                $behaviors .= sprintf("\n        'CTimestampBehavior' => array(
-                'class' => 'zii.behaviors.CTimestampBehavior',
-                'createAttribute' => %s,
-                'updateAttribute' => %s,
-                    ),\n", $this->getCreatetimeAttribute($columns),
-                                      $this->getUpdatetimeAttribute($columns));
+                $behaviors .= sprintf(
+                    "\n        'CTimestampBehavior' => array(
+                                    'class' => 'zii.behaviors.CTimestampBehavior',
+                                    'createAttribute' => %s,
+                                    'updateAttribute' => %s,
+                                        ),\n",
+                    $this->getCreatetimeAttribute($columns),
+                    $this->getUpdatetimeAttribute($columns)
+                );
                 break; // once a column is found, we are done
             }
         }
         foreach ($columns as $name => $column) {
-            if (in_array($column->name, array(
-                                             'user_id',
-                                             'userid',
-                                             'ownerid',
-                                             'owner_id',
-                                             'created_by',
-                                             'createdby',
-                                             'create_user'))
+            if (in_array(
+                $column->name,
+                array(
+                     'user_id',
+                     'userid',
+                     'ownerid',
+                     'owner_id',
+                     'created_by',
+                     'createdby',
+                     'create_user'
+                )
+            )
             ) {
-                $behaviors .= sprintf("\n        'OwnerBehavior' => array(
-                                'class' => 'OwnerBehavior',
-                            'ownerColumn' => '%s',
-                                ),\n", $column->name);
+                $behaviors .= sprintf(
+                    "\n        'OwnerBehavior' => array(
+                                                    'class' => 'OwnerBehavior',
+                                                'ownerColumn' => '%s',
+                                                    ),\n",
+                    $column->name
+                );
                 break; // once a column is found, we are done
 
             }
@@ -165,30 +181,23 @@ class FullModelCode extends ModelCode
             $r = !$column->allowNull && $column->defaultValue === null;
             if ($r) {
                 $required[] = $column->name;
-            }
-            else {
+            } else {
                 $null[] = $column->name;
             }
+
             if ($column->type === 'integer') {
                 $integers[] = $column->name;
-            }
-            else {
-                if ($column->type === 'double') {
-                    $numerical[] = $column->name;
-                }
-                else {
-                    if ($column->type === 'string' && $column->size > 0) {
-                        $length[$column->size][] = $column->name;
-                    }
-                    else {
-                        if (!$column->isPrimaryKey && !$r) {
-                            $safe[] = $column->name;
-                        }
-                    }
-                }
-            }
+            } elseif ($column->type === 'double') {
+                $numerical[] = $column->name;
+            } elseif ($column->type === 'string' && $column->size > 0) {
+                $length[$column->size][] = $column->name;
+            } elseif (!$column->isPrimaryKey && !$r) {
+                $safe[] = $column->name;
 
+            }
         }
+
+
         if ($required !== array()) {
             $rules[] = "array('" . implode(', ', $required) . "', 'required')";
         }
@@ -202,8 +211,9 @@ class FullModelCode extends ModelCode
             $rules[] = "array('" . implode(', ', $numerical) . "', 'numerical')";
         }
         if ($length !== array()) {
-            foreach ($length as $len => $cols)
+            foreach ($length as $len => $cols) {
                 $rules[] = "array('" . implode(', ', $cols) . "', 'length', 'max' => $len)";
+            }
         }
         if ($safe !== array()) {
             $rules[] = "array('" . implode(', ', $safe) . "', 'safe')";
@@ -215,28 +225,33 @@ class FullModelCode extends ModelCode
 
     function getCreatetimeAttribute($columns)
     {
-        foreach (array('create_time', 'createtime', 'created_at', 'createdat', 'timestamp') as $try)
-            foreach ($columns as $column)
+        foreach (array('create_time', 'createtime', 'created_at', 'createdat', 'timestamp') as $try) {
+            foreach ($columns as $column) {
                 if ($try == $column->name) {
                     return sprintf("'%s'", $column->name);
                 }
+            }
+        }
 
         return 'null';
     }
 
     function getUpdatetimeAttribute($columns)
     {
-        foreach (array('update_time', 'updatetime', 'changed', 'changed_at') as $try)
-            foreach ($columns as $column)
+        foreach (array('update_time', 'updatetime', 'changed', 'changed_at') as $try) {
+            foreach ($columns as $column) {
                 if ($try == $column->name) {
                     return sprintf("'%s'", $column->name);
                 }
+            }
+        }
 
         return 'null';
     }
 
     /**
      * @param CCodeFile $file whether the code file should be saved
+     *
      * @todo Don't use a constant
      */
     public function confirmed($file)
