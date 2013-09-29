@@ -13,7 +13,7 @@ class FullModelCode extends ModelCode
         parent::init();
 
         if (!@class_exists("GtcSaveRelationsBehavior")) {
-            throw new CException("Fatal Error: Class 'GtcSaveRelationsBehavior' could not be found in your application! Add 'ext.gtc.components.*' to your import paths.");
+            throw new CException("Fatal Error: Class 'GtcSaveRelationsBehavior' could not be found in your application! Include the composer autoload.php or add it to your import paths.");
         }
 
     }
