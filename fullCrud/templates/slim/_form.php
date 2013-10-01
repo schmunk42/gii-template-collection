@@ -49,7 +49,7 @@
 
                             <span class="help-block">
                                 <?=
-                                "<?php echo ((\$t = Yii::t('{$this->messageCatalog}', '{$this->modelClass}.{$column->name }')) != '{$this->modelClass}.{$column->name }')?\$t:'' ?>"
+                                "<?php echo ((\$t = Yii::t('{$this->messageCatalog}', 'help.{$column->name}')) != 'help.{$column->name }')?\$t:'' ?>"
                                 ?>
 
                             </span>

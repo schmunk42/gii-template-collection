@@ -118,9 +118,9 @@
                     'CHasManyRelation'   => 'arrow-right',
                     'CHasOneRelation'    => 'circle-arrow-right',
                 );
-                echo "array('icon' => '" . strtr($relation[0], $replace) . "','label' => '" . ucfirst(
+                echo "array('icon' => '" . strtr($relation[0], $replace) . "','label' => Yii::t('{$this->messageCatalog}','" . ucfirst(
                         $key
-                    ) . "', 'url' =>array('" . $this->resolveController($relation) . "/admin')),";
+                    ) . "'), 'url' =>array('" . $this->resolveController($relation) . "/admin')),";
             }
 
             echo "
