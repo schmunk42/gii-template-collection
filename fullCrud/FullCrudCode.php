@@ -12,8 +12,8 @@ class FullCrudCode extends CrudCode
     // validation method; 0 = none, 1 = ajax, 2 = client-side, 3 = both
     public $validation = 3;
     public $baseControllerClass = 'Controller';
-    public $messageCatalogStandard = "crud_static";
-    public $messageCatalog = "crud";
+    public $messageCatalogStandard = "crud";
+    public $messageCatalog = "model";
     public $template = "slim";
     // Slim template
     public $authTemplateSlim = "yii_user_management_access_control";

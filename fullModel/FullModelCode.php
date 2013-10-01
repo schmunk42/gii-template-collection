@@ -6,7 +6,7 @@ class FullModelCode extends ModelCode
 {
     public $tables;
     public $baseClass = 'CActiveRecord';
-    public $messageCatalog = 'crud';
+    public $messageCatalog = 'model';
 
     public function init()
     {
