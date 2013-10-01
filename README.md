@@ -5,6 +5,7 @@ gii-template-collection
 
 The gii-template-collection (gtc) contains templates for the Yii Framework Gii module.
 
+
 Features
 --------
 
@@ -35,6 +36,11 @@ Requirements
 ------------
 
 * PHP 5.3 and `short_open_tags = On`
+
+### Notes
+
+* repo uses [git-flow](https://github.com/nvie/gitflow) naming conventions
+* repo follows the guidelines of [semantic versioning](http://semver.org)
 
 Installation
 ------------
