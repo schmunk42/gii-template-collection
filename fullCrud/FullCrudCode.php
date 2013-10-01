@@ -32,13 +32,14 @@ class FullCrudCode extends CrudCode
     public $codeModel;
 
     /*
-     * custom providers, topmost has highest priority
+     * custom providers, topmost has highest priority, include GtcPartialViewProvider as first if needed
      */
     public $providers = array();
 
     private $_defaultProviders = array(
         "gtc.fullCrud.providers.GtcIdentifierProvider",
-        "gtc.fullCrud.providers.GtcPartialViewProvider",
+        "gtc.fullCrud.providers.GtcPartialViewProvider", // highest customization level
+        "gtc.fullCrud.providers.GtcOptionsProvider",
         "gtc.fullCrud.providers.EditableProvider",
         "gtc.fullCrud.providers.YiiBoosterActiveRowProvider",
         "gtc.fullCrud.providers.GtcRelationProvider",
