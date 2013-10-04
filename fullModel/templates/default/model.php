@@ -44,7 +44,7 @@ class <?php echo $modelClass; ?> extends <?php echo 'Base' . $modelClass."\n"; ?
             parent::behaviors(),
             array()
         );';
-        echo $behaviors;
+        echo $behaviors."\n";
         ?>
     }
 
