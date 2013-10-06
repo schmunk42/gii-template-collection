@@ -16,7 +16,7 @@ class FullCrudCode extends CrudCode
     public $messageCatalog = "model";
     public $template = "slim";
     // Slim template
-    public $authTemplateSlim = "yii_user_management_access_control";
+    public $authTemplateSlim = "yii_extended_user_management_access_control";
     // Hybrid template
     public $authTemplateHybrid = "yii_user_management_access_control";
     public $formOrientation = "horizontal";
