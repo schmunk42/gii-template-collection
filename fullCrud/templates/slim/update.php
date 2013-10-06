@@ -36,3 +36,5 @@
 ?>
 "
 ?>
+
+<?= '<?php $this->renderPartial("_toolbar", array("model"=>$model)); ?>'; ?>

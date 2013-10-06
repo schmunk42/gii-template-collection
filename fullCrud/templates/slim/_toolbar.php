@@ -1,141 +1,166 @@
 <?php $pk = CActiveRecord::model($this->modelClass)->tableSchema->primaryKey ?>
 
-<div class="btn-toolbar">
-    <div class="btn-group">
-        <?=
-        '<?php
-                   switch($this->action->id) {
-                       case "create":
-                           $this->widget("bootstrap.widgets.TbButton", array(
-                               "label"=>Yii::t("' . $this->messageCatalogStandard . '","Manage"),
-                        "icon"=>"icon-list-alt",
-                        "url"=>array("admin"),
-                        "visible"=>Yii::app()->user->checkAccess("'.$this->getRightsPrefix().'.View")
-                    ));
-                    break;
-                case "admin":
-                    $this->widget("bootstrap.widgets.TbButton", array(
-                        "label"=>Yii::t("' . $this->messageCatalogStandard . '","Create"),
-                        "icon"=>"icon-plus",
-                        "url"=>array("create"),
-                        "visible"=>Yii::app()->user->checkAccess("'.$this->getRightsPrefix().'.Create")
-                    ));
-                    break;
-                case "view":
-                    $this->widget("bootstrap.widgets.TbButton", array(
-                        "label"=>Yii::t("' . $this->messageCatalogStandard . '","Manage"),
-                        "icon"=>"icon-list-alt",
-                        "url"=>array("admin"),
-                        "visible"=>Yii::app()->user->checkAccess("'.$this->getRightsPrefix().'.View")
-                    ));
-                    $this->widget("bootstrap.widgets.TbButton", array(
-                        "label"=>Yii::t("' . $this->messageCatalogStandard . '","Update"),
-                        "icon"=>"icon-edit",
-                        "url"=>array("update","'.$pk .'"=>$model->{$model->tableSchema->primaryKey}),
-                        "visible"=>Yii::app()->user->checkAccess("'.$this->getRightsPrefix().'.Update")
-                    ));
-                    $this->widget("bootstrap.widgets.TbButton", array(
-                        "label"=>Yii::t("' . $this->messageCatalogStandard . '","Create"),
-                        "icon"=>"icon-plus",
-                        "url"=>array("create"),
-                        "visible"=>Yii::app()->user->checkAccess("'.$this->getRightsPrefix().'.Create")
-                    ));
-                    $this->widget("bootstrap.widgets.TbButton", array(
-                        "label"=>Yii::t("' . $this->messageCatalogStandard . '","Delete"),
-                        "type"=>"danger",
-                        "icon"=>"icon-remove icon-white",
-                        "htmlOptions"=> array(
-                            "submit"=>array("delete","'.$pk.'"=>$model->{$model->tableSchema->primaryKey}, "returnUrl"=>(Yii::app()->request->getParam("returnUrl"))?Yii::app()->request->getParam("returnUrl"):$this->createUrl("admin")),
-                            "confirm"=>Yii::t("' . $this->messageCatalogStandard . '","Do you want to delete this item?")
-                        ),
-                        "visible"=>Yii::app()->user->checkAccess("'.$this->getRightsPrefix().'.Delete")
-                    ));
-                    break;
-                case "update":
-                    $this->widget("bootstrap.widgets.TbButton", array(
-                        "label"=>Yii::t("' . $this->messageCatalogStandard . '","Manage"),
-                        "icon"=>"icon-list-alt",
-                        "url"=>array("admin"),
-                        "visible"=>Yii::app()->user->checkAccess("'.$this->getRightsPrefix().'.View")
-                    ));
-                    $this->widget("bootstrap.widgets.TbButton", array(
-                        "label"=>Yii::t("' . $this->messageCatalogStandard . '","View"),
-                        "icon"=>"icon-eye-open",
-                        "url"=>array("view","'.$pk.'"=>$model->{$model->tableSchema->primaryKey}),
-                        "visible"=>Yii::app()->user->checkAccess("'.$this->getRightsPrefix().'.View")
-                    ));
-                    $this->widget("bootstrap.widgets.TbButton", array(
-                        "label"=>Yii::t("' . $this->messageCatalogStandard . '","Delete"),
-                        "type"=>"danger",
-                        "icon"=>"icon-remove icon-white",
-                        "htmlOptions"=> array(
-                            "submit"=>array("delete","'.$pk.'"=>$model->{$model->tableSchema->primaryKey}, "returnUrl"=>(Yii::app()->request->getParam("returnUrl"))?Yii::app()->request->getParam("returnUrl"):$this->createUrl("admin")),
-                            "confirm"=>Yii::t("' . $this->messageCatalogStandard . '","Do you want to delete this item?")
-                        ),
-                        "visible"=>Yii::app()->user->checkAccess("'.$this->getRightsPrefix().'.Delete")
-                    ));
-                    break;
-            }
-        ?>';
-        ?>
-    </div>
+<?=
+'<?php
+    $showDeleteButton = (Yii::app()->request->getParam("' . $pk . '"))?true:false;
+    $showManageButton = true;
+    $showCreateButton = true;
+    $showUpdateButton = true;
+    $showCancelButton = true;
+    $showSaveButton = true;
+    $showViewButton = true;
 
+    switch($this->action->id){
+        case "admin":
+            $showCancelButton = false;
+            $showCreateButton = true;
+            $showSaveButton = false;
+            $showViewButton = false;
+            $showUpdateButton = false;
+            break;
+        case "create":
+            $showCreateButton = false;
+            $showViewButton = false;
+            $showUpdateButton = false;
+            break;
+        case "view":
+            $showViewButton = false;
+            $showSaveButton = false;
+            $showCreateButton = false;
+            break;
+        case "update":
+            $showCreateButton = false;
+            $showUpdateButton = false;
+            break;
+    }
+?>';
+?>
 
-    <?= "<?php if(\$this->action->id == 'admin'): ?>" ?>
-    <div class="btn-group">
-        <?=
-        '
+<div class="clearfix">
+    <div class="btn-toolbar pull-right">
+        <!-- relations -->
+        <?= "<?php if(\$this->action->id == 'admin' || \$this->action->id == 'view'): ?>" ?>
         <?php
-            $this->widget(
-                   "bootstrap.widgets.TbButton",
-                   array(
-                       "label"=>Yii::t("' . $this->messageCatalogStandard . '","Search"),
-                "icon"=>"icon-search",
-                "htmlOptions"=>array("class"=>"search-button")
-               )
-           );
-        ?>
-        '; ?>
-    </div>
-    <?= "<?php endif; ?>" ?>
+        $model = new $this->modelClass;
+        if ($model->relations() !== array()):
+            ?>
+            <div class="btn-group">
+                <?= "<?php if(\$this->action->id == 'admin'): ?>" ?>
+                <div class="btn-group">
+                    <?=
+                    '
+                    <?php
+                        $this->widget(
+                               "bootstrap.widgets.TbButton",
+                               array(
+                                   "label"=>Yii::t("' . $this->messageCatalogStandard . '","Search"),
+                                   "icon"=>"icon-search",
+                                   "htmlOptions"=>array("class"=>"search-button")
+                           )
+                       );
+                    ?>
+                    '; ?>
+                </div>
+                <?= "<?php endif; ?>" ?>
+                <?=
+                "<?php \$this->widget('bootstrap.widgets.TbButtonGroup', array(
+                       'buttons' => array(
+                               array('label'=>Yii::t('" . $this->messageCatalogStandard . "','Relations'), 'icon'=>'icon-random', 'items'=>array(";
 
-    <?= "<?php if(\$this->action->id == 'admin' || \$this->action->id == 'view'): ?>" ?>
-    <?php
-    $model = new $this->modelClass;
-    if ($model->relations() !== array()):
-        ?>
-        <div class="btn-group">
-            <?=
-            "<?php \$this->widget('bootstrap.widgets.TbButtonGroup', array(
-                   'buttons' => array(
-                           array('label'=>Yii::t('" . $this->messageCatalogStandard . "','Relations'), 'icon'=>'icon-random', 'items'=>array(";
+                // render relation links
+                foreach ($model->relations() AS $key => $relation) {
+                    $replace = array(
+                        'CBelongsToRelation' => 'circle-arrow-left',
+                        'CManyManyRelation'  => 'resize-horizontal',
+                        'CHasManyRelation'   => 'arrow-right',
+                        'CHasOneRelation'    => 'circle-arrow-right',
+                    );
+                    echo "array('icon' => '" . strtr(
+                            $relation[0],
+                            $replace
+                        ) . "','label' => Yii::t('{$this->messageCatalog}','" . ucfirst(
+                            $key
+                        ) . "'), 'url' =>array('" . $this->resolveController($relation) . "/admin')),";
+                }
 
-            // render relation links
-            foreach ($model->relations() AS $key => $relation) {
-                $replace = array(
-                    'CBelongsToRelation' => 'circle-arrow-left',
-                    'CManyManyRelation'  => 'resize-horizontal',
-                    'CHasManyRelation'   => 'arrow-right',
-                    'CHasOneRelation'    => 'circle-arrow-right',
-                );
-                echo "array('icon' => '" . strtr($relation[0], $replace) . "','label' => Yii::t('{$this->messageCatalog}','" . ucfirst(
-                        $key
-                    ) . "'), 'url' =>array('" . $this->resolveController($relation) . "/admin')),";
-            }
-
-            echo "
+                echo "
             )
           ),
         ),
     ));
 ?>";
+                ?>
+            </div>
+
+        <?php endif; ?>
+        <?= "<?php endif; ?>" ?>
+
+        <div class="btn-group">
+            <?=
+            '<?php
+             $this->widget("bootstrap.widgets.TbButton", array(
+                               "label"=>Yii::t("' . $this->messageCatalogStandard . '","Manage"),
+                           "icon"=>"icon-list-alt",
+                           "url"=>array("admin"),
+                           "visible"=>$showManageButton && Yii::app()->user->checkAccess("' . $this->getRightsPrefix() . '.View")
+                        ));
+         ?>'?>
+        </div>
+    </div>
+
+    <div class="btn-toolbar pull-left">
+        <div class="btn-group">
+            <?=
+            '<?php
+                   $this->widget("bootstrap.widgets.TbButton", array(
+                       "label"=>Yii::t("' . $this->messageCatalogStandard . '","Cancel"),
+                       "icon"=>"chevron-left",
+                       "url"=>(isset($_GET["returnUrl"]))?$_GET["returnUrl"]:array("{$this->id}/admin"),
+                       "visible"=>$showCancelButton && Yii::app()->user->checkAccess("' . $this->getRightsPrefix() . '.View")
+                    ));
+                   $this->widget("bootstrap.widgets.TbButton", array(
+                        "label"=>Yii::t("' . $this->messageCatalogStandard . '","Create"),
+                        "icon"=>"icon-plus",
+                        "url"=>array("create"),
+                        "visible"=>$showCreateButton && Yii::app()->user->checkAccess("' . $this->getRightsPrefix() . '.Create")
+                   ));
+                    $this->widget("bootstrap.widgets.TbButton", array(
+                        "label"=>Yii::t("' . $this->messageCatalogStandard . '","Delete"),
+                        "type"=>"danger",
+                        "icon"=>"icon-remove icon-white",
+                        "htmlOptions"=> array(
+                            "submit"=>array("delete","' . $pk . '"=>$model->{$model->tableSchema->primaryKey}, "returnUrl"=>(Yii::app()->request->getParam("returnUrl"))?Yii::app()->request->getParam("returnUrl"):$this->createUrl("admin")),
+                            "confirm"=>Yii::t("' . $this->messageCatalogStandard . '","Do you want to delete this item?")
+                        ),
+                        "visible"=> $showDeleteButton && Yii::app()->user->checkAccess("' . $this->getRightsPrefix() . '.Delete")
+                    ));
+                    $this->widget("bootstrap.widgets.TbButton", array(
+                        "label"=>Yii::t("' . $this->messageCatalogStandard . '","Update"),
+                        "icon"=>"icon-edit",
+                        "url"=>array("update","' . $pk . '"=>$model->{$model->tableSchema->primaryKey}),
+                        "visible"=> $showUpdateButton && Yii::app()->user->checkAccess("' . $this->getRightsPrefix() . '.Update")
+                    ));
+                    $this->widget("bootstrap.widgets.TbButton", array(
+                        "label"=>Yii::t("' . $this->messageCatalogStandard . '","View"),
+                        "icon"=>"icon-eye-open",
+                        "url"=>array("view","' . $pk . '"=>$model->{$model->tableSchema->primaryKey}),
+                        "visible"=>$showViewButton && Yii::app()->user->checkAccess("' . $this->getRightsPrefix() . '.View")
+                    ));
+                    $this->widget("bootstrap.widgets.TbButton", array(
+                           "label"=>Yii::t("' . $this->messageCatalogStandard . '","Save"),
+                       "icon"=>"save",
+                       "type"=>"primary",
+                       "url"=>"javascript:$(\'.crud-form form\').submit();",
+                       "visible"=>$showSaveButton && Yii::app()->user->checkAccess("' . $this->getRightsPrefix() . '.View")
+                    ));
+             ?>';
             ?>
         </div>
+    </div>
 
-    <?php endif; ?>
 
-    <?= "<?php endif; ?>" ?>
 </div>
+
 
 <?= "<?php if(\$this->action->id == 'admin'): ?>" ?>
 <div class="search-form" style="display:none">

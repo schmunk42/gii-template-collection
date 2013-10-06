@@ -92,23 +92,6 @@
 
     </p>
 
-    <div class="form-actions">
-        <?=
-        "
-        <?php
-            echo CHtml::Button(
-            Yii::t('{$this->messageCatalogStandard}', 'Cancel'), array(
-                'submit' => (isset(\$_GET['returnUrl']))?\$_GET['returnUrl']:array('{$this->controllerID}/admin'),
-                'class' => 'btn'
-            ));
-            echo ' '.CHtml::submitButton(Yii::t('{$this->messageCatalogStandard}', 'Save'), array(
-                'class' => 'btn btn-primary'
-            ));
-        ?>";
-        ?>
-
-    </div>
-
     <?= "<?php \$this->endWidget() ?>"; ?>
 
 </div> <!-- form -->
