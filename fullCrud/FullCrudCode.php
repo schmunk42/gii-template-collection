@@ -40,7 +40,7 @@ class FullCrudCode extends CrudCode
         "gtc.fullCrud.providers.GtcIdentifierProvider",
         "gtc.fullCrud.providers.GtcPartialViewProvider", // highest customization level
         "gtc.fullCrud.providers.GtcOptionsProvider",
-        "gtc.fullCrud.providers.EditableProvider",
+        "gtc.fullCrud.providers.TbEditableProvider",
         "gtc.fullCrud.providers.YiiBoosterActiveRowProvider",
         "gtc.fullCrud.providers.GtcRelationProvider",
         "gtc.fullCrud.providers.GtcActiveFieldProvider",

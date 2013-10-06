@@ -30,7 +30,7 @@ class GtcOptionsProvider extends GtcCodeProvider
                         'name'=>'{$column->name}',
                         'type' => 'raw',
                         'value' =>\$this->widget(
-                            'EditableField',
+                            'TbEditableField',
                             array(
                                 'model'=>\$model,
                                 'emptytext' => 'Click to select',
