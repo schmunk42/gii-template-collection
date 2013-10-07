@@ -11,6 +11,9 @@
             'id' => '{$this->class2id($this->modelClass)}-form',
             'enableAjaxValidation' => {$this->enableAjaxValidation},
             'enableClientValidation' => {$this->enableClientValidation},
+            'htmlOptions' => array(
+                'enctype' => '{$this->formEnctype}'
+            )
         ));
 
         echo \$form->errorSummary(\$model);

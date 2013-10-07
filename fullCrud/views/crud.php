@@ -125,6 +125,17 @@
         <?php echo $form->error($model, 'authTemplateSlim'); ?>
     </div>
 
+    <div class="row">
+        <?php
+        echo $form->labelEx($model, 'formEnctype');
+        echo $form->textField($model, 'formEnctype');
+        ?>
+        <div class="tooltip">
+            E.g. 'multipart/form-data'
+        </div>
+        <?php echo $form->error($model, 'formEnctype'); ?>
+    </div>
+
 </fieldset>
 
 <h3>Hybrid Code Template specific</h3>

@@ -17,6 +17,7 @@ class FullCrudCode extends CrudCode
     public $template = "slim";
     // Slim template
     public $authTemplateSlim = "yii_extended_user_management_access_control";
+    public $formEnctype = null;
     // Hybrid template
     public $authTemplateHybrid = "yii_user_management_access_control";
     public $formOrientation = "horizontal";
@@ -59,7 +60,7 @@ class FullCrudCode extends CrudCode
             parent::rules(),
             array(
                  array('validation', 'required'),
-                 array('authTemplateSlim, authTemplateHybrid, providers, authTemplate, formOrientation, textEditor, backendViewPathAlias, frontendViewPathAlias,messageCatalog,messageCatalogStandard', 'safe'),
+                 array('authTemplateSlim, authTemplateHybrid, providers, authTemplate, formEnctype, formOrientation, textEditor, backendViewPathAlias, frontendViewPathAlias,messageCatalog,messageCatalogStandard', 'safe'),
             )
         );
     }
