@@ -22,6 +22,7 @@ class FullCrudCode extends CrudCode
     public $authTemplateHybrid = "yii_user_management_access_control";
     public $formOrientation = "horizontal";
     public $textEditor = "textarea";
+    public $internalModels = null;
     public $backendViewPathAlias = "application.themes.backend2.views";
     public $frontendViewPathAlias = "application.themes.frontend.views";
     // Legacy template
@@ -60,7 +61,7 @@ class FullCrudCode extends CrudCode
             parent::rules(),
             array(
                  array('validation', 'required'),
-                 array('authTemplateSlim, authTemplateHybrid, providers, authTemplate, formEnctype, formOrientation, textEditor, backendViewPathAlias, frontendViewPathAlias,messageCatalog,messageCatalogStandard', 'safe'),
+                 array('authTemplateSlim, authTemplateHybrid, providers, authTemplate, formEnctype, formOrientation, textEditor, internalModels, backendViewPathAlias, frontendViewPathAlias, messageCatalog,messageCatalogStandard', 'safe'),
             )
         );
     }

@@ -79,6 +79,23 @@ class FullCrudGenerator extends CCodeGenerator
         return $models;
     }
 
+    /**
+     * Returns the model class names from getModels() without the complete
+     * alias information (application.models, module.models etc)
+     * The array is used to build the internalModels field in the FullCrud form.
+     * @return array value = class name of the model
+     */
+    protected function getModelClasses()
+    {
+        $models = $this->getModels();
+        $modelClasses = array();
+        foreach ($models as $modelAlias=>$attributes) {
+            $parts = explode(".", $modelAlias);
+            $modelClasses[] = $parts[count($parts)-1];
+        }
+        return $modelClasses;
+
+    }
 
     /**
      * Internal function

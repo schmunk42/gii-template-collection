@@ -200,6 +200,22 @@
         <?php echo $form->error($model, 'textEditor'); ?>
     </div>
 
+    <div class="row">
+        <?php echo $form->labelEx($model, 'internalModels'); ?>
+        <?php
+        echo $form->listBox(
+            $model,
+            'internalModels',
+            array_combine($this->getModelClasses(), $this->getModelClasses()),
+            array('multiple'=>true, 'size'=>'20')
+        );
+        ?>
+        <div class="tooltip">
+            Internal models are not meant to be handled with-in a web ui and will not have modal forms generated for them.
+        </div>
+        <?php echo $form->error($model, 'textEditor'); ?>
+    </div>
+
     <div class="row sticky">
         <?php echo $form->labelEx($model, 'backendViewPathAlias'); ?>
         <?php echo $form->textField($model, 'backendViewPathAlias', array('size' => 65)); ?>

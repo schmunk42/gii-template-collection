@@ -29,4 +29,4 @@ $label = $this->pluralize($this->class2name($this->modelClass));
 "<?php \$this->renderPartial('_form', array('model' => \$model, 'buttons' => 'create')); ?>";
 ?>
 
-<?= '<?php $this->renderPartial("_toolbar", array("model"=>$model)); ?>'; ?>
+<?= '<?php $this->renderPartial("_toolbar", array("model" => $model)); ?>'; ?>
