@@ -16,11 +16,11 @@
 <?= '<?php $this->widget("TbBreadcrumbs", array("links" => $this->breadcrumbs)) ?>'; ?>
 
 <h1>
-    <?=
+<?=
     "
-    <?php echo Yii::t('{$this->messageCatalog}','{$this->class2name($this->modelClass)}'); ?>
+    <?php echo Yii::t('{$this->messageCatalog}', '{$this->class2name($this->modelClass)}'); ?>
     <small>
-        <?php echo Yii::t('{$this->messageCatalog}','Update')?> #<?php echo \$model->{$this->tableSchema->primaryKey} ?>
+        <?php echo Yii::t('{$this->messageCatalog}', 'Update')?> #<?php echo \$model->{$this->tableSchema->primaryKey} ?>
     </small>
     ";
     ?>
@@ -32,7 +32,7 @@
 <?=
 "
 <?php
-    \$this->renderPartial('_form', array('model' => \$model));
+\$this->renderPartial('_form', array('model' => \$model));
 ?>
 "
 ?>
