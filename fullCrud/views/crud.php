@@ -136,6 +136,23 @@
         <?php echo $form->error($model, 'formEnctype'); ?>
     </div>
 
+    <div class="row">
+        <?php
+        echo $form->labelEx($model, 'formLayout');
+        echo $form->dropDownList(
+            $model,
+            'formLayout',
+            array(
+                 'one-column'  => 'One Column',
+                 'two-columns' => 'Two Columns (span7, span5)',
+            )
+        );   ?>
+        <div class="tooltip">
+            How Data and Relations should be layouted.
+        </div>
+        <?php echo $form->error($model, 'formEnctype'); ?>
+    </div>
+
 </fieldset>
 
 <h3>Hybrid Code Template specific</h3>
@@ -207,11 +224,12 @@
             $model,
             'internalModels',
             array_combine($this->getModelClasses(), $this->getModelClasses()),
-            array('multiple'=>true, 'size'=>'20')
+            array('multiple' => true, 'size' => '20')
         );
         ?>
         <div class="tooltip">
-            Internal models are not meant to be handled with-in a web ui and will not have modal forms generated for them.
+            Internal models are not meant to be handled with-in a web ui and will not have modal forms generated for
+            them.
         </div>
         <?php echo $form->error($model, 'textEditor'); ?>
     </div>
@@ -221,7 +239,8 @@
         <?php echo $form->textField($model, 'backendViewPathAlias', array('size' => 65)); ?>
         <div class="tooltip">
             This refers to the directory that the backend views should be generated under.
-            It should be specified in the form of a path alias, for example, <code>application.themes.backend.views</code>.
+            It should be specified in the form of a path alias, for example,
+            <code>application.themes.backend.views</code>.
         </div>
         <?php echo $form->error($model, 'backendViewPathAlias'); ?>
     </div>
@@ -231,7 +250,8 @@
         <?php echo $form->textField($model, 'frontendViewPathAlias', array('size' => 65)); ?>
         <div class="tooltip">
             This refers to the directory that the frontend views should be generated under.
-            It should be specified in the form of a path alias, for example, <code>application.themes.frontend.views</code>.
+            It should be specified in the form of a path alias, for example,
+            <code>application.themes.frontend.views</code>.
         </div>
         <?php echo $form->error($model, 'frontendViewPathAlias'); ?>
     </div>

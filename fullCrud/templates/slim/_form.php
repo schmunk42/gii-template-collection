@@ -22,7 +22,7 @@
     ?>
 
     <div class="row">
-        <div class="span7"> <!-- main inputs -->
+        <div class="<?= ($this->formLayout == 'two-columns') ? 'span7' : 'span12' ?>">
             <h2>
                 <?= "<?php echo Yii::t('{$this->messageCatalogStandard}','Data')?>"; ?>
                 <small>
@@ -64,7 +64,12 @@
         </div>
         <!-- main inputs -->
 
-        <div class="span5"> <!-- sub inputs -->
+        <?php if ($this->formLayout == 'one-column'): ?>
+    </div>
+    <div class="row">
+        <?php endif; ?>
+
+        <div class="<?= ($this->formLayout == 'two-columns') ? 'span5' : 'span12' ?>"><!-- sub inputs -->
             <h2>
                 <?= "<?php echo Yii::t('" . $this->messageCatalogStandard . "','Relations')?>"; ?>
 
@@ -95,7 +100,8 @@
 
     </p>
 
-    <div class="form-actions" style="display: none">
+    <!-- TODO: We need the buttons inside the form, when a user hits <enter> -->
+    <div class="form-actions" style="visibility: hidden; height: 1px">
         <?=
         "
         <?php
