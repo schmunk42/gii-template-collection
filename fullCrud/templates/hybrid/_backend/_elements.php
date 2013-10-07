@@ -66,6 +66,11 @@
                         echo "            echo \$form->customRow(\$model, '{$column->name}', \$input);\n";
                         echo "            ?>\n";
 
+                        // do not render modal create form if model is an internal one
+                        if (in_array($columnRelation["relation"][1], $this->internalModels)) {
+                            continue;
+                        }
+
                         // render create button
                         $controller = $this->resolveController($columnRelation["relation"]);
                         $relatedModelClass = $columnRelation["relation"][1];
