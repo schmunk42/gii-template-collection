@@ -36,28 +36,25 @@
             <div class="form-horizontal">
 
                 <?php foreach ($this->tableSchema->columns as $column): ?>
-
+                    <?= "<?php {$this->provider()->generateHtml($this->modelClass, $column, 'prepend')} ?>" ?>
                     <div class="control-group">
                         <div class='control-label'>
                             <?= "<?php {$this->provider()->generateActiveLabel($this->modelClass, $column)} ?>" ?>
 
                         </div>
                         <div class='controls'>
-                            <?=
-                            "<?php
+                            <div style="display: inline-block" data-toggle='tooltip' data-placement="right"
+                                 title='<?= "<?php echo ((\$t = Yii::t('{$this->messageCatalog}', 'tooltip.{$column->name}')) != 'tooltip.{$column->name }')?\$t:'' ?>" ?>'>
+                                <?=
+                                "<?php
                             {$this->provider()->generateActiveField($this->modelClass, $column)};
                             echo \$form->error(\$model,'{$column->name}')
                             ?>"
-                            ?>
-
-                            <span class="help-block">
-                                <?=
-                                "<?php echo ((\$t = Yii::t('{$this->messageCatalog}', 'help.{$column->name}')) != 'help.{$column->name }')?\$t:'' ?>"
                                 ?>
-
-                            </span>
+                            </div>
                         </div>
                     </div>
+                    <?= "<?php {$this->provider()->generateHtml($this->modelClass, $column, 'append')} ?>" ?>
                 <?php endforeach; ?>
 
             </div>
