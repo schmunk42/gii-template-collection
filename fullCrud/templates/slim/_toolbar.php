@@ -55,6 +55,9 @@
 
                 // render relation links
                 foreach ($model->relations() AS $key => $relation) {
+                    if ($relation[1] == get_class($model)) {
+                        continue;
+                    }
                     $replace = array(
                         'CBelongsToRelation' => 'circle-arrow-left',
                         'CManyManyRelation'  => 'resize-horizontal',
@@ -65,7 +68,7 @@
                     'icon' => '" . strtr(
                             $relation[0],
                             $replace
-                        ) . "','label' => Yii::t('{$this->messageCatalog}','" . ucfirst(
+                        ) . "','label' => Yii::t('{$this->messageCatalog}','relation." . ucfirst(
                             $key
                         ) . "'), 'url' =>array('" . $this->resolveController($relation) . "/admin')),";
                 }
@@ -104,7 +107,12 @@
                        "icon"=>"chevron-left",
                        "size"=>"large",
                        "url"=>(isset($_GET["returnUrl"]))?$_GET["returnUrl"]:array("{$this->id}/admin"),
-                       "visible"=>$showCancelButton && Yii::app()->user->checkAccess("' . $this->getRightsPrefix() . '.View")
+                       "visible"=>$showCancelButton && Yii::app()->user->checkAccess("' . $this->getRightsPrefix() . '.View"),
+                       "htmlOptions"=>array(
+                                       "class"=>"search-button",
+                                       "data-toggle"=>"tooltip",
+                                       "title"=>Yii::t("' . $this->messageCatalogStandard . '","Cancel"),
+                                   )
                     ));
                    $this->widget("bootstrap.widgets.TbButton", array(
                         "label"=>Yii::t("' . $this->messageCatalogStandard . '","Create"),
@@ -117,7 +125,7 @@
                     $this->widget("bootstrap.widgets.TbButton", array(
                         "label"=>Yii::t("' . $this->messageCatalogStandard . '","Delete"),
                         "type"=>"danger",
-                        "icon"=>"icon-remove icon-white",
+                        "icon"=>"icon-trash icon-white",
                         "size"=>"large",
                         "htmlOptions"=> array(
                             "submit"=>array("delete","' . $pk . '"=>$model->{$model->tableSchema->primaryKey}, "returnUrl"=>(Yii::app()->request->getParam("returnUrl"))?Yii::app()->request->getParam("returnUrl"):$this->createUrl("admin")),
@@ -128,6 +136,7 @@
                     $this->widget("bootstrap.widgets.TbButton", array(
                         #"label"=>Yii::t("' . $this->messageCatalogStandard . '","Update"),
                         "icon"=>"icon-edit",
+                        "type"=>"primary",
                         "size"=>"large",
                         "url"=>array("update","' . $pk . '"=>$model->{$model->tableSchema->primaryKey}),
                         "visible"=> $showUpdateButton && Yii::app()->user->checkAccess("' . $this->getRightsPrefix() . '.Update")
@@ -137,7 +146,11 @@
                         "icon"=>"icon-eye-open",
                         "size"=>"large",
                         "url"=>array("view","' . $pk . '"=>$model->{$model->tableSchema->primaryKey}),
-                        "visible"=>$showViewButton && Yii::app()->user->checkAccess("' . $this->getRightsPrefix() . '.View")
+                        "visible"=>$showViewButton && Yii::app()->user->checkAccess("' . $this->getRightsPrefix() . '.View"),
+                        "htmlOptions"=>array(
+                                      "data-toggle"=>"tooltip",
+                                      "title"=>Yii::t("' . $this->messageCatalogStandard . '","View Mode"),
+                        )
                     ));
                     $this->widget("bootstrap.widgets.TbButton", array(
                        "label"=>Yii::t("' . $this->messageCatalogStandard . '","Save"),
@@ -163,7 +176,26 @@
                            #"label"=>Yii::t("' . $this->messageCatalogStandard . '","Search"),
                                    "icon"=>"icon-search",
                                    "size"=>"large",
-                                   "htmlOptions"=>array("class"=>"search-button")
+                                   "htmlOptions"=>array(
+                                       "class"=>"search-button",
+                                       "data-toggle"=>"tooltip",
+                                       "title"=>Yii::t("' . $this->messageCatalogStandard . '","Advanced Search"),
+                                   )
+                           )
+                       );
+                    ?>
+                    <?php
+                $this->widget(
+                       "bootstrap.widgets.TbButton",
+                       array(
+                           #"label"=>Yii::t("' . $this->messageCatalogStandard . '","Clear"),
+                                   "icon"=>"icon-remove-sign",
+                                   "size"=>"large",
+                                   "url"=>Yii::app()->baseURL."/".Yii::app()->request->getPathInfo(),
+                                   "htmlOptions"=>array(
+                                      "data-toggle"=>"tooltip",
+                                      "title"=>Yii::t("' . $this->messageCatalogStandard . '","Clear Search"),
+                                   )
                            )
                        );
                     ?>

@@ -43,7 +43,7 @@ class GtcRelationProvider extends GtcCodeProvider
     {
         // TODO: don't omit custom relations?
         if (is_array($relationInfo[2])) {
-            return "echo '<h3>'.Yii::t('{$this->codeModel->messageCatalog}','" . ucfirst($relationName) . "').'</h3>'";
+            return "echo '<h3>'.Yii::t('{$this->codeModel->messageCatalog}','relation." . ucfirst($relationName) . "').'</h3>'";
         }
 
         $createButton = ($relationInfo[0] == 'CManyManyRelation') ?
@@ -60,7 +60,7 @@ class GtcRelationProvider extends GtcCodeProvider
         $code = "";
         $code .= "
         echo '<h3>';
-            echo Yii::t('{$this->codeModel->messageCatalog}','" . ucfirst($relationName) . "').' ';
+            echo Yii::t('{$this->codeModel->messageCatalog}','relation." . ucfirst($relationName) . "').' ';
             \$this->widget(
                 'bootstrap.widgets.TbButtonGroup',
                 array(
@@ -69,7 +69,7 @@ class GtcRelationProvider extends GtcCodeProvider
                     'buttons' => array(
                         array(
                             'icon' => 'icon-list-alt',
-                            'url' =>  array('/{$controller}/admin')
+                            'url' =>  array('/{$controller}/admin','{$relationInfo[1]}' => array('{$relationInfo[2]}' => \$model->{\$model->tableSchema->primaryKey}))
                         ),
                         {$createButton}
                     )
