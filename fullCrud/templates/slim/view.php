@@ -66,9 +66,9 @@
 <?php endif; ?>
 
     <div class="<?= ($this->formLayout == 'two-columns') ? 'span5' : 'span12' ?>">
-        <?=
-        "<?php \$this->renderPartial('_view-relations',array('model' => \$model)); ?>";
-        ?>
+        <div class="well">
+            <?= "<?php \$this->renderPartial('_view-relations',array('model' => \$model)); ?>"; ?>
+        </div>
     </div>
 </div>
 

@@ -37,6 +37,7 @@
 
                 <?php foreach ($this->tableSchema->columns as $column): ?>
                     <?= "<?php {$this->provider()->generateHtml($this->modelClass, $column, 'prepend')} ?>" ?>
+
                     <div class="control-group">
                         <div class='control-label'>
                             <?= "<?php {$this->provider()->generateActiveLabel($this->modelClass, $column)} ?>" ?>
@@ -55,6 +56,7 @@
                         </div>
                     </div>
                     <?= "<?php {$this->provider()->generateHtml($this->modelClass, $column, 'append')} ?>" ?>
+
                 <?php endforeach; ?>
 
             </div>
@@ -67,9 +69,9 @@
         <?php endif; ?>
 
         <div class="<?= ($this->formLayout == 'two-columns') ? 'span5' : 'span12' ?>"><!-- sub inputs -->
+            <div class="well">
             <h2>
                 <?= "<?php echo Yii::t('" . $this->messageCatalogStandard . "','Relations')?>"; ?>
-
             </h2>
             <? foreach ($this->getRelations() as $key => $relation) : ?>
                 <?php if ($relation[0] == "CBelongsToRelation") {
@@ -79,13 +81,13 @@
                 // relations
                 "
                 <h3>
-                    <?php echo Yii::t('{$this->messageCatalog}', '" . ucfirst($key) . "'); ?>
+                    <?php echo Yii::t('{$this->messageCatalog}', 'relation." . ucfirst($key) . "'); ?>
                 </h3>
                 <?php {$this->provider()->generateRelationField($this->modelClass, $key, $relation)} ?>
                 "
                 ?>
             <? endforeach; ?>
-
+            </div>
         </div>
         <!-- sub inputs -->
     </div>
