@@ -23,7 +23,7 @@ class FullCrudCode extends CrudCode
     public $authTemplateHybrid = "yii_user_management_access_control";
     public $formOrientation = "horizontal";
     public $textEditor = "textarea";
-    public $internalModels = null;
+    public $internalModels = array();
     public $backendViewPathAlias = "application.themes.backend2.views";
     public $frontendViewPathAlias = "application.themes.frontend.views";
     // Legacy template
