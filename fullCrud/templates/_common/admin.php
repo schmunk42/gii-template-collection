@@ -37,16 +37,19 @@ Yii::app()->clientScript->registerScript('search', \"
     ";
     ?></h1>
 
+
 <?= '<?php $this->renderPartial("_toolbar", array("model" => $model)); ?>'; ?>
 
+<?= "<?php Yii::beginProfile('{$this->modelClass}.view.grid'); ?>"; ?>
 
 <?php
 // prepare (seven) columns
 $count = 0;
+$maxColumns = 8;
 $columns = "";
 foreach ($this->tableSchema->columns as $column) {
     // render, but comment from the 8th column on
-    if ($count == 8) {
+    if ($count == $maxColumns) {
         $columns .= "            /*\n";
     }
     $column = $this->provider()->generateColumn($this->modelClass, $column);
@@ -55,7 +58,7 @@ foreach ($this->tableSchema->columns as $column) {
         $count++;
     } // don't count a commented column
 }
-if ($count >= 9) {
+if ($count >= $maxColumns+1) {
     $columns .= "            */\n";
 }
 ?>
@@ -69,7 +72,7 @@ if ($count >= 9) {
         'id' => '{$this->class2id($this->modelClass)}-grid',
         'dataProvider' => \$model->search(),
         'filter' => \$model,
-        'responsiveTable' => true,
+        #'responsiveTable' => true,
         'template' => '{summary}{pager}{items}{pager}',
         'pager' => array(
             'class' => 'TbPager',
@@ -99,3 +102,5 @@ if ($count >= 9) {
 );
 ?>"
 ?>
+
+<?= "<?php Yii::endProfile('{$this->modelClass}.view.grid'); ?>"; ?>

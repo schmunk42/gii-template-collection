@@ -1,3 +1,5 @@
+<?= "<?php Yii::beginProfile('{$this->modelClass}.view.toolbar'); ?>"; ?>
+
 <?php $pk = CActiveRecord::model($this->modelClass)->tableSchema->primaryKey ?>
 
 <?=
@@ -211,7 +213,11 @@
 
 <?= "<?php if(\$this->action->id == 'admin'): ?>" ?>
 <div class="search-form" style="display:none">
+    <?= "<?php Yii::beginProfile('{$this->modelClass}.view.toolbar.search'); ?>"; ?>
     <?=
     "<?php \$this->renderPartial('_search',array('model' => \$model,)); ?>\n"; ?>
+    <?= "<?php Yii::endProfile('{$this->modelClass}.view.toolbar.search'); ?>"; ?>
 </div>
 <?= "<?php endif; ?>" ?>
+
+<?= "<?php Yii::endProfile('{$this->modelClass}.view.toolbar'); ?>"; ?>
