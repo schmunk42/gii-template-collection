@@ -48,7 +48,7 @@ class GtcColumnProvider extends GtcCodeProvider
                 return "array(
                 'name' => '{$column->name}',
                 'value' => 'CHtml::value(\$data, \'{$relname}." . $suggestIdentifier . "\')',
-                'filter' => CHtml::listData({$relatedModelName}::model()->findAll(array('limit' => 1000)), '{$fcolumns[0]}', '{$suggestIdentifier}'),
+                'filter' => '',//CHtml::listData({$relatedModelName}::model()->findAll(array('limit' => 1000)), '{$fcolumns[0]}', '{$suggestIdentifier}'),
             )";
             }
         } elseif (strtoupper($column->dbType) == 'TEXT') {
