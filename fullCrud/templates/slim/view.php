@@ -18,7 +18,11 @@
     <h1>
         <?=
         "<?php echo Yii::t('" . $this->messageCatalog . "','" . $this->class2name($this->modelClass) . "')?>
-    <small><?php echo Yii::t('" . $this->messageCatalogStandard . "','View')?> #<?php echo \$model->" . $this->tableSchema->primaryKey . " ?></small>
+        <small>
+            <?php echo \$model->{$this->provider()->suggestIdentifier($this->modelClass)} ?>
+
+        </small>
+
     "?>
     </h1>
 
@@ -33,10 +37,7 @@
         <h2>
             <?= "<?php echo Yii::t('" . $this->messageCatalogStandard . "','Data')?>"; ?>
             <small>
-                <?=
-                "<?php echo \$model->" . $this->provider()->suggestIdentifier(
-                    CActiveRecord::model(Yii::import($this->model))
-                ) . "?>"; ?>
+                #<?= "<?php echo \$model->{$this->tableSchema->primaryKey} ?>" ?>
             </small>
         </h2>
 

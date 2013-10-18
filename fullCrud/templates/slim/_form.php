@@ -24,10 +24,9 @@
     <div class="row">
         <div class="<?= ($this->formLayout == 'two-columns') ? 'span7' : 'span12' ?>">
             <h2>
-                <?= "<?php echo Yii::t('{$this->messageCatalogStandard}','Data')?>"; ?>
+                <?= "<?php echo Yii::t('{$this->messageCatalogStandard}','Data')?>" ?>
                 <small>
-                    <?= "<?php echo \$model->{$this->provider()->suggestIdentifier($this->modelClass)} ?>"; ?>
-
+                    #<?= "<?php echo \$model->{$this->tableSchema->primaryKey} ?>" ?>
                 </small>
 
             </h2>
@@ -44,7 +43,7 @@
 
                         </div>
                         <div class='controls'>
-                            <div style="display: inline-block" data-toggle='tooltip' data-placement="right"
+                            <span class="tooltip-wrapper" data-toggle='tooltip' data-placement="right"
                                  title='<?= "<?php echo ((\$t = Yii::t('{$this->messageCatalog}', 'tooltip.{$column->name}')) != 'tooltip.{$column->name }')?\$t:'' ?>" ?>'>
                                 <?=
                                 "<?php
@@ -52,7 +51,7 @@
                             echo \$form->error(\$model,'{$column->name}')
                             ?>"
                                 ?>
-                            </div>
+                            </span>
                         </div>
                     </div>
                     <?= "<?php {$this->provider()->generateHtml($this->modelClass, $column, 'append')} ?>" ?>
@@ -70,9 +69,9 @@
 
         <div class="<?= ($this->formLayout == 'two-columns') ? 'span5' : 'span12' ?>"><!-- sub inputs -->
             <div class="well">
-            <h2>
+            <!--<h2>
                 <?= "<?php echo Yii::t('" . $this->messageCatalogStandard . "','Relations')?>"; ?>
-            </h2>
+            </h2>-->
             <? foreach ($this->getRelations() as $key => $relation) : ?>
                 <?php if ($relation[0] == "CBelongsToRelation") {
                     continue;
