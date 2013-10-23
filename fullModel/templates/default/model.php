@@ -59,4 +59,29 @@ class <?php echo $modelClass; ?> extends <?php echo 'Base' . $modelClass."\n"; ?
         );
     }
 
+    public function search($criteria = null)
+    {
+        if (is_null($criteria)) {
+            $criteria = new CDbCriteria;
+        }
+
+    <?php
+    foreach($columns as $name=>$column)
+    {
+        if($column->type==='string' and !$column->isForeignKey)
+        {
+            echo "        \$criteria->compare('t.$name', \$this->$name, true);\n";
+        }
+        else
+        {
+            echo "        \$criteria->compare('t.$name', \$this->$name);\n";
+        }
+    }
+    echo "\n";
+    ?>
+        return new CActiveDataProvider(get_class($this), array(
+            'criteria' => $criteria,
+        ));
+    }
+
 }
