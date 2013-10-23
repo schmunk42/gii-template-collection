@@ -9,30 +9,29 @@
     $showCreateButton = true;
     $showUpdateButton = true;
     $showCancelButton = true;
-    $showSaveButton = true;
-    $showViewButton = true;
+    $showSaveButton   = true;
+    $showViewButton   = true;
 
     switch($this->action->id){
         case "admin":
             $showCancelButton = false;
-            $showCreateButton = true;
-            $showSaveButton = false;
-            $showViewButton = false;
+            $showSaveButton   = false;
+            $showViewButton   = false;
             $showUpdateButton = false;
-            break;
-        case "create":
-            $showCreateButton = false;
-            $showViewButton = false;
-            $showUpdateButton = false;
-            break;
-        case "view":
-            $showViewButton = false;
-            $showSaveButton = false;
-            $showCreateButton = false;
             break;
         case "update":
             $showCreateButton = false;
             $showUpdateButton = false;
+            break;
+        case "create":
+            $showCreateButton = false;
+            $showViewButton   = false;
+            $showUpdateButton = false;
+            break;
+        case "view":
+            $showViewButton   = false;
+            $showSaveButton   = false;
+            $showCreateButton = false;
             break;
     }
 ?>';
@@ -94,7 +93,7 @@
                            "icon"=>"icon-list-alt",
                            "size"=>"large",
                            "url"=>array("admin"),
-                           "visible"=>$showManageButton && Yii::app()->user->checkAccess("' . $this->getRightsPrefix() . '.View")
+                           "visible"=>$showManageButton && (Yii::app()->user->checkAccess("' . $this->getRightsPrefix() . '.*") || Yii::app()->user->checkAccess("' . $this->getRightsPrefix() . '.View"))
                         ));
          ?>'?>
         </div>
@@ -109,7 +108,7 @@
                        "icon"=>"chevron-left",
                        "size"=>"large",
                        "url"=>(isset($_GET["returnUrl"]))?$_GET["returnUrl"]:array("{$this->id}/admin"),
-                       "visible"=>$showCancelButton && Yii::app()->user->checkAccess("' . $this->getRightsPrefix() . '.View"),
+                       "visible"=>$showCancelButton && (Yii::app()->user->checkAccess("' . $this->getRightsPrefix() . '.*") || Yii::app()->user->checkAccess("' . $this->getRightsPrefix() . '.View")),
                        "htmlOptions"=>array(
                                        "class"=>"search-button",
                                        "data-toggle"=>"tooltip",
@@ -122,7 +121,7 @@
                         "size"=>"large",
                         "type"=>"success",
                         "url"=>array("create"),
-                        "visible"=>$showCreateButton && Yii::app()->user->checkAccess("' . $this->getRightsPrefix() . '.Create")
+                        "visible"=>$showCreateButton && (Yii::app()->user->checkAccess("' . $this->getRightsPrefix() . '.*") || Yii::app()->user->checkAccess("' . $this->getRightsPrefix() . '.Create"))
                    ));
                     $this->widget("bootstrap.widgets.TbButton", array(
                         "label"=>Yii::t("' . $this->messageCatalogStandard . '","Delete"),
@@ -133,7 +132,7 @@
                             "submit"=>array("delete","' . $pk . '"=>$model->{$model->tableSchema->primaryKey}, "returnUrl"=>(Yii::app()->request->getParam("returnUrl"))?Yii::app()->request->getParam("returnUrl"):$this->createUrl("admin")),
                             "confirm"=>Yii::t("' . $this->messageCatalogStandard . '","Do you want to delete this item?")
                         ),
-                        "visible"=> $showDeleteButton && Yii::app()->user->checkAccess("' . $this->getRightsPrefix() . '.Delete")
+                        "visible"=> $showDeleteButton && (Yii::app()->user->checkAccess("' . $this->getRightsPrefix() . '.*") || Yii::app()->user->checkAccess("' . $this->getRightsPrefix() . '.Delete"))
                     ));
                     $this->widget("bootstrap.widgets.TbButton", array(
                         #"label"=>Yii::t("' . $this->messageCatalogStandard . '","Update"),
@@ -141,14 +140,14 @@
                         "type"=>"primary",
                         "size"=>"large",
                         "url"=>array("update","' . $pk . '"=>$model->{$model->tableSchema->primaryKey}),
-                        "visible"=> $showUpdateButton && Yii::app()->user->checkAccess("' . $this->getRightsPrefix() . '.Update")
+                        "visible"=> $showUpdateButton &&  (Yii::app()->user->checkAccess("' . $this->getRightsPrefix() . '.*") || Yii::app()->user->checkAccess("' . $this->getRightsPrefix() . '.Update"))
                     ));
                     $this->widget("bootstrap.widgets.TbButton", array(
                         #"label"=>Yii::t("' . $this->messageCatalogStandard . '","View"),
                         "icon"=>"icon-eye-open",
                         "size"=>"large",
                         "url"=>array("view","' . $pk . '"=>$model->{$model->tableSchema->primaryKey}),
-                        "visible"=>$showViewButton && Yii::app()->user->checkAccess("' . $this->getRightsPrefix() . '.View"),
+                        "visible"=>$showViewButton &&  (Yii::app()->user->checkAccess("' . $this->getRightsPrefix() . '.*") || Yii::app()->user->checkAccess("' . $this->getRightsPrefix() . '.View")),
                         "htmlOptions"=>array(
                                       "data-toggle"=>"tooltip",
                                       "title"=>Yii::t("' . $this->messageCatalogStandard . '","View Mode"),
@@ -162,7 +161,7 @@
                        "htmlOptions"=> array(
                             "onclick"=>"$(\'.crud-form form\').submit();",
                        ),
-                       "visible"=>$showSaveButton && Yii::app()->user->checkAccess("' . $this->getRightsPrefix() . '.View")
+                       "visible"=>$showSaveButton &&  (Yii::app()->user->checkAccess("' . $this->getRightsPrefix() . '.*") || Yii::app()->user->checkAccess("' . $this->getRightsPrefix() . '.View"))
                     ));
              ?>';
             ?>
