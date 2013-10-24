@@ -27,7 +27,7 @@ foreach ($relations as $key => $relation):
     if ($relation[0] == 'CBelongsToRelation') {
         continue;
     } elseif ($relation[0] == 'CHasOneRelation') {
-        $recordsWrapper = "\$records = array(\$model->{$key}(array('limit' => 250, 'scopes' => '{$scope}'));"; // TODO: has one untested
+        $recordsWrapper = "\$records = array(\$model->{$key}(array('limit' => 250, 'scopes' => '{$scope}')));";
     } else {
         $recordsWrapper = "\$records = \$model->{$key}(array('limit' => 250, 'scopes' => '{$scope}'));"; // TODO: move to ajax list
     }
