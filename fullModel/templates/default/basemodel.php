@@ -143,7 +143,7 @@ abstract class <?php echo 'Base' . $modelClass; ?> extends <?php echo $this->bas
             $criteria = new CDbCriteria;
         }
 
-    <?php
+<?php
     foreach($columns as $name=>$column)
     {
         if($column->type==='string' and !$column->isForeignKey)
@@ -156,7 +156,7 @@ abstract class <?php echo 'Base' . $modelClass; ?> extends <?php echo $this->bas
         }
     }
     echo "\n";
-    ?>
+?>
 
         return $criteria;
 
