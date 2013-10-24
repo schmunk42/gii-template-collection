@@ -115,12 +115,14 @@ abstract class <?php echo 'Base' . $modelClass; ?> extends <?php echo $this->bas
 
     public function relations()
     {
-        return array(
+        return array_merge(
+            parent::relations(), array(
 <?php
         foreach($relations as $name=>$relation) {
-            echo "            '$name' => $relation,\n";
+            echo "                '$name' => $relation,\n";
         }
 ?>
+            )
         );
     }
 
