@@ -14,6 +14,12 @@
 
     echo \$form->errorSummary(\$model);
 
+    if (!isset(\$elementsViewAlias)) {
+        \$elementsViewAlias = '_elements';
+    }
+
+    \$this->renderPartial(\$elementsViewAlias, array(
+
     \$this->renderPartial('_elements', array(
         'model' => \$model,
         'form' => \$form,
