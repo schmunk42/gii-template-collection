@@ -169,7 +169,7 @@ $this->widget('TbGridView',
                 $pk = 'id';
             }
 
-            echo "<div class='span3'><?php " . $this->provider()->generateRelationHeader($relatedModel, $key, $relation) . " ?></div>";
+            echo "<div class='span3'><?php " . $this->provider()->generateRelationHeader($key, $relation, $controller) . " ?></div>";
             echo "<div class='span8'>
 <?php
     echo '<span class=label>{$relation[0]}</span>';
