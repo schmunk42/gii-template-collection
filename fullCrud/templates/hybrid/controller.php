@@ -231,10 +231,26 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
             throw new CException("Currently works with HAS_MANY relations only");
         }
 
-        $className = $relation->className;
-        $related = new $className('search');
-        $related->unsetAttributes();
-        $related->{$relation->foreignKey} = $model->primaryKey;
+        if (isset($relation->through)) {
+
+            if (!($md->relations[$relation->through] instanceof CBelongsToRelation)) {
+                throw new CException("Currently works with HAS_MANY relations, optionally through a BELONGS_TO relation, only");
+            }
+
+            $fk = $relation->foreignKey;
+            $_ = array_keys($fk);
+            $throughPk = $_[0];
+            $throughField = $fk[$throughPk];
+            $className = $relation->className;
+            $related = new $className('search');
+            $related->unsetAttributes();
+            $related->{$throughField} = $model->{$relation->through}->{$throughPk};
+        } else {
+            $className = $relation->className;
+            $related = new $className('search');
+            $related->unsetAttributes();
+            $related->{$relation->foreignKey} = $model->primaryKey;
+        }
 
         if (isset($_GET[$className])) {
             $related->attributes = $_GET[$className];

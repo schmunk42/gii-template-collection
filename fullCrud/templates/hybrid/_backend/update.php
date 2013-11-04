@@ -66,8 +66,38 @@ if ($relations !== array()): ?>
     ?>
 </h2>
 
+<?php
+
+if (isset($relation["through"])) {
+    if ($relations[$relation["through"]][0] != 'CBelongsToRelation') {
+        print 'This relation is specified through another relation, which in turn is not a BELONGS_TO relation. Unfortunately this template does not support code generation for such a relation yet.';
+        continue;
+    }
+}
+
+?>
+
 <div class="btn-group">
 <?php
+
+if (isset($relation["through"])) {
+
+    $_ = array_keys($fk);
+    $throughPk = $_[0];
+    $throughField = $fk[$throughPk];
+
+    echo "    <?php \$this->widget('bootstrap.widgets.TbButtonGroup', array(
+        'type' => '', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
+        'buttons' => array(
+            array('label' => Yii::t('" . $this->messageCatalog . "', 'Create'), 'icon' => 'icon-plus', 'url' => array('{$controller}/create', '{$relatedModelClass}' => array('{$throughField}' => \$model->{$relation["through"]}->{$throughPk}), 'returnUrl' => Yii::app()->request->url), array('class' => ''))
+        ),
+    ));
+
+?>";
+
+
+} else {
+
     echo "    <?php \$this->widget('bootstrap.widgets.TbButtonGroup', array(
         'type' => '', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
         'buttons' => array(
@@ -75,6 +105,8 @@ if ($relations !== array()): ?>
         ),
     ));
 ?>";
+
+}
 
 ?>
 </div>
