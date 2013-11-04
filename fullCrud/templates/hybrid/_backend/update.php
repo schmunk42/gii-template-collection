@@ -64,6 +64,7 @@ if ($relations !== array()): ?>
     <?php
     echo "<?php echo Yii::t('" . $this->messageCatalog . "', '" . $this->pluralize($this->class2name($relatedModelClass)) . "'); ?> ";
     ?>
+    <small><?php echo $key; ?></small>
 </h2>
 
 <?php
