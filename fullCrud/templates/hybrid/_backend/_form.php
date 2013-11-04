@@ -19,8 +19,6 @@
     }
 
     \$this->renderPartial(\$elementsViewAlias, array(
-
-    \$this->renderPartial('_elements', array(
         'model' => \$model,
         'form' => \$form,
     ));
