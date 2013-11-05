@@ -136,7 +136,7 @@
                     ));
                     $this->widget("bootstrap.widgets.TbButton", array(
                         #"label"=>Yii::t("' . $this->messageCatalogStandard . '","Update"),
-                        "icon"=>"icon-edit",
+                        "icon"=>"icon-edit icon-white",
                         "type"=>"primary",
                         "size"=>"large",
                         "url"=>array("update","' . $pk . '"=>$model->{$model->tableSchema->primaryKey}),
@@ -155,7 +155,7 @@
                     ));
                     $this->widget("bootstrap.widgets.TbButton", array(
                        "label"=>Yii::t("' . $this->messageCatalogStandard . '","Save"),
-                       "icon"=>"save",
+                       "icon"=>"icon-thumbs-up icon-white",
                        "size"=>"large",
                        "type"=>"primary",
                        "htmlOptions"=> array(
