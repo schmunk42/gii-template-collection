@@ -3,8 +3,7 @@
     <?=
     "
     <?php
-        Yii::app()->bootstrap->registerAssetCss('../select2/select2.css');
-        Yii::app()->bootstrap->registerAssetJs('../select2/select2.js');
+        Yii::app()->bootstrap->registerPackage('select2');
         Yii::app()->clientScript->registerScript('crud/variant/update','$(\".crud-form select\").select2();');
 
         \$form=\$this->beginWidget('TbActiveForm', array(
