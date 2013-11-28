@@ -57,31 +57,18 @@
 abstract class <?php echo 'Base' . $modelClass; ?> extends <?php echo $this->baseClass."\n"; ?>
 {
 <?php
-    $is_enum_comment = FALSE;
-    foreach ($columns as $column) {
-        if (substr(strtoupper($column->dbType), 0, 4) == 'ENUM') {
-            $enum_values = explode(',', substr($column->dbType, 4, strlen($column->dbType) - 1));
-
-            foreach ($enum_values as $value) {
-                if(!$is_enum_comment){
+if(!empty($enum)){
 ?>
     /**
-    * ENUM field values as constants
+    * ENUM field values
     */
 <?php
-
-                    $is_enum_comment = TRUE;
-                }
-                $value = trim($value, "()'");
-                $const_name = strtoupper($column->name . '_' . $value);
-                $const_name = preg_replace('/\s+/','_',$const_name);
-                $const_name = str_replace(array('-','_',' '),'_',$const_name);
-				$const_name=preg_replace('/[^A-Z0-9_]/', '', $const_name);
-
-                echo '    const ' . $const_name . ' = \'' . $value . '\';' . PHP_EOL;
-            }
-        }         
+    foreach($enum as $column_name => $enum_values){
+        foreach ($enum_values as $enum_value){
+            echo '    const ' . $enum_value['const_name'] . ' = \'' . $enum_value['value'] . '\';' . PHP_EOL;
+        }
     }
+}
 ?>
 
     public static function model($className = __CLASS__)
@@ -182,20 +169,20 @@ abstract class <?php echo 'Base' . $modelClass; ?> extends <?php echo $this->bas
 
         }
 }
-if ($aEnumLabels){
+if(!empty($enum)){
 ?>
 
     public function enumLabels()
     {
         return array(
 <?php
-    foreach($aEnumLabels as $sColumnName => $aColumn){
-        echo "           '$sColumnName' => array(" . PHP_EOL;
-        foreach($aColumn as $value => $label){
-            echo "               '$value' => Yii::t('" . $this->messageCatalog . "', '$label')," . PHP_EOL;
+    foreach($enum as $column_name => $enum_values){
+        echo "           '$column_name' => array(" . PHP_EOL;
+        foreach ($enum_values as $enum_value){
+            echo '    const ' . $enum_value['const_name'] . ' = \'' . $enum_value['const_name'] . '\';' . PHP_EOL;
+            echo "               self::{$enum_value['const_name']} => Yii::t('" . $this->messageCatalog . "', '{$enum_value['const_name']}')," . PHP_EOL;
         }
         echo "           )," . PHP_EOL;
-
     }
 ?>
             );

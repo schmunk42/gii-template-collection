@@ -34,9 +34,17 @@ class EnumProvider extends GtcCodeProvider {
         }
 
         return "array(
+                'class' => 'editable.EditableColumn',
                 'name' => '{$column->name}',
-                'value' => '\$data->getEnumLabel(\'" . $column->name . "\',\$data->".$column->name.")',
-        )\n";
+                'value' => '\$data->getEnumLabel(\'{$column->name}\',\$data->{$column->name})',
+                'editable' => array(
+                    'type' => 'select',
+                    'url' => \$this->createUrl('/{$this->codeModel->controller}/editableSaver'),
+                    'source' => \$model->getEnumFieldValuetext('{$column->name}'),
+                    //'placement' => 'right',
+                ),
+               'filter' => \$model->getEnumFieldLabels('{$column->name}'),
+            )";
 
     }
 

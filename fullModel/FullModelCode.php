@@ -74,6 +74,7 @@ class FullModelCode extends ModelCode
                 'labels'     => $this->generateLabels($table),
                 'rules'      => $this->generateRules($table),
                 'relations'  => isset($this->relations[$className]) ? $this->relations[$className] : array(),
+                'enum'       => $this->getEnum($table->columns),
             );
 
             if ($this->template != 'singlefile') {
@@ -261,6 +262,42 @@ class FullModelCode extends ModelCode
         } else {
             return parent::confirmed($file);
         }
+    }
+
+    public function getEnum($columns){
+
+        $enum = array();
+        foreach ($columns as $column) {
+            if (substr(strtoupper($column->dbType), 0, 4) != 'ENUM') {
+                continue;
+            }
+
+            $enum[$column->name] = array();
+
+            $enum_values = explode(',', substr($column->dbType, 4, strlen($column->dbType) - 1));
+
+            foreach ($enum_values as $value) {
+
+                $value = trim($value, "()'");
+
+                $const_name = strtoupper($column->name . '_' . $value);
+                $const_name = preg_replace('/\s+/','_',$const_name);
+                $const_name = str_replace(array('-','_',' '),'_',$const_name);
+				$const_name=preg_replace('/[^A-Z0-9_]/', '', $const_name);
+
+                $label = ucwords(trim(strtolower(str_replace(array('-', '_'), ' ', preg_replace('/(?<![A-Z])[A-Z]/', ' \0', $value)))));
+                $label = preg_replace('/\s+/', ' ', $label);
+
+                $enum[$column->name][] = array(
+                    'value' => $value,
+                    'const_name' => $const_name,
+                    'label' => $label,
+                    );
+
+            }
+            return $enum;
+        }
+
     }
 }
 
