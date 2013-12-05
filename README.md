@@ -18,6 +18,8 @@ Features
   * relation widgets
   * editable grid columns
   * partial views
+  * enum fields
+* multi languages
 
 ### Templates
 
