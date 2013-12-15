@@ -179,7 +179,6 @@ if(!empty($enum)){
     foreach($enum as $column_name => $enum_values){
         echo "           '$column_name' => array(" . PHP_EOL;
         foreach ($enum_values as $enum_value){
-            echo '    const ' . $enum_value['const_name'] . ' = \'' . $enum_value['const_name'] . '\';' . PHP_EOL;
             echo "               self::{$enum_value['const_name']} => Yii::t('" . $this->messageCatalog . "', '{$enum_value['const_name']}')," . PHP_EOL;
         }
         echo "           )," . PHP_EOL;
