@@ -29,7 +29,7 @@
         "
         <?php
         echo CHtml::Button(Yii::t('{$this->messageCatalog}', 'Cancel'), array(
-                'submit' => (isset(\$_GET['returnUrl'])) ? \$_GET['returnUrl'] : array('" . strtolower($this->modelClass) . "/admin'),
+                'submit' => (isset(\$_GET['returnUrl'])) ? \$_GET['returnUrl'] : array('" . $this->controllerID . "/admin'),
                 'class' => 'btn'
             )
         );
