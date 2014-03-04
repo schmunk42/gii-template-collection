@@ -5,7 +5,7 @@
     "
     <?php
 
-    \$form = \$this->beginWidget('bootstrap.widgets.TbActiveForm', array(
+    \$form = \$this->beginWidget('\TbActiveForm', array(
         'id' => '{$this->class2id($this->modelClass)}-form',
         'enableAjaxValidation' => " . ($this->validation == 1 || $this->validation == 3 ? 'true' : 'false') . ",
         'enableClientValidation' => " . ($this->validation == 1 || $this->validation == 3 ? 'true' : 'false') . ",

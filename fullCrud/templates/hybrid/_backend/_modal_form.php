@@ -5,9 +5,9 @@
 /* @var \$pk The primary key field added object */
 /* @var \$field The field of the newly added object to be used as the key/label of the parent form select-input */
 
-\$this->beginWidget('bootstrap.widgets.TbModal', array('id' => \$formId . \"-modal\"));
+\$this->beginWidget('\TbModal', array('id' => \$formId . \"-modal\"));
 
-\$form = \$this->beginWidget('bootstrap.widgets.TbActiveForm', array(
+\$form = \$this->beginWidget('\TbActiveForm', array(
     'id' => \$formId,
     'enableAjaxValidation' => true,
     'enableClientValidation' => true,

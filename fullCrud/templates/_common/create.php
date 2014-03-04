@@ -13,7 +13,7 @@ $label = $this->pluralize($this->class2name($this->modelClass));
 ?>";
 ?>
 
-<?= '<?php $this->widget("TbBreadcrumbs", array("links" => $this->breadcrumbs)) ?>'; ?>
+<?= '<?php $this->widget("\TbBreadcrumbs", array("links" => $this->breadcrumbs)) ?>'; ?>
 
     <h1>
         <?=

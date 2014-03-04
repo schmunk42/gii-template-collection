@@ -4,36 +4,36 @@
         '<?php
         switch ($this->action->id) {
             case "create":
-                $this->widget("bootstrap.widgets.TbButton", array(
+                $this->widget("\TbButton", array(
                     "label" => Yii::t("' . $this->messageCatalog . '", "Manage"),
                     "icon" => "icon-list-alt",
                     "url" => array("admin")
                 ));
                 break;
             case "admin":
-                $this->widget("bootstrap.widgets.TbButton", array(
+                $this->widget("\TbButton", array(
                     "label" => Yii::t("' . $this->messageCatalog . '", "Create"),
                     "icon" => "icon-plus",
                     "url" => array("create")
                 ));
                 break;
             case "view":
-                $this->widget("bootstrap.widgets.TbButton", array(
+                $this->widget("\TbButton", array(
                     "label" => Yii::t("' . $this->messageCatalog . '", "Manage"),
                     "icon" => "icon-list-alt",
                     "url" => array("admin")
                 ));
-                $this->widget("bootstrap.widgets.TbButton", array(
+                $this->widget("\TbButton", array(
                     "label" => Yii::t("' . $this->messageCatalog . '", "Update"),
                     "icon" => "icon-edit",
                     "url" => array("update", "id" => $model->{$model->tableSchema->primaryKey})
                 ));
-                $this->widget("bootstrap.widgets.TbButton", array(
+                $this->widget("\TbButton", array(
                     "label" => Yii::t("' . $this->messageCatalog . '", "Create"),
                     "icon" => "icon-plus",
                     "url" => array("create")
                 ));
-                $this->widget("bootstrap.widgets.TbButton", array(
+                $this->widget("\TbButton", array(
                     "label" => Yii::t("' . $this->messageCatalog . '", "Delete"),
                     "type" => "danger",
                     "icon" => "icon-remove icon-white",
@@ -43,17 +43,17 @@
                 ));
                 break;
             case "update":
-                $this->widget("bootstrap.widgets.TbButton", array(
+                $this->widget("\TbButton", array(
                     "label" => Yii::t("' . $this->messageCatalog . '", "Manage"),
                     "icon" => "icon-list-alt",
                     "url" => array("admin")
                 ));
-                $this->widget("bootstrap.widgets.TbButton", array(
+                $this->widget("\TbButton", array(
                     "label" => Yii::t("' . $this->messageCatalog . '", "View"),
                     "icon" => "icon-eye-open",
                     "url" => array("view", "id" => $model->{$model->tableSchema->primaryKey})
                 ));
-                $this->widget("bootstrap.widgets.TbButton", array(
+                $this->widget("\TbButton", array(
                     "label" => Yii::t("' . $this->messageCatalog . '", "Delete"),
                     "type" => "danger",
                     "icon" => "icon-remove icon-white",
@@ -71,7 +71,7 @@
         <div class="btn-group">
             <?=
             "<?php
-            \$this->widget('bootstrap.widgets.TbButton', array(
+            \$this->widget('\TbButton', array(
                 'label' => Yii::t('{$this->messageCatalog}', 'Search'),
                 'icon' => 'icon-search',
                 'htmlOptions' => array('class' => 'search-button')
@@ -87,7 +87,7 @@
         <div class="btn-group">
             <?=
             "<?php
-            \$this->widget('bootstrap.widgets.TbButtonGroup', array(
+            \$this->widget('\TbButtonGroup', array(
                 'buttons' => array(
                     array(
                         'label' => Yii::t('" . $this->messageCatalog . "', 'Relations'),

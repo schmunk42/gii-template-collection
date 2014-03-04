@@ -62,7 +62,7 @@ class GtcRelationProvider extends GtcCodeProvider
         echo '<h3>';
             echo Yii::t('{$this->codeModel->messageCatalog}','relation." . ucfirst($relationName) . "').' ';
             \$this->widget(
-                'bootstrap.widgets.TbButtonGroup',
+                '\TbButtonGroup',
                 array(
                     'type' => '', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
                     'size' => 'mini',

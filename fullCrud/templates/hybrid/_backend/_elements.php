@@ -97,7 +97,7 @@
             <div class="control-group">
                 <div class="controls">
                     <?= "<?php
-                    echo \$this->widget('bootstrap.widgets.TbButton', array(
+                    echo \$this->widget('\TbButton', array(
                         'label' => Yii::t('" . $this->messageCatalog . "', 'Create {model}', array('{model}' => Yii::t('" . $this->messageCatalog . "', '" . $this->class2name(
                                 $relatedModelClass
                         ) . "'))),

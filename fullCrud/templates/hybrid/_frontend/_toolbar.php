@@ -4,12 +4,12 @@
         echo '<?php
         switch ($this->action->id) {
             case "view":
-                $this->widget("bootstrap.widgets.TbButton", array(
+                $this->widget("\TbButton", array(
                     "label" => Yii::t("' . $this->messageCatalog . '", "Update"),
                     "icon" => "icon-edit",
                     "url" => array("update", "id" => $model->{$model->tableSchema->primaryKey})
                 ));
-                $this->widget("bootstrap.widgets.TbButton", array(
+                $this->widget("\TbButton", array(
                     "label" => Yii::t("' . $this->messageCatalog . '", "Delete"),
                     "type" => "danger",
                     "icon" => "icon-remove icon-white",
