@@ -13,7 +13,7 @@
 ?>
 ";?>
 
-<?= '<?php $this->widget("\TbBreadcrumbs", array("links" => $this->breadcrumbs)) ?>'; ?>
+<?= '<?php $this->widget("\TbBreadcrumb", array("links" => $this->breadcrumbs)) ?>'; ?>
 
 <h1>
 <?=
@@ -114,13 +114,13 @@ if (isset($relation["through"])) {
 
 <?php echo "<?php\n"; ?>
 $relatedSearchModel = $this->getRelatedSearchModel($model, '<?php echo $key; ?>');
-$this->widget('TbGridView',
+$this->widget('\TbGridView',
     array(
         'id' => '<?php echo $controller; ?>-grid',
         'dataProvider' => $relatedSearchModel->search(),
         'filter' => $relatedSearchModel, // TODO: Restore similar functionality without oom problems: count($model-><?php echo $key; ?>) > 1 ? $relatedSearchModel : null,
         'pager' => array(
-            'class' => 'TbPager',
+            'class' => '\TbPager',
             'displayFirstAndLast' => true,
         ),
     'columns' => array(
@@ -153,7 +153,7 @@ $this->widget('TbGridView',
     }
     ?>
         array(
-            'class' => 'TbButtonColumn',
+            'class' => '\TbButtonColumn',
             'viewButtonUrl' => "Yii::app()->controller->createUrl('<?php echo $controller; ?>/view', array('<?php echo $pk; ?>' => \$data-><?php echo $pk; ?>))",
             'updateButtonUrl' => "Yii::app()->controller->createUrl('<?php echo $controller; ?>/update', array('<?php echo $pk; ?>' => \$data-><?php echo $pk; ?>))",
             'deleteButtonUrl' => "Yii::app()->controller->createUrl('<?php echo $controller; ?>/delete', array('<?php echo $pk; ?>' => \$data-><?php echo $pk; ?>))",
