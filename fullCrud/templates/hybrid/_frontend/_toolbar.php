@@ -6,13 +6,13 @@
             case "view":
                 $this->widget("\TbButton", array(
                     "label" => Yii::t("' . $this->messageCatalog . '", "Update"),
-                    "icon" => "icon-edit",
+                    "icon" => "glyphicon-edit",
                     "url" => array("update", "id" => $model->{$model->tableSchema->primaryKey})
                 ));
                 $this->widget("\TbButton", array(
                     "label" => Yii::t("' . $this->messageCatalog . '", "Delete"),
                     "type" => "danger",
-                    "icon" => "icon-remove icon-white",
+                    "icon" => "glyphicon-remove icon-white",
                     "htmlOptions" => array(
                         "submit" => array("delete", "id" => $model->{$model->tableSchema->primaryKey}, "returnUrl" => (Yii::app()->request->getParam("returnUrl")) ? Yii::app()->request->getParam("returnUrl") : $this->createUrl("admin")),
                         "confirm" => Yii::t("' . $this->messageCatalog . '", "Do you want to delete this item?"))

@@ -49,7 +49,7 @@ class GtcRelationProvider extends GtcCodeProvider
         $createButton = ($relationInfo[0] == 'CManyManyRelation') ?
             "" :
             "array(
-                'icon' => 'icon-plus',
+                'icon' => 'glyphicon-plus',
                 'url' => array(
                     '/{$controller}/create',
                     '{$relationInfo[1]}' => array('{$relationInfo[2]}' => \$model->{\$model->tableSchema->primaryKey})
@@ -68,7 +68,7 @@ class GtcRelationProvider extends GtcCodeProvider
                     'size' => 'mini',
                     'buttons' => array(
                         array(
-                            'icon' => 'icon-list-alt',
+                            'icon' => 'glyphicon-list-alt',
                             'url' =>  array('/{$controller}/admin','{$relationInfo[1]}' => array('{$relationInfo[2]}' => \$model->{\$model->tableSchema->primaryKey}))
                         ),
                         {$createButton}

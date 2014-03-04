@@ -90,7 +90,7 @@ if (isset($relation["through"])) {
     echo "    <?php \$this->widget('\TbButtonGroup', array(
         'type' => '', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
         'buttons' => array(
-            array('label' => Yii::t('" . $this->messageCatalog . "', 'Create'), 'icon' => 'icon-plus', 'url' => array('{$controller}/create', '{$relatedModelClass}' => array('{$throughField}' => \$model->{$relation["through"]}->{$throughPk}), 'returnUrl' => Yii::app()->request->url), array('class' => ''))
+            array('label' => Yii::t('" . $this->messageCatalog . "', 'Create'), 'icon' => 'glyphicon-plus', 'url' => array('{$controller}/create', '{$relatedModelClass}' => array('{$throughField}' => \$model->{$relation["through"]}->{$throughPk}), 'returnUrl' => Yii::app()->request->url), array('class' => ''))
         ),
     ));
 
@@ -102,7 +102,7 @@ if (isset($relation["through"])) {
     echo "    <?php \$this->widget('\TbButtonGroup', array(
         'type' => '', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
         'buttons' => array(
-            array('label' => Yii::t('" . $this->messageCatalog . "', 'Create'), 'icon' => 'icon-plus', 'url' => array('{$controller}/create', '{$relatedModelClass}' => array('{$fk}' => \$model->{$pk}), 'returnUrl' => Yii::app()->request->url), array('class' => ''))
+            array('label' => Yii::t('" . $this->messageCatalog . "', 'Create'), 'icon' => 'glyphicon-plus', 'url' => array('{$controller}/create', '{$relatedModelClass}' => array('{$fk}' => \$model->{$pk}), 'returnUrl' => Yii::app()->request->url), array('class' => ''))
         ),
     ));
 ?>";

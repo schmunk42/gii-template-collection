@@ -6,37 +6,37 @@
             case "create":
                 $this->widget("\TbButton", array(
                     "label" => Yii::t("' . $this->messageCatalog . '", "Manage"),
-                    "icon" => "icon-list-alt",
+                    "icon" => "glyphicon-list-alt",
                     "url" => array("admin")
                 ));
                 break;
             case "admin":
                 $this->widget("\TbButton", array(
                     "label" => Yii::t("' . $this->messageCatalog . '", "Create"),
-                    "icon" => "icon-plus",
+                    "icon" => "glyphicon-plus",
                     "url" => array("create")
                 ));
                 break;
             case "view":
                 $this->widget("\TbButton", array(
                     "label" => Yii::t("' . $this->messageCatalog . '", "Manage"),
-                    "icon" => "icon-list-alt",
+                    "icon" => "glyphicon-list-alt",
                     "url" => array("admin")
                 ));
                 $this->widget("\TbButton", array(
                     "label" => Yii::t("' . $this->messageCatalog . '", "Update"),
-                    "icon" => "icon-edit",
+                    "icon" => "glyphicon-edit",
                     "url" => array("update", "id" => $model->{$model->tableSchema->primaryKey})
                 ));
                 $this->widget("\TbButton", array(
                     "label" => Yii::t("' . $this->messageCatalog . '", "Create"),
-                    "icon" => "icon-plus",
+                    "icon" => "glyphicon-plus",
                     "url" => array("create")
                 ));
                 $this->widget("\TbButton", array(
                     "label" => Yii::t("' . $this->messageCatalog . '", "Delete"),
                     "type" => "danger",
-                    "icon" => "icon-remove icon-white",
+                    "icon" => "glyphicon-remove icon-white",
                     "htmlOptions" => array(
                         "submit" => array("delete", "id" => $model->{$model->tableSchema->primaryKey}, "returnUrl" => (Yii::app()->request->getParam("returnUrl")) ? Yii::app()->request->getParam("returnUrl") : $this->createUrl("admin")),
                         "confirm" => Yii::t("' . $this->messageCatalog . '", "Do you want to delete this item?"))
@@ -45,18 +45,18 @@
             case "update":
                 $this->widget("\TbButton", array(
                     "label" => Yii::t("' . $this->messageCatalog . '", "Manage"),
-                    "icon" => "icon-list-alt",
+                    "icon" => "glyphicon-list-alt",
                     "url" => array("admin")
                 ));
                 $this->widget("\TbButton", array(
                     "label" => Yii::t("' . $this->messageCatalog . '", "View"),
-                    "icon" => "icon-eye-open",
+                    "icon" => "glyphicon-eye-open",
                     "url" => array("view", "id" => $model->{$model->tableSchema->primaryKey})
                 ));
                 $this->widget("\TbButton", array(
                     "label" => Yii::t("' . $this->messageCatalog . '", "Delete"),
                     "type" => "danger",
-                    "icon" => "icon-remove icon-white",
+                    "icon" => "glyphicon-remove icon-white",
                     "htmlOptions" => array(
                         "submit" => array("delete", "id" => $model->{$model->tableSchema->primaryKey}, "returnUrl" => (Yii::app()->request->getParam("returnUrl")) ? Yii::app()->request->getParam("returnUrl") : $this->createUrl("admin")),
                         "confirm" => Yii::t("' . $this->messageCatalog . '", "Do you want to delete this item?"))
@@ -73,7 +73,7 @@
             "<?php
             \$this->widget('\TbButton', array(
                 'label' => Yii::t('{$this->messageCatalog}', 'Search'),
-                'icon' => 'icon-search',
+                'icon' => 'glyphicon-search',
                 'htmlOptions' => array('class' => 'search-button')
             ));?>";
             ?>
@@ -91,7 +91,7 @@
                 'buttons' => array(
                     array(
                         'label' => Yii::t('" . $this->messageCatalog . "', 'Relations'),
-                        'icon' => 'icon-search',
+                        'icon' => 'glyphicon-search',
                         'items' => array(";
 
                         // render relation links
