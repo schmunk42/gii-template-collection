@@ -6,8 +6,11 @@ class TbEditableProvider extends GtcCodeProvider
      * @param CActiveRecord   $modelClass
      * @param CDbColumnSchema $column
      */
-    public function generateColumn($modelClass, $column)
+    public function generateColumn($modelClass, $column, $controller = null)
     {
+        if (is_null($controller)) {
+            $controller = $this->codeModel->controller;
+        }
         if ($column->isForeignKey) {
             return null; //$provider->generateValueField($modelClass, $column);
         } elseif (strtoupper($column->dbType) == 'TEXT') {
@@ -17,7 +20,7 @@ class TbEditableProvider extends GtcCodeProvider
                 'class' => 'TbEditableColumn',
                 'name' => '{$column->name}',
                 'editable' => array(
-                    'url' => \$this->createUrl('/{$this->codeModel->controller}/editableSaver'),
+                    'url' => \$this->createUrl('/{$controller}/editableSaver'),
                     //'placement' => 'right',
                 )
             )";

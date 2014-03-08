@@ -13,7 +13,7 @@
 ?>
 ";?>
 
-<?= '<?php $this->widget("TbBreadcrumbs", array("links"=>$this->breadcrumbs)) ?>'; ?>
+<?= '<?php $this->widget("\TbBreadcrumb", array("links"=>$this->breadcrumbs)) ?>'; ?>
 
     <h1>
         <?=
@@ -44,7 +44,7 @@
         <?=
         "<?php
         \$this->widget(
-            'TbDetailView',
+            '\TbDetailView',
             array(
                 'data' => \$model,
                 'attributes' => array(

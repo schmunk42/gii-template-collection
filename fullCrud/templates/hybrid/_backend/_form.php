@@ -5,7 +5,7 @@
     "
     <?php
 
-    \$form = \$this->beginWidget('bootstrap.widgets.TbActiveForm', array(
+    \$form = \$this->beginWidget('\TbActiveForm', array(
         'id' => '{$this->class2id($this->modelClass)}-form',
         'enableAjaxValidation' => " . ($this->validation == 1 || $this->validation == 3 ? 'true' : 'false') . ",
         'enableClientValidation' => " . ($this->validation == 1 || $this->validation == 3 ? 'true' : 'false') . ",
@@ -29,7 +29,7 @@
         "
         <?php
         echo CHtml::Button(Yii::t('{$this->messageCatalog}', 'Cancel'), array(
-                'submit' => (isset(\$_GET['returnUrl'])) ? \$_GET['returnUrl'] : array('" . strtolower($this->modelClass) . "/admin'),
+                'submit' => (isset(\$_GET['returnUrl'])) ? \$_GET['returnUrl'] : array('" . $this->controllerID . "/admin'),
                 'class' => 'btn'
             )
         );
