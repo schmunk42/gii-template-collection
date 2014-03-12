@@ -77,7 +77,7 @@
                                 $columnRelation["relation"],
                                 true
                             ) . ";\n"; // TODO
-                        echo "            echo \$form->customRow(\$model, '{$column->name}', \$input);\n";
+                        echo "            echo \$form->customControlGroup(\$model, '{$column->name}', \$input);\n";
                         echo "            ?>\n";
 
                         // render create button
