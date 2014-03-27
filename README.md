@@ -5,6 +5,8 @@ gii-template-collection
 
 The gii-template-collection (gtc) contains templates for the Yii Framework Gii module.
 
+For a Yii 2 port of this project, please visit [giiant](https://github.com/schmunk42/yii2-giiant).
+
 
 Features
 --------
@@ -164,15 +166,20 @@ GTC is using *`<?=""?>` Bobsled Coding Style*.
 ?>
 ```
 
-* Use *bobsled* only for generating PHP code the **templates**, DO NOT use short open tags in outputted code (yet)
+* Use *bobsled* only for generating PHP code (in the gtc **templates**), DO NOT use short open tags in outputted code (yet)
 * Use brackets `{}` to insert variables for generated code
 * Use a `provider` to generate fields, labels, relations and columns.
+* Follow [guidelines for-good schema design](http://www.yiiframework.com/wiki/227/guidelines-for-good-schema-design/) from the Yii Wiki
+* Use a `UNIQUE` index over both of your foreign keys in your `MANY_MANY` tables
 
 
 #### Examples
 
 *tbd*
 
+#### Known Problems and Limitations
+
+* gtc does not support composite primary keys
 
 Resources
 ---------
