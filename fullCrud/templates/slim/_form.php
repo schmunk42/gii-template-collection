@@ -10,6 +10,9 @@
             'id' => '{$this->class2id($this->modelClass)}-form',
             'enableAjaxValidation' => {$this->enableAjaxValidation},
             'enableClientValidation' => {$this->enableClientValidation},
+            'htmlOptions' => array(
+                'enctype' => '{$this->formEnctype}'
+            )
         ));
 
         echo \$form->errorSummary(\$model);
@@ -18,12 +21,11 @@
     ?>
 
     <div class="row">
-        <div class="span7"> <!-- main inputs -->
+        <div class="<?= ($this->formLayout == 'two-columns') ? 'span7' : 'span12' ?>">
             <h2>
-                <?= "<?php echo Yii::t('{$this->messageCatalogStandard}','Data')?>"; ?>
+                <?= "<?php echo Yii::t('{$this->messageCatalogStandard}','Data')?>" ?>
                 <small>
-                    <?= "<?php echo \$model->{$this->provider()->suggestIdentifier($this->modelClass)} ?>"; ?>
-
+                    #<?= "<?php echo \$model->{$this->tableSchema->primaryKey} ?>" ?>
                 </small>
 
             </h2>
@@ -32,6 +34,7 @@
             <div class="form-horizontal">
 
                 <?php foreach ($this->tableSchema->columns as $column): ?>
+                    <?= "<?php {$this->provider()->generateHtml($this->modelClass, $column, 'prepend')} ?>" ?>
 
                     <div class="control-group">
                         <div class='control-label'>
@@ -39,32 +42,35 @@
 
                         </div>
                         <div class='controls'>
-                            <?=
-                            "<?php
+                            <span class="tooltip-wrapper" data-toggle='tooltip' data-placement="right"
+                                 title='<?= "<?php echo ((\$t = Yii::t('{$this->messageCatalog}', 'tooltip.{$column->name}')) != 'tooltip.{$column->name }')?\$t:'' ?>" ?>'>
+                                <?=
+                                "<?php
                             {$this->provider()->generateActiveField($this->modelClass, $column)};
                             echo \$form->error(\$model,'{$column->name}')
                             ?>"
-                            ?>
-
-                            <span class="help-block">
-                                <?=
-                                "<?php echo ((\$t = Yii::t('{$this->messageCatalog}', '{$this->modelClass}.{$column->name }')) != '{$this->modelClass}.{$column->name }')?\$t:'' ?>"
                                 ?>
-
                             </span>
                         </div>
                     </div>
+                    <?= "<?php {$this->provider()->generateHtml($this->modelClass, $column, 'append')} ?>" ?>
+
                 <?php endforeach; ?>
 
             </div>
         </div>
         <!-- main inputs -->
 
-        <div class="span5"> <!-- sub inputs -->
-            <h2>
-                <?= "<?php echo Yii::t('" . $this->messageCatalogStandard . "','Relations')?>"; ?>
+        <?php if ($this->formLayout == 'one-column'): ?>
+    </div>
+    <div class="row">
+        <?php endif; ?>
 
-            </h2>
+        <div class="<?= ($this->formLayout == 'two-columns') ? 'span5' : 'span12' ?>"><!-- sub inputs -->
+            <div class="well">
+            <!--<h2>
+                <?= "<?php echo Yii::t('" . $this->messageCatalogStandard . "','Relations')?>"; ?>
+            </h2>-->
             <? foreach ($this->getRelations() as $key => $relation) : ?>
                 <?php if ($relation[0] == "CBelongsToRelation") {
                     continue;
@@ -73,13 +79,13 @@
                 // relations
                 "
                 <h3>
-                    <?php echo Yii::t('{$this->messageCatalog}', '" . ucfirst($key) . "'); ?>
+                    <?php echo Yii::t('{$this->messageCatalog}', 'relation." . ucfirst($key) . "'); ?>
                 </h3>
                 <?php {$this->provider()->generateRelationField($this->modelClass, $key, $relation)} ?>
                 "
                 ?>
             <? endforeach; ?>
-
+            </div>
         </div>
         <!-- sub inputs -->
     </div>
@@ -91,7 +97,8 @@
 
     </p>
 
-    <div class="form-actions">
+    <!-- TODO: We need the buttons inside the form, when a user hits <enter> -->
+    <div class="form-actions" style="visibility: hidden; height: 1px">
         <?=
         "
         <?php

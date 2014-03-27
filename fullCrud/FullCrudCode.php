@@ -12,15 +12,18 @@ class FullCrudCode extends CrudCode
     // validation method; 0 = none, 1 = ajax, 2 = client-side, 3 = both
     public $validation = 3;
     public $baseControllerClass = 'Controller';
-    public $messageCatalogStandard = "crud_static";
-    public $messageCatalog = "crud";
+    public $messageCatalogStandard = "crud";
+    public $messageCatalog = "model";
     public $template = "slim";
     // Slim template
-    public $authTemplateSlim = "yii_user_management_access_control";
+    public $authTemplateSlim = "yii_extended_user_management_access_control";
+    public $formEnctype = null;
+    public $formLayout = 'two-columns';
     // Hybrid template
     public $authTemplateHybrid = "yii_user_management_access_control";
     public $formOrientation = "horizontal";
     public $textEditor = "textarea";
+    public $internalModels = array();
     public $backendViewPathAlias = "application.themes.backend2.views";
     public $frontendViewPathAlias = "application.themes.frontend.views";
     // Legacy template
@@ -32,14 +35,16 @@ class FullCrudCode extends CrudCode
     public $codeModel;
 
     /*
-     * custom providers, topmost has highest priority
+     * custom providers, topmost has highest priority, include GtcPartialViewProvider as first if needed
      */
     public $providers = array();
 
     private $_defaultProviders = array(
+        "gtc.fullCrud.providers.EnumProvider",
         "gtc.fullCrud.providers.GtcIdentifierProvider",
-        "gtc.fullCrud.providers.GtcPartialViewProvider",
-        "gtc.fullCrud.providers.EditableProvider",
+        "gtc.fullCrud.providers.GtcPartialViewProvider", // highest customization level
+        "gtc.fullCrud.providers.GtcOptionsProvider",
+        "gtc.fullCrud.providers.TbEditableProvider",
         "gtc.fullCrud.providers.YiiBoosterActiveRowProvider",
         "gtc.fullCrud.providers.GtcRelationProvider",
         "gtc.fullCrud.providers.GtcActiveFieldProvider",
@@ -58,7 +63,7 @@ class FullCrudCode extends CrudCode
             parent::rules(),
             array(
                  array('validation', 'required'),
-                 array('authTemplateSlim, authTemplateHybrid, providers, authTemplate, formOrientation, textEditor, backendViewPathAlias, frontendViewPathAlias,messageCatalog,messageCatalogStandard', 'safe'),
+                 array('authTemplateSlim, authTemplateHybrid, providers, authTemplate, formEnctype, formLayout, formOrientation, textEditor, internalModels, backendViewPathAlias, frontendViewPathAlias, messageCatalog,messageCatalogStandard', 'safe'),
             )
         );
     }

@@ -56,6 +56,20 @@
  */
 abstract class <?php echo 'Base' . $modelClass; ?> extends <?php echo $this->baseClass."\n"; ?>
 {
+<?php
+if(!empty($enum)){
+?>
+    /**
+    * ENUM field values
+    */
+<?php
+    foreach($enum as $column_name => $enum_values){
+        foreach ($enum_values as $enum_value){
+            echo '    const ' . $enum_value['const_name'] . ' = \'' . $enum_value['value'] . '\';' . PHP_EOL;
+        }
+    }
+}
+?>
 
     public static function model($className = __CLASS__)
     {
@@ -115,12 +129,14 @@ abstract class <?php echo 'Base' . $modelClass; ?> extends <?php echo $this->bas
 
     public function relations()
     {
-        return array(
+        return array_merge(
+            parent::relations(), array(
 <?php
         foreach($relations as $name=>$relation) {
-            echo "            '$name' => $relation,\n";
+            echo "                '$name' => $relation,\n";
         }
 ?>
+            )
         );
     }
 
@@ -134,30 +150,92 @@ abstract class <?php echo 'Base' . $modelClass; ?> extends <?php echo $this->bas
 ?>
         );
     }
+<?php
+    $aEnumLabels = array();
+    foreach ($columns as $column) {
+        
+        if (substr(strtoupper($column->dbType), 0, 4) == 'ENUM') {
 
-    public function search($criteria = null)
+            $enum_values = explode(',', substr($column->dbType, 4, strlen($column->dbType) - 1));
+            $aEnumLabels[$column->name] = array();
+            foreach ($enum_values as $value) {
+
+                $value = trim($value, "()'");
+                $label = ucwords(trim(strtolower(str_replace(array('-', '_'), ' ', preg_replace('/(?<![A-Z])[A-Z]/', ' \0', $value)))));
+                $label = preg_replace('/\s+/', ' ', $label);
+
+                $aEnumLabels[$column->name][$value] = $label;
+            }
+
+        }
+}
+if(!empty($enum)){
+?>
+
+    public function enumLabels()
+    {
+        return array(
+<?php
+    foreach($enum as $column_name => $enum_values){
+        echo "           '$column_name' => array(" . PHP_EOL;
+        foreach ($enum_values as $enum_value){
+            echo "               self::{$enum_value['const_name']} => Yii::t('" . $this->messageCatalog . "', '{$enum_value['const_name']}')," . PHP_EOL;
+        }
+        echo "           )," . PHP_EOL;
+    }
+?>
+            );
+    }
+
+    public function getEnumFieldLabels($column){
+
+        $aLabels = $this->enumLabels();
+        return $aLabels[$column];
+    }
+
+    public function getEnumLabel($column,$value){
+
+        $aLabels = $this->enumLabels();
+
+        if(!isset($aLabels[$column])){
+            return $value;
+        }
+
+        if(!isset($aLabels[$column][$value])){
+            return $value;
+        }
+
+        return $aLabels[$column][$value];
+    }
+
+<?php
+}
+
+?>
+
+    public function searchCriteria($criteria = null)
     {
         if (is_null($criteria)) {
             $criteria = new CDbCriteria;
         }
 
 <?php
-        foreach($columns as $name=>$column)
+    foreach($columns as $name=>$column)
+    {
+        if($column->type==='string' and !$column->isForeignKey)
         {
-            if($column->type==='string' and !$column->isForeignKey)
-            {
-                echo "        \$criteria->compare('t.$name', \$this->$name, true);\n";
-            }
-            else
-            {
-                echo "        \$criteria->compare('t.$name', \$this->$name);\n";
-            }
+            echo "        \$criteria->compare('t.$name', \$this->$name, true);\n";
         }
-        echo "\n";
+        else
+        {
+            echo "        \$criteria->compare('t.$name', \$this->$name);\n";
+        }
+    }
+    echo "\n";
 ?>
-        return new CActiveDataProvider(get_class($this), array(
-            'criteria' => $criteria,
-        ));
+
+        return $criteria;
+
     }
 
 }

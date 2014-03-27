@@ -15,12 +15,16 @@
 
 <?= '<?php $this->widget("TbBreadcrumbs", array("links"=>$this->breadcrumbs)) ?>'; ?>
 
-<h1>
-    <?=
-    "<?php echo Yii::t('" . $this->messageCatalog . "','" . $this->class2name($this->modelClass) . "')?>
-    <small><?php echo Yii::t('" . $this->messageCatalogStandard . "','View')?> #<?php echo \$model->" . $this->tableSchema->primaryKey . " ?></small>
+    <h1>
+        <?=
+        "<?php echo Yii::t('" . $this->messageCatalog . "','" . $this->class2name($this->modelClass) . "')?>
+        <small>
+            <?php echo \$model->{$this->provider()->suggestIdentifier($this->modelClass)} ?>
+
+        </small>
+
     "?>
-</h1>
+    </h1>
 
 
 
@@ -29,14 +33,11 @@
 
 
 <div class="row">
-    <div class="span7">
+    <div class="<?= ($this->formLayout == 'two-columns') ? 'span7' : 'span12' ?>">
         <h2>
             <?= "<?php echo Yii::t('" . $this->messageCatalogStandard . "','Data')?>"; ?>
             <small>
-                <?=
-                "<?php echo \$model->" . $this->provider()->suggestIdentifier(
-                    CActiveRecord::model(Yii::import($this->model))
-                ) . "?>"; ?>
+                #<?= "<?php echo \$model->{$this->tableSchema->primaryKey} ?>" ?>
             </small>
         </h2>
 
@@ -60,9 +61,16 @@
 
     </div>
 
-    <div class="span5">
-        <?=
-        "<?php \$this->renderPartial('_view-relations',array('model' => \$model)); ?>";
-        ?>
+<?php if ($this->formLayout == 'one-column'): ?>
+    </div>
+    <div class="row">
+<?php endif; ?>
+
+    <div class="<?= ($this->formLayout == 'two-columns') ? 'span5' : 'span12' ?>">
+        <div class="well">
+            <?= "<?php \$this->renderPartial('_view-relations',array('model' => \$model)); ?>"; ?>
+        </div>
     </div>
 </div>
+
+<?= '<?php $this->renderPartial("_toolbar", array("model"=>$model)); ?>'; ?>

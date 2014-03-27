@@ -55,6 +55,20 @@
                             continue;
                         }
 
+                        // do not render select-box and modal create form if model is an internal one
+                        if (in_array($columnRelation["relation"][1], $this->internalModels)) {
+
+                            // render ordinary input row
+                            echo "            <?php echo " . $this->provider()->generateActiveRow(
+                                    $this->modelClass,
+                                    $column,
+                                    false,
+                                    $this
+                                ) . "; ?>\n";
+
+                            continue;
+                        }
+
                         // render belongsTo relation input
                         echo "            <?php\n";
                         echo "            \$input = " . $this->provider()->generateRelationField(

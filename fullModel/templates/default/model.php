@@ -44,7 +44,7 @@ class <?php echo $modelClass; ?> extends <?php echo 'Base' . $modelClass."\n"; ?
             parent::behaviors(),
             array()
         );';
-        echo $behaviors;
+        echo $behaviors."\n";
         ?>
     }
 
@@ -57,6 +57,16 @@ class <?php echo $modelClass; ?> extends <?php echo 'Base' . $modelClass."\n"; ?
           array('column3', 'rule2'),
           ) */
         );
+    }
+
+    public function search($criteria = null)
+    {
+        if (is_null($criteria)) {
+            $criteria = new CDbCriteria;
+        }
+        return new CActiveDataProvider(get_class($this), array(
+            'criteria' => $this->searchCriteria($criteria),
+        ));
     }
 
 }

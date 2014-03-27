@@ -20,8 +20,10 @@
         "
         <?php echo Yii::t('{$this->messageCatalog}','{$this->class2name($this->modelClass)}'); ?>
         <small>
-            <?php echo Yii::t('{$this->messageCatalogStandard}','Update')?> #<?php echo \$model->{$this->tableSchema->primaryKey} ?>
+            <?php echo \$model->{$this->provider()->suggestIdentifier($this->modelClass)} ?>
+
         </small>
+
         ";
         ?>
 
@@ -36,3 +38,5 @@
 ?>
 "
 ?>
+
+<?= '<?php $this->renderPartial("_toolbar", array("model"=>$model)); ?>'; ?>

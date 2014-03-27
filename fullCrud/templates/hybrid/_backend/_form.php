@@ -14,7 +14,11 @@
 
     echo \$form->errorSummary(\$model);
 
-    \$this->renderPartial('_elements', array(
+    if (!isset(\$elementsViewAlias)) {
+        \$elementsViewAlias = '_elements';
+    }
+
+    \$this->renderPartial(\$elementsViewAlias, array(
         'model' => \$model,
         'form' => \$form,
     ));
@@ -25,7 +29,7 @@
         "
         <?php
         echo CHtml::Button(Yii::t('{$this->messageCatalog}', 'Cancel'), array(
-                'submit' => (isset(\$_GET['returnUrl'])) ? \$_GET['returnUrl'] : array('" . strtolower($this->modelClass) . "/admin'),
+                'submit' => (isset(\$_GET['returnUrl'])) ? \$_GET['returnUrl'] : array('" . $this->controllerID . "/admin'),
                 'class' => 'btn'
             )
         );

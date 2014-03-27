@@ -5,6 +5,8 @@ gii-template-collection
 
 The gii-template-collection (gtc) contains templates for the Yii Framework Gii module.
 
+For a Yii 2 port of this project, please visit [giiant](https://github.com/schmunk42/yii2-giiant).
+
 
 Features
 --------
@@ -18,6 +20,8 @@ Features
   * relation widgets
   * editable grid columns
   * partial views
+  * enum fields
+* multi languages
 
 ### Templates
 
