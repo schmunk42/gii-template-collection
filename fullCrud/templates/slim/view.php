@@ -52,6 +52,9 @@
         ?>
         <?php
         foreach ($this->tableSchema->columns as $column) {
+            if ($this->provider()->skipColumn($this->modelClass, $column)) {
+                continue;
+            }
             echo $this->provider()->generateAttribute($this->model, $column);
         }
         ?>

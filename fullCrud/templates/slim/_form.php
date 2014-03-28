@@ -35,6 +35,13 @@
             <div class="form-horizontal">
 
                 <?php foreach ($this->tableSchema->columns as $column): ?>
+                    <?php
+                    // skip column with provider function
+                    if ($this->provider()->skipColumn($this->modelClass, $column)) {
+                        continue;
+                    }
+                    ?>
+
                     <?= "<?php {$this->provider()->generateHtml($this->modelClass, $column, 'prepend')} ?>" ?>
 
                     <div class="control-group">

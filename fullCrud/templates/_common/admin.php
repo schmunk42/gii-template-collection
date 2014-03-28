@@ -48,6 +48,12 @@ $count = 0;
 $maxColumns = 8;
 $columns = "";
 foreach ($this->tableSchema->columns as $column) {
+
+    // skip column with provider function
+    if ($this->provider()->skipColumn($this->modelClass, $column)) {
+        continue;
+    }
+
     // render, but comment from the 8th column on
     if ($count == $maxColumns) {
         $columns .= "            /*\n";
