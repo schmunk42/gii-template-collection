@@ -45,8 +45,9 @@ Yii::app()->clientScript->registerScript('search', \"
 <?php
 // prepare (seven) columns
 $count = 0;
-$maxColumns = 8;
+$maxColumns = 8; //TODO: you could get this from a provider, keep 8 as default .... OR generator attribute
 $columns = "";
+$comment = false;
 foreach ($this->tableSchema->columns as $column) {
 
     // skip column with provider function
@@ -56,6 +57,7 @@ foreach ($this->tableSchema->columns as $column) {
 
     // render, but comment from the 8th column on
     if ($count == $maxColumns) {
+        $comment = true;
         $columns .= "            /*\n";
     }
     $column = $this->provider()->generateColumn($this->modelClass, $column);
@@ -64,7 +66,7 @@ foreach ($this->tableSchema->columns as $column) {
         $count++;
     } // don't count a commented column
 }
-if ($count >= $maxColumns+1) {
+if ($comment === true) {
     $columns .= "            */\n";
 }
 ?>
