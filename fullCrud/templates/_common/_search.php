@@ -9,6 +9,14 @@
     ?>
 
 <?php foreach ($this->tableSchema->columns as $column):?>
+
+    <?php
+    // skip column with provider function
+    if ($this->provider()->skipColumn($this->modelClass, $column)) {
+        continue;
+    }
+    ?>
+
     <div class="row">
         <?= "<?php echo \$form->label(\$model, '{$column->name}'); ?>\n"; ?>
         <?= "<?php " . $this->provider()->generateActiveField($this->modelClass, $column, 'search') . "; ?>\n"; ?>
