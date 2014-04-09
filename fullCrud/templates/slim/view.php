@@ -13,7 +13,7 @@
 ?>
 ";?>
 
-<?= '<?php $this->widget("\TbBreadcrumb", array("links"=>$this->breadcrumbs)) ?>'; ?>
+<?= '<?php $this->widget("\TbBreadcrumbs", array("links"=>$this->breadcrumbs)) ?>'; ?>
 
     <h1>
         <?=
@@ -72,6 +72,9 @@
     <div class="<?= ($this->formLayout == 'two-columns') ? 'span5' : 'span12' ?>">
         <div class="well">
             <?= "<?php \$this->renderPartial('_view-relations',array('model' => \$model)); ?>"; ?>
+        </div>
+        <div class="well">
+            <?= "<?php \$this->renderPartial('_view-relations_grids',array('modelMain' => \$model)); ?>"; ?>
         </div>
     </div>
 </div>
