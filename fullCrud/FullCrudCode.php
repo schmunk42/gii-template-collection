@@ -40,6 +40,7 @@ class FullCrudCode extends CrudCode
     public $providers = array();
 
     private $_defaultProviders = array(
+        "gtc.fullCrud.providers.EditableProvider",
         "gtc.fullCrud.providers.EnumProvider",
         "gtc.fullCrud.providers.GtcIdentifierProvider",
         "gtc.fullCrud.providers.GtcPartialViewProvider", // highest customization level

@@ -45,11 +45,11 @@ foreach ($relations as $key => $relation):
         foreach (\$records as \$i => \$relatedModel) {
             echo '<li>';
             echo CHtml::link(
-                '<i class=\"icon glyphicon-arrow-right\"></i> ' . \$relatedModel->{$suggestedfield},
+                '<i class=\"icon icon-arrow-right\"></i> ' . \$relatedModel->{$suggestedfield},
                 array('{$controller}/view', '{$pk}' => \$relatedModel->{$pk})
             );
             echo CHtml::link(
-                ' <i class=\"icon glyphicon-pencil\"></i>',
+                ' <i class=\"icon icon-pencil\"></i>',
                 array('{$controller}/update', '{$pk}' => \$relatedModel->{$pk})
             );
             echo '</li>';

@@ -7,7 +7,7 @@
         Yii::app()->clientScript->registerScript('crud/variant/update','$(\"#{$this->class2id($this->modelClass)}-form select\").select2();');
 
 
-        \$form=\$this->beginWidget('\TbActiveForm', array(
+        \$form=\$this->beginWidget('TbActiveForm', array(
             'id' => '{$this->class2id($this->modelClass)}-form',
             'enableAjaxValidation' => {$this->enableAjaxValidation},
             'enableClientValidation' => {$this->enableClientValidation},

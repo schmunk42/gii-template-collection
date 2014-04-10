@@ -20,12 +20,12 @@ class GtcAttributeProvider extends GtcCodeProvider
 
                     $value = "(\$model->{$key} !== null)?";
                     $value .= "CHtml::link(
-                            '<i class=\"icon glyphicon-circle-arrow-left\"></i> '.\$model->{$key}->{$suggestedfield},
+                            '<i class=\"icon icon-circle-arrow-left\"></i> '.\$model->{$key}->{$suggestedfield},
                             array('{$controller}/view','{$relatedModel->tableSchema->primaryKey}' => \$model->{$key}->{$relatedModel->tableSchema->primaryKey}),
                             array('class' => '')).";
                     $value .= "' '.";
                     $value .= "CHtml::link(
-                            '<i class=\"icon glyphicon-pencil\"></i> ',
+                            '<i class=\"icon icon-pencil\"></i> ',
                             array('{$controller}/update','{$relatedModel->tableSchema->primaryKey}' => \$model->{$key}->{$relatedModel->tableSchema->primaryKey}),
                             array('class' => ''))";
 

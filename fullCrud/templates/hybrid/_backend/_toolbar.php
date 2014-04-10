@@ -4,59 +4,59 @@
         '<?php
         switch ($this->action->id) {
             case "create":
-                $this->widget("\TbButton", array(
+                $this->widget("bootstrap.widgets.TbButton", array(
                     "label" => Yii::t("' . $this->messageCatalog . '", "Manage"),
-                    "icon" => "glyphicon-list-alt",
+                    "icon" => "icon-list-alt",
                     "url" => array("admin")
                 ));
                 break;
             case "admin":
-                $this->widget("\TbButton", array(
+                $this->widget("bootstrap.widgets.TbButton", array(
                     "label" => Yii::t("' . $this->messageCatalog . '", "Create"),
-                    "icon" => "glyphicon-plus",
+                    "icon" => "icon-plus",
                     "url" => array("create")
                 ));
                 break;
             case "view":
-                $this->widget("\TbButton", array(
+                $this->widget("bootstrap.widgets.TbButton", array(
                     "label" => Yii::t("' . $this->messageCatalog . '", "Manage"),
-                    "icon" => "glyphicon-list-alt",
+                    "icon" => "icon-list-alt",
                     "url" => array("admin")
                 ));
-                $this->widget("\TbButton", array(
+                $this->widget("bootstrap.widgets.TbButton", array(
                     "label" => Yii::t("' . $this->messageCatalog . '", "Update"),
-                    "icon" => "glyphicon-edit",
+                    "icon" => "icon-edit",
                     "url" => array("update", "id" => $model->{$model->tableSchema->primaryKey})
                 ));
-                $this->widget("\TbButton", array(
+                $this->widget("bootstrap.widgets.TbButton", array(
                     "label" => Yii::t("' . $this->messageCatalog . '", "Create"),
-                    "icon" => "glyphicon-plus",
+                    "icon" => "icon-plus",
                     "url" => array("create")
                 ));
-                $this->widget("\TbButton", array(
+                $this->widget("bootstrap.widgets.TbButton", array(
                     "label" => Yii::t("' . $this->messageCatalog . '", "Delete"),
                     "type" => "danger",
-                    "icon" => "glyphicon-remove icon-white",
+                    "icon" => "icon-remove icon-white",
                     "htmlOptions" => array(
                         "submit" => array("delete", "id" => $model->{$model->tableSchema->primaryKey}, "returnUrl" => (Yii::app()->request->getParam("returnUrl")) ? Yii::app()->request->getParam("returnUrl") : $this->createUrl("admin")),
                         "confirm" => Yii::t("' . $this->messageCatalog . '", "Do you want to delete this item?"))
                 ));
                 break;
             case "update":
-                $this->widget("\TbButton", array(
+                $this->widget("bootstrap.widgets.TbButton", array(
                     "label" => Yii::t("' . $this->messageCatalog . '", "Manage"),
-                    "icon" => "glyphicon-list-alt",
+                    "icon" => "icon-list-alt",
                     "url" => array("admin")
                 ));
-                $this->widget("\TbButton", array(
+                $this->widget("bootstrap.widgets.TbButton", array(
                     "label" => Yii::t("' . $this->messageCatalog . '", "View"),
-                    "icon" => "glyphicon-eye-open",
+                    "icon" => "icon-eye-open",
                     "url" => array("view", "id" => $model->{$model->tableSchema->primaryKey})
                 ));
-                $this->widget("\TbButton", array(
+                $this->widget("bootstrap.widgets.TbButton", array(
                     "label" => Yii::t("' . $this->messageCatalog . '", "Delete"),
                     "type" => "danger",
-                    "icon" => "glyphicon-remove icon-white",
+                    "icon" => "icon-remove icon-white",
                     "htmlOptions" => array(
                         "submit" => array("delete", "id" => $model->{$model->tableSchema->primaryKey}, "returnUrl" => (Yii::app()->request->getParam("returnUrl")) ? Yii::app()->request->getParam("returnUrl") : $this->createUrl("admin")),
                         "confirm" => Yii::t("' . $this->messageCatalog . '", "Do you want to delete this item?"))
@@ -71,9 +71,9 @@
         <div class="btn-group">
             <?=
             "<?php
-            \$this->widget('\TbButton', array(
+            \$this->widget('bootstrap.widgets.TbButton', array(
                 'label' => Yii::t('{$this->messageCatalog}', 'Search'),
-                'icon' => 'glyphicon-search',
+                'icon' => 'icon-search',
                 'htmlOptions' => array('class' => 'search-button')
             ));?>";
             ?>
@@ -87,11 +87,11 @@
         <div class="btn-group">
             <?=
             "<?php
-            \$this->widget('\TbButtonGroup', array(
+            \$this->widget('bootstrap.widgets.TbButtonGroup', array(
                 'buttons' => array(
                     array(
                         'label' => Yii::t('" . $this->messageCatalog . "', 'Relations'),
-                        'icon' => 'glyphicon-search',
+                        'icon' => 'icon-search',
                         'items' => array(";
 
                         // render relation links

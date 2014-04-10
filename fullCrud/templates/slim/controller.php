@@ -112,10 +112,24 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 
     public function actionEditableSaver()
     {
+        Yii::import('TbEditableSaver');
         $es = new TbEditableSaver('<?php echo $this->modelClass; ?>'); // classname of model to be updated
         $es->update();
     }
 
+    public function actionAjaxCreate($field, $value) 
+    {
+        $model = new <?php echo $this->modelClass; ?>;
+        $model->$field = $value;
+        try {
+            if ($model->save()) {
+                return TRUE;
+            }
+        } catch (Exception $e) {
+            throw new CHttpException(500, $e->getMessage());
+        }
+    }
+    
     public function actionDelete($<?= $pk ?>)
     {
         if (Yii::app()->request->isPostRequest) {

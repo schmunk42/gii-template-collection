@@ -8,6 +8,11 @@ class EditableProvider extends GtcCodeProvider
      */
     public function generateColumn($modelClass, $column, $controller = null)
     {
+        
+        if (strtoupper($column->dbType) == 'DATETIME') {
+            return null;
+        }
+
         if (is_null($controller)) {
             $controller = $this->codeModel->controller;
         }
@@ -45,7 +50,7 @@ class EditableProvider extends GtcCodeProvider
             return "array(
                 'class' => 'editable.EditableColumn',
                 'name' => '{$column->name}',
-                'value' => 'CHtml::value(\$data, \'{$relname}." . $suggestIdentifier . "\')',                    
+                'value' => 'CHtml::value(\$data, \'{$relname}." . $suggestIdentifier . "\',\'Click to edit\')',                    
                 'editable' => array(
                     'type' => 'select',
                     'url' => \$this->createUrl('/{$controller}/editableSaver'),
@@ -54,8 +59,41 @@ class EditableProvider extends GtcCodeProvider
                 )
             )";
             
+        } elseif (substr(strtoupper($column->dbType), 0, 4) == 'ENUM') {
+            return "array(
+                    'class' => 'editable.EditableColumn',
+                    'name' => '{$column->name}',
+                    'value' => '\$data->getEnumLabel(\'{$column->name}\',\$data->{$column->name},\'Click to edit\')',
+                    'editable' => array(
+                        'type' => 'select',
+                        'url' => \$this->createUrl('/{$controller}/editableSaver'),
+                        'source' => \$model->getEnumFieldLabels('{$column->name}'),
+                        //'placement' => 'right',
+                    ),
+                   'filter' => \$model->getEnumFieldLabels('{$column->name}'),
+                )";
+            
         } elseif (strtoupper($column->dbType) == 'TEXT') {
-            return "#'{$column->name}'"; // comment text fields
+            return "array(
+                'class' => 'editable.EditableColumn',
+                'name' => '{$column->name}',
+                'editable' => array(
+                    'type' => 'textarea',
+                    'url' => \$this->createUrl('/{$controller}/editableSaver'),
+                    //'placement' => 'right',
+                )
+            )";
+            
+        } elseif(strtoupper($column->dbType) == 'DATE') {
+            return "array(
+                'class' => 'editable.EditableColumn',
+                'name' => '{$column->name}',
+                'editable' => array(
+                    'type' => 'date',
+                    'url' => \$this->createUrl('/{$controller}/editableSaver'),
+                    //'placement' => 'right',
+                )
+            )";
         } else {
             return "array(
                 'class' => 'editable.EditableColumn',

@@ -49,7 +49,7 @@ class GtcRelationProvider extends GtcCodeProvider
         $createButton = ($relationInfo[0] == 'CManyManyRelation') ?
             "" :
             "array(
-                'icon' => 'glyphicon-plus',
+                'icon' => 'icon-plus',
                 'url' => array(
                     '/{$controller}/create',
                     '{$relationInfo[1]}' => array('{$relationInfo[2]}' => \$model->{\$model->tableSchema->primaryKey})
@@ -62,13 +62,13 @@ class GtcRelationProvider extends GtcCodeProvider
         echo '<h3>';
             echo Yii::t('{$this->codeModel->messageCatalog}','relation." . ucfirst($relationName) . "').' ';
             \$this->widget(
-                '\TbButtonGroup',
+                'bootstrap.widgets.TbButtonGroup',
                 array(
                     'type' => '', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
                     'size' => 'mini',
                     'buttons' => array(
                         array(
-                            'icon' => 'glyphicon-list-alt',
+                            'icon' => 'icon-list-alt',
                             'url' =>  array('/{$controller}/admin','{$relationInfo[1]}' => array('{$relationInfo[2]}' => \$model->{\$model->tableSchema->primaryKey}))
                         ),
                         {$createButton}

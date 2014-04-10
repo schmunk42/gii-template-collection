@@ -15,12 +15,12 @@ array(
 ),
 array(
 'allow',
-'actions' => array('create', 'update'),
+'actions' => array('create', 'update','ajaxCreate'),
 'users' => array('@'),
 ),
 array(
 'allow',
-'actions' => array('admin', 'delete'),
+'actions' => array('admin', 'delete','ajaxCreate'),
 'users' => array('admin'),
 ),
 array(

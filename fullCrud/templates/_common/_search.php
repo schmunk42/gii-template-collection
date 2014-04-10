@@ -2,7 +2,7 @@
 
     <?=
     "<?php
-    \$form = \$this->beginWidget('\TbActiveForm', array(
+    \$form = \$this->beginWidget('TbActiveForm', array(
         'action' => Yii::app()->createUrl(\$this->route),
         'method' => 'get',
     )); ?>";

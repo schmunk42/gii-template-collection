@@ -39,10 +39,6 @@ foreach ($relations as $key => $relation):
     
     ?>
 
-<h2><?="
-    <?php echo Yii::t('{$this->messageCatalog}', '{$this->pluralize($rmodelRefFiels)}'); ?>
-";?></h2> 
-
 <?= "<?php Yii::beginProfile('{$rmodelRefFiels}.view.grid'); ?>"; ?>
 
 <?php
@@ -75,6 +71,33 @@ if ($count >= $maxColumns+1) {
 }
 
 ?>
+<h3><?="
+    <?php 
+    echo Yii::t('{$this->messageCatalog}', '{$this->class2name($rmodelClassName)}') . ' '; 
+    \$this->widget(
+        'bootstrap.widgets.TbButton',
+        array(
+            'buttonType' => 'ajaxButton', 
+            'type' => 'primary', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
+            'size' => 'mini',
+            'icon' => 'icon-plus',
+            'url' => array(
+                '/{$controller}/ajaxCreate',
+                'field' => '{$rmodelRefFiels}',
+                'value' => \$modelMain->primaryKey,
+            ),
+            'ajaxOptions' => array(
+                'success' => 'function(html) { 
+                    $.fn.yiiGridView.update(\'{$this->class2id($rmodelClassName)}-grid\');
+                    }',
+               ),
+            'htmlOptions' => array(
+                'title' => Yii::t('{$this->messageCatalogStandard}', 'Add new record'),
+            ),                 
+        )
+    );        
+    ?>
+";?></h3> 
 <?=" 
 <?php 
 \$model = new {$rmodelClassName}();
@@ -82,26 +105,26 @@ if ($count >= $maxColumns+1) {
 
 // render grid view
 
-\$this->widget('\TbGridView',
+\$this->widget('TbGridView',
     array(
         'id' => '{$this->class2id($rmodelClassName)}-grid',
         'dataProvider' => \$model->search(),
         #'responsiveTable' => true,
         'template' => '{items}',
         'pager' => array(
-            'class' => '\TbPager',
+            'class' => 'TbPager',
             'displayFirstAndLast' => true,
         ),
         'columns' => array(
 {$columns}
             array(
-                'class' => '\TbButtonColumn',
+                'class' => 'TbButtonColumn',
                 'buttons' => array(
                     'view' => array('visible' => 'FALSE'),
                     'update' => array('visible' => 'FALSE'),
                     'delete' => array('visible' => 'Yii::app()->user->checkAccess(\"{$this->getRightsPrefix()}.Delete{$key}\")'),
                 ),
-                'deleteButtonUrl' => 'Yii::app()->controller->createUrl(\"delete\", array(\"{$relatedModel->tableSchema->primaryKey}\" => \$data->{$relatedModel->tableSchema->primaryKey}))',
+                'deleteButtonUrl' => 'Yii::app()->controller->createUrl(\"{$controller}/delete\", array(\"{$relatedModel->tableSchema->primaryKey}\" => \$data->{$relatedModel->tableSchema->primaryKey}))',
             ),
         )
     )

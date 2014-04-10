@@ -25,7 +25,7 @@ Yii::app()->clientScript->registerScript('search', \"
 "
 ?>
 
-<?= '<?php $this->widget("\TbBreadcrumb", array("links" => $this->breadcrumbs)) ?>'; ?>
+<?= '<?php $this->widget("TbBreadcrumbs", array("links" => $this->breadcrumbs)) ?>'; ?>
 
     <h1><?=
         // headline
@@ -75,7 +75,7 @@ if ($comment === true) {
 <?=
 // render grid view
 "<?php
-\$this->widget('\TbGridView',
+\$this->widget('TbGridView',
     array(
         'id' => '{$this->class2id($this->modelClass)}-grid',
         'dataProvider' => \$model->search(),
@@ -83,7 +83,7 @@ if ($comment === true) {
         #'responsiveTable' => true,
         'template' => '{summary}{pager}{items}{pager}',
         'pager' => array(
-            'class' => '\TbPager',
+            'class' => 'TbPager',
             'displayFirstAndLast' => true,
         ),
         'columns' => array(
@@ -95,7 +95,7 @@ if ($comment === true) {
             ),
 {$columns}
             array(
-                'class' => '\TbButtonColumn',
+                'class' => 'TbButtonColumn',
                 'buttons' => array(
                     'view' => array('visible' => 'Yii::app()->user->checkAccess(\"{$this->getRightsPrefix()}.View\")'),
                     'update' => array('visible' => 'Yii::app()->user->checkAccess(\"{$this->getRightsPrefix()}.Update\")'),

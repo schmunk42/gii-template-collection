@@ -12,12 +12,12 @@ public function accessRules()
      return array(
         array(
             'allow',
-            'actions' => array('create', 'admin', 'view', 'update', 'editableSaver', 'delete'),
+            'actions' => array('create', 'admin', 'view', 'update', 'editableSaver', 'delete','ajaxCreate'),
             'roles' => array('{$rightsPrefix}.*'),
         ),
         array(
             'allow',
-            'actions' => array('create'),
+            'actions' => array('create','ajaxCreate'),
             'roles' => array('{$rightsPrefix}.Create'),
         ),
         array(
