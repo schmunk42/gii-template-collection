@@ -50,7 +50,6 @@ class EditableProvider extends GtcCodeProvider
             return "array(
                 'class' => 'editable.EditableColumn',
                 'name' => '{$column->name}',
-                'value' => 'CHtml::value(\$data, \'{$relname}." . $suggestIdentifier . "\',\'Click to edit\')',                    
                 'editable' => array(
                     'type' => 'select',
                     'url' => \$this->createUrl('/{$controller}/editableSaver'),
@@ -63,7 +62,6 @@ class EditableProvider extends GtcCodeProvider
             return "array(
                     'class' => 'editable.EditableColumn',
                     'name' => '{$column->name}',
-                    'value' => '\$data->getEnumLabel(\'{$column->name}\',\$data->{$column->name},\'Click to edit\')',
                     'editable' => array(
                         'type' => 'select',
                         'url' => \$this->createUrl('/{$controller}/editableSaver'),
@@ -94,8 +92,19 @@ class EditableProvider extends GtcCodeProvider
                     //'placement' => 'right',
                 )
             )";
+        } elseif(strtoupper($column->dbType) == 'DATETIME') {
+            return "array(
+                'class' => 'editable.EditableColumn',
+                'name' => '{$column->name}',
+                'editable' => array(
+                    'type' => 'datetime',
+                    'url' => \$this->createUrl('/{$controller}/editableSaver'),
+                    //'placement' => 'right',
+                )
+            )";
         } else {
             return "array(
+                //{$column->dbType}
                 'class' => 'editable.EditableColumn',
                 'name' => '{$column->name}',
                 'editable' => array(
