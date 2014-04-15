@@ -60,7 +60,7 @@ foreach ($relations as $key => $relation):
 
 </ul>
 
-<?
+<?php
 endforeach;
 
 endif;
