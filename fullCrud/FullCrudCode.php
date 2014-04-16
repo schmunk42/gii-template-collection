@@ -37,7 +37,7 @@ class FullCrudCode extends CrudCode
     /*
      * custom providers, topmost has highest priority, include GtcPartialViewProvider as first if needed
      */
-    public $providers = array();
+    public $providers = array('empty');
 
     private $_defaultProviders = array(
         "gtc.fullCrud.providers.EnumProvider",
@@ -95,6 +95,7 @@ class FullCrudCode extends CrudCode
         $provider            = new GtcCodeProviderQueue();
         $provider->providers = CMap::mergeArray($this->providers,$this->_defaultProviders);
         $provider->codeModel = $this;
+        Yii::log("Provider queue:".CJSON::encode($this->providers));
         return $provider;
     }
 
