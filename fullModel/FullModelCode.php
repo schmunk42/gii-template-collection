@@ -5,8 +5,14 @@ Yii::import('ext.gtc.components.*');
 class FullModelCode extends ModelCode
 {
     public $tables;
-    public $baseClass = 'CActiveRecord';
-    public $messageCatalog = 'model';
+    public $baseClass       = 'CActiveRecord';
+    public $messageCatalog  = 'model';
+    /**
+     * set param if is true ActiveRecord will be generated again
+     * if false only the BasActiveRecord are generated
+     * @var bool
+     */
+    public $generateModel   = true;
 
     public function init()
     {
@@ -23,6 +29,7 @@ class FullModelCode extends ModelCode
         return array_merge(
             parent::rules(),
             array(
+                 array('generateModel','boolean'),
                  array(
                      'messageCatalog',
                      'match',
@@ -83,6 +90,10 @@ class FullModelCode extends ModelCode
                     $this->render($templatePath . '/basemodel.php', $params)
                 );
             }
+        }
+
+        if(!$this->generateModel) {
+            unset($this->files[0]);
         }
     }
 
