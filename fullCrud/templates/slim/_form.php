@@ -79,7 +79,7 @@
             <!--<h2>
                 <?= "<?php echo Yii::t('" . $this->messageCatalogStandard . "','Relations')?>"; ?>
             </h2>-->
-            <? foreach ($this->getRelations() as $key => $relation) : ?>
+            <?php foreach ($this->getRelations() as $key => $relation) : ?>
                 <?php if ($relation[0] == "CBelongsToRelation") {
                     continue;
                 } ?>
@@ -92,7 +92,7 @@
                 <?php {$this->provider()->generateRelationField($this->modelClass, $key, $relation)} ?>
                 "
                 ?>
-            <? endforeach; ?>
+            <?php endforeach; ?>
             </div>
         </div>
         <!-- sub inputs -->
