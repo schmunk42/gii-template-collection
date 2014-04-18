@@ -85,7 +85,7 @@ if ($count >= $maxColumns+1) {
         \$button_type = 'ajaxButton';
         \$no_ajax = 0;
         \$ajaxOptions = array(
-                'success' => 'function(html) {\$.fn.yiiGridView.update(\'ppcn-person-contact-grid\');}'
+                'success' => 'function(html) {\$.fn.yiiGridView.update(\'{$this->class2id($rmodelClassName)}-grid\');}'
             );        
     }
     \$this->widget(
@@ -99,6 +99,7 @@ if ($count >= $maxColumns+1) {
                 '/{$controller}/ajaxCreate',
                 'field' => '{$rmodelRefFiels}',
                 'value' => \$modelMain->primaryKey,
+                'no_ajax' => \$no_ajax,
             ),
             'ajaxOptions' => \$ajaxOptions,
             'htmlOptions' => array(

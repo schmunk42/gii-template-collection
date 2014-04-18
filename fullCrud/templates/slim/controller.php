@@ -117,7 +117,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
         $es->update();
     }
 
-    public function actionAjaxCreate($field, $value) 
+    public function actionAjaxCreate($field, $value, $no_ajax = 0) 
     {
         $model = new <?php echo $this->modelClass; ?>;
         $model->$field = $value;
