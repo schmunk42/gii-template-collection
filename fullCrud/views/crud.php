@@ -143,8 +143,9 @@
             $model,
             'formLayout',
             array(
-                 'one-column'  => 'One Column',
-                 'two-columns' => 'Two Columns (span7, span5)',
+                 'span12-span12' => 'One Column',
+                 'span7-span5' => 'Two Columns (span7, span5)',
+                 'span5-span7' => 'Two Columns (span5, span7)',
             )
         );   ?>
         <div class="tooltip">

@@ -123,6 +123,9 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
         $model->$field = $value;
         try {
             if ($model->save()) {
+                if($no_ajax){
+                    $this->redirect(Yii::app()->request->urlReferrer);
+                }            
                 return TRUE;
             }
         } catch (Exception $e) {

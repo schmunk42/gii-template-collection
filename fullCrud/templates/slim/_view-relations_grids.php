@@ -74,10 +74,24 @@ if ($count >= $maxColumns+1) {
 <h3><?="
     <?php 
     echo Yii::t('{$this->messageCatalog}', '{$this->class2name($rmodelClassName)}') . ' '; 
+        
+    if (empty(\$modelMain->{$key})) {
+        // if no records, reload page
+        \$button_type = 'Button';
+        \$no_ajax = 1;
+        \$ajaxOptions = array();
+    } else {
+        // ajax button
+        \$button_type = 'ajaxButton';
+        \$no_ajax = 0;
+        \$ajaxOptions = array(
+                'success' => 'function(html) {\$.fn.yiiGridView.update(\'ppcn-person-contact-grid\');}'
+            );        
+    }
     \$this->widget(
         'bootstrap.widgets.TbButton',
         array(
-            'buttonType' => 'ajaxButton', 
+            'buttonType' => \$button_type, 
             'type' => 'primary', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
             'size' => 'mini',
             'icon' => 'icon-plus',
@@ -86,13 +100,10 @@ if ($count >= $maxColumns+1) {
                 'field' => '{$rmodelRefFiels}',
                 'value' => \$modelMain->primaryKey,
             ),
-            'ajaxOptions' => array(
-                'success' => 'function(html) { 
-                    $.fn.yiiGridView.update(\'{$this->class2id($rmodelClassName)}-grid\');
-                    }',
-               ),
+            'ajaxOptions' => \$ajaxOptions,
             'htmlOptions' => array(
                 'title' => Yii::t('{$this->messageCatalogStandard}', 'Add new record'),
+                'data-toggle' => 'tooltip',
             ),                 
         )
     );        
@@ -125,6 +136,7 @@ if ($count >= $maxColumns+1) {
                     'delete' => array('visible' => 'Yii::app()->user->checkAccess(\"{$this->getRightsPrefix()}.Delete{$key}\")'),
                 ),
                 'deleteButtonUrl' => 'Yii::app()->controller->createUrl(\"{$controller}/delete\", array(\"{$relatedModel->tableSchema->primaryKey}\" => \$data->{$relatedModel->tableSchema->primaryKey}))',
+                'deleteButtonOptions'=>array('data-toggle'=>'tooltip'),                    
             ),
         )
     )
