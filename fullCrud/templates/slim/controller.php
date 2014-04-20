@@ -127,7 +127,9 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
                     $this->redirect(Yii::app()->request->urlReferrer);
                 }            
                 return TRUE;
-            }
+            }else{
+                return var_export($model->getErrors());
+            }            
         } catch (Exception $e) {
             throw new CHttpException(500, $e->getMessage());
         }

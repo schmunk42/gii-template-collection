@@ -101,28 +101,23 @@
 
     <p class="alert">
         <?=
-        "<?php echo Yii::t('{$this->messageCatalogStandard}','Fields with <span class=\"required\">*</span> are required.');?>";
+        "
+        <?php 
+            echo Yii::t('{$this->messageCatalogStandard}','Fields with <span class=\"required\">*</span> are required.');
+                
+            /**
+             * @todo: We need the buttons inside the form, when a user hits <enter>
+             */                
+            echo ' '.CHtml::submitButton(Yii::t('{$this->messageCatalogStandard}', 'Save'), array(
+                'class' => 'btn btn-primary',
+                'style'=>'visibility: hidden;'                
+            ));
+                
+        ?>";
         ?>
 
     </p>
 
-    <!-- TODO: We need the buttons inside the form, when a user hits <enter> -->
-    <div class="form-actions" style="visibility: hidden; height: 1px">
-        <?=
-        "
-        <?php
-            echo CHtml::Button(
-            Yii::t('{$this->messageCatalogStandard}', 'Cancel'), array(
-                'submit' => (isset(\$_GET['returnUrl']))?\$_GET['returnUrl']:array('{$this->controllerID}/admin'),
-                'class' => 'btn'
-            ));
-            echo ' '.CHtml::submitButton(Yii::t('{$this->messageCatalogStandard}', 'Save'), array(
-                'class' => 'btn btn-primary'
-            ));
-        ?>";
-        ?>
-
-    </div>
 
     <?= "<?php \$this->endWidget() ?>"; ?>
 
