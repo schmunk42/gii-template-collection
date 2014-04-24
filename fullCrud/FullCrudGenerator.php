@@ -36,6 +36,11 @@ class FullCrudGenerator extends CCodeGenerator
     protected function getModels()
     {
         $models    = array();
+
+        if (Yii::app() instanceof CConsoleApplication) {
+            return $models;
+        }
+
         $aliases   = array();
         $aliases[] = 'application.models';
         foreach (Yii::app()->getModules() as $moduleName => $config) {
