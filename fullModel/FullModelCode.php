@@ -87,7 +87,7 @@ class FullModelCode extends ModelCode
             }
         }
 
-        if(!$this->generateModel) {
+        if($this->skipGenerateModel) {
             unset($this->files[0]);
         }
     }

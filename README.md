@@ -86,7 +86,24 @@ Setup
 	),
     ```
 
+3. For Debugging Information plz add the log under yours config console
 
+    ````
+    'components' => array(
+        'log'      => array(
+            'class'  => 'CLogRouter',
+            'routes' => array(
+                // file logging
+                array(
+                    'class'   => 'CFileLogRoute',
+                    'logFile' => 'console.log',
+                    'levels'  => 'error, warning, info, trace',
+                    'enabled' => true,
+                ),
+            ),
+        ),
+    ),
+    ````
 Usage
 -----
 
