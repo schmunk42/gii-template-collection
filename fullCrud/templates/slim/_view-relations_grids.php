@@ -121,12 +121,8 @@ if ($count >= $maxColumns+1) {
     array(
         'id' => '{$this->class2id($rmodelClassName)}-grid',
         'dataProvider' => \$model->search(),
-        #'responsiveTable' => true,
         'template' => '{items}',
-        'pager' => array(
-            'class' => 'TbPager',
-            'displayFirstAndLast' => true,
-        ),
+        'htmlOptions' => array('class'=>'grid-view-no-details'),
         'columns' => array(
 {$columns}
             array(
