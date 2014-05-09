@@ -46,7 +46,8 @@
             ?>
             <div class="btn-group">
                 <?=
-                "<?php \$this->widget('bootstrap.widgets.TbButtonGroup', array(
+                "<?php  if (!Yii::app()->user->checkAccess('" . $this->getRightsPrefix() . ".SimpleUi') || Yii::app()->user->checkAccess('Admin')) {
+                        \$this->widget('bootstrap.widgets.TbButtonGroup', array(
                        'size'=>'large',
                        'buttons' => array(
                                array(
@@ -79,7 +80,9 @@
           ),
         ),
     ));
+}
 ?>";
+
                 ?>
             </div>
 
@@ -93,7 +96,7 @@
                            "icon"=>"icon-list-alt",
                            "size"=>"large",
                            "url"=>array("admin"),
-                           "visible"=>$showManageButton && (Yii::app()->user->checkAccess("' . $this->getRightsPrefix() . '.*") || Yii::app()->user->checkAccess("' . $this->getRightsPrefix() . '.View"))
+                           "visible"=>$showManageButton && (Yii::app()->user->checkAccess("' . $this->getRightsPrefix() . '.*") || Yii::app()->user->checkAccess("' . $this->getRightsPrefix() . '.View")) && (!Yii::app()->user->checkAccess("' . $this->getRightsPrefix() . '.SimpleUi") || Yii::app()->user->checkAccess("Admin"))
                         ));
          ?>'?>
         </div>
