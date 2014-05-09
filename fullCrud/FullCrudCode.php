@@ -37,7 +37,7 @@ class FullCrudCode extends CrudCode
     /*
      * custom providers, topmost has highest priority, include GtcPartialViewProvider as first if needed
      */
-    public $providers = array('empty');
+    public $providers = array();
 
     private $_defaultProviders = array(
         "gtc.fullCrud.providers.EnumProvider",

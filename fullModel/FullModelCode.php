@@ -86,7 +86,7 @@ class FullModelCode extends ModelCode
                 );
             }
         }
-
+        // removing model class for list of files to be generared, if generateModel is set to false
         if(!$this->generateModel) {
             unset($this->files[0]);
         }
