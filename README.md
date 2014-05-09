@@ -133,6 +133,18 @@ Usage
 * click `preview`
 * click `generate`
 
+#### AuthItems
+
+Controller actions and UI buttons follow these `checkAccess` rules:
+
+- Controller.*
+- Controller.View
+- Controller.Delete
+- ...
+
+From `0.13.0` on the a `Controller.SimpleUi` item was added by default, which hides UI elements, when this item is assigned to the current user.
+> Note: An admin (superuser) always sees the full UI.
+
 #### Template slim
 
 Requirements: `https://github.com/clevertech/yiibooster`, `schmunk42/yii-relation`
