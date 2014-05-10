@@ -66,11 +66,11 @@ class FullCrudGenerator extends CCodeGenerator
                             $models[$classname] = array();
                         }
                     } catch (ErrorException $e) {
-                        continue;
+                        break;
                     } catch (CDbException $e) {
-                        continue;
+                        break;
                     } catch (Exception $e) {
-                        continue;
+                        break;
                     }
                 }
             }
