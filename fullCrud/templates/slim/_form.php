@@ -1,5 +1,5 @@
 <div class="crud-form">
-
+    <?= "<?php {$this->provider()->generateHtml($this->modelClass, null, 'form-begin')} ?>" ?>
     <?=
     "
     <?php
@@ -120,5 +120,5 @@
 
 
     <?= "<?php \$this->endWidget() ?>"; ?>
-
+    <?= "<?php {$this->provider()->generateHtml($this->modelClass, null, 'form-end')} ?>" ?>
 </div> <!-- form -->
