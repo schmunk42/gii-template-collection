@@ -24,15 +24,6 @@
 
     <div class="row">
         <div class="<?= $left_span ?>">
-            <h2>
-                <?= "<?php echo Yii::t('{$this->messageCatalogStandard}','Data')?>" ?>
-                <small>
-                    #<?= "<?php echo \$model->{$this->tableSchema->primaryKey} ?>" ?>
-                </small>
-
-            </h2>
-
-
             <div class="form-horizontal">
 
                 <?php foreach ($this->tableSchema->columns as $column): ?>
@@ -75,54 +66,27 @@
     <div class="row">
         <?php endif; ?>
 
-        <div class="<?= $right_span ?>"><!-- sub inputs -->
-            <div class="well">
-            <!--<h2>
-                <?= "<?php echo Yii::t('" . $this->messageCatalogStandard . "','Relations')?>"; ?>
-            </h2>-->
-            <?php foreach ($this->getRelations() as $key => $relation) : ?>
-                <?php if ($relation[0] == "CBelongsToRelation") {
-                    continue;
-                } ?>
-                <?=
-                // relations
-                "
-                <h3>
-                    <?php echo Yii::t('{$this->messageCatalog}', 'relation." . ucfirst($key) . "'); ?>
-                </h3>
-                <?php {$this->provider()->generateRelationField($this->modelClass, $key, $relation)} ?>
-                "
-                ?>
-            <?php endforeach; ?>
-            </div>
-        </div>
-        <!-- sub inputs -->
     </div>
 
     <p class="alert">
         <?=
-        "<?php echo Yii::t('{$this->messageCatalogStandard}','Fields with <span class=\"required\">*</span> are required.');?>";
+        "
+        <?php 
+            echo Yii::t('{$this->messageCatalogStandard}','Fields with <span class=\"required\">*</span> are required.');
+                
+            /**
+             * @todo: We need the buttons inside the form, when a user hits <enter>
+             */                
+            echo ' '.CHtml::submitButton(Yii::t('{$this->messageCatalogStandard}', 'Save'), array(
+                'class' => 'btn btn-primary',
+                'style'=>'visibility: hidden;'                
+            ));
+                
+        ?>";
         ?>
 
     </p>
 
-    <!-- TODO: We need the buttons inside the form, when a user hits <enter> -->
-    <div class="form-actions" style="visibility: hidden; height: 1px">
-        <?=
-        "
-        <?php 
-            echo CHtml::Button(
-            Yii::t('{$this->messageCatalogStandard}', 'Cancel'), array(
-                'submit' => (isset(\$_GET['returnUrl']))?\$_GET['returnUrl']:array('{$this->controllerID}/admin'),
-                'class' => 'btn'
-            ));
-            echo ' '.CHtml::submitButton(Yii::t('{$this->messageCatalogStandard}', 'Save'), array(
-                'class' => 'btn btn-primary'
-            ));
-        ?>";
-        ?>
-
-    </div>
 
     <?= "<?php \$this->endWidget() ?>"; ?>
     <?= "<?php {$this->provider()->generateHtml($this->modelClass, null, 'form-end')} ?>" ?>

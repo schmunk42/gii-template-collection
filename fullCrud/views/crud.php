@@ -108,6 +108,20 @@
     <?php echo $form->error($model, 'validation'); ?>
 </div>
 
+<h3>Slim Editable and Slim Simple Code Template specific</h3>
+<fieldset>
+
+    <div class="row">
+        <?php
+        echo $form->labelEx($model, 'icon');
+        echo $form->textField($model,'icon',array('size' => 30));
+        ?>
+        <div class="tooltip">
+            Common icon in header for admin, create, view
+        </div>
+        <?php echo $form->error($model, 'icon'); ?>
+    </div>
+</fieldset>
 <h3>Slim Code Template specific</h3>
 
 <fieldset>

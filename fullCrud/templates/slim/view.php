@@ -75,9 +75,6 @@ list($left_span,$right_span) = explode('-',$this->formLayout)
         <div class="well">
             <?= "<?php \$this->renderPartial('_view-relations',array('model' => \$model)); ?>"; ?>
         </div>
-        <div class="well">
-            <?= "<?php \$this->renderPartial('_view-relations_grids',array('modelMain' => \$model)); ?>"; ?>
-        </div>
     </div>
 </div>
 

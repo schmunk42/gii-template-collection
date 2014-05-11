@@ -38,6 +38,9 @@ class FullCrudCode extends CrudCode
      * custom providers, topmost has highest priority, include GtcPartialViewProvider as first if needed
      */
     public $providers = array();
+    
+    //for editable and simple crud icon
+    public $icon   = "";
 
     private $_defaultProviders = array(
         "gtc.fullCrud.providers.EditableProvider",
@@ -64,7 +67,7 @@ class FullCrudCode extends CrudCode
             parent::rules(),
             array(
                  array('validation', 'required'),
-                 array('authTemplateSlim, authTemplateHybrid, providers, authTemplate, formEnctype, formLayout, formOrientation, textEditor, internalModels, backendViewPathAlias, frontendViewPathAlias, messageCatalog,messageCatalogStandard', 'safe'),
+                 array('authTemplateSlim, authTemplateHybrid, providers, authTemplate, formEnctype, formLayout, formOrientation, textEditor, internalModels, backendViewPathAlias, frontendViewPathAlias, messageCatalog,messageCatalogStandard,icon', 'safe'),
             )
         );
     }
