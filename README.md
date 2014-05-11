@@ -151,6 +151,10 @@ From `0.13.0` on the a `Controller.SimpleUi` item was added by default, which hi
 
 Requirements: `https://github.com/clevertech/yiibooster`, `schmunk42/yii-relation`
 
+#### Template slim editable
+
+Requirements: `https://github.com/clevertech/yiibooster`, `schmunk42/yii-relation`, `x-editable-yii dev`
+
 #### Template hybrid
 
 An enhanced hybrid between the default/slim templates and the bootstrap crud generator.
