@@ -108,7 +108,7 @@
     <?php echo $form->error($model, 'validation'); ?>
 </div>
 
-<h3>Slim Editable and Slim Simple Code Template specific</h3>
+<h3>Slim Editable Code Template specific</h3>
 <fieldset>
 
     <div class="row">
@@ -121,6 +121,7 @@
         </div>
         <?php echo $form->error($model, 'icon'); ?>
     </div>
+    
 </fieldset>
 <h3>Slim Code Template specific</h3>
 

@@ -43,7 +43,6 @@ class FullCrudCode extends CrudCode
     public $icon   = "";
 
     private $_defaultProviders = array(
-        "gtc.fullCrud.providers.EditableProvider",
         "gtc.fullCrud.providers.EnumProvider",
         "gtc.fullCrud.providers.GtcIdentifierProvider",
         "gtc.fullCrud.providers.GtcPartialViewProvider", // highest customization level

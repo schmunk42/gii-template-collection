@@ -1,4 +1,8 @@
 <?php
+
+//add editable provider
+$this->providers = array('gtc.fullCrud.providers.EditableProvider');
+
 $relations = CActiveRecord::model(Yii::import($this->model))->relations();
 if (!empty($relations)) :
     ?>

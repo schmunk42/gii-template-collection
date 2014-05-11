@@ -1,4 +1,6 @@
 <?php
+//add editable provider
+$this->providers = array('gtc.fullCrud.providers.EditableProvider');
 $label = $this->pluralize($this->class2name($this->modelClass));
 ?><?=
 "<?php

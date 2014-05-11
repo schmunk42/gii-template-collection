@@ -1,3 +1,7 @@
+<?php 
+//add editable provider
+$this->providers = array('gtc.fullCrud.providers.EditableProvider');
+?>
 <?=
 "<?php
     \$this->setPageTitle(
