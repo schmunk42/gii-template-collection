@@ -27,26 +27,4 @@ class EnumProvider extends GtcCodeProvider {
         return "echo CHtml::activeDropDownList(\$model, '$column->name', \$model->getEnumFieldLabels('$column->name'))";
     }
 
-    public function generateColumn($modelClass, $column, $view = false) // TODO: remove view?
-    {
-        if (substr(strtoupper($column->dbType), 0, 4) != 'ENUM') {
-            return NULL;
-        }
-
-        return "array(
-                'class' => 'editable.EditableColumn',
-                'name' => '{$column->name}',
-                'value' => '\$data->getEnumLabel(\'{$column->name}\',\$data->{$column->name})',
-                'editable' => array(
-                    'type' => 'select',
-                    'url' => \$this->createUrl('/{$this->codeModel->controller}/editableSaver'),
-                    'source' => \$model->getEnumFieldLabels('{$column->name}'),
-                    //'placement' => 'right',
-                ),
-               'filter' => \$model->getEnumFieldLabels('{$column->name}'),
-            )";
-
-    }
-
-
 }

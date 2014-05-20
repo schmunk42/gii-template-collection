@@ -29,11 +29,13 @@
 
 
 <?= '<?php $this->renderPartial("_toolbar", array("model"=>$model)); ?>'; ?>
-
+<?php
+list($left_span,$right_span) = explode('-',$this->formLayout)   
+?>
 
 
 <div class="row">
-    <div class="<?= ($this->formLayout == 'two-columns') ? 'span7' : 'span12' ?>">
+    <div class="<?= $left_span ?>">
         <h2>
             <?= "<?php echo Yii::t('" . $this->messageCatalogStandard . "','Data')?>"; ?>
             <small>
@@ -64,12 +66,12 @@
 
     </div>
 
-<?php if ($this->formLayout == 'one-column'): ?>
+<?php if ($this->formLayout == 'span12-span12'): ?>
     </div>
     <div class="row">
 <?php endif; ?>
 
-    <div class="<?= ($this->formLayout == 'two-columns') ? 'span5' : 'span12' ?>">
+    <div class="<?= $right_span ?>">
         <div class="well">
             <?= "<?php \$this->renderPartial('_view-relations',array('model' => \$model)); ?>"; ?>
         </div>

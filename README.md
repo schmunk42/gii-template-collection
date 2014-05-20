@@ -33,6 +33,7 @@ Features
   * slim
   * hybrid
   * legacy (*original gtc*)
+  * slim_editable
 
 **NOTE! Relation widgets moved to https://github.com/schmunk42/yii-relation**
 
@@ -40,6 +41,7 @@ Requirements
 ------------
 
 * PHP 5.3 and `short_open_tags = On`
+
 
 ### Notes
 
@@ -126,7 +128,7 @@ Usage
 ### Full CRUD
 
 > Note: Generated templates require `clevertech/yiibooster >=1.1.1`
-
+> Note: slim_editable require `vitalets/x-editable-yii dev`
 * open Gii
 * select `FullCrud`
 * enter model class
@@ -149,11 +151,15 @@ From `0.13.0` on the a `Controller.SimpleUi` item was added by default, which hi
 
 Requirements: `https://github.com/clevertech/yiibooster`, `schmunk42/yii-relation`
 
+#### Template slim editable
+
+Requirements: `https://github.com/clevertech/yiibooster`, `schmunk42/yii-relation`, `x-editable-yii dev`
+
 #### Template hybrid
 
 An enhanced hybrid between the default/slim templates and the bootstrap crud generator.
 
-Requires `x-editable-yii` and `echosen`.
+Requires `x-editable-yii dev` and `echosen`.
 
 Development
 -----------
