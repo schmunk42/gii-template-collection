@@ -109,7 +109,7 @@ list($left_span,$right_span) = explode('-',$this->formLayout)
 
     <div class="<?= $right_span ?>">
         <div class="well">
-            <?= "<?php \$this->renderPartial('_view-relations_grids',array('modelMain' => \$model)); ?>"; ?>
+            <?= "<?php \$this->renderPartial('_view-relations_grids',array('modelMain' => \$model, 'ajax' => false,)); ?>"; ?>
         </div>
     </div>
 </div>

@@ -5,15 +5,16 @@ $this->providers = array('gtc.fullCrud.providers.EditableProvider');
 
 $relations = CActiveRecord::model(Yii::import($this->model))->relations();
 if (!empty($relations)) :
-    ?>
 
-<!--
-<h2>
-    <?= "<?php echo Yii::t('{$this->messageCatalogStandard}', 'Relations') ?>"; ?>
-</h2>
--->
+echo "<?php
+if(!\$ajax){
+    Yii::app()->clientScript->registerCss('rel_grid',' 
+            .grid-view {padding-top:0px;margin-top: -35px;}
+            h3.rel_grid{padding-left: 40px;}
+            ');     
+}
+?>";
 
-<?php
 foreach ($relations as $key => $relation):
 
     $controller     = $this->resolveController($relation);
@@ -43,7 +44,10 @@ foreach ($relations as $key => $relation):
     
     ?>
 
-<?= "<?php Yii::beginProfile('{$rmodelRefFiels}.view.grid'); ?>"; ?>
+<?= "<?php
+if(!\$ajax || \$ajax == '{$this->class2id($rmodelClassName)}-grid'){
+    Yii::beginProfile('{$rmodelRefFiels}.view.grid');
+?>"; ?>
 
 <?php
 // prepare (seven) columns
@@ -75,27 +79,15 @@ if ($count >= $maxColumns+1) {
 }
 
 ?>
-<h3><?="
-    <?php 
-    echo Yii::t('{$this->messageCatalog}', '{$this->class2name($rmodelClassName)}') . ' '; 
+<?="
+<h3 class=\"rel_grid\">    
+    <?=Yii::t('{$this->messageCatalog}', '{$this->class2name($rmodelClassName)}')?>
+    <?php    
         
-    if (empty(\$modelMain->{$key})) {
-        // if no records, reload page
-        \$button_type = 'Button';
-        \$no_ajax = 1;
-        \$ajaxOptions = array();
-    } else {
-        // ajax button
-        \$button_type = 'ajaxButton';
-        \$no_ajax = 0;
-        \$ajaxOptions = array(
-                'success' => 'function(html) {\$.fn.yiiGridView.update(\'{$this->class2id($rmodelClassName)}-grid\');}'
-            );        
-    }
     \$this->widget(
         'bootstrap.widgets.TbButton',
         array(
-            'buttonType' => \$button_type, 
+            'buttonType' => 'ajaxButton', 
             'type' => 'primary', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
             'size' => 'mini',
             'icon' => 'icon-plus',
@@ -103,9 +95,11 @@ if ($count >= $maxColumns+1) {
                 '/{$controller}/ajaxCreate',
                 'field' => '{$rmodelRefFiels}',
                 'value' => \$modelMain->primaryKey,
-                'no_ajax' => \$no_ajax,
+                'ajax' => '{$this->class2id($rmodelClassName)}-grid',
             ),
-            'ajaxOptions' => \$ajaxOptions,
+            'ajaxOptions' => array(
+                    'success' => 'function(html) {\$.fn.yiiGridView.update(\'{$this->class2id($rmodelClassName)}-grid\');}'
+                    ),
             'htmlOptions' => array(
                 'title' => Yii::t('{$this->messageCatalogStandard}', 'Add new record'),
                 'data-toggle' => 'tooltip',
@@ -116,37 +110,48 @@ if ($count >= $maxColumns+1) {
 ";?></h3> 
 <?=" 
 <?php 
-\$model = new {$rmodelClassName}();
-\$model->{$rmodelRefFiels} = \$modelMain->primaryKey;
 
-// render grid view
+    if (empty(\$modelMain->{$key})) {
+        \$model = new {$rmodelClassName};
+        \$model->{$rmodelRefFiels} = \$modelMain->primaryKey;
+        \$model->save();
+        unset(\$model);
+    } 
+    
+    \$model = new {$rmodelClassName}();
+    \$model->{$rmodelRefFiels} = \$modelMain->primaryKey;
 
-\$this->widget('TbGridView',
-    array(
-        'id' => '{$this->class2id($rmodelClassName)}-grid',
-        'dataProvider' => \$model->search(),
-        'template' => '{items}',
-        'htmlOptions' => array('class'=>'grid-view-no-details'),
-        'columns' => array(
-{$columns}
-            array(
-                'class' => 'TbButtonColumn',
-                'buttons' => array(
-                    'view' => array('visible' => 'FALSE'),
-                    'update' => array('visible' => 'FALSE'),
-                    'delete' => array('visible' => 'Yii::app()->user->checkAccess(\"{$this->getRightsPrefix()}.Delete{$key}\")'),
+    // render grid view
+
+    \$this->widget('TbGridView',
+        array(
+            'id' => '{$this->class2id($rmodelClassName)}-grid',
+            'dataProvider' => \$model->search(),
+            'template' => '{summary}{items}',
+            'summaryText' => '&nbsp;',
+            'columns' => array(
+    {$columns}
+                array(
+                    'class' => 'TbButtonColumn',
+                    'buttons' => array(
+                        'view' => array('visible' => 'FALSE'),
+                        'update' => array('visible' => 'FALSE'),
+                        'delete' => array('visible' => 'Yii::app()->user->checkAccess(\"{$this->getRightsPrefix()}.Delete{$key}\")'),
+                    ),
+                    'deleteButtonUrl' => 'Yii::app()->controller->createUrl(\"{$controller}/delete\", array(\"{$relatedModel->tableSchema->primaryKey}\" => \$data->{$relatedModel->tableSchema->primaryKey}))',
+                    'deleteButtonOptions'=>array('data-toggle'=>'tooltip'),                    
                 ),
-                'deleteButtonUrl' => 'Yii::app()->controller->createUrl(\"{$controller}/delete\", array(\"{$relatedModel->tableSchema->primaryKey}\" => \$data->{$relatedModel->tableSchema->primaryKey}))',
-                'deleteButtonOptions'=>array('data-toggle'=>'tooltip'),                    
-            ),
+            )
         )
-    )
-);
-?>"
+    );
+    ?>"
 ?>
 
 
-<?= "<?php Yii::endProfile('{$rmodelClassName}.view.grid'); ?>"; ?>
+<?= "<?php
+    Yii::endProfile('{$rmodelClassName}.view.grid');
+}    
+?>"; ?>
 
 <?
 endforeach;

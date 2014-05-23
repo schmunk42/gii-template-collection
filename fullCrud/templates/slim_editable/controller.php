@@ -24,10 +24,19 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
         return true;
     }
 
-    public function actionView($<?= $pk ?>)
+    public function actionView($<?= $pk ?>, $ajax = false)
     {
         $model = $this->loadModel($<?= $pk ?>);
-        $this->render('view', array('model' => $model,));
+        if($ajax){
+            $this->renderPartial('_view-relations_grids', 
+                    array(
+                        'modelMain' => $model,
+                        'ajax' => $ajax,
+                        )
+                    );
+        }else{
+            $this->render('view', array('model' => $model,));
+        }
     }
 
     public function actionCreate()
@@ -117,15 +126,12 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
         $es->update();
     }
 
-    public function actionAjaxCreate($field, $value, $no_ajax = 0) 
+    public function actionAjaxCreate($field, $value) 
     {
         $model = new <?php echo $this->modelClass; ?>;
         $model->$field = $value;
         try {
             if ($model->save()) {
-                if($no_ajax){
-                    $this->redirect(Yii::app()->request->urlReferrer);
-                }            
                 return TRUE;
             }else{
                 return var_export($model->getErrors());
