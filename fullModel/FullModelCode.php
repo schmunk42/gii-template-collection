@@ -301,8 +301,8 @@ class FullModelCode extends ModelCode
                     );
 
             }
-            return $enum;
         }
+        return $enum;        
 
     }
 }
