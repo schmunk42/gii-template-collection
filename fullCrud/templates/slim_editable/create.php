@@ -30,6 +30,7 @@ $label = $this->pluralize($this->class2name($this->modelClass));
 ?>
 
 <?= '<?php $this->widget("TbBreadcrumbs", array("links" => $this->breadcrumbs)) ?>'; ?>
+
 <div class="clearfix">
     <div class="btn-toolbar pull-left">
         <div class="btn-group"><?="<?php echo \$cancel_buton;?>"?></div>

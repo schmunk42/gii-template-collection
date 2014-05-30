@@ -151,10 +151,10 @@ class EditableProvider extends GtcCodeProvider
             //return null; //$provider->generateValueField($modelClass, $column);
 
             return "
-            array(
-                'name' => '{$column->name}',
-                'type' => 'raw',    
-                'value' => \$this->widget(
+                array(
+                    'name' => '{$column->name}',
+                    'type' => 'raw',    
+                    'value' => \$this->widget(
                         'EditableField', 
                         array(
                             'model' => \$model,
@@ -166,13 +166,13 @@ class EditableProvider extends GtcCodeProvider
                         ), 
                         true
                     )                   
-            ),\n";
+                ),\n";
         } elseif (substr(strtoupper($column->dbType), 0, 4) == 'ENUM') {
             return "
-            array(
-                'name' => '{$column->name}',
-                'type' => 'raw',    
-                'value' => \$this->widget(
+                array(
+                    'name' => '{$column->name}',
+                    'type' => 'raw',    
+                    'value' => \$this->widget(
                         'EditableField', 
                         array(
                             'model' => \$model,
@@ -184,13 +184,13 @@ class EditableProvider extends GtcCodeProvider
                         ), 
                         true
                     )                   
-            ),\n";                        
+                ),\n";                        
         } elseif(strtoupper($column->dbType) == 'DATE') {
             return "
-            array(
-                'name' => '{$column->name}',
-                'type' => 'raw',    
-                'value' => \$this->widget(
+                array(
+                    'name' => '{$column->name}',
+                    'type' => 'raw',    
+                    'value' => \$this->widget(
                         'EditableField', 
                         array(
                             'model' => \$model,
@@ -201,13 +201,13 @@ class EditableProvider extends GtcCodeProvider
                         ), 
                         true
                     )                   
-            ),\n";                                    
+                ),\n";                                    
         } elseif(strtoupper($column->dbType) == 'DATETIME') {
             return "
-            array(
-                'name' => '{$column->name}',
-                'type' => 'raw',    
-                'value' => \$this->widget(
+                array(
+                    'name' => '{$column->name}',
+                    'type' => 'raw',    
+                    'value' => \$this->widget(
                         'EditableField', 
                         array(
                             'model' => \$model,
@@ -218,22 +218,22 @@ class EditableProvider extends GtcCodeProvider
                         ), 
                         true
                     )                   
-            ),\n";                                                                            
+                ),\n";                                                                            
         } elseif ($column->name) {
             $code = "
-            array(
-                'name' => '{$column->name}',
-                'type' => 'raw',
-                'value' => \$this->widget(
-                    'EditableField',
-                    array(
-                        'model' => \$model,
-                        'attribute' => '{$column->name}',
-                        'url' => \$this->createUrl('/{$this->codeModel->controller}/editableSaver'),
-                    ),
-                    true
-                )
-            ),\n";
+                array(
+                    'name' => '{$column->name}',
+                    'type' => 'raw',
+                    'value' => \$this->widget(
+                        'EditableField',
+                        array(
+                            'model' => \$model,
+                            'attribute' => '{$column->name}',
+                            'url' => \$this->createUrl('/{$this->codeModel->controller}/editableSaver'),
+                        ),
+                        true
+                    )
+                ),\n";
         } else {
             $code = null;
         }

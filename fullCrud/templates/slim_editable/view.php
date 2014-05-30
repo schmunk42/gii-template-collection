@@ -32,6 +32,7 @@ $this->providers = array('gtc.fullCrud.providers.EditableProvider');
 ?>
 
 <?= '<?php $this->widget("TbBreadcrumbs", array("links"=>$this->breadcrumbs)) ?>'; ?>
+
 <div class="clearfix">
     <div class="btn-toolbar pull-left">
         <div class="btn-group"><?="<?php echo \$cancel_buton;?>"?></div>
@@ -109,7 +110,7 @@ list($left_span,$right_span) = explode('-',$this->formLayout)
 
     <div class="<?= $right_span ?>">
         <div class="well">
-            <?= "<?php \$this->renderPartial('_view-relations_grids',array('modelMain' => \$model)); ?>"; ?>
+            <?= "<?php \$this->renderPartial('_view-relations_grids',array('modelMain' => \$model, 'ajax' => false,)); ?>"; ?>
         </div>
     </div>
 </div>
