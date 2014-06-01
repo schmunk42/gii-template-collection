@@ -9,7 +9,7 @@ if (!empty($relations)) :
 echo "<?php
 if(!\$ajax){
     Yii::app()->clientScript->registerCss('rel_grid',' 
-            .grid-view {padding-top:0px;margin-top: -35px;}
+            .rel-grid-view {padding-top:0px;margin-top: -35px;}
             h3.rel_grid{padding-left: 40px;}
             ');     
 }
@@ -129,6 +129,9 @@ if ($count >= $maxColumns+1) {
             'dataProvider' => \$model->search(),
             'template' => '{summary}{items}',
             'summaryText' => '&nbsp;',
+            'htmlOptions' => array(
+                'class' => 'rel-grid-view'
+            ),            
             'columns' => array(
     {$columns}
                 array(

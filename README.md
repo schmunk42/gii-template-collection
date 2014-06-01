@@ -33,7 +33,10 @@ Features
   * slim
   * hybrid
   * legacy (*original gtc*)
-  * slim_editable
+  * slim_editable. Screenshots:
+    * sreenshots/FullCrudSlimEditableTrucksList.png
+    * sreenshots/FullCrudSlimEditableTrucksView.png
+
 
 **NOTE! Relation widgets moved to https://github.com/schmunk42/yii-relation**
 
@@ -153,7 +156,10 @@ Requirements: `https://github.com/clevertech/yiibooster`, `schmunk42/yii-relatio
 
 #### Template slim editable
 
-Requirements: `https://github.com/clevertech/yiibooster`, `schmunk42/yii-relation`, `x-editable-yii dev`
+Requirements: 
+- `https://github.com/clevertech/yiibooster`, 
+- `schmunk42/yii-relation`, 
+- `x-editable-yii` - `php composer.phar require dbrisinajumi/x-editable-yii dev-german-translations`
 
 #### Template hybrid
 
