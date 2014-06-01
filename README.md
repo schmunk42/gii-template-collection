@@ -7,6 +7,7 @@ The gii-template-collection (gtc) contains templates for the Yii Framework Gii m
 
 For a Yii 2 port of this project, please visit [giiant](https://github.com/schmunk42/yii2-giiant).
 
+**NOTE! Relation widgets moved to https://github.com/schmunk42/yii-relation**
 
 Features
 --------
@@ -25,20 +26,40 @@ Features
 
 ### Templates
 
-* FullModule
-* FullModel
-  * default (`BaseModel`, `Model`)
-  * singlefile (`Model`)
-* FullCrud 
-  * slim
-  * hybrid
-  * legacy (*original gtc*)
-  * slim_editable. Screenshots:
-    * sreenshots/FullCrudSlimEditableTrucksList.png
-    * sreenshots/FullCrudSlimEditableTrucksView.png
+#### FullModule
 
+#### FullModel
+  
+##### default 
 
-**NOTE! Relation widgets moved to https://github.com/schmunk42/yii-relation**
+Model Classes in two files `BaseModel`, `Model`
+
+##### singlefile 
+
+Standard Model Class `Model`
+
+#### FullCrud 
+
+##### slim
+
+Bootstrap UI with relations
+
+##### hybrid
+
+Bootstrap UI with relations and grids
+
+##### slim_editable
+
+Screenshots:
+
+![FullCrud Slim Editable List](sreenshots/FullCrudSlimEditableTrucksList.png)
+
+![FullCrud Slim Editable List](sreenshots/FullCrudSlimEditableTrucksView.png)
+
+##### legacy 
+
+Original gtc CRUDs
+
 
 Requirements
 ------------
