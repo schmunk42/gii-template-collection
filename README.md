@@ -33,7 +33,7 @@ Features
   * slim
   * hybrid
   * legacy (*original gtc*)
-  * slim_editable see:
+  * slim_editable. Screenshots:
     * sreenshots/FullCrudSlimEditableTrucksList.png
     * sreenshots/FullCrudSlimEditableTrucksView.png
 
