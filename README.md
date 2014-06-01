@@ -36,6 +36,8 @@ Features
   * slim_editable see:
     * sreenshots/FullCrudSlimEditableTrucksList.png
     * sreenshots/FullCrudSlimEditableTrucksView.png
+
+
 **NOTE! Relation widgets moved to https://github.com/schmunk42/yii-relation**
 
 Requirements
