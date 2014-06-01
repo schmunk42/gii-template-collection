@@ -156,7 +156,7 @@ Requirements: `https://github.com/clevertech/yiibooster`, `schmunk42/yii-relatio
 Requirements: 
 - `https://github.com/clevertech/yiibooster`, 
 - `schmunk42/yii-relation`, 
-- `x-editable-yii dev` - `php composer.phar require dbrisinajumi/x-editable-yii dev-german-translations`
+- `x-editable-yii` - `php composer.phar require dbrisinajumi/x-editable-yii dev-german-translations`
 
 #### Template hybrid
 
