@@ -34,7 +34,7 @@ Features
   * hybrid
   * legacy (*original gtc*)
   * slim_editable
-
+[![idea-markdown](https://github.com/DBRisinajumi/gii-template-collection/blob/develop/sreenshots/FullCrudSlimEditableTrucksView.png)](http://plugins.intellij.net/plugin?id=5970)
 **NOTE! Relation widgets moved to https://github.com/schmunk42/yii-relation**
 
 Requirements
