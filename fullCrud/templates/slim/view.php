@@ -54,6 +54,7 @@ list($left_span,$right_span) = explode('-',$this->formLayout)
         ?>
         <?php
         foreach ($this->tableSchema->columns as $column) {
+            Yii::log(CJSON::encode($column));
             if ($this->provider()->skipColumn($this->modelClass, $column)) {
                 continue;
             }

@@ -21,12 +21,12 @@ class GtcAttributeProvider extends GtcCodeProvider
                     $value = "(\$model->{$key} !== null)?";
                     $value .= "CHtml::link(
                             '<i class=\"icon icon-circle-arrow-left\"></i> '.\$model->{$key}->{$suggestedfield},
-                            array('{$controller}/view','{$relatedModel->tableSchema->primaryKey}' => \$model->{$key}->{$relatedModel->tableSchema->primaryKey}),
+                            array('{$controller}/view','{$relatedModel->tableSchema->primaryKey}' => \$model->{$key}->{$relatedModel->tableSchema->primaryKey},'returnUrl' => \Yii::app()->request->requestUri),
                             array('class' => '')).";
                     $value .= "' '.";
                     $value .= "CHtml::link(
                             '<i class=\"icon icon-pencil\"></i> ',
-                            array('{$controller}/update','{$relatedModel->tableSchema->primaryKey}' => \$model->{$key}->{$relatedModel->tableSchema->primaryKey}),
+                            array('{$controller}/update','{$relatedModel->tableSchema->primaryKey}' => \$model->{$key}->{$relatedModel->tableSchema->primaryKey},'returnUrl' => \Yii::app()->request->requestUri),
                             array('class' => ''))";
 
                     $value .= ":'n/a'";
