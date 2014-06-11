@@ -9,8 +9,10 @@ if (!empty($relations)) :
 echo "<?php
 if(!\$ajax){
     Yii::app()->clientScript->registerCss('rel_grid',' 
-            .rel-grid-view {padding-top:0px;margin-top: -35px;}
+            .rel-grid-view {padding-top:0px;margin-top: 0px;padding-bottom:2px;}
             h3.rel_grid{padding-left: 40px;}
+            .rel-grid-view div.summary {display:none;}
+            .grid-view-loading {background-position: 10px bottom;}
             ');     
 }
 ?>";
@@ -80,7 +82,7 @@ if ($count >= $maxColumns+1) {
 
 ?>
 <?="
-<h3 class=\"rel_grid\">    
+<div class=\"table-header\">
     <?=Yii::t('{$this->messageCatalog}', '{$this->class2name($rmodelClassName)}')?>
     <?php    
         
@@ -107,7 +109,7 @@ if ($count >= $maxColumns+1) {
         )
     );        
     ?>
-";?></h3> 
+";?></div>
 <?=" 
 <?php 
 
