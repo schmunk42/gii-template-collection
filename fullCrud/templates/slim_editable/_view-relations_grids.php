@@ -9,10 +9,8 @@ if (!empty($relations)) :
 echo "<?php
 if(!\$ajax){
     Yii::app()->clientScript->registerCss('rel_grid',' 
-            .rel-grid-view {padding-top:0px;margin-top: 0px;padding-bottom:2px;}
-            h3.rel_grid{padding-left: 40px;}
-            .rel-grid-view div.summary {display:none;}
-            .grid-view-loading {background-position: 10px bottom;}
+            .rel-grid-view {margin-top:-60px;}
+            .rel-grid-view div.summary {height: 60px;}
             ');     
 }
 ?>";
