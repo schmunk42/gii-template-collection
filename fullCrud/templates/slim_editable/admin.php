@@ -105,6 +105,7 @@ if ($comment === true) {
                 ),
                 'viewButtonUrl' => 'Yii::app()->controller->createUrl(\"view\", array(\"{$this->tableSchema->primaryKey}\" => \$data->{$this->tableSchema->primaryKey}))',
                 'deleteButtonUrl' => 'Yii::app()->controller->createUrl(\"delete\", array(\"{$this->tableSchema->primaryKey}\" => \$data->{$this->tableSchema->primaryKey}))',
+                'deleteConfirmation'=>Yii::t('{$this->messageCatalogStandard}','Do you want to delete this item?'),                    
                 'viewButtonOptions'=>array('data-toggle'=>'tooltip'),   
                 'deleteButtonOptions'=>array('data-toggle'=>'tooltip'),   
             ),

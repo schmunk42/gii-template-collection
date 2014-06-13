@@ -142,6 +142,7 @@ if ($count >= $maxColumns+1) {
                         'delete' => array('visible' => 'Yii::app()->user->checkAccess(\"{$this->getRightsPrefix()}.Delete{$key}\")'),
                     ),
                     'deleteButtonUrl' => 'Yii::app()->controller->createUrl(\"{$controller}/delete\", array(\"{$relatedModel->tableSchema->primaryKey}\" => \$data->{$relatedModel->tableSchema->primaryKey}))',
+                    'deleteConfirmation'=>Yii::t('{$this->messageCatalogStandard}','Do you want to delete this item?'),   
                     'deleteButtonOptions'=>array('data-toggle'=>'tooltip'),                    
                 ),
             )
