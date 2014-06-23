@@ -75,21 +75,22 @@
         <?php endif; ?>
 
         <div class="<?= ($this->formLayout == 'two-columns') ? 'span5' : 'span12' ?>"><!-- sub inputs -->
-            <div class="well">
-            <!--<h2>
+            <h2>
                 <?= "<?php echo Yii::t('" . $this->messageCatalogStandard . "','Relations')?>"; ?>
-            </h2>-->
+            </h2>
+            <div class="well">
             <?php foreach ($this->getRelations() as $key => $relation) : ?>
-                <?php if ($relation[0] == "CBelongsToRelation") {
+                <?php if (($relation[0] == "CBelongsToRelation") || !$this->provider()->generateRelationField($this->modelClass, $key, $relation) ) {
                     continue;
                 } ?>
                 <?=
                 // relations
                 "
                 <h3>
-                    <?php echo Yii::t('{$this->messageCatalog}', 'relation." . ucfirst($key) . "'); ?>
+                    <?php echo ((\$t = Yii::t('{$this->messageCatalog}', 'relation.".ucfirst($key)."')) != 'relation.".ucfirst($key)."')?\$t:substr(\$t,9) ?>
                 </h3>
                 <?php {$this->provider()->generateRelationField($this->modelClass, $key, $relation)} ?>
+
                 "
                 ?>
             <?php endforeach; ?>

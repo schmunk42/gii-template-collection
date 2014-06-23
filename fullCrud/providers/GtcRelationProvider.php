@@ -123,7 +123,7 @@ class GtcRelationProvider extends GtcCodeProvider
                 }
             }
         } else {
-            return "echo '<i>'.Yii::t('{$this->codeModel->messageCatalogStandard}','Switch to view mode to edit related records.').'</i>'";
+            return false;//"echo '<i>'.Yii::t('{$this->codeModel->messageCatalogStandard}','Switch to view mode to edit related records.').'</i>'";
         }
     }
 
