@@ -24,10 +24,19 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
         return true;
     }
 
-    public function actionView($<?= $pk ?>)
+    public function actionView($<?= $pk ?>, $ajax = false)
     {
         $model = $this->loadModel($<?= $pk ?>);
-        $this->render('view', array('model' => $model));
+        if($ajax){
+            $this->renderPartial('_view-relations_grids', 
+                    array(
+                        'modelMain' => $model,
+                        'ajax' => $ajax,
+                        )
+                    );
+        }else{
+            $this->render('view', array('model' => $model,));
+        }
     }
 
     public function actionCreate()
@@ -86,11 +95,10 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
             {
                 if($relation[0] == 'CManyManyRelation')
                 {
-                    echo "            if(isset(\$_POST['{$this->modelClass}']['{$relation[1]}'])) {\n";
-                    echo "                \$model->setRelationRecords('{$key}', \$_POST['{$this->modelClass}']['{$relation[1]}']);\n";
-                    echo "            } elseif(isset(\$_POST['exist_{$this->modelClass}']['{$relation[1]}'])) {\n";
-                    echo "                \$model->setRelationRecords('{$key}',array());\n";
-                    echo "            }\n\n";
+                    printf("            if(isset(\$_POST['%s']['%s']))\n", $this->modelClass, $relation[1]);
+                    printf("                \$model->setRelationRecords('%s', \$_POST['%s']['%s']);\n", $key, $this->modelClass, $relation[1]);
+                    echo "else\n";
+                    echo "\$model->setRelationRecords('{$key}',array());\n";
                 }
             }
 ?>
@@ -108,7 +116,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
             }
         }
 
-        $this->render('update', array('model' => $model));
+        $this->render('update', array('model' => $model,));
     }
 
     public function actionEditableSaver()
@@ -118,15 +126,12 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
         $es->update();
     }
 
-    public function actionAjaxCreate($field, $value, $no_ajax = 0) 
+    public function actionAjaxCreate($field, $value) 
     {
         $model = new <?php echo $this->modelClass; ?>;
         $model->$field = $value;
         try {
             if ($model->save()) {
-                if($no_ajax){
-                    $this->redirect(Yii::app()->request->urlReferrer);
-                }            
                 return TRUE;
             }else{
                 return var_export($model->getErrors());
@@ -170,7 +175,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
             $model->attributes = $_GET['<?php echo $this->modelClass; ?>'];
         }
 
-        $this->render('admin', array('model' => $model));
+        $this->render('admin', array('model' => $model,));
     }
 
     public function loadModel($id)

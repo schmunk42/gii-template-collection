@@ -7,6 +7,7 @@ The gii-template-collection (gtc) contains templates for the Yii Framework Gii m
 
 For a Yii 2 port of this project, please visit [giiant](https://github.com/schmunk42/yii2-giiant).
 
+**NOTE! Relation widgets moved to https://github.com/schmunk42/yii-relation**
 
 Features
 --------
@@ -25,21 +26,46 @@ Features
 
 ### Templates
 
-* FullModule
-* FullModel
-  * default (`BaseModel`, `Model`)
-  * singlefile (`Model`)
-* FullCrud 
-  * slim
-  * hybrid
-  * legacy (*original gtc*)
+#### FullModule
 
-**NOTE! Relation widgets moved to https://github.com/schmunk42/yii-relation**
+#### FullModel
+  
+##### default 
+
+Model Classes in two files `BaseModel`, `Model`
+
+##### singlefile 
+
+Standard Model Class `Model`
+
+#### FullCrud 
+
+##### slim
+
+Bootstrap UI with relations
+
+##### hybrid
+
+Bootstrap UI with relations and grids
+
+##### slim_editable
+
+Screenshots:
+
+![FullCrud Slim Editable List](sreenshots/FullCrudSlimEditableTrucksList.png)
+
+![FullCrud Slim Editable List](sreenshots/FullCrudSlimEditableTrucksView.png)
+
+##### legacy 
+
+Original gtc CRUDs
+
 
 Requirements
 ------------
 
 * PHP 5.3 and `short_open_tags = On`
+
 
 ### Notes
 
@@ -86,7 +112,24 @@ Setup
 	),
     ```
 
+3. For Debugging Information plz add the log under yours config console
 
+    ````
+    'components' => array(
+        'log'      => array(
+            'class'  => 'CLogRouter',
+            'routes' => array(
+                // file logging
+                array(
+                    'class'   => 'CFileLogRoute',
+                    'logFile' => 'console.log',
+                    'levels'  => 'error, warning, info, trace',
+                    'enabled' => true,
+                ),
+            ),
+        ),
+    ),
+    ````
 Usage
 -----
 
@@ -109,22 +152,41 @@ Usage
 ### Full CRUD
 
 > Note: Generated templates require `clevertech/yiibooster >=1.1.1`
-
+> Note: slim_editable require `vitalets/x-editable-yii dev`
 * open Gii
 * select `FullCrud`
 * enter model class
 * click `preview`
 * click `generate`
 
+#### AuthItems
+
+Controller actions and UI buttons follow these `checkAccess` rules:
+
+- Controller.*
+- Controller.View
+- Controller.Delete
+- ...
+
+From `0.13.0` on the a `Controller.SimpleUi` item was added by default, which hides UI elements, when this item is assigned to the current user.
+> Note: An admin (superuser) always sees the full UI.
+
 #### Template slim
 
 Requirements: `https://github.com/clevertech/yiibooster`, `schmunk42/yii-relation`
+
+#### Template slim editable
+
+Requirements: 
+- `https://github.com/clevertech/yiibooster`, 
+- `schmunk42/yii-relation`, 
+- `x-editable-yii` - `php composer.phar require dbrisinajumi/x-editable-yii dev-german-translations`
 
 #### Template hybrid
 
 An enhanced hybrid between the default/slim templates and the bootstrap crud generator.
 
-Requires `x-editable-yii` and `echosen`.
+Requires `x-editable-yii dev` and `echosen`.
 
 Development
 -----------

@@ -108,6 +108,21 @@
     <?php echo $form->error($model, 'validation'); ?>
 </div>
 
+<h3>Slim Editable Code Template specific</h3>
+<fieldset>
+
+    <div class="row">
+        <?php
+        echo $form->labelEx($model, 'icon');
+        echo $form->textField($model,'icon',array('size' => 30));
+        ?>
+        <div class="tooltip">
+            Common icon in header for admin, create, view
+        </div>
+        <?php echo $form->error($model, 'icon'); ?>
+    </div>
+    
+</fieldset>
 <h3>Slim Code Template specific</h3>
 
 <fieldset>
@@ -143,8 +158,9 @@
             $model,
             'formLayout',
             array(
-                 'one-column'  => 'One Column',
-                 'two-columns' => 'Two Columns (span7, span5)',
+                 'span12-span12' => 'One Column',
+                 'span7-span5' => 'Two Columns (span7, span5)',
+                 'span5-span7' => 'Two Columns (span5, span7)',
             )
         );   ?>
         <div class="tooltip">

@@ -7,6 +7,7 @@ class FullModelCode extends ModelCode
     public $tables;
     public $baseClass = 'CActiveRecord';
     public $messageCatalog = 'model';
+    public $generateModel = true;
 
     public function init()
     {
@@ -23,6 +24,7 @@ class FullModelCode extends ModelCode
         return array_merge(
             parent::rules(),
             array(
+                 array('generateModel','boolean'),
                  array(
                      'messageCatalog',
                      'match',
@@ -83,6 +85,10 @@ class FullModelCode extends ModelCode
                     $this->render($templatePath . '/basemodel.php', $params)
                 );
             }
+        }
+        // removing model class for list of files to be generared, if generateModel is set to false
+        if(!$this->generateModel) {
+            unset($this->files[0]);
         }
     }
 
@@ -295,8 +301,8 @@ class FullModelCode extends ModelCode
                     );
 
             }
-            return $enum;
         }
+        return $enum;        
 
     }
 }

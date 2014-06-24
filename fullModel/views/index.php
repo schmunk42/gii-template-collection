@@ -154,6 +154,16 @@ $form = $this->beginWidget('CCodeForm', array('model' => $model));
     </div>
     <?php echo $form->error($model, 'modelPath'); ?>
 </div>
+<div class="row">
+    <?php echo $form->labelEx($model,'commentsAsLabels'); ?>
+    <?php echo $form->checkBox($model,'commentsAsLabels'); ?>
+    <div class="tooltip">
+        Whether comments specified for the table columns should be used as the new model's attribute labels.
+        In case your RDBMS doesn't support feature of commenting columns or column comment wasn't set,
+        column name would be used as the attribute name base.
+    </div>
+    <?php echo $form->error($model,'commentsAsLabels'); ?>
+</div>
 
 
 
