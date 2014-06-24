@@ -87,7 +87,7 @@
                 // relations
                 "
                 <h3>
-                    <?php echo ((\$t = Yii::t('{$this->messageCatalog}', 'relation.".ucfirst($key)."')) != 'relation.".ucfirst($key)."')?\$t:substr(\$t,9) ?>
+                    <?php echo ((\$t = Yii::t('{$this->messageCatalog}', 'relation.".ucfirst($key)."')) != 'relation.".ucfirst($key)."')?\$t:substr(\$t,9) . ' '; ?>
                 </h3>
                 <?php {$this->provider()->generateRelationField($this->modelClass, $key, $relation)} ?>
 

@@ -27,7 +27,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
     public function actionView($<?= $pk ?>)
     {
         $model = $this->loadModel($<?= $pk ?>);
-        $this->render('view', array('model' => $model,));
+        $this->render('view', array('model' => $model));
     }
 
     public function actionCreate()
@@ -108,7 +108,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
             }
         }
 
-        $this->render('update', array('model' => $model,));
+        $this->render('update', array('model' => $model));
     }
 
     public function actionEditableSaver()
@@ -152,7 +152,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
             $model->attributes = $_GET['<?php echo $this->modelClass; ?>'];
         }
 
-        $this->render('admin', array('model' => $model,));
+        $this->render('admin', array('model' => $model));
     }
 
     public function loadModel($id)

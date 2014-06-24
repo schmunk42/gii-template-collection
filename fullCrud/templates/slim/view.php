@@ -4,9 +4,9 @@
         Yii::t('{$this->messageCatalog}', '{$this->class2name($this->modelClass)}')
         . ' - '
         . Yii::t('{$this->messageCatalogStandard}', 'View')
-        . ': '   
-        . \$model->getItemLabel()            
-);    
+        . ': '
+        . \$model->getItemLabel()
+);
 \$this->breadcrumbs[Yii::t('{$this->messageCatalog}','{$this->pluralize($this->class2name($this->modelClass))}')] = array('admin');
 \$this->breadcrumbs[\$model->{\$model->tableSchema->primaryKey}] = array('view','id' => \$model->{\$model->tableSchema->primaryKey});
 \$this->breadcrumbs[] = Yii::t('{$this->messageCatalogStandard}', 'View');
@@ -70,6 +70,9 @@
 <?php endif; ?>
 
     <div class="<?= ($this->formLayout == 'two-columns') ? 'span5' : 'span12' ?>">
+        <h2>
+            <?= "<?php echo Yii::t('" . $this->messageCatalogStandard . "','Relations')?>"; ?>
+        </h2>
         <div class="well">
             <?= "<?php \$this->renderPartial('_view-relations',array('model' => \$model)); ?>"; ?>
         </div>
