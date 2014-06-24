@@ -27,7 +27,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
     public function actionView($<?= $pk ?>)
     {
         $model = $this->loadModel($<?= $pk ?>);
-        $this->render('view', array('model' => $model,));
+        $this->render('view', array('model' => $model));
     }
 
     public function actionCreate()
@@ -86,10 +86,11 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
             {
                 if($relation[0] == 'CManyManyRelation')
                 {
-                    printf("            if(isset(\$_POST['%s']['%s']))\n", $this->modelClass, $relation[1]);
-                    printf("                \$model->setRelationRecords('%s', \$_POST['%s']['%s']);\n", $key, $this->modelClass, $relation[1]);
-                    echo "else\n";
-                    echo "\$model->setRelationRecords('{$key}',array());\n";
+                    echo "            if(isset(\$_POST['{$this->modelClass}']['{$relation[1]}'])) {\n";
+                    echo "                \$model->setRelationRecords('{$key}', \$_POST['{$this->modelClass}']['{$relation[1]}']);\n";
+                    echo "            } elseif(isset(\$_POST['exist_{$this->modelClass}']['{$relation[1]}'])) {\n";
+                    echo "                \$model->setRelationRecords('{$key}',array());\n";
+                    echo "            }\n\n";
                 }
             }
 ?>
@@ -107,7 +108,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
             }
         }
 
-        $this->render('update', array('model' => $model,));
+        $this->render('update', array('model' => $model));
     }
 
     public function actionEditableSaver()
@@ -169,7 +170,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
             $model->attributes = $_GET['<?php echo $this->modelClass; ?>'];
         }
 
-        $this->render('admin', array('model' => $model,));
+        $this->render('admin', array('model' => $model));
     }
 
     public function loadModel($id)

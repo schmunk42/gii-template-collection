@@ -19,7 +19,7 @@
         echo \$form->errorSummary(\$model);
     ?>
     ";
-    list($left_span,$right_span) = explode('-',$this->formLayout)                
+    list($left_span,$right_span) = explode('-',$this->formLayout)
     ?>
 
     <div class="row">
@@ -76,21 +76,22 @@
         <?php endif; ?>
 
         <div class="<?= $right_span ?>"><!-- sub inputs -->
-            <div class="well">
-            <!--<h2>
+            <h2>
                 <?= "<?php echo Yii::t('" . $this->messageCatalogStandard . "','Relations')?>"; ?>
-            </h2>-->
+            </h2>
+            <div class="well">
             <?php foreach ($this->getRelations() as $key => $relation) : ?>
-                <?php if ($relation[0] == "CBelongsToRelation") {
+                <?php if (($relation[0] == "CBelongsToRelation") || !$this->provider()->generateRelationField($this->modelClass, $key, $relation) ) {
                     continue;
                 } ?>
                 <?=
                 // relations
                 "
                 <h3>
-                    <?php echo Yii::t('{$this->messageCatalog}', 'relation." . ucfirst($key) . "'); ?>
+                    <?php echo ((\$t = Yii::t('{$this->messageCatalog}', 'relation.".ucfirst($key)."')) != 'relation.".ucfirst($key)."')?\$t:substr(\$t,9) . ' '; ?>
                 </h3>
                 <?php {$this->provider()->generateRelationField($this->modelClass, $key, $relation)} ?>
+
                 "
                 ?>
             <?php endforeach; ?>
@@ -110,7 +111,7 @@
     <div class="form-actions" style="visibility: hidden; height: 1px">
         <?=
         "
-        <?php 
+        <?php
             echo CHtml::Button(
             Yii::t('{$this->messageCatalogStandard}', 'Cancel'), array(
                 'submit' => (isset(\$_GET['returnUrl']))?\$_GET['returnUrl']:array('{$this->controllerID}/admin'),
