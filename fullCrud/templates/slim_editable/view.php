@@ -67,7 +67,7 @@ $this->providers = array('gtc.fullCrud.providers.EditableProvider');
 </div>
 
 <?php
-list($left_span,$right_span) = explode('-',$this->formLayout)   
+list($left_span,$right_span) = explode('-',$this->formLayout);
 ?>
 
 
@@ -91,6 +91,7 @@ list($left_span,$right_span) = explode('-',$this->formLayout)
         ?>
         <?php
         foreach ($this->tableSchema->columns as $column) {
+            Yii::log(CJSON::encode($column));
             if ($this->provider()->skipColumn($this->modelClass, $column)) {
                 continue;
             }
