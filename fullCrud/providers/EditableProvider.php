@@ -3,12 +3,15 @@
 class EditableProvider extends GtcCodeProvider
 {
     /**
-     * @param CActiveRecord   $modelClass
+     * @param CActiveRecord $modelClass
      * @param CDbColumnSchema $column
+     * @param null $controller
+     *
+     * @return null|string
      */
     public function generateColumn($modelClass, $column, $controller = null)
     {
-        
+
         if (strtoupper($column->dbType) == 'DATETIME') {
             return null;
         }
@@ -16,14 +19,14 @@ class EditableProvider extends GtcCodeProvider
         if (is_null($controller)) {
             $controller = $this->codeModel->controller;
         }
-        
+
         if ($column->isForeignKey) {
 
             $suggestIdentifier = $this->codeModel->provider()->suggestIdentifier($modelClass);
             $model             = CActiveRecord::model($modelClass);
             $table             = $model->getTableSchema();
             $fk                = $table->foreignKeys[$column->name];
-            
+
             // We have to look into relations to find the correct model class (i.e. if models are generated with table prefix)
             foreach ($model->relations() as $key => $value) {
                 // omit relations with array definition
@@ -39,12 +42,12 @@ class EditableProvider extends GtcCodeProvider
 
             if (!isset($relation)) {
                 return "'" . $column->name . "'";
-            }   
+            }
 
             $relatedModel     = CActiveRecord::model($relation[1]);
             $relatedModelName = $relation[1];
-            $fcolumns         = $relatedModel->attributeNames();            
-            
+            $fcolumns         = $relatedModel->attributeNames();
+
             //return null; //$provider->generateValueField($modelClass, $column);
 
             return "array(
@@ -53,11 +56,11 @@ class EditableProvider extends GtcCodeProvider
                 'editable' => array(
                     'type' => 'select',
                     'url' => \$this->createUrl('/{$controller}/editableSaver'),
-                    'source' => CHtml::listData({$relatedModelName}::model()->findAll(array('limit' => 1000)), '{$fcolumns[0]}', '{$suggestIdentifier}'),                        
+                    'source' => CHtml::listData({$relatedModelName}::model()->findAll(array('limit' => 1000)), '{$fcolumns[0]}', '{$suggestIdentifier}'),
                     //'placement' => 'right',
                 )
             )";
-            
+
         } elseif (substr(strtoupper($column->dbType), 0, 4) == 'ENUM') {
             return "array(
                     'class' => 'editable.EditableColumn',
@@ -70,7 +73,7 @@ class EditableProvider extends GtcCodeProvider
                     ),
                    'filter' => \$model->getEnumFieldLabels('{$column->name}'),
                 )";
-            
+
         } elseif (strtoupper($column->dbType) == 'TEXT') {
             return "array(
                 'class' => 'editable.EditableColumn',
@@ -81,7 +84,7 @@ class EditableProvider extends GtcCodeProvider
                     //'placement' => 'right',
                 )
             )";
-            
+
         } elseif(strtoupper($column->dbType) == 'DATE') {
             return "array(
                 'class' => 'editable.EditableColumn',
@@ -120,7 +123,7 @@ class EditableProvider extends GtcCodeProvider
     {
         if ($column->isForeignKey) {
 
-            
+
             // We have to look into relations to find the correct model class (i.e. if models are generated with table prefix)
             foreach ($this->codeModel->getRelations() as $key => $relation) {
                 if ($relation[2] == $column->name) {
@@ -133,7 +136,7 @@ class EditableProvider extends GtcCodeProvider
                         return null; // do not continue with providers
                     }
 
-                }                
+                }
 
             }
             $relatedModel = CActiveRecord::model($relationInfo[1]);
@@ -144,81 +147,81 @@ class EditableProvider extends GtcCodeProvider
             if(!$columns){
                 return null;
             }
-            
+
             $suggestedfield = $this->codeModel->provider()->suggestIdentifier($relatedModel);
-            $field          = current($columns);           
-            
+            $field          = current($columns);
+
             //return null; //$provider->generateValueField($modelClass, $column);
 
             return "
                 array(
                     'name' => '{$column->name}',
-                    'type' => 'raw',    
+                    'type' => 'raw',
                     'value' => \$this->widget(
-                        'EditableField', 
+                        'EditableField',
                         array(
                             'model' => \$model,
                             'type' => 'select',
                             'url' => \$this->createUrl('/{$this->codeModel->controller}/editableSaver'),
-                            'source' => CHtml::listData({$relatedModelName}::model()->findAll(array('limit' => 1000)), '{$fcolumns[0]}', '{$suggestedfield}'),                        
+                            'source' => CHtml::listData({$relatedModelName}::model()->findAll(array('limit' => 1000)), '{$fcolumns[0]}', '{$suggestedfield}'),
                             'attribute' => '{$column->name}',
-                            //'placement' => 'right',                                
-                        ), 
+                            //'placement' => 'right',
+                        ),
                         true
-                    )                   
+                    )
                 ),\n";
         } elseif (substr(strtoupper($column->dbType), 0, 4) == 'ENUM') {
             return "
                 array(
                     'name' => '{$column->name}',
-                    'type' => 'raw',    
+                    'type' => 'raw',
                     'value' => \$this->widget(
-                        'EditableField', 
+                        'EditableField',
                         array(
                             'model' => \$model,
                             'type' => 'select',
                             'url' => \$this->createUrl('/{$this->codeModel->controller}/editableSaver'),
                             'source' => \$model->getEnumFieldLabels('{$column->name}'),
                             'attribute' => '{$column->name}',
-                            //'placement' => 'right',                                
-                        ), 
+                            //'placement' => 'right',
+                        ),
                         true
-                    )                   
-                ),\n";                        
+                    )
+                ),\n";
         } elseif(strtoupper($column->dbType) == 'DATE') {
             return "
                 array(
                     'name' => '{$column->name}',
-                    'type' => 'raw',    
+                    'type' => 'raw',
                     'value' => \$this->widget(
-                        'EditableField', 
+                        'EditableField',
                         array(
                             'model' => \$model,
                             'type' => 'date',
                             'url' => \$this->createUrl('/{$this->codeModel->controller}/editableSaver'),
                             'attribute' => '{$column->name}',
-                            //'placement' => 'right',                                
-                        ), 
+                            //'placement' => 'right',
+                        ),
                         true
-                    )                   
-                ),\n";                                    
+                    )
+                ),\n";
         } elseif(strtoupper($column->dbType) == 'DATETIME') {
             return "
                 array(
                     'name' => '{$column->name}',
-                    'type' => 'raw',    
+                    'type' => 'raw',
                     'value' => \$this->widget(
-                        'EditableField', 
+                        'EditableField',
                         array(
                             'model' => \$model,
                             'type' => 'datetime',
                             'url' => \$this->createUrl('/{$this->codeModel->controller}/editableSaver'),
                             'attribute' => '{$column->name}',
-                            //'placement' => 'right',                                
-                        ), 
+                            //'placement' => 'right',
+                        ),
                         true
-                    )                   
-                ),\n";                                                                            
+                    )
+                ),\n";
         } elseif ($column->name) {
             $code = "
                 array(
