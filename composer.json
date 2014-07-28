@@ -13,8 +13,7 @@
         }
     ],
     "require": {
-        "php": ">=5.3.0",
-        "schmunk42/relation": "1.0.*"
+        "php": ">=5.3.0"
     },
     "suggest": {
         "schmunk42/relation": "Yii Framework active record relation components"
