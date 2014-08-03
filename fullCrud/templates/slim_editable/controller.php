@@ -122,8 +122,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 
     public function actionEditableSaver()
     {
-        Yii::import('TbEditableSaver');
-        $es = new TbEditableSaver('<?php echo $this->modelClass; ?>'); // classname of model to be updated
+        $es = new EditableSaver('<?php echo $this->modelClass; ?>'); // classname of model to be updated
         $es->update();
     }
 
