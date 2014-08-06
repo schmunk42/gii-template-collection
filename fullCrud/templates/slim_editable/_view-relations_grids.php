@@ -9,8 +9,8 @@ if (!empty($relations)) :
 echo "<?php
 if(!\$ajax){
     Yii::app()->clientScript->registerCss('rel_grid',' 
-            .rel-grid-view {padding-top:0px;margin-top: -35px;}
-            h3.rel_grid{padding-left: 40px;}
+            .rel-grid-view {margin-top:-60px;}
+            .rel-grid-view div.summary {height: 60px;}
             ');     
 }
 ?>";
@@ -80,7 +80,7 @@ if ($count >= $maxColumns+1) {
 
 ?>
 <?="
-<h3 class=\"rel_grid\">    
+<div class=\"table-header\">
     <?=Yii::t('{$this->messageCatalog}', '{$this->class2name($rmodelClassName)}')?>
     <?php    
         
@@ -107,7 +107,7 @@ if ($count >= $maxColumns+1) {
         )
     );        
     ?>
-";?></h3> 
+";?></div>
 <?=" 
 <?php 
 
@@ -142,6 +142,7 @@ if ($count >= $maxColumns+1) {
                         'delete' => array('visible' => 'Yii::app()->user->checkAccess(\"{$this->getRightsPrefix()}.Delete{$key}\")'),
                     ),
                     'deleteButtonUrl' => 'Yii::app()->controller->createUrl(\"{$controller}/delete\", array(\"{$relatedModel->tableSchema->primaryKey}\" => \$data->{$relatedModel->tableSchema->primaryKey}))',
+                    'deleteConfirmation'=>Yii::t('{$this->messageCatalogStandard}','Do you want to delete this item?'),   
                     'deleteButtonOptions'=>array('data-toggle'=>'tooltip'),                    
                 ),
             )

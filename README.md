@@ -178,9 +178,11 @@ Requirements: `https://github.com/clevertech/yiibooster`, `schmunk42/yii-relatio
 #### Template slim editable
 
 Requirements: 
-- `https://github.com/clevertech/yiibooster`, 
-- `schmunk42/yii-relation`, 
-- `x-editable-yii` - `php composer.phar require dbrisinajumi/x-editable-yii dev-german-translations`
+* `https://github.com/clevertech/yiibooster`, 
+* `schmunk42/yii-relation`, 
+* `x-editable-yii` 
+  * `php composer.phar require vitalets/x-editable-yii dev-master`
+  * in config add to aliases `vendor.vitalets.x-editable-yii`
 
 #### Template hybrid
 

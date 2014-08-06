@@ -19,7 +19,7 @@
         echo \$form->errorSummary(\$model);
     ?>
     ";
-    list($left_span,$right_span) = explode('-',$this->formLayout)                
+    list($left_span,$right_span) = explode('-',$this->formLayout)
     ?>
 
     <div class="row">
