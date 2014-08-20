@@ -143,6 +143,27 @@ class FullCrudCode extends CrudCode
                 }
             }
         }
+        
+        //create auth migrations, if template file exist
+        $migrationsAuthPath = $this->templatePath. DIRECTORY_SEPARATOR . "migrations_auth";
+        if (is_dir($migrationsAuthPath)) {
+            $render_file = $migrationsAuthPath . DIRECTORY_SEPARATOR . $this->authTemplateSlim.'.php';
+            if(file_exists($render_file)){
+                
+                $migrate_class_name = 'm'.date('ymd').'_'.date('Him').'_auth_' . $this->modelClass;
+                $save_file = $this->getMigrationsDirectory() . DIRECTORY_SEPARATOR . $migrate_class_name.'.php';
+                
+                $this->files[]=new CCodeFile(
+                        $save_file,
+                        $this->render($render_file,array(
+                            'rightsPrefix' => $this->getRightsPrefix(),
+                            'migrate_class_name' => $migrate_class_name,
+                            
+                            ))
+                        );
+            }
+
+        }        
 
     }
 
@@ -291,7 +312,15 @@ class FullCrudCode extends CrudCode
         $return            = "/" . str_replace($controllerName, '/' . $relatedController, $this->controller);
         return $return;
     }
+    
+	public function getMigrationsDirectory()
+	{
+		return $this->getModule()->getBasePath().DIRECTORY_SEPARATOR.'migrations';
+
+	}    
 
 }
+
+
 
 ?>
