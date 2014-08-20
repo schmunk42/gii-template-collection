@@ -12,10 +12,6 @@ class EditableProvider extends GtcCodeProvider
     public function generateColumn($modelClass, $column, $controller = null)
     {
 
-        if (strtoupper($column->dbType) == 'DATETIME') {
-            return null;
-        }
-
         if (is_null($controller)) {
             $controller = $this->codeModel->controller;
         }
