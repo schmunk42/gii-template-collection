@@ -8,17 +8,20 @@ class {$migrate_class_name} extends CDbMigration
     {
         \$this->execute(\"
             INSERT INTO `authitem` (`name`, `type`, `description`, `bizrule`, `data`) VALUES('{$rightsPrefix}.*','0','{$rightsPrefix}',NULL,'N;');
-            INSERT INTO `authitem` (`name`, `type`, `description`, `bizrule`, `data`) VALUES('{$rightsPrefix}.edit','0','{$rightsPrefix} module edit',NULL,'N;');
-            INSERT INTO `authitem` (`name`, `type`, `description`, `bizrule`, `data`) VALUES('{$rightsPrefix}.fullcontrol','0','{$rightsPrefix} module full control',NULL,'N;');
-            INSERT INTO `authitem` (`name`, `type`, `description`, `bizrule`, `data`) VALUES('{$rightsPrefix}.readonly','0','{$rightsPrefix} module readonly',NULL,'N;');
+            INSERT INTO `authitem` (`name`, `type`, `description`, `bizrule`, `data`) VALUES('{$rightsPrefix}.Create','0','{$rightsPrefix} module create',NULL,'N;');
+            INSERT INTO `authitem` (`name`, `type`, `description`, `bizrule`, `data`) VALUES('{$rightsPrefix}.View','0','{$rightsPrefix} module view',NULL,'N;');
+            INSERT INTO `authitem` (`name`, `type`, `description`, `bizrule`, `data`) VALUES('{$rightsPrefix}.Update','0','{$rightsPrefix} module update',NULL,'N;');
+            INSERT INTO `authitem` (`name`, `type`, `description`, `bizrule`, `data`) VALUES('{$rightsPrefix}.Delete','0','{$rightsPrefix} module delete',NULL,'N;');
                 
-            INSERT INTO `authitem` VALUES('{$rightsPrefix}Edit', 2, '{$rightsPrefix} edit', NULL, 'N;');
+            INSERT INTO `authitem` VALUES('{$rightsPrefix}Create', 2, '{$rightsPrefix} create', NULL, 'N;');
+            INSERT INTO `authitem` VALUES('{$rightsPrefix}Update', 2, '{$rightsPrefix} update', NULL, 'N;');
+            INSERT INTO `authitem` VALUES('{$rightsPrefix}Delete', 2, '{$rightsPrefix} delete', NULL, 'N;');
             INSERT INTO `authitem` VALUES('{$rightsPrefix}View', 2, '{$rightsPrefix} view', NULL, 'N;');
             
-            INSERT INTO `authitemchild` VALUES('{$rightsPrefix}Edit', '{$rightsPrefix}.*');
-            INSERT INTO `authitemchild` VALUES('{$rightsPrefix}Edit', '{$rightsPrefix}.edit');
-            INSERT INTO `authitemchild` VALUES('{$rightsPrefix}Edit', '{$rightsPrefix}.fullcontrol');
-            INSERT INTO `authitemchild` VALUES('{$rightsPrefix}View', '{$rightsPrefix}.readonly');
+            INSERT INTO `authitemchild` VALUES('{$rightsPrefix}Create', '{$rightsPrefix}.Create');
+            INSERT INTO `authitemchild` VALUES('{$rightsPrefix}Update', '{$rightsPrefix}.Update');
+            INSERT INTO `authitemchild` VALUES('{$rightsPrefix}Delete', '{$rightsPrefix}.Delete');
+            INSERT INTO `authitemchild` VALUES('{$rightsPrefix}View', '{$rightsPrefix}.View');
 
         \");
     }
