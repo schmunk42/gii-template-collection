@@ -153,7 +153,7 @@ if ($count >= $maxColumns+1) {
 
 
 <?= "<?php
-    Yii::endProfile('{$rmodelClassName}.view.grid');
+    Yii::endProfile('{$rmodelRefFiels}.view.grid');
 }    
 ?>"; ?>
 
