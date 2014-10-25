@@ -181,6 +181,7 @@ class FullModelCode extends ModelCode
         $numerical = array();
         $length    = array();
         $safe      = array();
+        $enum      = array();
         foreach ($table->columns as $column) {
             if ($column->isPrimaryKey && $table->sequenceName !== null) {
                 continue;
@@ -196,11 +197,16 @@ class FullModelCode extends ModelCode
                 $integers[] = $column->name;
             } elseif ($column->type === 'double') {
                 $numerical[] = $column->name;
+            } elseif(substr(strtoupper($column->dbType), 0, 4) == 'ENUM') {
+                $enum_values = explode(',', substr($column->dbType, 4, strlen($column->dbType) - 1));
+                foreach ($enum_values as $k=>$value) {
+                    $enum_values[$k] = trim($value, "()'");
+                }                
+                $enum[$column->name] = $enum_values;
             } elseif ($column->type === 'string' && $column->size > 0) {
                 $length[$column->size][] = $column->name;
             } elseif (!$column->isPrimaryKey && !$r) {
                 $safe[] = $column->name;
-
             }
         }
 
@@ -224,6 +230,12 @@ class FullModelCode extends ModelCode
         }
         if ($safe !== array()) {
             $rules[] = "array('" . implode(', ', $safe) . "', 'safe')";
+        }
+        
+        if ($enum !== array()) {
+            foreach($enum as $field_name => $enum_values){
+                $rules[] = "array('" .$field_name . "', 'in', 'range' => array('" . implode("','",$enum_values) . "'))";
+            }
         }
 
 
