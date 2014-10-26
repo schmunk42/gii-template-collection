@@ -183,7 +183,7 @@ class FullModelCode extends ModelCode
         $numerical = array();
         $length    = array();
         $safe      = array();
-        $enum      = array();
+
         foreach ($table->columns as $column) {
             if ($column->isPrimaryKey && $table->sequenceName !== null) {
                 continue;
@@ -201,11 +201,6 @@ class FullModelCode extends ModelCode
                 $numerical[] = $column->name;
             } elseif(substr(strtoupper($column->dbType), 0, 4) == 'ENUM') {
                 continue;
-//                $enum_values = explode(',', substr($column->dbType, 4, strlen($column->dbType) - 1));
-//                foreach ($enum_values as $k=>$value) {
-//                    $enum_values[$k] = trim($value, "()'");
-//                }                
-//                $enum[$column->name] = $enum_values;
             } elseif ($column->type === 'string' && $column->size > 0) {
                 $length[$column->size][] = $column->name;
             } elseif (!$column->isPrimaryKey && !$r) {
