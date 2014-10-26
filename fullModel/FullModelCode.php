@@ -174,6 +174,8 @@ class FullModelCode extends ModelCode
 
     public function generateRules($table)
     {
+        $enum_constants = $this->getEnum($table->columns);
+        
         $rules     = array();
         $required  = array();
         $null      = array();
@@ -198,11 +200,12 @@ class FullModelCode extends ModelCode
             } elseif ($column->type === 'double') {
                 $numerical[] = $column->name;
             } elseif(substr(strtoupper($column->dbType), 0, 4) == 'ENUM') {
-                $enum_values = explode(',', substr($column->dbType, 4, strlen($column->dbType) - 1));
-                foreach ($enum_values as $k=>$value) {
-                    $enum_values[$k] = trim($value, "()'");
-                }                
-                $enum[$column->name] = $enum_values;
+                continue;
+//                $enum_values = explode(',', substr($column->dbType, 4, strlen($column->dbType) - 1));
+//                foreach ($enum_values as $k=>$value) {
+//                    $enum_values[$k] = trim($value, "()'");
+//                }                
+//                $enum[$column->name] = $enum_values;
             } elseif ($column->type === 'string' && $column->size > 0) {
                 $length[$column->size][] = $column->name;
             } elseif (!$column->isPrimaryKey && !$r) {
@@ -232,9 +235,13 @@ class FullModelCode extends ModelCode
             $rules[] = "array('" . implode(', ', $safe) . "', 'safe')";
         }
         
-        if ($enum !== array()) {
-            foreach($enum as $field_name => $enum_values){
-                $rules[] = "array('" .$field_name . "', 'in', 'range' => array('" . implode("','",$enum_values) . "'))";
+        if ($enum_constants !== array()) {
+            foreach($enum_constants as $field_name => $field_details){
+                $ea = array();
+                foreach($field_details as $field_enum_values){
+                    $ea[] = 'self::'.$field_enum_values['const_name'];
+                }
+                $rules[] = "array('" .$field_name . "', 'in', 'range' => array(" . implode(", ",$ea) . "))";
             }
         }
 
