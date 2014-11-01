@@ -174,6 +174,8 @@ class FullModelCode extends ModelCode
 
     public function generateRules($table)
     {
+        $enum_constants = $this->getEnum($table->columns);
+        
         $rules     = array();
         $required  = array();
         $null      = array();
@@ -181,6 +183,7 @@ class FullModelCode extends ModelCode
         $numerical = array();
         $length    = array();
         $safe      = array();
+
         foreach ($table->columns as $column) {
             if ($column->isPrimaryKey && $table->sequenceName !== null) {
                 continue;
@@ -196,11 +199,12 @@ class FullModelCode extends ModelCode
                 $integers[] = $column->name;
             } elseif ($column->type === 'double') {
                 $numerical[] = $column->name;
+            } elseif(substr(strtoupper($column->dbType), 0, 4) == 'ENUM') {
+                continue;
             } elseif ($column->type === 'string' && $column->size > 0) {
                 $length[$column->size][] = $column->name;
             } elseif (!$column->isPrimaryKey && !$r) {
                 $safe[] = $column->name;
-
             }
         }
 
@@ -224,6 +228,16 @@ class FullModelCode extends ModelCode
         }
         if ($safe !== array()) {
             $rules[] = "array('" . implode(', ', $safe) . "', 'safe')";
+        }
+        
+        if ($enum_constants !== array()) {
+            foreach($enum_constants as $field_name => $field_details){
+                $ea = array();
+                foreach($field_details as $field_enum_values){
+                    $ea[] = 'self::'.$field_enum_values['const_name'];
+                }
+                $rules[] = "array('" .$field_name . "', 'in', 'range' => array(" . implode(", ",$ea) . "))";
+            }
         }
 
 

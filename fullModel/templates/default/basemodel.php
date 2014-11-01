@@ -68,6 +68,9 @@ if(!empty($enum)){
             echo '    const ' . $enum_value['const_name'] . ' = \'' . $enum_value['value'] . '\';' . PHP_EOL;
         }
     }
+?>    
+    var $enum_labels = false;  
+<?php    
 }
 ?>
 
@@ -174,7 +177,10 @@ if(!empty($enum)){
 
     public function enumLabels()
     {
-        return array(
+        if($this->enum_labels){
+            return $this->enum_labels;
+        }    
+        $this->enum_labels =  array(
 <?php
     foreach($enum as $column_name => $enum_values){
         echo "           '$column_name' => array(" . PHP_EOL;
@@ -185,6 +191,7 @@ if(!empty($enum)){
     }
 ?>
             );
+        return $this->enum_labels;
     }
 
     public function getEnumFieldLabels($column){
@@ -208,6 +215,10 @@ if(!empty($enum)){
         return $aLabels[$column][$value];
     }
 
+    public function getEnumColumnLabel($column){
+        return $this->getEnumLabel($column,$this->$column);
+    }
+    
 <?php
 }
 
@@ -222,7 +233,7 @@ if(!empty($enum)){
 <?php
     foreach($columns as $name=>$column)
     {
-        if($column->type==='string' and !$column->isForeignKey)
+        if($column->type==='string' and !$column->isForeignKey and !isset($enum[$name]))
         {
             echo "        \$criteria->compare('t.$name', \$this->$name, true);\n";
         }

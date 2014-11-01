@@ -47,6 +47,18 @@ foreach ($relations as $key => $relation):
 <?= "<?php
 if(!\$ajax || \$ajax == '{$this->class2id($rmodelClassName)}-grid'){
     Yii::beginProfile('{$rmodelRefFiels}.view.grid');
+        
+    \$grid_error = '';
+    \$grid_warning = '';
+    
+    if (empty(\$modelMain->{$key})) {
+        \$model = new {$rmodelClassName};
+        \$model->{$rmodelRefFiels} = \$modelMain->primaryKey;
+        if(!\$model->save()){
+            \$grid_error .= implode('<br/>',\$model->errors);
+        }
+        unset(\$model);
+    }     
 ?>"; ?>
 
 <?php
@@ -111,13 +123,18 @@ if ($count >= $maxColumns+1) {
 <?=" 
 <?php 
 
-    if (empty(\$modelMain->{$key})) {
-        \$model = new {$rmodelClassName};
-        \$model->{$rmodelRefFiels} = \$modelMain->primaryKey;
-        \$model->save();
-        unset(\$model);
-    } 
-    
+    if(!empty(\$grid_error)){
+        ?>
+        <div class=\"alert alert-error\"><?php echo \$grid_error?></div>
+        <?php
+    }  
+
+    if(!empty(\$grid_warning)){
+        ?>
+        <div class=\"alert alert-warning\"><?php echo \$grid_warning?></div>
+        <?php
+    }  
+
     \$model = new {$rmodelClassName}();
     \$model->{$rmodelRefFiels} = \$modelMain->primaryKey;
 
@@ -153,7 +170,7 @@ if ($count >= $maxColumns+1) {
 
 
 <?= "<?php
-    Yii::endProfile('{$rmodelClassName}.view.grid');
+    Yii::endProfile('{$rmodelRefFiels}.view.grid');
 }    
 ?>"; ?>
 

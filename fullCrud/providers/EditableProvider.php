@@ -12,14 +12,12 @@ class EditableProvider extends GtcCodeProvider
     public function generateColumn($modelClass, $column, $controller = null)
     {
 
-        if (strtoupper($column->dbType) == 'DATETIME') {
-            return null;
-        }
-
         if (is_null($controller)) {
             $controller = $this->codeModel->controller;
         }
 
+        $column_type = strtoupper(preg_replace('#(\(| ).+#','',$column->dbType));
+       
         if ($column->isForeignKey) {
 
             $suggestIdentifier = $this->codeModel->provider()->suggestIdentifier($modelClass);
@@ -104,6 +102,27 @@ class EditableProvider extends GtcCodeProvider
                     'url' => \$this->createUrl('/{$controller}/editableSaver'),
                     //'placement' => 'right',
                 )
+            )";
+        } elseif(
+                   $column_type == 'INT' 
+                || $column_type == 'SMALLINT'
+                || $column_type == 'TINYINT'
+                || $column_type == 'MEDIUMINT'
+                || $column_type == 'BIGINT'
+                || $column_type == 'FLOAT'
+                || $column_type == 'NUMERIC'
+                
+                ) {
+            return "array(
+                'class' => 'editable.EditableColumn',
+                'name' => '{$column->name}',
+                'editable' => array(
+                    'url' => \$this->createUrl('/{$controller}/editableSaver'),
+                    //'placement' => 'right',
+                ),
+                'htmlOptions' => array(
+                    'class' => 'numeric-column',
+                ),
             )";
         } else {
             return "array(
