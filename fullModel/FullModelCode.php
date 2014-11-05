@@ -183,6 +183,7 @@ class FullModelCode extends ModelCode
         $numerical = array();
         $length    = array();
         $safe      = array();
+        $float      = array();
 
         foreach ($table->columns as $column) {
             if ($column->isPrimaryKey && $table->sequenceName !== null) {
@@ -201,6 +202,9 @@ class FullModelCode extends ModelCode
                 $numerical[] = $column->name;
             } elseif(substr(strtoupper($column->dbType), 0, 4) == 'ENUM') {
                 continue;
+            } elseif(substr(strtoupper($column->dbType), 0, 7) == 'DECIMAL') {
+                $float[] = $column->name;
+                $length[$column->size+1][] = $column->name;
             } elseif ($column->type === 'string' && $column->size > 0) {
                 $length[$column->size][] = $column->name;
             } elseif (!$column->isPrimaryKey && !$r) {
@@ -220,6 +224,10 @@ class FullModelCode extends ModelCode
         }
         if ($numerical !== array()) {
             $rules[] = "array('" . implode(', ', $numerical) . "', 'numerical')";
+        }
+
+        if ($float !== array()) {
+            $rules[] = "array('" . implode(', ', $float) . "', 'type','type'=>'float')";
         }
         if ($length !== array()) {
             foreach ($length as $len => $cols) {
