@@ -7,8 +7,10 @@ class FullModelCode extends ModelCode
     public $tables;
     public $baseClass = 'CActiveRecord';
     public $baseClassTraits = '';
+    public $metadataClassTraits = '';
     public $messageCatalog = 'model';
     public $generateModel = true;
+    public $useMetadataClass = true;
 
     public function init()
     {
@@ -26,6 +28,8 @@ class FullModelCode extends ModelCode
             parent::rules(),
             array(
                  array('generateModel','boolean'),
+                 array('useMetadataClass','boolean'),
+    		     array('useMetadataClass','safe'),
                  array(
                      'messageCatalog',
                      'match',
@@ -34,6 +38,8 @@ class FullModelCode extends ModelCode
                  ),
     		    array('baseClassTraits', 'match', 'pattern'=>'/^[a-zA-Z_\\\\][\w\\\\,]*$/', 'message'=>'{attribute} should only contain word characters, commas and backslashes.'),
     		    array('baseClassTraits', 'safe'),
+    		    array('metadataClassTraits', 'match', 'pattern'=>'/^[a-zA-Z_\\\\][\w\\\\,]*$/', 'message'=>'{attribute} should only contain word characters, commas and backslashes.'),
+    		    array('metadataClassTraits', 'safe'),
             )
         );
     }
@@ -42,6 +48,7 @@ class FullModelCode extends ModelCode
 	{
 		return array_merge(parent::attributeLabels(), array(
 			'baseClassTraits'=>'Base Class Traits',
+			'metadataClassTraits'=>'Metadata Class Traits',
 		));
 	}
 
@@ -83,6 +90,7 @@ class FullModelCode extends ModelCode
                 'tableName'  => $schema === '' ? $tableName : $schema . '.' . $tableName,
                 'modelClass' => $className,
                 'baseClassTraits' => $this->baseClassTraits,
+                'metadataClassTraits' => $this->metadataClassTraits,
                 'columns'    => $table->columns,
                 'labels'     => $this->generateLabels($table),
                 'rules'      => $this->generateRules($table),
@@ -90,11 +98,23 @@ class FullModelCode extends ModelCode
                 'enum'       => $this->getEnum($table->columns),
             );
 
-            if ($this->template != 'singlefile') {
+            if ($this->template === 'default') {
                 $this->files[] = new CCodeFile(
                     Yii::getPathOfAlias($this->modelPath) . '/' . 'Base' . $className . '.php',
                     $this->render($templatePath . '/basemodel.php', $params)
                 );
+            }
+            if ($this->template === 'yii-dna') {
+                $this->files[] = new CCodeFile(
+                    Yii::getPathOfAlias($this->modelPath) . '/base/' . 'Base' . $className . '.php',
+                    $this->render($templatePath . '/basemodel.php', $params)
+                );
+                if($this->useMetadataClass) {
+                    $this->files[] = new CCodeFile(
+                        Yii::getPathOfAlias($this->modelPath) . '/metadata/' . 'Metadata' . $className . '.php',
+                        $this->render($templatePath . '/metadatamodel.php', $params)
+                    );
+                }
             }
         }
         // removing model class for list of files to be generared, if generateModel is set to false
@@ -105,14 +125,14 @@ class FullModelCode extends ModelCode
 
     public function requiredTemplates()
     {
-        if ($this->template == 'singlefile') {
-            return array('model.php');
-        } else {
-            return array(
-                'model.php',
-                'basemodel.php',
-            );
+        $files = array('model.php');
+        if ($this->template !== 'singlefile') {
+            $files[] = 'basemodel.php';
         }
+        if ($this->template === 'yii-dna') {
+            $files[] = 'metadatamodel.php';
+        }
+        return $files;
     }
 
     public function getBehaviors($columns)

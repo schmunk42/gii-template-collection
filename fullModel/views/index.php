@@ -146,6 +146,22 @@ $form = $this->beginWidget('CCodeForm', array('model' => $model));
     <?php echo $form->error($model, 'baseClassTraits'); ?>
 </div>
 <div class="row sticky">
+    <?php echo $form->labelEx($model, 'metadataClassTraits'); ?>
+    <?php echo $form->textField($model, 'metadataClassTraits', array('size' => 65)); ?>
+    <div class="tooltip">
+        Comma-separated list of traits for metadata class to use (template "yii-dna" only).
+    </div>
+    <?php echo $form->error($model, 'metadataClassTraits'); ?>
+</div>
+<div class="row">
+    <?php echo $form->labelEx($model,'useMetadataClass'); ?>
+    <?php echo $form->checkBox($model,'useMetadataClass'); ?>
+    <div class="tooltip">
+        Generate and use a Metadata class extending the base model of each model from which ordinary models extend from instead of directly extending the base model (template "yii-dna" only).
+    </div>
+    <?php echo $form->error($model,'useMetadataClass'); ?>
+</div>
+<div class="row sticky">
     <?php echo $form->labelEx($model, 'modelPath'); ?>
     <?php echo $form->textField($model, 'modelPath', array('size' => 65)); ?>
     <div class="tooltip">
