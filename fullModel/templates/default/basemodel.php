@@ -57,6 +57,14 @@
 abstract class <?php echo 'Base' . $modelClass; ?> extends <?php echo $this->baseClass."\n"; ?>
 {
 <?php
+if (!empty($this->baseClassTraits)) {
+    echo "\n";
+    foreach(explode(",", $this->baseClassTraits) as $traitName) {
+        echo '    use '.$traitName.';' . "\n";
+    }
+}
+?>
+<?php
 if(!empty($enum)){
 ?>
     /**

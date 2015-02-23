@@ -138,6 +138,14 @@ $form = $this->beginWidget('CCodeForm', array('model' => $model));
     <?php echo $form->error($model, 'baseClass'); ?>
 </div>
 <div class="row sticky">
+    <?php echo $form->labelEx($model, 'baseClassTraits'); ?>
+    <?php echo $form->textField($model, 'baseClassTraits', array('size' => 65)); ?>
+    <div class="tooltip">
+        Comma-separated list of traits for base class to use.
+    </div>
+    <?php echo $form->error($model, 'baseClassTraits'); ?>
+</div>
+<div class="row sticky">
     <?php echo $form->labelEx($model, 'modelPath'); ?>
     <?php echo $form->textField($model, 'modelPath', array('size' => 65)); ?>
     <div class="tooltip">

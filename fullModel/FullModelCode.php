@@ -6,6 +6,7 @@ class FullModelCode extends ModelCode
 {
     public $tables;
     public $baseClass = 'CActiveRecord';
+    public $baseClassTraits = '';
     public $messageCatalog = 'model';
     public $generateModel = true;
 
@@ -31,9 +32,18 @@ class FullModelCode extends ModelCode
                      'pattern' => '/^[a-zA-Z_][\w.]*$/',
                      'message' => '{attribute} should only contain word characters.'
                  ),
+    		    array('baseClassTraits', 'match', 'pattern'=>'/^[a-zA-Z_\\\\][\w\\\\,]*$/', 'message'=>'{attribute} should only contain word characters, commas and backslashes.'),
+    		    array('baseClassTraits', 'safe'),
             )
         );
     }
+
+	public function attributeLabels()
+	{
+		return array_merge(parent::attributeLabels(), array(
+			'baseClassTraits'=>'Base Class Traits',
+		));
+	}
 
     public function prepare()
     {
@@ -72,6 +82,7 @@ class FullModelCode extends ModelCode
             $params = array(
                 'tableName'  => $schema === '' ? $tableName : $schema . '.' . $tableName,
                 'modelClass' => $className,
+                'baseClassTraits' => $this->baseClassTraits,
                 'columns'    => $table->columns,
                 'labels'     => $this->generateLabels($table),
                 'rules'      => $this->generateRules($table),
