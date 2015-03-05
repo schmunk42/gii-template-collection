@@ -15,10 +15,10 @@ class {$migrate_class_name} extends CDbMigration
             INSERT INTO `AuthItem` VALUES('{$rightsPrefix}Edit', 2, '{$rightsPrefix} edit', NULL, 'N;');
             INSERT INTO `AuthItem` VALUES('{$rightsPrefix}View', 2, '{$rightsPrefix} view', NULL, 'N;');
             
-            INSERT INTO `authitemchild` VALUES('{$rightsPrefix}Edit', '{$rightsPrefix}.*');
-            INSERT INTO `authitemchild` VALUES('{$rightsPrefix}Edit', '{$rightsPrefix}.edit');
-            INSERT INTO `authitemchild` VALUES('{$rightsPrefix}Edit', '{$rightsPrefix}.fullcontrol');
-            INSERT INTO `authitemchild` VALUES('{$rightsPrefix}View', '{$rightsPrefix}.readonly');
+            INSERT INTO `AuthItemChild` VALUES('{$rightsPrefix}Edit', '{$rightsPrefix}.*');
+            INSERT INTO `AuthItemChild` VALUES('{$rightsPrefix}Edit', '{$rightsPrefix}.edit');
+            INSERT INTO `AuthItemChild` VALUES('{$rightsPrefix}Edit', '{$rightsPrefix}.fullcontrol');
+            INSERT INTO `AuthItemChild` VALUES('{$rightsPrefix}View', '{$rightsPrefix}.readonly');
 
         \");
     }
@@ -26,8 +26,8 @@ class {$migrate_class_name} extends CDbMigration
     public function down()
     {
         \$this->execute(\"
-            DELETE FROM `authitemchild` WHERE `parent` = '{$rightsPrefix}Edit';
-            DELETE FROM `authitemchild` WHERE `parent` = '{$rightsPrefix}View';
+            DELETE FROM `AuthItemChild` WHERE `parent` = '{$rightsPrefix}Edit';
+            DELETE FROM `AuthItemChild` WHERE `parent` = '{$rightsPrefix}View';
 
             DELETE FROM `AuthItem` WHERE `name` = '{$rightsPrefix}.*';
             DELETE FROM `AuthItem` WHERE `name` = '{$rightsPrefix}.edit';
