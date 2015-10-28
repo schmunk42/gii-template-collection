@@ -117,6 +117,7 @@ class GtcRelationProvider extends GtcCodeProvider
                     'style' => '{$style}',
                     'htmlOptions' => array(
                         'checkAll' => 'all'
+                        'style' => 'width: 212px;',
                     ),
                 )
                 " . ($captureOutput ? ", true" : "") . ")");
