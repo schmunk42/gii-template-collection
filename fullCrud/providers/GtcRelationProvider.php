@@ -116,7 +116,7 @@ class GtcRelationProvider extends GtcCodeProvider
                     'allowEmpty' => " . ($allowEmpty ? "true" : "false") . ",
                     'style' => '{$style}',
                     'htmlOptions' => array(
-                        'checkAll' => 'all'
+                        'checkAll' => 'all',
                         'style' => 'width: 212px;',
                     ),
                 )

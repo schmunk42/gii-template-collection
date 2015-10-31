@@ -175,7 +175,7 @@ if ($count >= $maxColumns+1) {
 }    
 ?>"; ?>
 
-<?
+<?php
 endforeach;
 
 endif;
