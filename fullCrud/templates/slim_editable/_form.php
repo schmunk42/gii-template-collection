@@ -68,7 +68,7 @@
 
     </div>
 
-    <p class="alert">
+    <div class="alert">
         <?=
         "
         <?php 
@@ -85,7 +85,7 @@
         ?>";
         ?>
 
-    </p>
+    </div>
 
 
     <?= "<?php \$this->endWidget() ?>"; ?>
