@@ -136,6 +136,7 @@ if ($count >= $maxColumns+1) {
     }  
 
     \$model = new {$rmodelClassName}();
+    \$model->unsetAttributes();
     \$model->{$rmodelRefFiels} = \$modelMain->primaryKey;
 
     // render grid view
@@ -174,7 +175,7 @@ if ($count >= $maxColumns+1) {
 }    
 ?>"; ?>
 
-<?
+<?php
 endforeach;
 
 endif;

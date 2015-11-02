@@ -66,6 +66,10 @@ class <?php echo $modelClass; ?> extends <?php echo 'Base' . $modelClass."\n"; ?
         }
         return new CActiveDataProvider(get_class($this), array(
             'criteria' => $this->searchCriteria($criteria),
+            'pagination' => array('pageSize' => 25),
+           // 'sort'=>array(
+           //     'defaultOrder'=>'id DESC',
+           // ),                        
         ));
     }
 

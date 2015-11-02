@@ -2,16 +2,12 @@
 //add editable provider
 $this->providers = array('gtc.fullCrud.providers.EditableProvider');
 $label = $this->pluralize($this->class2name($this->modelClass));
+$pageTitle = 'Create ' . $this->class2name($this->modelClass);
 ?><?=
 "<?php
-\$this->setPageTitle(
-    Yii::t('{$this->messageCatalog}', '{$this->class2name($this->modelClass)}')
-    . ' - '
-    . Yii::t('{$this->messageCatalogStandard}', 'Create')
-);
+\$pageTitle = Yii::t('{$this->messageCatalog}', 'Create {$this->class2name($this->modelClass)}');    
+\$this->setPageTitle(\$pageTitle);
 
-\$this->breadcrumbs[Yii::t('" . $this->messageCatalog . "', '$label')] = array('admin');
-\$this->breadcrumbs[] = Yii::t('" . $this->messageCatalogStandard . "', 'Create');
 " .    
 '$cancel_buton = $this->widget("bootstrap.widgets.TbButton", array(
     #"label"=>Yii::t("' . $this->messageCatalogStandard . '","Cancel"),
@@ -29,15 +25,13 @@ $label = $this->pluralize($this->class2name($this->modelClass));
 ?>';
 ?>
 
-<?= '<?php $this->widget("TbBreadcrumbs", array("links" => $this->breadcrumbs)) ?>'; ?>
-
 <div class="clearfix">
     <div class="btn-toolbar pull-left">
         <div class="btn-group"><?="<?php echo \$cancel_buton;?>"?></div>
         <div class="btn-group">
             <h1>
                 <i class="<?=$this->icon;?>"></i>
-                <?php  echo "<?php echo Yii::t('" . $this->messageCatalog . "','Create " . $this->class2name($this->modelClass) . "');?>"?>
+                <?php  echo "<?php echo \$pageTitle;?>"?>
             </h1>
         </div>
     </div>
@@ -61,7 +55,7 @@ $label = $this->pluralize($this->class2name($this->modelClass));
                        "htmlOptions"=> array(
                             "onclick"=>"$(\'.crud-form form\').submit();",
                        ),
-                       "visible"=> (Yii::app()->user->checkAccess("' . $this->getRightsPrefix() . '.*") || Yii::app()->user->checkAccess("' . $this->getRightsPrefix() . '.View"))
+                       "visible"=> (Yii::app()->user->checkAccess("' . $this->getRightsPrefix() . '.*") || Yii::app()->user->checkAccess("' . $this->getRightsPrefix() . '.Create"))
                     )); 
                     ?>
             '?>

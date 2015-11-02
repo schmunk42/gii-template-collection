@@ -256,5 +256,20 @@ if(!empty($enum)){
         return $criteria;
 
     }
+    
+    public function delete() {
+
+        /**
+        * delete related records
+        */
+        foreach ($this->relations() as $relName => $relation) {
+            if ($relation[0] != self::HAS_MANY && $relation[0] != self::HAS_ONE) {
+                continue;
+            }
+            foreach ($this->$relName as $relRecord)
+                $relRecord->delete();
+        }
+        return parent::delete();
+    }    
 
 }
