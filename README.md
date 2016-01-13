@@ -1,6 +1,8 @@
 gii-template-collection
 =======================
 
+### Code templates for Yii 1.1 Framework
+
 [Fork on github](https://github.com/schmunk42/gii-template-collection)
 
 The gii-template-collection (gtc) contains templates for the Yii Framework Gii module.
